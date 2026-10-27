@@ -18,11 +18,7 @@
 <x-input name="notes" label="Catatan internal" :value="$resident?->notes" hint="Hanya terlihat oleh pemilik dan staf, tidak tampil di portal penghuni." />
 
 @if ($resident)
-    <input type="hidden" name="is_active" value="0">
-    <label class="flex items-center gap-2 text-body-md">
-        <input type="checkbox" name="is_active" value="1" class="rounded border-outline-variant" @checked(old('is_active', $resident->is_active))>
-        Penghuni aktif
-    </label>
+    <p class="text-body-sm text-secondary">Status aktif penghuni mengikuti kontrak: aktif saat check-in, tidak aktif setelah check-out tanpa kontrak lain.</p>
 @else
     <label class="flex items-start gap-2 text-body-md">
         <input type="checkbox" name="consent" value="1" class="rounded border-outline-variant mt-1" @checked(old('consent'))>

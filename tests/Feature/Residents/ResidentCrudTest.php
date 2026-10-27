@@ -87,7 +87,7 @@ class ResidentCrudTest extends TestCase
         $this->actingAs($owner)->get(route('owner.residents.index'))->assertOk()->assertSee('Nomor ganda');
     }
 
-    public function test_update_changes_data_and_can_deactivate(): void
+    public function test_update_changes_data_but_activity_follows_leases_not_the_form(): void
     {
         [$tenant, $owner] = $this->tenantWithOwner();
         $resident = Resident::factory()->for($tenant)->create();
@@ -99,7 +99,8 @@ class ResidentCrudTest extends TestCase
         $fresh = $this->asTenant($tenant, fn () => Resident::findOrFail($resident->id));
         $this->assertSame('Nama Baru', $fresh->name);
         $this->assertSame('+6282100001111', $fresh->phone);
-        $this->assertFalse($fresh->is_active);
+        // Status aktif dikelola check-in dan check-out; isian formulir diabaikan.
+        $this->assertTrue($fresh->is_active);
     }
 
     public function test_consent_cannot_be_sent_on_update(): void

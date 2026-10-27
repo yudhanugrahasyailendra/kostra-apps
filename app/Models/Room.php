@@ -8,6 +8,7 @@ use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Room extends Model
@@ -39,6 +40,14 @@ class Room extends Model
     public function property(): BelongsTo
     {
         return $this->belongsTo(Property::class);
+    }
+
+    /**
+     * Kontrak aktif kamar ini (active_room_id hanya terisi selama kontrak aktif).
+     */
+    public function activeLease(): HasOne
+    {
+        return $this->hasOne(Lease::class, 'active_room_id');
     }
 
     public function roomType(): BelongsTo

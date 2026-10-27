@@ -23,6 +23,12 @@
     <span>Penghuni</span>
 </a>
 
+<a href="{{ route('owner.leases.index') }}" @if (request()->routeIs('owner.leases.*')) aria-current="page" @endif
+   class="{{ $link }} {{ request()->routeIs('owner.leases.*') ? $active : $idle }}">
+    <span class="material-symbols-outlined text-lg" aria-hidden="true">assignment</span>
+    <span>Kontrak</span>
+</a>
+
 @can('finance.view')
     <span class="{{ $link }} {{ $soon }}" aria-disabled="true">
         <span class="material-symbols-outlined text-lg" aria-hidden="true">account_balance_wallet</span>

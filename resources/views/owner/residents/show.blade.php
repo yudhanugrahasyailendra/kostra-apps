@@ -43,7 +43,26 @@
     </x-panel>
 
     <x-panel title="Riwayat kontrak">
-        <p class="text-on-surface-variant">Belum ada kontrak. Riwayat kontrak penghuni akan tampil di sini setelah fitur kontrak tersedia.</p>
+        @forelse ($leases as $lease)
+            <a href="{{ route('owner.leases.show', $lease) }}" class="flex flex-wrap items-center justify-between gap-2 py-space-sm border-b border-outline-variant/40 last:border-0 hover:bg-surface-container-low/50">
+                <div>
+                    <div class="font-label-lg">Kamar <span class="angka">{{ $lease->room->number }}</span> · {{ $lease->room->property->name }}</div>
+                    <div class="font-body-sm text-secondary">
+                        {{ $lease->start_date->translatedFormat('j M Y') }} s/d {{ $lease->end_date?->translatedFormat('j M Y') ?? 'tanpa tanggal akhir' }}
+                    </div>
+                </div>
+                <x-status-badge :tone="$lease->status->tone()">{{ $lease->status->label() }}</x-status-badge>
+            </a>
+        @empty
+            <p class="text-on-surface-variant">Belum ada kontrak.</p>
+        @endforelse
+        @can('create', App\Models\Lease::class)
+            @if ($resident->is_active || $leases->isEmpty())
+                <div class="mt-space-md">
+                    <x-button :href="route('owner.leases.create', ['resident_id' => $resident->id])" variant="secondary">Check-in ke kamar</x-button>
+                </div>
+            @endif
+        @endcan
     </x-panel>
 
     <x-panel title="Dokumen">

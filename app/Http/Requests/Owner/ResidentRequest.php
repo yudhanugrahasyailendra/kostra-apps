@@ -32,10 +32,6 @@ class ResidentRequest extends FormRequest
         if ($this->filled('email')) {
             $this->merge(['email' => mb_strtolower(trim($this->input('email')))]);
         }
-
-        if ($this->has('is_active')) {
-            $this->merge(['is_active' => $this->boolean('is_active')]);
-        }
     }
 
     public function rules(): array
@@ -51,7 +47,6 @@ class ResidentRequest extends FormRequest
             'emergency_relation' => ['nullable', 'string', 'max:255'],
             'emergency_phone' => ['nullable', 'regex:/^\+[1-9]\d{7,14}$/'],
             'notes' => ['nullable', 'string', 'max:2000'],
-            'is_active' => ['sometimes', 'boolean'],
             // Persetujuan penghuni atas pengumpulan datanya dicatat saat dibuat (consented_at).
             'consent' => [$creating ? 'accepted' : 'prohibited'],
         ];

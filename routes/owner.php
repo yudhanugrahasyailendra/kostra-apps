@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Owner\AttachmentController;
 use App\Http\Controllers\Owner\DashboardController;
+use App\Http\Controllers\Owner\LeaseAttachmentController;
+use App\Http\Controllers\Owner\LeaseController;
 use App\Http\Controllers\Owner\PropertyController;
 use App\Http\Controllers\Owner\PropertyPhotoController;
 use App\Http\Controllers\Owner\ResidentAttachmentController;
@@ -32,6 +34,12 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     // Lampiran disajikan hanya lewat tautan bertanda tangan berumur pendek, dan tetap melewati Policy.
     Route::get('attachments/{attachment}', [AttachmentController::class, 'show'])->middleware('signed')->name('attachments.show');
     Route::delete('attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
+
+    Route::resource('leases', LeaseController::class)->only(['index', 'create', 'store', 'show']);
+    Route::post('leases/{lease}/check-out', [LeaseController::class, 'checkOut'])->name('leases.check-out');
+    Route::post('leases/{lease}/renew', [LeaseController::class, 'renew'])->name('leases.renew');
+    Route::post('leases/{lease}/transfer', [LeaseController::class, 'transfer'])->name('leases.transfer');
+    Route::post('leases/{lease}/attachments', [LeaseAttachmentController::class, 'store'])->name('leases.attachments.store');
 
     Route::post('rooms/bulk', [RoomController::class, 'bulk'])->name('rooms.bulk');
     Route::post('rooms/import', [RoomController::class, 'import'])->name('rooms.import');

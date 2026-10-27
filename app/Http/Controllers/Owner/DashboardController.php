@@ -11,7 +11,7 @@ class DashboardController extends Controller
     public function __invoke(): View
     {
         $rooms = Room::query()
-            ->with(['property:id,name', 'roomType:id,name'])
+            ->with(['property:id,name', 'roomType:id,name', 'activeLease.primaryResident:id,name'])
             ->orderBy('property_id')
             ->orderBy('floor')
             ->orderByRaw('LENGTH(number)')

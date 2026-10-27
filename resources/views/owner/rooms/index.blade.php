@@ -103,12 +103,12 @@
                             @foreach ($floorRooms as $room)
                                 @can('update', $room)
                                     <x-room-plate :number="$room->number" :label="$room->status->label()" :tone="$room->status->tone()"
-                                                  :sub="$room->roomType?->name" :href="route('owner.rooms.edit', $room)">
+                                                  :sub="$room->activeLease?->primaryResident?->name ?? $room->roomType?->name" :href="route('owner.rooms.edit', $room)">
                                         <div class="font-body-sm text-body-sm angka">{{ App\Support\Rupiah::format($room->price) }}</div>
                                     </x-room-plate>
                                 @else
                                     <x-room-plate :number="$room->number" :label="$room->status->label()" :tone="$room->status->tone()"
-                                                  :sub="$room->roomType?->name">
+                                                  :sub="$room->activeLease?->primaryResident?->name ?? $room->roomType?->name">
                                         <div class="font-body-sm text-body-sm angka">{{ App\Support\Rupiah::format($room->price) }}</div>
                                     </x-room-plate>
                                 @endcan

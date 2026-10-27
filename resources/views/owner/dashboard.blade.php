@@ -17,7 +17,7 @@
                                     :number="$room->number"
                                     :label="$room->status->label()"
                                     :tone="$room->status->tone()"
-                                    :sub="$room->roomType?->name"
+                                    :sub="$room->activeLease?->primaryResident?->name ?? $room->roomType?->name"
                                     :href="route('owner.rooms.index', ['property_id' => $room->property_id])" />
                             @endforeach
                         </div>

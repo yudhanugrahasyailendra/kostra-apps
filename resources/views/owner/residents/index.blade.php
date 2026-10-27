@@ -5,7 +5,7 @@
 @section('content')
     <div class="flex flex-wrap items-center justify-between gap-space-sm">
         <form method="GET" action="{{ route('owner.residents.index') }}" class="flex flex-wrap items-end gap-space-sm">
-            <x-input name="q" label="Cari nama atau nomor" :value="$q" />
+            <x-input name="q" label="Cari nama, nomor, atau kamar" :value="$q" />
             <x-select name="status" label="Status" placeholder="Semua">
                 <option value="active" @selected($status === 'active')>Aktif</option>
                 <option value="inactive" @selected($status === 'inactive')>Tidak aktif</option>
@@ -57,6 +57,7 @@
                     <tr>
                         <th class="p-3">Nama</th>
                         <th class="p-3">Nomor WhatsApp</th>
+                        <th class="p-3">Kamar</th>
                         <th class="p-3 hidden sm:table-cell">Pekerjaan / kampus</th>
                         <th class="p-3">Status</th>
                     </tr>
@@ -73,13 +74,20 @@
                                     <x-status-badge tone="warn">Nomor ganda</x-status-badge>
                                 @endif
                             </td>
+                            <td class="p-3">
+                                @forelse ($resident->leases as $lease)
+                                    <a href="{{ route('owner.leases.show', $lease) }}" class="text-primary hover:underline">{{ $lease->room->number }}</a>@unless ($loop->last), @endunless
+                                @empty
+                                    —
+                                @endforelse
+                            </td>
                             <td class="p-3 hidden sm:table-cell">{{ $resident->occupation ?? '—' }}</td>
                             <td class="p-3">
                                 <x-status-badge :tone="$resident->is_active ? 'ok' : 'neutral'">{{ $resident->is_active ? 'Aktif' : 'Tidak aktif' }}</x-status-badge>
                             </td>
                         </tr>
                     @empty
-                        <tr><td colspan="4" class="p-4 text-on-surface-variant">Tidak ada penghuni yang cocok.</td></tr>
+                        <tr><td colspan="5" class="p-4 text-on-surface-variant">Tidak ada penghuni yang cocok.</td></tr>
                     @endforelse
                 </tbody>
             </table>

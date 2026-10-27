@@ -7,6 +7,7 @@ use App\Actions\Audit\RecordAuditLog;
 use App\Enums\AuditEvent;
 use App\Models\Resident;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class AnonymizeResident
 {
@@ -22,7 +23,12 @@ class AnonymizeResident
      */
     public function __invoke(Resident $resident): void
     {
-        // Fase 4: tolak bila penghuni masih punya kontrak aktif.
+        if ($resident->hasActiveLease()) {
+            throw ValidationException::withMessages([
+                'general' => 'Penghuni masih punya kontrak aktif. Selesaikan check-out lebih dulu.',
+            ]);
+        }
+
         $attachments = $resident->attachments()->get();
 
         DB::transaction(function () use ($resident) {

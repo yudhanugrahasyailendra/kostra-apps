@@ -42,6 +42,15 @@
         </form>
     </x-panel>
 
+    @if ($room->status === App\Enums\RoomStatus::Vacant)
+        @can('create', App\Models\Lease::class)
+            <x-panel title="Check-in penghuni">
+                <p class="text-on-surface-variant mb-space-md">Kamar ini kosong. Catat penghuni yang masuk dan mulai kontraknya.</p>
+                <x-button :href="route('owner.leases.create', ['room_id' => $room->id])">Check-in penghuni</x-button>
+            </x-panel>
+        @endcan
+    @endif
+
     @unless ($room->isOccupied())
         <x-panel title="Hapus kamar">
             <form method="POST" action="{{ route('owner.rooms.destroy', $room) }}" onsubmit="return confirm('Hapus kamar ini?')">

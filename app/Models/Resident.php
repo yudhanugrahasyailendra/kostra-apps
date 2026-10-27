@@ -6,6 +6,7 @@ use App\Models\Concerns\Auditable;
 use App\Models\Concerns\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -41,6 +42,16 @@ class Resident extends Model
             'consented_at' => 'datetime',
             'is_active' => 'boolean',
         ];
+    }
+
+    public function leases(): BelongsToMany
+    {
+        return $this->belongsToMany(Lease::class, 'lease_residents')->withPivot('is_primary');
+    }
+
+    public function hasActiveLease(): bool
+    {
+        return $this->leases()->where('leases.status', 'active')->exists();
     }
 
     public function attachments(): MorphMany

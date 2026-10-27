@@ -26,12 +26,15 @@ class ResidentController extends Controller
         $status = $request->validated('status');
 
         $residents = Resident::query()
+            ->with(['leases' => fn ($lease) => $lease->where('leases.status', 'active')->with('room:id,number')])
             ->when($q !== '', function ($query) use ($q) {
                 $like = '%'.addcslashes($q, '%_\\').'%';
                 $digits = preg_replace('/\D+/', '', $q);
 
                 $query->where(function ($inner) use ($like, $digits) {
-                    $inner->where('name', 'like', $like);
+                    $inner->where('name', 'like', $like)
+                        ->orWhereHas('leases', fn ($lease) => $lease->where('leases.status', 'active')
+                            ->whereHas('room', fn ($room) => $room->where('number', 'like', $like)));
 
                     if ($digits !== '') {
                         $inner->orWhere('phone', 'like', '%'.ltrim($digits, '0').'%');
@@ -84,6 +87,8 @@ class ResidentController extends Controller
         return view('owner.residents.show', [
             'resident' => $resident,
             'attachments' => $resident->attachments()->orderBy('category')->latest('id')->get(),
+            'leases' => $resident->leases()->with(['room:id,number,property_id', 'room.property:id,name'])
+                ->orderByDesc('start_date')->orderByDesc('leases.id')->get(),
             'sharesPhone' => $resident->sharesPhoneWithOthers(),
             'categories' => AttachmentCategory::residentValues(),
         ]);

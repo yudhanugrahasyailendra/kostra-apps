@@ -6,6 +6,7 @@ use App\Actions\Attachments\DeleteAttachment;
 use App\Actions\Attachments\ServeAttachment;
 use App\Http\Controllers\Controller;
 use App\Models\Attachment;
+use App\Models\Lease;
 use App\Models\Property;
 use App\Models\Resident;
 use Illuminate\Http\RedirectResponse;
@@ -40,6 +41,7 @@ class AttachmentController extends Controller
         return match (true) {
             $parent instanceof Resident => redirect()->route('owner.residents.show', $parent)->with('status', 'Dokumen dihapus.'),
             $parent instanceof Property => redirect()->route('owner.properties.edit', $parent)->with('status', 'Foto dihapus.'),
+            $parent instanceof Lease => redirect()->route('owner.leases.show', $parent)->with('status', 'Foto dihapus.'),
             default => redirect()->route('owner.dashboard'),
         };
     }

@@ -31,7 +31,7 @@ class RoomController extends Controller
         $filters = $request->validated();
 
         $rooms = Room::query()
-            ->with(['property:id,name', 'roomType:id,name,facilities'])
+            ->with(['property:id,name', 'roomType:id,name,facilities', 'activeLease.primaryResident:id,name'])
             ->when($filters['property_id'] ?? null, fn ($q, $v) => $q->where('property_id', $v))
             ->when($filters['status'] ?? null, fn ($q, $v) => $q->where('status', $v))
             ->when($filters['room_type_id'] ?? null, fn ($q, $v) => $q->where('room_type_id', $v))
