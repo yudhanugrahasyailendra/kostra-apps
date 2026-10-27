@@ -5,6 +5,9 @@ namespace App\Providers;
 use App\Auth\TenantAwareUserProvider;
 use App\Enums\Permission;
 use App\Models\Invitation;
+use App\Models\Property;
+use App\Models\Room;
+use App\Models\RoomType;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Tenancy\TenantContext;
@@ -27,6 +30,9 @@ class AppServiceProvider extends ServiceProvider
             'tenant' => Tenant::class,
             'user' => User::class,
             'invitation' => Invitation::class,
+            'property' => Property::class,
+            'room_type' => RoomType::class,
+            'room' => Room::class,
         ]);
 
         Auth::provider('tenant-eloquent', fn ($app, array $config) => new TenantAwareUserProvider($app['hash'], $config['model']));

@@ -11,6 +11,12 @@
     <span>Ringkasan</span>
 </a>
 
+<a href="{{ route('owner.rooms.index') }}" @if (request()->routeIs('owner.rooms.*', 'owner.properties.*', 'owner.room-types.*')) aria-current="page" @endif
+   class="{{ $link }} {{ request()->routeIs('owner.rooms.*', 'owner.properties.*', 'owner.room-types.*') ? $active : $idle }}">
+    <span class="material-symbols-outlined text-lg" aria-hidden="true">meeting_room</span>
+    <span>Properti &amp; Kamar</span>
+</a>
+
 @can('finance.view')
     <span class="{{ $link }} {{ $soon }}" aria-disabled="true">
         <span class="material-symbols-outlined text-lg" aria-hidden="true">account_balance_wallet</span>

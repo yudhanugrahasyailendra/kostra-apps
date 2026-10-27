@@ -1,9 +1,26 @@
-{{-- Sel denah kamar. Dilengkapi di Fase 2. $tone: ok | warn | danger | neutral --}}
-@props(['number', 'label' => null, 'tone' => 'neutral'])
+{{-- Sel denah kamar. Status selalu teks + warna. $tone: ok | warn | danger | neutral | maintenance --}}
+@props(['number', 'label', 'tone' => 'neutral', 'sub' => null, 'href' => null])
 
-<div {{ $attributes->merge(['class' => 'p-2 rounded-lg text-center badge-'.$tone]) }}>
-    <div class="font-label-md text-label-md font-bold angka">{{ $number }}</div>
-    @if ($label)
-        <div class="font-label-sm text-label-sm">{{ $label }}</div>
-    @endif
-</div>
+@php
+    $class = 'block p-2 rounded-lg text-center badge-'.$tone;
+@endphp
+
+@if ($href)
+    <a href="{{ $href }}" {{ $attributes->merge(['class' => $class]) }}>
+        <div class="font-label-md text-label-md font-bold angka">{{ $number }}</div>
+        <div class="font-label-sm text-label-sm uppercase tracking-wider">{{ $label }}</div>
+        @if ($sub)
+            <div class="font-body-sm text-body-sm truncate">{{ $sub }}</div>
+        @endif
+        {{ $slot }}
+    </a>
+@else
+    <div {{ $attributes->merge(['class' => $class]) }}>
+        <div class="font-label-md text-label-md font-bold angka">{{ $number }}</div>
+        <div class="font-label-sm text-label-sm uppercase tracking-wider">{{ $label }}</div>
+        @if ($sub)
+            <div class="font-body-sm text-body-sm truncate">{{ $sub }}</div>
+        @endif
+        {{ $slot }}
+    </div>
+@endif

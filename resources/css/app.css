@@ -157,3 +157,8 @@
 
   .panel { @apply rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-sm; }
 }
+
+@layer components {
+  /* Dalam Perbaikan (DESIGN.md: Indigo Tint #EEF2FF, Deep Indigo Text #3730A3) */
+  .badge-maintenance { background-color: #eef2ff; color: #3730a3; }
+}
