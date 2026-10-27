@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Owner\AttachmentController;
 use App\Http\Controllers\Owner\BillingSettingsController;
+use App\Http\Controllers\Owner\ComplaintController;
 use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\ExpenseController;
 use App\Http\Controllers\Owner\InvoiceController;
@@ -74,6 +75,13 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::post('invoices/{invoice}/proofs', [PaymentProofController::class, 'store'])->name('invoices.proofs.store');
     Route::post('proofs/{proof}/approve', [PaymentProofController::class, 'approve'])->name('proofs.approve');
     Route::post('proofs/{proof}/reject', [PaymentProofController::class, 'reject'])->name('proofs.reject');
+
+    // Tiket komplain tidak punya rute hapus: hanya ditutup (selesai atau ditolak).
+    Route::resource('complaints', ComplaintController::class)->only(['index', 'create', 'store', 'show']);
+    Route::post('complaints/{complaint}/status', [ComplaintController::class, 'status'])->name('complaints.status');
+    Route::post('complaints/{complaint}/assign', [ComplaintController::class, 'assign'])->name('complaints.assign');
+    Route::post('complaints/{complaint}/comments', [ComplaintController::class, 'comment'])->name('complaints.comments.store');
+    Route::post('complaints/{complaint}/photos', [ComplaintController::class, 'photo'])->name('complaints.photos.store');
 
     // Keuangan: pengeluaran dan laporan hanya untuk pemilik atau staf berizin finance.view (Policy dan Gate juga memeriksa).
     Route::middleware('can:finance.view')->group(function () {

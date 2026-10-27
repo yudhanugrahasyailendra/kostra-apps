@@ -8,6 +8,8 @@ use App\Contracts\OutstandingBalance;
 use App\Enums\Permission;
 use App\Models\Attachment;
 use App\Models\BillingSetting;
+use App\Models\Complaint;
+use App\Models\ComplaintComment;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\Invitation;
@@ -73,6 +75,8 @@ class AppServiceProvider extends ServiceProvider
             'payment_account' => PaymentAccount::class,
             'expense' => Expense::class,
             'expense_category' => ExpenseCategory::class,
+            'complaint' => Complaint::class,
+            'complaint_comment' => ComplaintComment::class,
         ]);
 
         Auth::provider('tenant-eloquent', fn ($app, array $config) => new TenantAwareUserProvider($app['hash'], $config['model']));

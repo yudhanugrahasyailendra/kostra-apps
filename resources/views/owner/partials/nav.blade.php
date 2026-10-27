@@ -51,6 +51,16 @@
     @endif
 </a>
 
+@php($openComplaints = App\Models\Complaint::query()->open()->count())
+<a href="{{ route('owner.complaints.index') }}" @if (request()->routeIs('owner.complaints.*')) aria-current="page" @endif
+   class="{{ $link }} {{ request()->routeIs('owner.complaints.*') ? $active : $idle }}">
+    <span class="material-symbols-outlined text-lg" aria-hidden="true">build</span>
+    <span>Komplain</span>
+    @if ($openComplaints > 0)
+        <span class="badge badge-warn ml-auto">{{ $openComplaints }} terbuka</span>
+    @endif
+</a>
+
 @can('finance.view')
     <a href="{{ route('owner.expenses.index') }}" @if (request()->routeIs('owner.expenses.*')) aria-current="page" @endif
        class="{{ $link }} {{ request()->routeIs('owner.expenses.*') ? $active : $idle }}">
