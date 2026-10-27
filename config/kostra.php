@@ -52,6 +52,11 @@ return [
         'provider' => env('WHATSAPP_PROVIDER', 'fake'),
     ],
 
+    /*
+    | Pengingat kontrak segera habis: berapa hari sebelum end_date.
+    */
+    'lease_expiring_days' => [30, 14, 7],
+
     'attachments' => [
         'disk' => 'private',
         'max_kb' => 5120,

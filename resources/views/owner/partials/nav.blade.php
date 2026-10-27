@@ -76,6 +76,12 @@
 @endcan
 
 @can('settings.manage')
+    <a href="{{ route('owner.messages.index') }}" @if (request()->routeIs('owner.messages.*', 'owner.message-templates.*')) aria-current="page" @endif
+       class="{{ $link }} {{ request()->routeIs('owner.messages.*', 'owner.message-templates.*') ? $active : $idle }}">
+        <span class="material-symbols-outlined text-lg" aria-hidden="true">chat</span>
+        <span>Pesan</span>
+    </a>
+
     <a href="{{ route('owner.settings') }}" @if (request()->routeIs('owner.settings', 'owner.staff.*')) aria-current="page" @endif
        class="{{ $link }} {{ request()->routeIs('owner.settings', 'owner.staff.*') ? $active : $idle }}">
         <span class="material-symbols-outlined text-lg" aria-hidden="true">settings</span>

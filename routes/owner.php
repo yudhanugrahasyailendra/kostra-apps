@@ -8,6 +8,8 @@ use App\Http\Controllers\Owner\ExpenseController;
 use App\Http\Controllers\Owner\InvoiceController;
 use App\Http\Controllers\Owner\LeaseAttachmentController;
 use App\Http\Controllers\Owner\LeaseController;
+use App\Http\Controllers\Owner\MessageController;
+use App\Http\Controllers\Owner\MessageTemplateController;
 use App\Http\Controllers\Owner\PaymentAccountController;
 use App\Http\Controllers\Owner\PaymentController;
 use App\Http\Controllers\Owner\PaymentProofController;
@@ -16,6 +18,7 @@ use App\Http\Controllers\Owner\PropertyPhotoController;
 use App\Http\Controllers\Owner\ReportController;
 use App\Http\Controllers\Owner\ResidentAttachmentController;
 use App\Http\Controllers\Owner\ResidentController;
+use App\Http\Controllers\Owner\ResidentWhatsAppController;
 use App\Http\Controllers\Owner\RoomController;
 use App\Http\Controllers\Owner\RoomTypeController;
 use App\Http\Controllers\Owner\SettingsController;
@@ -49,6 +52,7 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::post('residents/import', [ResidentController::class, 'import'])->name('residents.import');
     Route::resource('residents', ResidentController::class);
     Route::post('residents/{resident}/attachments', [ResidentAttachmentController::class, 'store'])->name('residents.attachments.store');
+    Route::post('residents/{resident}/whatsapp', [ResidentWhatsAppController::class, 'update'])->name('residents.whatsapp');
 
     // Lampiran disajikan hanya lewat tautan bertanda tangan berumur pendek, dan tetap melewati Policy.
     Route::get('attachments/{attachment}', [AttachmentController::class, 'show'])->middleware('signed')->name('attachments.show');
@@ -75,6 +79,15 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::post('invoices/{invoice}/proofs', [PaymentProofController::class, 'store'])->name('invoices.proofs.store');
     Route::post('proofs/{proof}/approve', [PaymentProofController::class, 'approve'])->name('proofs.approve');
     Route::post('proofs/{proof}/reject', [PaymentProofController::class, 'reject'])->name('proofs.reject');
+
+    // Pesan WhatsApp: log memuat nomor dan isi pesan, jadi hanya untuk pemilik atau staf berizin pengaturan (Policy juga memeriksa).
+    Route::middleware('can:settings.manage')->group(function () {
+        Route::get('messages', [MessageController::class, 'index'])->name('messages.index');
+        Route::post('messages/{log}/resend', [MessageController::class, 'resend'])->name('messages.resend');
+        Route::get('message-templates', [MessageTemplateController::class, 'index'])->name('message-templates.index');
+        Route::get('message-templates/{key}/edit', [MessageTemplateController::class, 'edit'])->name('message-templates.edit');
+        Route::put('message-templates/{key}', [MessageTemplateController::class, 'update'])->name('message-templates.update');
+    });
 
     // Tiket komplain tidak punya rute hapus: hanya ditutup (selesai atau ditolak).
     Route::resource('complaints', ComplaintController::class)->only(['index', 'create', 'store', 'show']);

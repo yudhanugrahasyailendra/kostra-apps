@@ -23,6 +23,15 @@ class InvoiceNumberConcurrencyTest extends TestCase
 {
     use DatabaseTruncation;
 
+    protected function tearDown(): void
+    {
+        // DatabaseTruncation hanya menyapu sebelum tes; tanpa ini data ter-commit tes terakhir bocor ke tes
+        // RefreshDatabase berikutnya (mis. tes yang menghitung semua tenant).
+        $this->truncateDatabaseTables();
+
+        parent::tearDown();
+    }
+
     public function test_a_second_connection_cannot_take_the_sequence_while_the_first_holds_it(): void
     {
         $this->seed(PlanSeeder::class);

@@ -5,7 +5,12 @@ namespace App\Providers;
 use App\Auth\TenantAwareUserProvider;
 use App\Contracts\InvoicePaidTotal;
 use App\Contracts\OutstandingBalance;
+use App\Contracts\PortalLink;
+use App\Contracts\WhatsAppProvider;
 use App\Enums\Permission;
+use App\Events\ComplaintStatusChanged;
+use App\Events\InvoiceIssued;
+use App\Events\PaymentRecorded;
 use App\Models\Attachment;
 use App\Models\BillingSetting;
 use App\Models\Complaint;
@@ -19,6 +24,8 @@ use App\Models\InvoiceItem;
 use App\Models\Lease;
 use App\Models\LeaseDeposit;
 use App\Models\LeaseResident;
+use App\Models\MessageLog;
+use App\Models\MessageTemplate;
 use App\Models\Payment;
 use App\Models\PaymentAccount;
 use App\Models\PaymentAllocation;
@@ -29,14 +36,22 @@ use App\Models\Room;
 use App\Models\RoomTransfer;
 use App\Models\RoomType;
 use App\Models\Tenant;
+use App\Models\UsageCounter;
 use App\Models\User;
 use App\Services\Billing\AllocationInvoicePaidTotal;
 use App\Services\Billing\InvoiceOutstandingBalance;
+use App\Services\Messaging\AppUrlPortalLink;
+use App\Services\Messaging\FakeWhatsAppProvider;
+use App\Services\Messaging\Listeners\QueueComplaintStatusMessage;
+use App\Services\Messaging\Listeners\QueueInvoiceIssuedMessage;
+use App\Services\Messaging\Listeners\QueueReceiptMessage;
 use App\Tenancy\TenantContext;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use LogicException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -47,6 +62,15 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OutstandingBalance::class, InvoiceOutstandingBalance::class);
 
         $this->app->bind(InvoicePaidTotal::class, AllocationInvoicePaidTotal::class);
+
+        // Penyedia dipilih lewat config/kostra.php. Pengembangan dan tes wajib memakai "fake" (tidak pernah mengirim pesan nyata).
+        $this->app->singleton(WhatsAppProvider::class, fn () => match ($name = config('kostra.whatsapp.provider')) {
+            'fake' => new FakeWhatsAppProvider,
+            default => throw new LogicException("Penyedia WhatsApp \"{$name}\" belum dipasang; gunakan \"fake\"."),
+        });
+
+        // Diganti tautan portal bertoken di Fase 10.
+        $this->app->bind(PortalLink::class, AppUrlPortalLink::class);
     }
 
     public function boot(): void
@@ -77,6 +101,9 @@ class AppServiceProvider extends ServiceProvider
             'expense_category' => ExpenseCategory::class,
             'complaint' => Complaint::class,
             'complaint_comment' => ComplaintComment::class,
+            'message_template' => MessageTemplate::class,
+            'message_log' => MessageLog::class,
+            'usage_counter' => UsageCounter::class,
         ]);
 
         Auth::provider('tenant-eloquent', fn ($app, array $config) => new TenantAwareUserProvider($app['hash'], $config['model']));
@@ -86,5 +113,10 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Gate::define('subscription.manage', fn (User $user) => $user->isOwner());
+
+        // Pemicu pesan WhatsApp. Pendengar berada di luar app/Listeners supaya tidak terdaftar ganda oleh penemuan otomatis.
+        Event::listen(InvoiceIssued::class, [QueueInvoiceIssuedMessage::class, 'handle']);
+        Event::listen(PaymentRecorded::class, [QueueReceiptMessage::class, 'handle']);
+        Event::listen(ComplaintStatusChanged::class, [QueueComplaintStatusMessage::class, 'handle']);
     }
 }

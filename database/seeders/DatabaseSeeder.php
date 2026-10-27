@@ -9,6 +9,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(PlanSeeder::class);
+        $this->call(MessageTemplateSeeder::class);
 
         if (config('kostra.super_admin.email') && config('kostra.super_admin.password')) {
             $this->call(SuperAdminSeeder::class);

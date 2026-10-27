@@ -42,6 +42,23 @@
         </dl>
     </x-panel>
 
+    @can('update', $resident)
+        <x-panel title="Pesan WhatsApp otomatis">
+            <p class="text-body-md text-on-surface-variant mb-space-md">
+                @if ($resident->whatsapp_opt_out_at)
+                    Penghuni berhenti menerima pesan otomatis sejak {{ $resident->whatsapp_opt_out_at->timezone(auth()->user()->tenant->timezone)->translatedFormat('j F Y') }}. Tagihan dan pengingat tidak dikirim lewat WhatsApp.
+                @else
+                    Penghuni menerima tagihan, pengingat, dan kuitansi lewat WhatsApp. Catat bila penghuni meminta berhenti; berlaku seketika, termasuk untuk pesan yang sudah antre.
+                @endif
+            </p>
+            <form method="POST" action="{{ route('owner.residents.whatsapp', $resident) }}">
+                @csrf
+                <input type="hidden" name="opt_out" value="{{ $resident->whatsapp_opt_out_at ? 0 : 1 }}">
+                <x-button type="submit" :variant="$resident->whatsapp_opt_out_at ? 'primary' : 'secondary'">{{ $resident->whatsapp_opt_out_at ? 'Aktifkan kembali pesan otomatis' : 'Catat berhenti menerima pesan' }}</x-button>
+            </form>
+        </x-panel>
+    @endcan
+
     <x-panel title="Riwayat kontrak">
         @forelse ($leases as $lease)
             <a href="{{ route('owner.leases.show', $lease) }}" class="flex flex-wrap items-center justify-between gap-2 py-space-sm border-b border-outline-variant/40 last:border-0 hover:bg-surface-container-low/50">
