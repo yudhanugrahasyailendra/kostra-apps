@@ -14,9 +14,9 @@ return [
     */
     'plans' => [
         'free' => ['name' => 'Gratis', 'price_monthly' => 0, 'max_properties' => 1, 'max_rooms' => 10, 'max_users' => 1, 'monthly_message_quota' => 0],
-        'starter' => ['name' => 'Starter', 'price_monthly' => 79000, 'max_properties' => 1, 'max_rooms' => 30, 'max_users' => 2, 'monthly_message_quota' => 150],
-        'pro' => ['name' => 'Pro', 'price_monthly' => 199000, 'max_properties' => 3, 'max_rooms' => 100, 'max_users' => 5, 'monthly_message_quota' => 600],
-        'business' => ['name' => 'Business', 'price_monthly' => 499000, 'max_properties' => null, 'max_rooms' => null, 'max_users' => null, 'monthly_message_quota' => 2000],
+        'starter' => ['name' => 'Starter', 'price_monthly' => 79000, 'price_yearly' => 790000, 'max_properties' => 1, 'max_rooms' => 30, 'max_users' => 2, 'monthly_message_quota' => 150, 'features' => ['reports.export']],
+        'pro' => ['name' => 'Pro', 'price_monthly' => 199000, 'price_yearly' => 1990000, 'max_properties' => 3, 'max_rooms' => 100, 'max_users' => 5, 'monthly_message_quota' => 600, 'features' => ['reports.export']],
+        'business' => ['name' => 'Business', 'price_monthly' => 499000, 'price_yearly' => 4990000, 'max_properties' => null, 'max_rooms' => null, 'max_users' => null, 'monthly_message_quota' => 2000, 'features' => ['reports.export']],
     ],
 
     /*
@@ -30,6 +30,28 @@ return [
 
     'trial_days' => 14,
     'grace_days' => 7,
+
+    /*
+    | Tagihan perpanjangan dibuat sekian hari sebelum periode berakhir.
+    */
+    'renewal_notice_days' => 7,
+
+    /*
+    | Fitur yang dikenal paket (plans.features). Hanya yang tercantum di sini yang bisa dipakai Super Admin.
+    | reports.export = ekspor laporan ke Excel dan PDF.
+    */
+    'features' => [
+        'reports.export' => 'Ekspor laporan ke Excel dan PDF',
+    ],
+
+    /*
+    | Rekening tujuan transfer langganan Kostra (pembayaran semi-manual; Super Admin mencatatnya).
+    */
+    'subscription' => [
+        'bank' => env('SUBSCRIPTION_BANK', 'Isi SUBSCRIPTION_BANK di .env'),
+        'account_number' => env('SUBSCRIPTION_ACCOUNT_NUMBER', ''),
+        'account_name' => env('SUBSCRIPTION_ACCOUNT_NAME', ''),
+    ],
 
     /*
     | Nilai bawaan billing_settings untuk tenant baru.

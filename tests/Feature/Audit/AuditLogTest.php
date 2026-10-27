@@ -22,7 +22,7 @@ class AuditLogTest extends TestCase
     {
         parent::setUp();
 
-        $this->tenant = Tenant::factory()->create();
+        $this->tenant = Tenant::factory()->withStaffRoom()->create();
         $this->owner = User::factory()->for($this->tenant)->create();
     }
 

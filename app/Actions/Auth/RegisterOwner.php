@@ -3,6 +3,7 @@
 namespace App\Actions\Auth;
 
 use App\Actions\Finance\SeedExpenseCategories;
+use App\Actions\Subscriptions\CreateFreeSubscription;
 use App\Enums\TenantStatus;
 use App\Enums\UserRole;
 use App\Models\BillingSetting;
@@ -38,6 +39,9 @@ class RegisterOwner
 
             // Kategori pengeluaran bawaan (listrik, air, gaji penjaga, dst.).
             app(TenantContext::class)->run($tenant, fn () => app(SeedExpenseCategories::class)());
+
+            // Langganan awal: paket Gratis.
+            app(CreateFreeSubscription::class)($tenant, $plan);
 
             return User::create([
                 'tenant_id' => $tenant->getKey(),

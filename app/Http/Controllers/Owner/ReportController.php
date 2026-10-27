@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\ReportRequest;
 use App\Models\Property;
 use App\Models\Tenant;
+use App\Services\Plans\PlanFeatures;
 use App\Services\Reports\ArrearsReport;
 use App\Services\Reports\CashFlowReport;
 use App\Services\Reports\IncomeReport;
@@ -45,6 +46,7 @@ class ReportController extends Controller
         OccupancyReport $occupancy,
         CashFlowReport $cashFlow,
         ReportExporter $exporter,
+        PlanFeatures $features,
     ): View|Response {
         abort_unless(array_key_exists($report, self::REPORTS), 404);
 
@@ -67,6 +69,11 @@ class ReportController extends Controller
             'okupansi' => $occupancy->table($tenant, $asOf, $propertyId, $meta('Per '.$asOf->locale('id')->translatedFormat('j F Y'))),
             'rekap' => $cashFlow->table($period['from']->startOfMonth(), 12, $propertyId, $meta('12 bulan sampai '.$period['from']->locale('id')->translatedFormat('F Y'))),
         };
+
+        if ($request->validated('format') !== null) {
+            // Ekspor Excel dan PDF adalah fitur paket; tanpa itu pemilik ditawari naik paket.
+            $features->ensure($tenant, 'reports.export');
+        }
 
         return match ($request->validated('format')) {
             'xlsx' => $exporter->xlsx($table),

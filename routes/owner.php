@@ -5,6 +5,7 @@ use App\Http\Controllers\Owner\BillingSettingsController;
 use App\Http\Controllers\Owner\ComplaintController;
 use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\ExpenseController;
+use App\Http\Controllers\Owner\ExportController;
 use App\Http\Controllers\Owner\InvoiceController;
 use App\Http\Controllers\Owner\LeaseAttachmentController;
 use App\Http\Controllers\Owner\LeaseController;
@@ -24,6 +25,7 @@ use App\Http\Controllers\Owner\RoomController;
 use App\Http\Controllers\Owner\RoomTypeController;
 use App\Http\Controllers\Owner\SettingsController;
 use App\Http\Controllers\Owner\StaffController;
+use App\Http\Controllers\Owner\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 // Panel pemilik dan staf. Prefix /owner dan nama owner.* (lihat bootstrap/app.php).
@@ -112,6 +114,17 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::post('rooms/bulk', [RoomController::class, 'bulk'])->name('rooms.bulk');
     Route::post('rooms/import', [RoomController::class, 'import'])->name('rooms.import');
     Route::resource('rooms', RoomController::class)->except(['show', 'create']);
+
+    // Langganan dan ekspor data: hanya pemilik. Ekspor sengaja tidak memeriksa paket atau status langganan.
+    Route::middleware('role:owner')->group(function () {
+        Route::get('subscription', [SubscriptionController::class, 'show'])->name('subscription.show');
+        Route::post('subscription/trial', [SubscriptionController::class, 'trial'])->name('subscription.trial');
+        Route::post('subscription/subscribe', [SubscriptionController::class, 'subscribe'])->name('subscription.subscribe');
+        Route::post('subscription/downgrade', [SubscriptionController::class, 'downgrade'])->name('subscription.downgrade');
+
+        Route::get('export', [ExportController::class, 'index'])->name('export.index');
+        Route::get('export/download', [ExportController::class, 'download'])->name('export.download');
+    });
 
     Route::middleware('role:owner')->prefix('staff')->name('staff.')->group(function () {
         Route::get('/', [StaffController::class, 'index'])->name('index');

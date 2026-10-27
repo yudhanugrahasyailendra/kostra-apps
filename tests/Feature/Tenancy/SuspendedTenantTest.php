@@ -37,7 +37,7 @@ class SuspendedTenantTest extends TestCase
 
     public function test_active_tenant_can_write(): void
     {
-        $tenant = Tenant::factory()->create();
+        $tenant = Tenant::factory()->withStaffRoom()->create();
         $owner = User::factory()->for($tenant)->create();
 
         $this->actingAs($owner)

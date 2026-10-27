@@ -30,12 +30,15 @@ use App\Models\Payment;
 use App\Models\PaymentAccount;
 use App\Models\PaymentAllocation;
 use App\Models\PaymentProof;
+use App\Models\Plan;
 use App\Models\PortalToken;
 use App\Models\Property;
 use App\Models\Resident;
 use App\Models\Room;
 use App\Models\RoomTransfer;
 use App\Models\RoomType;
+use App\Models\Subscription;
+use App\Models\SubscriptionInvoice;
 use App\Models\Tenant;
 use App\Models\UsageCounter;
 use App\Models\User;
@@ -109,6 +112,9 @@ class AppServiceProvider extends ServiceProvider
             'message_log' => MessageLog::class,
             'usage_counter' => UsageCounter::class,
             'portal_token' => PortalToken::class,
+            'plan' => Plan::class,
+            'subscription' => Subscription::class,
+            'subscription_invoice' => SubscriptionInvoice::class,
         ]);
 
         Auth::provider('tenant-eloquent', fn ($app, array $config) => new TenantAwareUserProvider($app['hash'], $config['model']));
@@ -118,6 +124,10 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Gate::define('subscription.manage', fn (User $user) => $user->isOwner());
+        // Ekspor seluruh data kos: hanya pemilik.
+        Gate::define('export-data', fn (User $user) => $user->isOwner());
+        // Panel platform: hanya Super Admin.
+        Gate::define('platform.manage', fn (User $user) => $user->isSuperAdmin());
 
         // Batas laju portal publik. Kunci memuat alamat (dan hash token untuk unggahan), bukan token mentah.
         RateLimiter::for('portal', fn (Request $request) => Limit::perMinute((int) config('kostra.portal.requests_per_minute'))->by('portal:'.$request->ip()));

@@ -14,7 +14,7 @@ class PlanSeeder extends Seeder
         foreach (config('kostra.plans') as $key => $plan) {
             Plan::updateOrCreate(['key' => $key], [
                 ...$plan,
-                'price_yearly' => null,
+                'price_yearly' => $plan['price_yearly'] ?? null,
                 'features' => $plan['features'] ?? [],
                 'is_active' => true,
                 'sort_order' => $order++,

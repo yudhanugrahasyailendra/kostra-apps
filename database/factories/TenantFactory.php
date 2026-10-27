@@ -27,6 +27,16 @@ class TenantFactory extends Factory
         ];
     }
 
+    /**
+     * Tenant di paket dengan batas longgar (pemilik + beberapa staf), untuk tes yang mengundang staf.
+     */
+    public function withStaffRoom(int $users = 5): static
+    {
+        return $this->state(fn () => [
+            'plan_id' => Plan::factory()->create(['max_users' => $users, 'max_rooms' => 100, 'max_properties' => 3])->getKey(),
+        ]);
+    }
+
     public function suspended(): static
     {
         return $this->state(fn () => [

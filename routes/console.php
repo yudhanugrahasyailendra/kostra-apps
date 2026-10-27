@@ -17,3 +17,11 @@ Schedule::command('messages:reminders')
     ->name('messages:reminders')
     ->onOneServer()
     ->withoutOverlapping();
+
+// Langganan Kostra: percobaan 14 hari, tagihan perpanjangan, masa tenggang 7 hari, dan penangguhan.
+// Satu job per tenant (lihat RunTenantSubscription); idempoten.
+Schedule::command('subscriptions:run')
+    ->dailyAt('01:30')
+    ->name('subscriptions:run')
+    ->onOneServer()
+    ->withoutOverlapping();

@@ -7,6 +7,7 @@ use App\Enums\UserRole;
 use App\Mail\StaffInvitationMail;
 use App\Models\Invitation;
 use App\Models\User;
+use App\Services\Plans\PlanLimits;
 use App\Support\PhoneNumber;
 use App\Tenancy\TenantContext;
 use Illuminate\Support\Facades\DB;
@@ -35,6 +36,10 @@ class InviteStaff
         $permissions = array_values(array_intersect($permissions, Permission::values()));
 
         $this->ensureNotRegistered($email, $phone);
+
+        // Batas pengguna paket (pemilik + staf + undangan yang masih berlaku); melewatinya menawarkan naik paket.
+        // Tenant dari konteks permintaan ini (selalu segar), bukan relasi pengundang yang bisa tersimpan di memori.
+        app(PlanLimits::class)->ensureCanAddStaff($this->context->current());
 
         $token = bin2hex(random_bytes(32));
 

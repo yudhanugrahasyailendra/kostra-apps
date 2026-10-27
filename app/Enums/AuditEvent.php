@@ -10,4 +10,5 @@ enum AuditEvent: string
     case Voided = 'voided';
     case ViewedSensitive = 'viewed_sensitive';
     case Impersonated = 'impersonated';
+    case Exported = 'exported';
 }

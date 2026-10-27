@@ -90,9 +90,9 @@
 @endcan
 
 @can('subscription.manage')
-    <span class="{{ $link }} {{ $soon }}" aria-disabled="true">
+    <a href="{{ route('owner.subscription.show') }}" @if (request()->routeIs('owner.subscription.*')) aria-current="page" @endif
+       class="{{ $link }} {{ request()->routeIs('owner.subscription.*') ? $active : $idle }}">
         <span class="material-symbols-outlined text-lg" aria-hidden="true">workspace_premium</span>
         <span>Langganan</span>
-        <span class="badge badge-neutral ml-auto">Segera</span>
-    </span>
+    </a>
 @endcan
