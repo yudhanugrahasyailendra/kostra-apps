@@ -87,6 +87,11 @@ class Lease extends Model
         return $this->hasMany(LeaseResident::class);
     }
 
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
     public function deposit(): HasOne
     {
         return $this->hasOne(LeaseDeposit::class);

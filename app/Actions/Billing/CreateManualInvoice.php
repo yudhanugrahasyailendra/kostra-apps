@@ -12,8 +12,8 @@ use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Lease;
 use App\Models\User;
+use App\Support\Dates;
 use App\Support\InvoiceMath;
-use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use InvalidArgumentException;
@@ -47,9 +47,9 @@ class CreateManualInvoice
             throw ValidationException::withMessages(['items' => 'Isi 1 sampai '.self::MAX_ITEMS.' item tagihan.']);
         }
 
-        $due = is_string($data['due_date'] ?? null) ? CarbonImmutable::createFromFormat('!Y-m-d', $data['due_date'], $tenant->timezone) : false;
+        $due = Dates::date($data['due_date'] ?? null, $tenant->timezone);
 
-        if ($due === false) {
+        if ($due === null) {
             throw ValidationException::withMessages(['due_date' => 'Format tanggal harus YYYY-MM-DD.']);
         }
 

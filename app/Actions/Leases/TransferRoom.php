@@ -9,7 +9,7 @@ use App\Models\Lease;
 use App\Models\Room;
 use App\Models\RoomTransfer;
 use App\Models\User;
-use Carbon\CarbonImmutable;
+use App\Support\Dates;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -30,11 +30,9 @@ class TransferRoom
         $tenant = $this->currentTenant();
         $today = $tenant->today();
 
-        $on = is_string($data['transferred_on'] ?? null)
-            ? CarbonImmutable::createFromFormat('!Y-m-d', $data['transferred_on'], $tenant->timezone)
-            : false;
+        $on = Dates::date($data['transferred_on'] ?? null, $tenant->timezone);
 
-        if ($on === false) {
+        if ($on === null) {
             throw ValidationException::withMessages(['transferred_on' => 'Format tanggal harus YYYY-MM-DD.']);
         }
 

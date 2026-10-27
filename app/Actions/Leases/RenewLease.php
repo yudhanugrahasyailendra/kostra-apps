@@ -8,7 +8,7 @@ use App\Enums\LeaseStatus;
 use App\Models\Lease;
 use App\Models\LeaseDeposit;
 use App\Models\LeaseResident;
-use Carbon\CarbonImmutable;
+use App\Support\Dates;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -28,11 +28,9 @@ class RenewLease
     {
         $tenant = $this->currentTenant();
 
-        $newEnd = is_string($data['end_date'] ?? null)
-            ? CarbonImmutable::createFromFormat('!Y-m-d', $data['end_date'], $tenant->timezone)
-            : false;
+        $newEnd = Dates::date($data['end_date'] ?? null, $tenant->timezone);
 
-        if ($newEnd === false) {
+        if ($newEnd === null) {
             throw ValidationException::withMessages(['end_date' => 'Format tanggal harus YYYY-MM-DD.']);
         }
 

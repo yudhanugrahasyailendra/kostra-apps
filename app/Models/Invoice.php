@@ -90,6 +90,16 @@ class Invoice extends Model
         return $this->hasMany(InvoiceAdjustment::class)->orderBy('id');
     }
 
+    public function allocations(): HasMany
+    {
+        return $this->hasMany(PaymentAllocation::class)->orderBy('id');
+    }
+
+    public function proofs(): HasMany
+    {
+        return $this->hasMany(PaymentProof::class)->orderByDesc('id');
+    }
+
     public function scopeOpen(Builder $query): void
     {
         $query->whereIn('status', InvoiceStatus::openValues());

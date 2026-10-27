@@ -11,6 +11,7 @@ use App\Models\BillingSetting;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Lease;
+use App\Support\Dates;
 use App\Support\InvoiceMath;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -49,9 +50,9 @@ class GenerateMonthlyInvoices
             return $result;
         }
 
-        $monthStart = CarbonImmutable::createFromFormat('!Y-m', $period, $tenant->timezone);
+        $monthStart = Dates::month($period, $tenant->timezone);
 
-        if ($monthStart === false) {
+        if ($monthStart === null) {
             throw new ValueError('Periode harus berformat YYYY-MM.');
         }
 

@@ -35,6 +35,22 @@
     <span>Tagihan</span>
 </a>
 
+<a href="{{ route('owner.payments.index') }}" @if (request()->routeIs('owner.payments.*')) aria-current="page" @endif
+   class="{{ $link }} {{ request()->routeIs('owner.payments.*') ? $active : $idle }}">
+    <span class="material-symbols-outlined text-lg" aria-hidden="true">payments</span>
+    <span>Pembayaran</span>
+</a>
+
+@php($pendingProofs = App\Models\PaymentProof::query()->pending()->count())
+<a href="{{ route('owner.proofs.index') }}" @if (request()->routeIs('owner.proofs.*')) aria-current="page" @endif
+   class="{{ $link }} {{ request()->routeIs('owner.proofs.*') ? $active : $idle }}">
+    <span class="material-symbols-outlined text-lg" aria-hidden="true">verified</span>
+    <span>Verifikasi bukti</span>
+    @if ($pendingProofs > 0)
+        <span class="badge badge-warn ml-auto">{{ $pendingProofs }} menunggu</span>
+    @endif
+</a>
+
 @can('finance.view')
     <span class="{{ $link }} {{ $soon }}" aria-disabled="true">
         <span class="material-symbols-outlined text-lg" aria-hidden="true">account_balance_wallet</span>

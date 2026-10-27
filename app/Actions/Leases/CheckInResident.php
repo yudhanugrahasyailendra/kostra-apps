@@ -12,6 +12,7 @@ use App\Models\LeaseDeposit;
 use App\Models\LeaseResident;
 use App\Models\Resident;
 use App\Models\Room;
+use App\Support\Dates;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
@@ -155,12 +156,12 @@ class CheckInResident
 
     private function date(mixed $value, string $timezone, string $field): CarbonImmutable
     {
-        $parsed = is_string($value) ? CarbonImmutable::createFromFormat('!Y-m-d', $value, $timezone) : false;
+        $parsed = Dates::date($value, $timezone);
 
-        if ($parsed === false) {
+        if ($parsed === null) {
             throw ValidationException::withMessages([$field => 'Format tanggal harus YYYY-MM-DD.']);
         }
 
-        return $parsed->startOfDay();
+        return $parsed;
     }
 }

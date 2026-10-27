@@ -39,6 +39,8 @@ return [
         'issue_day' => 1,
         'due_day' => 10,
         'reminder_offsets' => [-3, 0, 3],
+        // Awalan nomor kuitansi tetap (billing_settings tidak punya kolom untuk ini).
+        'receipt_prefix' => 'KWT',
         'send_window_start' => '08:00',
         'send_window_end' => '20:00',
     ],

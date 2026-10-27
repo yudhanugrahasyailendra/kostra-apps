@@ -128,7 +128,7 @@ class InvoiceController extends Controller
     {
         Gate::authorize('view', $invoice);
 
-        $invoice->load(['items', 'adjustments.creator:id,name', 'lease.room:id,number', 'resident:id,name', 'property:id,name', 'creator:id,name']);
+        $invoice->load(['items', 'adjustments.creator:id,name', 'lease.room:id,number', 'resident:id,name', 'property:id,name', 'creator:id,name', 'allocations.payment:id,receipt_number,paid_on,status,method', 'proofs.attachments']);
 
         return view('owner.invoices.show', [
             'invoice' => $invoice,

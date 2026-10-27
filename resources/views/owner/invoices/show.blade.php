@@ -78,6 +78,66 @@
         <p class="mt-space-sm text-body-sm text-secondary">Jumlah item yang sudah terbit tidak diubah. Koreksi dicatat sebagai penyesuaian.</p>
     </x-panel>
 
+    <x-panel title="Pembayaran">
+        @forelse ($invoice->allocations as $allocation)
+            <a href="{{ route('owner.payments.show', $allocation->payment_id) }}" class="flex flex-wrap items-center justify-between gap-2 py-space-sm border-b border-outline-variant/40 last:border-0 hover:bg-surface-container-low/50">
+                <div>
+                    <div class="font-label-lg angka">{{ $allocation->payment->receipt_number }}</div>
+                    <div class="font-body-sm text-secondary">{{ $allocation->payment->paid_on->translatedFormat('j M Y') }} · {{ $allocation->payment->method->label() }}</div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="angka">{{ App\Support\Rupiah::format($allocation->amount) }}</span>
+                    <x-status-badge :tone="$allocation->payment->status->tone()">{{ $allocation->payment->status->label() }}</x-status-badge>
+                </div>
+            </a>
+        @empty
+            <p class="text-on-surface-variant">Belum ada pembayaran.</p>
+        @endforelse
+
+        @if (in_array($invoice->status->value, ['issued', 'partial', 'overdue'], true))
+            @can('record', App\Models\Payment::class)
+                <div class="mt-space-md">
+                    <x-button :href="route('owner.payments.create', ['invoice_id' => $invoice->id])">Catat pembayaran</x-button>
+                </div>
+            @endcan
+        @endif
+    </x-panel>
+
+    <x-panel title="Bukti transfer">
+        @forelse ($invoice->proofs as $proof)
+            <div class="py-space-sm border-b border-outline-variant/40 last:border-0 flex flex-wrap items-center justify-between gap-2">
+                <div>
+                    <div class="angka font-label-lg">{{ App\Support\Rupiah::format($proof->amount) }}</div>
+                    <div class="font-body-sm text-secondary">{{ $proof->created_at->timezone($tz)->translatedFormat('j M Y H:i') }}@if ($proof->sender_note) · {{ $proof->sender_note }}@endif</div>
+                </div>
+                <div class="flex items-center gap-2">
+                    @if ($proof->attachments->first())
+                        <a class="text-primary hover:underline" href="{{ $proof->attachments->first()->temporaryUrl() }}" target="_blank" rel="noopener">Lihat</a>
+                    @endif
+                    <x-status-badge :tone="$proof->status->tone()">{{ $proof->status->label() }}</x-status-badge>
+                </div>
+            </div>
+        @empty
+            <p class="text-on-surface-variant">Belum ada bukti transfer.</p>
+        @endforelse
+
+        @if (in_array($invoice->status->value, ['issued', 'partial', 'overdue'], true))
+            @can('submit', App\Models\PaymentProof::class)
+                <form method="POST" action="{{ route('owner.invoices.proofs.store', $invoice) }}" enctype="multipart/form-data" class="mt-space-md flex flex-col gap-space-md border-t border-outline-variant/40 pt-space-md">
+                    @csrf
+                    <p class="text-body-sm text-secondary">Catat bukti transfer yang diterima dari penghuni. Tagihan baru berubah setelah bukti disetujui di antrean verifikasi.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
+                        <x-input name="amount" inputmode="numeric" label="Nominal (Rp)" :value="number_format($invoice->remaining(), 0, ',', '.')" required />
+                        <x-input name="paid_on" type="date" label="Tanggal transfer" max="{{ $today->toDateString() }}" />
+                        <x-input name="sender_note" label="Catatan pengirim" />
+                    </div>
+                    <x-input name="file" type="file" accept=".jpg,.jpeg,.png,.pdf" label="Bukti transfer (JPG, PNG, atau PDF, maksimal 5 MB)" required />
+                    <div><x-button type="submit" variant="secondary">Catat bukti</x-button></div>
+                </form>
+            @endcan
+        @endif
+    </x-panel>
+
     @unless ($isVoid)
         @can('adjust', $invoice)
             <x-panel title="Penyesuaian">

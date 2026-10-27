@@ -12,6 +12,7 @@ use App\Models\LeaseDeposit;
 use App\Models\LeaseResident;
 use App\Models\Resident;
 use App\Models\Room;
+use App\Support\Dates;
 use Carbon\CarbonImmutable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -32,11 +33,9 @@ class CheckOutResident
         $tenant = $this->currentTenant();
         $today = $tenant->today();
 
-        $out = is_string($data['checkout_date'] ?? null)
-            ? CarbonImmutable::createFromFormat('!Y-m-d', $data['checkout_date'], $tenant->timezone)
-            : false;
+        $out = Dates::date($data['checkout_date'] ?? null, $tenant->timezone);
 
-        if ($out === false) {
+        if ($out === null) {
             throw ValidationException::withMessages(['checkout_date' => 'Format tanggal harus YYYY-MM-DD.']);
         }
 

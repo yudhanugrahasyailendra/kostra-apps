@@ -6,6 +6,9 @@ use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\InvoiceController;
 use App\Http\Controllers\Owner\LeaseAttachmentController;
 use App\Http\Controllers\Owner\LeaseController;
+use App\Http\Controllers\Owner\PaymentAccountController;
+use App\Http\Controllers\Owner\PaymentController;
+use App\Http\Controllers\Owner\PaymentProofController;
 use App\Http\Controllers\Owner\PropertyController;
 use App\Http\Controllers\Owner\PropertyPhotoController;
 use App\Http\Controllers\Owner\ResidentAttachmentController;
@@ -21,6 +24,13 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::get('/', DashboardController::class)->name('dashboard');
 
     Route::get('/settings', SettingsController::class)->middleware('can:settings.manage')->name('settings');
+    Route::middleware('can:settings.manage')->prefix('settings/payment-accounts')->name('payment-accounts.')->group(function () {
+        Route::get('/', [PaymentAccountController::class, 'index'])->name('index');
+        Route::post('/', [PaymentAccountController::class, 'store'])->name('store');
+        Route::get('/{account}/edit', [PaymentAccountController::class, 'edit'])->name('edit');
+        Route::put('/{account}', [PaymentAccountController::class, 'update'])->name('update');
+        Route::post('/{account}/qris', [PaymentAccountController::class, 'qris'])->name('qris');
+    });
     Route::middleware('can:settings.manage')->prefix('settings/billing')->name('settings.billing')->group(function () {
         Route::get('/', [BillingSettingsController::class, 'edit']);
         Route::put('/', [BillingSettingsController::class, 'update'])->name('.update');
@@ -51,6 +61,17 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::resource('invoices', InvoiceController::class)->only(['index', 'create', 'store', 'show']);
     Route::post('invoices/{invoice}/adjustments', [InvoiceController::class, 'adjust'])->name('invoices.adjust');
     Route::post('invoices/{invoice}/void', [InvoiceController::class, 'void'])->name('invoices.void');
+
+    // Pembayaran tidak punya rute hapus: hanya dibatalkan (void) dengan alasan.
+    Route::resource('payments', PaymentController::class)->only(['index', 'create', 'store', 'show']);
+    Route::get('payments/{payment}/receipt', [PaymentController::class, 'receipt'])->name('payments.receipt');
+    Route::get('payments/{payment}/receipt.pdf', [PaymentController::class, 'receiptPdf'])->name('payments.receipt.pdf');
+    Route::post('payments/{payment}/void', [PaymentController::class, 'void'])->name('payments.void');
+
+    Route::get('proofs', [PaymentProofController::class, 'index'])->name('proofs.index');
+    Route::post('invoices/{invoice}/proofs', [PaymentProofController::class, 'store'])->name('invoices.proofs.store');
+    Route::post('proofs/{proof}/approve', [PaymentProofController::class, 'approve'])->name('proofs.approve');
+    Route::post('proofs/{proof}/reject', [PaymentProofController::class, 'reject'])->name('proofs.reject');
 
     Route::post('rooms/bulk', [RoomController::class, 'bulk'])->name('rooms.bulk');
     Route::post('rooms/import', [RoomController::class, 'import'])->name('rooms.import');

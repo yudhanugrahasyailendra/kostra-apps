@@ -15,6 +15,10 @@ use App\Models\InvoiceItem;
 use App\Models\Lease;
 use App\Models\LeaseDeposit;
 use App\Models\LeaseResident;
+use App\Models\Payment;
+use App\Models\PaymentAccount;
+use App\Models\PaymentAllocation;
+use App\Models\PaymentProof;
 use App\Models\Property;
 use App\Models\Resident;
 use App\Models\Room;
@@ -22,8 +26,8 @@ use App\Models\RoomTransfer;
 use App\Models\RoomType;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Services\Billing\AllocationInvoicePaidTotal;
 use App\Services\Billing\InvoiceOutstandingBalance;
-use App\Services\Billing\NullInvoicePaidTotal;
 use App\Tenancy\TenantContext;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
@@ -38,8 +42,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(OutstandingBalance::class, InvoiceOutstandingBalance::class);
 
-        // Diganti perhitungan dari payment_allocations di Fase 6.
-        $this->app->bind(InvoicePaidTotal::class, NullInvoicePaidTotal::class);
+        $this->app->bind(InvoicePaidTotal::class, AllocationInvoicePaidTotal::class);
     }
 
     public function boot(): void
@@ -62,6 +65,10 @@ class AppServiceProvider extends ServiceProvider
             'invoice_item' => InvoiceItem::class,
             'invoice_adjustment' => InvoiceAdjustment::class,
             'billing_setting' => BillingSetting::class,
+            'payment' => Payment::class,
+            'payment_allocation' => PaymentAllocation::class,
+            'payment_proof' => PaymentProof::class,
+            'payment_account' => PaymentAccount::class,
         ]);
 
         Auth::provider('tenant-eloquent', fn ($app, array $config) => new TenantAwareUserProvider($app['hash'], $config['model']));

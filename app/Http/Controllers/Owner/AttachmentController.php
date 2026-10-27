@@ -7,6 +7,7 @@ use App\Actions\Attachments\ServeAttachment;
 use App\Http\Controllers\Controller;
 use App\Models\Attachment;
 use App\Models\Lease;
+use App\Models\PaymentAccount;
 use App\Models\Property;
 use App\Models\Resident;
 use Illuminate\Http\RedirectResponse;
@@ -36,12 +37,18 @@ class AttachmentController extends Controller
             Gate::authorize('update', $parent);
         }
 
+        // Gambar QRIS rekening hanya boleh diubah pengguna berizin pengaturan.
+        if ($parent instanceof PaymentAccount) {
+            Gate::authorize('manage', $parent);
+        }
+
         $delete($attachment);
 
         return match (true) {
             $parent instanceof Resident => redirect()->route('owner.residents.show', $parent)->with('status', 'Dokumen dihapus.'),
             $parent instanceof Property => redirect()->route('owner.properties.edit', $parent)->with('status', 'Foto dihapus.'),
             $parent instanceof Lease => redirect()->route('owner.leases.show', $parent)->with('status', 'Foto dihapus.'),
+            $parent instanceof PaymentAccount => redirect()->route('owner.payment-accounts.edit', $parent)->with('status', 'Gambar QRIS dihapus.'),
             default => redirect()->route('owner.dashboard'),
         };
     }
