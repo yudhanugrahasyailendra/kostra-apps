@@ -27,6 +27,11 @@ class AttachmentPolicy
             return false;
         }
 
+        // Nota pengeluaran adalah data keuangan: hanya yang boleh melihat keuangan.
+        if ($attachment->category === AttachmentCategory::ExpenseReceipt && ! $user->hasPermission(Permission::FinanceView)) {
+            return false;
+        }
+
         return $attachment->is_sensitive ? $user->hasPermission(Permission::DocumentsView) : true;
     }
 

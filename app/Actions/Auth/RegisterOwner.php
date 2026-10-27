@@ -2,12 +2,14 @@
 
 namespace App\Actions\Auth;
 
+use App\Actions\Finance\SeedExpenseCategories;
 use App\Enums\TenantStatus;
 use App\Enums\UserRole;
 use App\Models\BillingSetting;
 use App\Models\Plan;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Tenancy\TenantContext;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -33,6 +35,9 @@ class RegisterOwner
 
             // Pengaturan penagihan awal untuk tenant baru.
             BillingSetting::create([...BillingSetting::defaults(), 'tenant_id' => $tenant->getKey()]);
+
+            // Kategori pengeluaran bawaan (listrik, air, gaji penjaga, dst.).
+            app(TenantContext::class)->run($tenant, fn () => app(SeedExpenseCategories::class)());
 
             return User::create([
                 'tenant_id' => $tenant->getKey(),

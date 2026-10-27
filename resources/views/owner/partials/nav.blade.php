@@ -52,11 +52,17 @@
 </a>
 
 @can('finance.view')
-    <span class="{{ $link }} {{ $soon }}" aria-disabled="true">
+    <a href="{{ route('owner.expenses.index') }}" @if (request()->routeIs('owner.expenses.*')) aria-current="page" @endif
+       class="{{ $link }} {{ request()->routeIs('owner.expenses.*') ? $active : $idle }}">
         <span class="material-symbols-outlined text-lg" aria-hidden="true">account_balance_wallet</span>
-        <span>Keuangan</span>
-        <span class="badge badge-neutral ml-auto">Segera</span>
-    </span>
+        <span>Pengeluaran</span>
+    </a>
+
+    <a href="{{ route('owner.reports.index') }}" @if (request()->routeIs('owner.reports.*')) aria-current="page" @endif
+       class="{{ $link }} {{ request()->routeIs('owner.reports.*') ? $active : $idle }}">
+        <span class="material-symbols-outlined text-lg" aria-hidden="true">bar_chart</span>
+        <span>Laporan</span>
+    </a>
 @endcan
 
 @can('settings.manage')

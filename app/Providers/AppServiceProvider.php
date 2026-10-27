@@ -8,6 +8,8 @@ use App\Contracts\OutstandingBalance;
 use App\Enums\Permission;
 use App\Models\Attachment;
 use App\Models\BillingSetting;
+use App\Models\Expense;
+use App\Models\ExpenseCategory;
 use App\Models\Invitation;
 use App\Models\Invoice;
 use App\Models\InvoiceAdjustment;
@@ -69,6 +71,8 @@ class AppServiceProvider extends ServiceProvider
             'payment_allocation' => PaymentAllocation::class,
             'payment_proof' => PaymentProof::class,
             'payment_account' => PaymentAccount::class,
+            'expense' => Expense::class,
+            'expense_category' => ExpenseCategory::class,
         ]);
 
         Auth::provider('tenant-eloquent', fn ($app, array $config) => new TenantAwareUserProvider($app['hash'], $config['model']));

@@ -26,7 +26,7 @@ class RolesAndMenuTest extends TestCase
 
         $this->actingAs($staff)->get('/owner')
             ->assertOk()
-            ->assertDontSee('Keuangan')
+            ->assertDontSee('Pengeluaran')
             ->assertDontSee('Pengaturan')
             ->assertDontSee('Langganan');
 
@@ -36,10 +36,10 @@ class RolesAndMenuTest extends TestCase
     public function test_staff_menu_follows_granted_permissions(): void
     {
         $staff = User::factory()->for($this->tenant)->staff(['finance.view'])->create();
-        $this->actingAs($staff)->get('/owner')->assertSee('Keuangan')->assertDontSee('Pengaturan')->assertDontSee('Langganan');
+        $this->actingAs($staff)->get('/owner')->assertSee('Pengeluaran')->assertDontSee('Pengaturan')->assertDontSee('Langganan');
 
         $staff = User::factory()->for($this->tenant)->staff(['settings.manage'])->create();
-        $this->actingAs($staff)->get('/owner')->assertSee('Pengaturan')->assertDontSee('Keuangan')->assertDontSee('Langganan');
+        $this->actingAs($staff)->get('/owner')->assertSee('Pengaturan')->assertDontSee('Pengeluaran')->assertDontSee('Langganan');
         $this->actingAs($staff)->get('/owner/settings')->assertOk();
     }
 
@@ -48,7 +48,7 @@ class RolesAndMenuTest extends TestCase
         $owner = User::factory()->for($this->tenant)->create();
 
         $this->actingAs($owner)->get('/owner')
-            ->assertSee('Keuangan')
+            ->assertSee('Pengeluaran')
             ->assertSee('Pengaturan')
             ->assertSee('Langganan');
     }
