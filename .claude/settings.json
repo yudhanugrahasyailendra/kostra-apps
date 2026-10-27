@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan test *)",
+      "Bash(composer test)",
+      "Bash(./vendor/bin/pint *)",
+      "Bash(php artisan route:list *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)"
+    ],
+    "ask": [
+      "Bash(php artisan migrate:fresh *)",
+      "Bash(php artisan db:wipe *)",
+      "Bash(composer require *)"
+    ],
+    "deny": [
+      "Bash(git push *)",
+      "Read(./.env)"
+    ]
+  }
+}
