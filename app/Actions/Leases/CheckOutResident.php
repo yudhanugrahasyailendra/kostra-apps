@@ -10,6 +10,7 @@ use App\Enums\RoomStatus;
 use App\Models\Lease;
 use App\Models\LeaseDeposit;
 use App\Models\LeaseResident;
+use App\Models\PortalToken;
 use App\Models\Resident;
 use App\Models\Room;
 use App\Support\Dates;
@@ -89,6 +90,9 @@ class CheckOutResident
 
                 if (! $stillLeasing) {
                     Resident::query()->find($residentId)?->update(['is_active' => false]);
+
+                    // Mantan penghuni tidak lagi punya akses portal (tagihan, rekening, unggah bukti).
+                    PortalToken::query()->where('resident_id', $residentId)->whereNull('revoked_at')->update(['revoked_at' => now()]);
                 }
             }
 

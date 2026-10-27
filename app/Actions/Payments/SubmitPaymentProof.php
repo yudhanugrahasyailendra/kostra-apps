@@ -22,6 +22,9 @@ class SubmitPaymentProof
 {
     use ResolvesTenant;
 
+    /** Bukti transfer yang boleh menunggu verifikasi per tagihan. */
+    public const MAX_PENDING_PER_INVOICE = 3;
+
     public function __construct(
         private readonly StoreAttachment $store,
         private readonly InvoicePaidTotal $paidTotal,
@@ -65,6 +68,11 @@ class SubmitPaymentProof
 
             if ($amount > $remaining) {
                 throw ValidationException::withMessages(['amount' => 'Nominal melebihi sisa tagihan ('.Rupiah::format(max(0, $remaining)).').']);
+            }
+
+            // Satu tautan tidak boleh memenuhi antrean verifikasi dan disk: bukti menunggu per tagihan dibatasi.
+            if (PaymentProof::query()->where('invoice_id', $locked->getKey())->pending()->count() >= self::MAX_PENDING_PER_INVOICE) {
+                throw ValidationException::withMessages(['general' => 'Sudah ada '.self::MAX_PENDING_PER_INVOICE.' bukti yang menunggu diperiksa untuk tagihan ini. Tunggu pengelola memeriksanya.']);
             }
 
             $note = is_string($data['sender_note'] ?? null) ? trim($data['sender_note']) : '';

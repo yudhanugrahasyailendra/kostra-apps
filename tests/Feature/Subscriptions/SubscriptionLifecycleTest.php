@@ -23,6 +23,7 @@ use App\Models\Subscription;
 use App\Models\SubscriptionInvoice;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Services\Plans\PlanFeatures;
 use App\Services\Plans\PlanLimits;
 use App\Tenancy\TenantContext;
 use Carbon\CarbonImmutable;
@@ -155,20 +156,23 @@ class SubscriptionLifecycleTest extends TestCase
 
     // ---- Berlangganan dan pembayaran ----
 
-    public function test_subscribing_opens_the_plan_at_once_with_a_pending_invoice_and_a_seven_day_grace(): void
+    public function test_subscribing_only_creates_a_request_and_an_invoice_and_the_plan_stays_until_paid(): void
     {
         [$tenant] = $this->tenantOn('free');
 
         $invoice = $this->subscribe($tenant, 'pro');
 
         $fresh = $this->fresh($tenant);
-        $subscription = $this->currentSubscription($tenant);
-        $this->assertSame(['pro', TenantStatus::Active, SubscriptionStatus::PastDue], [$fresh->plan->key, $fresh->status, $subscription->status]);
+        $this->assertSame(['free', TenantStatus::Active], [$fresh->plan->key, $fresh->status], 'Paket berbayar tidak terbuka sebelum dibayar.');
+        $this->assertSame(SubscriptionStatus::Active, $this->currentSubscription($tenant)->status);
+        $this->assertSame('free', $this->currentSubscription($tenant)->plan->key);
         $this->assertSame([199_000, SubscriptionInvoiceStatus::Pending, '2026-10-15', '2026-11-14', '2026-10-22'], [
             $invoice->amount, $invoice->status, $invoice->period_start->toDateString(), $invoice->period_end->toDateString(), $invoice->due_date->toDateString(),
         ]);
-        $this->assertSame(3, $this->asTenant($tenant, fn () => app(PlanLimits::class)->remainingProperties($fresh)));
-        $this->assertTrue($subscription->grace_ends_at->equalTo(CarbonImmutable::parse('2026-10-22 16:00:00', 'UTC')), 'Habis di akhir hari ke-7 menurut waktu tenant.');
+
+        $request = $this->asTenant($tenant, fn () => Subscription::query()->pending()->sole());
+        $this->assertSame(['pro', SubscriptionStatus::Pending], [$request->plan->key, $request->status]);
+        $this->assertSame(10, $this->asTenant($tenant, fn () => app(PlanLimits::class)->remainingRooms($fresh)));
     }
 
     public function test_the_subscription_invoice_number_is_unique_across_the_platform(): void
@@ -233,21 +237,71 @@ class SubscriptionLifecycleTest extends TestCase
         $this->assertCount(1, $this->invoicesOf($tenant));
     }
 
-    public function test_an_unpaid_first_subscription_returns_to_free_after_the_grace_and_voids_its_invoice(): void
+    public function test_an_unpaid_request_lapses_after_its_due_date_and_voids_its_invoice(): void
     {
         [$tenant] = $this->tenantOn('free');
         $this->subscribe($tenant, 'pro');
 
-        $this->at('2026-10-22 15:00:00'); // masih di hari ke-7
+        $this->at('2026-10-22 03:00:00'); // hari jatuh tempo: masih berlaku
         $this->lifecycle($tenant);
-        $this->assertSame('pro', $this->fresh($tenant)->plan->key);
+        $this->assertSame(1, $this->asTenant($tenant, fn () => Subscription::query()->pending()->count()));
 
-        $this->at('2026-10-22 17:00:00'); // lewat akhir hari ke-7 (00:00 WITA)
+        $this->at('2026-10-23 03:00:00'); // lewat jatuh tempo
         $this->lifecycle($tenant);
 
-        $fresh = $this->fresh($tenant);
-        $this->assertSame(['free', TenantStatus::Active], [$fresh->plan->key, $fresh->status]);
+        $this->assertSame(0, $this->asTenant($tenant, fn () => Subscription::query()->pending()->count()));
         $this->assertSame([SubscriptionInvoiceStatus::Void], $this->invoicesOf($tenant)->pluck('status')->all());
+        $this->assertSame(['free', TenantStatus::Active], [$this->fresh($tenant)->plan->key, $this->fresh($tenant)->status]);
+    }
+
+    public function test_the_subscribe_and_let_it_lapse_loop_never_gives_a_paid_plan_without_paying(): void
+    {
+        [$tenant] = $this->tenantOn('free');
+
+        foreach (range(0, 3) as $round) {
+            $this->at(CarbonImmutable::parse('2026-10-15 03:00:00', 'UTC')->addDays($round * 9)->toDateTimeString());
+            $this->subscribe($tenant, 'business', BillingPeriod::Yearly);
+            $this->assertSame('free', $this->fresh($tenant)->plan->key, "Putaran {$round}: paket berubah sebelum dibayar.");
+            $this->assertSame(10, $this->asTenant($tenant, fn () => app(PlanLimits::class)->remainingRooms($this->fresh($tenant))));
+            $this->assertThrowsValidation(fn () => $this->asTenant($tenant, fn () => app(PlanFeatures::class)->ensure($this->fresh($tenant), 'reports.export')), 'plan_limit');
+
+            $this->at(CarbonImmutable::parse('2026-10-15 03:00:00', 'UTC')->addDays($round * 9 + 8)->toDateTimeString());
+            $this->lifecycle($tenant);
+            $this->assertSame('free', $this->fresh($tenant)->plan->key);
+        }
+
+        $this->assertSame(SubscriptionStatus::Active, $this->currentSubscription($tenant)->status);
+    }
+
+    public function test_paying_a_request_opens_the_plan_from_the_payment_date_not_the_request_date(): void
+    {
+        [$tenant] = $this->tenantOn('free');
+        $invoice = $this->subscribe($tenant, 'pro');
+
+        $this->at('2026-10-20 03:00:00');
+        $paid = $this->pay($invoice);
+
+        $subscription = $this->currentSubscription($tenant);
+        $this->assertSame(['pro', SubscriptionStatus::Active, '2026-10-20', '2026-11-19'], [
+            $this->fresh($tenant)->plan->key, $subscription->status, $subscription->current_period_start->toDateString(), $subscription->current_period_end->toDateString(),
+        ]);
+        $this->assertSame(['2026-10-20', '2026-11-19'], [$paid->period_start->toDateString(), $paid->period_end->toDateString()], 'Tagihan menyesuaikan periode yang sebenarnya.');
+        $this->assertSame(SubscriptionStatus::Canceled, $this->asTenant($tenant, fn () => Subscription::query()->where('plan_id', $this->plan('free')->id)->first())->status);
+        $this->assertSame(3, $this->asTenant($tenant, fn () => app(PlanLimits::class)->remainingProperties($this->fresh($tenant))));
+    }
+
+    public function test_a_request_made_during_a_trial_replaces_the_trial_only_when_paid(): void
+    {
+        [$tenant] = $this->tenantOn('free');
+        app(StartTrial::class)($tenant, $this->plan('pro'));
+        $invoice = $this->subscribe($tenant, 'business');
+
+        $this->assertSame(['pro', SubscriptionStatus::Trialing], [$this->fresh($tenant)->plan->key, $this->currentSubscription($tenant)->status]);
+
+        $this->pay($invoice);
+
+        $this->assertSame(['business', SubscriptionStatus::Active], [$this->fresh($tenant)->plan->key, $this->currentSubscription($tenant)->status]);
+        $this->assertNull($this->fresh($tenant)->trial_ends_at);
     }
 
     public function test_a_paid_invoice_cannot_be_paid_again_or_voided_and_a_voided_one_cannot_be_paid(): void
@@ -446,22 +500,107 @@ class SubscriptionLifecycleTest extends TestCase
         $this->assertThrowsValidation(fn () => app(DowngradePlan::class)($tenant, $this->plan('starter')), 'plan');
     }
 
+    public function test_downgrading_to_a_cheaper_paid_plan_needs_an_active_subscription(): void
+    {
+        // Percobaan: hanya boleh turun ke Gratis.
+        [$trial] = $this->tenantOn('free');
+        app(StartTrial::class)($trial, $this->plan('business'));
+        $this->assertThrowsValidation(fn () => app(DowngradePlan::class)($this->fresh($trial), $this->plan('starter')), 'plan');
+        $this->assertSame('business', $this->fresh($trial)->plan->key);
+        app(DowngradePlan::class)($this->fresh($trial), $this->plan('free'));
+        $this->assertSame('free', $this->fresh($trial)->plan->key);
+
+        // Perpanjangan menunggak (lewat jatuh tempo): hanya boleh turun ke Gratis.
+        [$late] = $this->tenantOn('free');
+        $this->pay($this->subscribe($late, 'pro'));
+        $this->at('2026-11-16 03:00:00');
+        $this->lifecycle($late);
+        $this->assertSame(SubscriptionStatus::PastDue, $this->currentSubscription($late)->status);
+        $this->assertThrowsValidation(fn () => app(DowngradePlan::class)($late, $this->plan('starter')), 'plan');
+        $this->assertSame('pro', $this->fresh($late)->plan->key);
+    }
+
+    public function test_a_pending_request_cannot_be_used_to_reach_a_paid_plan_through_a_downgrade(): void
+    {
+        [$tenant] = $this->tenantOn('free');
+        $this->subscribe($tenant, 'business', BillingPeriod::Yearly);
+
+        $this->assertThrowsValidation(fn () => app(DowngradePlan::class)($tenant, $this->plan('starter')), 'plan');
+
+        $this->assertSame('free', $this->fresh($tenant)->plan->key);
+        $this->assertSame(0, $this->asTenant($tenant, fn () => Subscription::query()->current()->whereHas('plan', fn ($q) => $q->where('price_monthly', '>', 0))->count()));
+    }
+
+    public function test_a_payment_does_not_reopen_a_tenant_the_admin_suspended_by_hand(): void
+    {
+        [$tenant] = $this->tenantOn('free');
+        $this->pay($this->subscribe($tenant, 'pro'));
+        $this->at('2026-11-08 03:00:00');
+        $this->lifecycle($tenant);
+        app(SuspendTenant::class)($tenant); // manual
+        $this->assertSame('manual', $this->fresh($tenant)->settings['suspension_reason']);
+
+        $this->pay($this->invoicesOf($tenant)->last());
+
+        $this->assertSame(TenantStatus::Suspended, $this->fresh($tenant)->status, 'Pembayaran tidak membatalkan keputusan Super Admin.');
+        $this->assertSame(SubscriptionStatus::Active, $this->currentSubscription($tenant)->status);
+
+        app(ActivateTenant::class)($tenant);
+        $this->assertSame(TenantStatus::Active, $this->fresh($tenant)->status);
+        $this->assertArrayNotHasKey('suspension_reason', $this->fresh($tenant)->settings ?? []);
+    }
+
+    public function test_a_tenant_suspended_without_a_recorded_reason_is_treated_as_manual(): void
+    {
+        [$tenant] = $this->tenantOn('free');
+        $this->pay($this->subscribe($tenant, 'pro'));
+        $this->at('2026-11-08 03:00:00');
+        $this->lifecycle($tenant);
+        $tenant->update(['status' => TenantStatus::Suspended, 'suspended_at' => now(), 'settings' => null]);
+
+        $this->pay($this->invoicesOf($tenant)->last());
+
+        $this->assertSame(TenantStatus::Suspended, $this->fresh($tenant)->status);
+    }
+
+    public function test_the_arrears_suspension_is_tagged_so_that_paying_reopens_it(): void
+    {
+        [$tenant] = $this->tenantOn('free');
+        $this->pay($this->subscribe($tenant, 'pro'));
+        $this->at('2026-11-07 03:00:00');
+        $this->lifecycle($tenant);
+        $this->at('2026-11-15 03:00:00'); // periode lewat: masuk masa tenggang
+        $this->lifecycle($tenant);
+        $this->at('2026-11-21 17:00:00'); // tenggang habis
+        $this->lifecycle($tenant);
+
+        $this->assertSame(['suspended', 'arrears'], [$this->fresh($tenant)->status->value, $this->fresh($tenant)->settings['suspension_reason']]);
+
+        $this->pay($this->invoicesOf($tenant)->last());
+
+        $this->assertSame(TenantStatus::Active, $this->fresh($tenant)->status);
+        $this->assertArrayNotHasKey('suspension_reason', $this->fresh($tenant)->settings ?? []);
+    }
+
     // ---- Upgrade dan penetapan oleh Super Admin ----
 
-    public function test_upgrading_opens_the_new_limits_at_once(): void
+    public function test_upgrading_opens_the_new_limits_the_moment_the_payment_is_recorded(): void
     {
         [$tenant] = $this->tenantOn('free');
         $limits = app(PlanLimits::class);
         $this->addRooms($tenant, 10);
         $this->assertSame(0, $this->asTenant($tenant, fn () => $limits->remainingRooms($this->fresh($tenant))));
 
-        $this->subscribe($tenant, 'pro');
+        $invoice = $this->subscribe($tenant, 'pro');
+        $this->assertSame(0, $this->asTenant($tenant, fn () => $limits->remainingRooms($this->fresh($tenant))), 'Belum dibayar: batas lama.');
+
+        $this->pay($invoice);
 
         $this->assertSame(90, $this->asTenant($tenant, fn () => $limits->remainingRooms($this->fresh($tenant))));
         $this->assertSame('reports.export', $this->fresh($tenant)->plan->features[0]);
     }
 
-    public function test_the_super_admin_can_set_a_plan_directly_and_it_cancels_pending_invoices(): void
+    public function test_the_super_admin_can_set_a_plan_directly_and_it_cancels_pending_requests_and_invoices(): void
     {
         [$tenant] = $this->tenantOn('free');
         $this->subscribe($tenant, 'starter');
@@ -471,6 +610,18 @@ class SubscriptionLifecycleTest extends TestCase
         $subscription = $this->currentSubscription($tenant);
         $this->assertSame(['business', SubscriptionStatus::Active, '2027-10-14'], [$this->fresh($tenant)->plan->key, $subscription->status, $subscription->current_period_end->toDateString()]);
         $this->assertSame([SubscriptionInvoiceStatus::Void], $this->invoicesOf($tenant)->pluck('status')->all());
+        $this->assertSame(0, $this->asTenant($tenant, fn () => Subscription::query()->pending()->count()));
+    }
+
+    public function test_the_super_admin_cannot_set_a_yearly_period_on_a_plan_without_a_yearly_price_or_touch_a_closed_tenant(): void
+    {
+        [$tenant] = $this->tenantOn('free');
+        $this->plan('pro')->update(['price_yearly' => null]);
+
+        $this->assertThrowsValidation(fn () => app(SetTenantPlan::class)($tenant, $this->plan('pro'), BillingPeriod::Yearly), 'plan');
+
+        $tenant->update(['status' => TenantStatus::Closed]);
+        $this->assertThrowsValidation(fn () => app(SetTenantPlan::class)($tenant, $this->plan('pro'), BillingPeriod::Monthly), 'plan');
     }
 
     public function test_setting_a_smaller_plan_respects_the_limits_unless_explicitly_ignored(): void

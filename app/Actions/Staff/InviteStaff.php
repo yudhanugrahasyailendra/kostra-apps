@@ -37,22 +37,28 @@ class InviteStaff
 
         $this->ensureNotRegistered($email, $phone);
 
-        // Batas pengguna paket (pemilik + staf + undangan yang masih berlaku); melewatinya menawarkan naik paket.
-        // Tenant dari konteks permintaan ini (selalu segar), bukan relasi pengundang yang bisa tersimpan di memori.
-        app(PlanLimits::class)->ensureCanAddStaff($this->context->current());
-
         $token = bin2hex(random_bytes(32));
 
-        $invitation = DB::transaction(fn () => Invitation::create([
-            'tenant_id' => $inviter->tenant_id,
-            'invited_by' => $inviter->getKey(),
-            'email' => $email,
-            'phone' => $phone,
-            'role' => UserRole::Staff,
-            'permissions' => $permissions,
-            'token_hash' => Invitation::hashToken($token),
-            'expires_at' => now()->addDays(self::VALID_DAYS),
-        ]));
+        $invitation = DB::transaction(function () use ($inviter, $email, $phone, $permissions, $token) {
+            // Batas pengguna paket (pemilik + staf + undangan yang masih berlaku) diperiksa SETELAH mengunci tenant,
+            // jadi undangan paralel tidak bisa sama-sama lolos. Tenant dari konteks permintaan ini (selalu segar),
+            // bukan relasi pengundang yang bisa tersimpan di memori. Melewati batas menawarkan naik paket.
+            $limits = app(PlanLimits::class);
+            $tenant = $this->context->current();
+            $limits->lockTenant($tenant);
+            $limits->ensureCanAddStaff($tenant);
+
+            return Invitation::create([
+                'tenant_id' => $inviter->tenant_id,
+                'invited_by' => $inviter->getKey(),
+                'email' => $email,
+                'phone' => $phone,
+                'role' => UserRole::Staff,
+                'permissions' => $permissions,
+                'token_hash' => Invitation::hashToken($token),
+                'expires_at' => now()->addDays(self::VALID_DAYS),
+            ]);
+        });
 
         if ($email !== null) {
             // Dikirim setelah commit. Pengiriman lewat WhatsApp menunggu Fase 9.

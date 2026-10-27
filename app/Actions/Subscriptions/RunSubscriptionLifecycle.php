@@ -34,6 +34,8 @@ class RunSubscriptionLifecycle
     public function __invoke(Tenant $tenant): void
     {
         $this->context->run($tenant, function () use ($tenant) {
+            $this->expireStaleRequests($tenant);
+
             $subscription = Subscription::query()->current()->latest('id')->first() ?? ($this->createFree)($tenant);
 
             match ($subscription->status) {
@@ -42,6 +44,30 @@ class RunSubscriptionLifecycle
                 SubscriptionStatus::PastDue => $this->checkPastDue($tenant, $subscription),
                 default => null,
             };
+        });
+    }
+
+    /**
+     * Pengajuan berlangganan yang tagihannya lewat jatuh tempo tanpa pembayaran dibatalkan. Paket tenant tidak
+     * pernah berubah untuk pengajuan, jadi tidak ada yang perlu dikembalikan.
+     */
+    private function expireStaleRequests(Tenant $tenant): void
+    {
+        $today = $tenant->today()->toDateString();
+
+        Subscription::query()->pending()->get()->each(function (Subscription $request) use ($today) {
+            $stale = SubscriptionInvoice::query()
+                ->where('subscription_id', $request->getKey())
+                ->where('status', SubscriptionInvoiceStatus::Pending->value)
+                ->where('due_date', '<', $today)
+                ->get();
+
+            if ($stale->isEmpty()) {
+                return;
+            }
+
+            $stale->each->update(['status' => SubscriptionInvoiceStatus::Void]);
+            $request->update(['status' => SubscriptionStatus::Expired]);
         });
     }
 
@@ -92,7 +118,7 @@ class RunSubscriptionLifecycle
             ->exists();
 
         if ($everPaid) {
-            ($this->suspend)($tenant);
+            ($this->suspend)($tenant, SuspendTenant::REASON_ARREARS);
 
             return;
         }
@@ -113,6 +139,6 @@ class RunSubscriptionLifecycle
 
         SubscriptionInvoice::query()
             ->where('status', SubscriptionInvoiceStatus::Pending->value)
-            ->update(['status' => SubscriptionInvoiceStatus::Void->value]);
+            ->get()->each->update(['status' => SubscriptionInvoiceStatus::Void]);
     }
 }

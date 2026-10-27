@@ -295,11 +295,11 @@ class PaymentProofTest extends TestCase
 
     public function test_pending_older_than_three_days_uses_a_strict_boundary(): void
     {
-        $invoice = $this->openInvoice();
-        $exactlyThree = $this->proofOf($invoice, 100_000);
-        $overThree = $this->proofOf($invoice, 100_000);
-        $fresh = $this->proofOf($invoice, 100_000);
-        $approvedOld = $this->proofOf($invoice, 100_000);
+        // Satu tagihan per bukti: batas bukti menunggu per tagihan tidak ikut diuji di sini.
+        $exactlyThree = $this->proofOf($this->openInvoice(), 100_000);
+        $overThree = $this->proofOf($this->openInvoice(), 100_000);
+        $fresh = $this->proofOf($this->openInvoice(), 100_000);
+        $approvedOld = $this->proofOf($this->openInvoice(), 100_000);
 
         $now = now();
         $this->asTenant($this->tenant, function () use ($exactlyThree, $overThree, $approvedOld, $now) {

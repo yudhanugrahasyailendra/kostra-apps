@@ -37,6 +37,7 @@ class SubscriptionController extends Controller
             'messageLimit' => $quota->limit($tenant),
             'invoices' => SubscriptionInvoice::query()->latest('id')->limit(12)->get(),
             'hasPending' => SubscriptionInvoice::query()->where('status', SubscriptionInvoiceStatus::Pending->value)->exists(),
+            'pendingRequest' => Subscription::query()->pending()->with('plan')->latest('id')->first(),
             'trialUsed' => Subscription::query()->whereNotNull('trial_ends_at')->exists(),
             'transfer' => config('kostra.subscription'),
             'trialDays' => (int) config('kostra.trial_days'),
@@ -60,7 +61,7 @@ class SubscriptionController extends Controller
         $invoice = $subscribe($context->current(), $plan, $request->period());
 
         return redirect()->route('owner.subscription.show')
-            ->with('status', "Paket {$plan->name} sudah terbuka. Tagihan {$invoice->number} menunggu pembayaran sebelum ".$invoice->due_date->translatedFormat('j F Y').'.');
+            ->with('status', "Tagihan {$invoice->number} untuk paket {$plan->name} sudah dibuat. Paket aktif setelah transfer dicatat; bayar sebelum ".$invoice->due_date->translatedFormat('j F Y').'.');
     }
 
     public function downgrade(SubscriptionPlanRequest $request, TenantContext $context, DowngradePlan $downgrade): RedirectResponse

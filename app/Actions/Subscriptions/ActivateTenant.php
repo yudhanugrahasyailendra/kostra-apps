@@ -29,9 +29,13 @@ class ActivateTenant
 
             $trialing = $this->context->run($locked, fn () => Subscription::query()->current()->latest('id')->first()?->status === SubscriptionStatus::Trialing);
 
+            $settings = $locked->settings ?? [];
+            unset($settings['suspension_reason']);
+
             $locked->update([
                 'status' => $trialing ? TenantStatus::Trial : TenantStatus::Active,
                 'suspended_at' => null,
+                'settings' => $settings === [] ? null : $settings,
             ]);
 
             return $locked;

@@ -17,6 +17,9 @@ use Illuminate\Validation\ValidationException;
 
 class CreateComplaint
 {
+    /** Tiket terbuka per penghuni, supaya satu tautan tidak membanjiri antrean pengelola. */
+    public const MAX_OPEN_PER_RESIDENT = 5;
+
     public function __construct(private readonly StoreAttachment $store) {}
 
     /**
@@ -53,6 +56,10 @@ class CreateComplaint
 
         if ($lease === null) {
             throw ValidationException::withMessages(['resident_id' => 'Penghuni ini tidak punya kontrak aktif, jadi kamarnya tidak diketahui.']);
+        }
+
+        if (Complaint::query()->where('resident_id', $resident->getKey())->open()->count() >= self::MAX_OPEN_PER_RESIDENT) {
+            throw ValidationException::withMessages(['general' => 'Anda sudah punya '.self::MAX_OPEN_PER_RESIDENT.' keluhan yang masih ditangani. Tunggu salah satunya selesai sebelum mengajukan yang baru.']);
         }
 
         $complaint = DB::transaction(function () use ($resident, $lease, $category, $title, $description, $photo, $actor) {

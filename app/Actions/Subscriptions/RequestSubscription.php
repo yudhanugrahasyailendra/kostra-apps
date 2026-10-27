@@ -10,21 +10,25 @@ use App\Models\Subscription;
 use App\Models\SubscriptionInvoice;
 use App\Models\Tenant;
 use App\Tenancy\TenantContext;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class RequestSubscription
 {
     public function __construct(
         private readonly TenantContext $context,
-        private readonly ChangeSubscriptionPlan $change,
         private readonly CreateSubscriptionInvoice $invoices,
     ) {}
 
     /**
-     * Pemilik berlangganan paket berbayar (atau naik paket). Paket langsung terbuka dengan status "menunggu
-     * pembayaran" dan tagihan jatuh tempo dalam masa tenggang (7 hari). Setelah Super Admin mencatat transfer,
-     * langganan menjadi aktif; bila tidak dibayar sampai masa tenggang habis, tenant kembali ke paket Gratis
-     * (RunSubscriptionLifecycle). Naik paket di tengah periode menagih satu periode penuh, tanpa prorata.
+     * Pemilik berlangganan paket berbayar (atau naik paket). BAYAR DULU: yang dibuat hanya pengajuan (status
+     * pending) dan tagihan; paket tenant TIDAK berubah sampai Super Admin mencatat transfer
+     * (RecordSubscriptionPayment). Dengan begitu paket berbayar tidak pernah terbuka tanpa pembayaran, dan siklus
+     * ajukan-lalu-biarkan-lapuk tidak memberi akses gratis. Satu-satunya akses tanpa bayar adalah masa percobaan
+     * 14 hari, sekali per tenant (StartTrial).
+     *
+     * Naik paket di tengah periode menagih satu periode penuh, tanpa prorata. Seluruh pemeriksaan dan pembuatan
+     * berada dalam satu transaksi dengan kunci pada tenant, jadi dua permintaan bersamaan tidak membuat dua tagihan.
      */
     public function __invoke(Tenant $tenant, Plan $plan, BillingPeriod $period): SubscriptionInvoice
     {
@@ -36,14 +40,14 @@ class RequestSubscription
             throw ValidationException::withMessages(['plan' => "Paket {$plan->name} tidak punya penagihan tahunan."]);
         }
 
-        return $this->context->run($tenant, function () use ($tenant, $plan, $period) {
-            $current = $tenant->plan;
+        return $this->context->run($tenant, fn () => DB::transaction(function () use ($tenant, $plan, $period) {
+            $locked = Tenant::query()->whereKey($tenant->getKey())->lockForUpdate()->firstOrFail();
+            $current = Plan::query()->findOrFail($locked->plan_id);
+            $subscription = Subscription::query()->current()->latest('id')->first();
 
             if (SubscriptionInvoice::query()->where('status', SubscriptionInvoiceStatus::Pending->value)->exists()) {
                 throw ValidationException::withMessages(['plan' => 'Masih ada tagihan langganan yang menunggu pembayaran. Selesaikan atau minta Super Admin membatalkannya dulu.']);
             }
-
-            $subscription = Subscription::query()->current()->latest('id')->first();
 
             if ($current->getKey() === $plan->getKey() && $subscription?->status === SubscriptionStatus::Active) {
                 throw ValidationException::withMessages(['plan' => "Anda sudah berlangganan paket {$plan->name}."]);
@@ -53,18 +57,18 @@ class RequestSubscription
                 throw ValidationException::withMessages(['plan' => 'Untuk pindah ke paket yang lebih murah, gunakan turun paket.']);
             }
 
-            $today = $tenant->today();
-            $graceDays = (int) config('kostra.grace_days');
+            $today = $locked->today();
 
-            $new = ($this->change)($tenant, $plan, $period, [
-                'status' => SubscriptionStatus::PastDue,
-                'period_start' => $today,
-                'period_end' => $today->addMonthsNoOverflow($period->months())->subDay(),
-                'grace_ends_at' => $tenant->today()->addDays($graceDays + 1)->utc(),
-                'close_as' => $subscription?->status === SubscriptionStatus::Trialing ? SubscriptionStatus::Expired : SubscriptionStatus::Canceled,
+            $pending = Subscription::create([
+                'plan_id' => $plan->getKey(),
+                'status' => SubscriptionStatus::Pending,
+                'billing_period' => $period,
+                'current_period_start' => $today->toDateString(),
+                'current_period_end' => $today->addMonthsNoOverflow($period->months())->subDay()->toDateString(),
             ]);
+            $pending->setRelation('plan', $plan);
 
-            return ($this->invoices)($new, $today, $today->addDays($graceDays));
-        });
+            return ($this->invoices)($pending, $today, $today->addDays((int) config('kostra.grace_days')));
+        }));
     }
 }

@@ -62,10 +62,8 @@ class AdminPanelTest extends TestCase
 
         foreach ([$owner, $staff] as $user) {
             foreach ($urls as [$method, $url]) {
-                $status = $this->actingAs($user)->{$method}($url)->getStatusCode();
-
-                // Tagihan tenant lain tidak ditemukan oleh binding bertenant (404) sebelum peran diperiksa: tetap tertutup.
-                $this->assertContains($status, [403, 404], "{$method} {$url} terbuka untuk non-admin ({$status}).");
+                // Peran diperiksa sebelum route model binding: 403 yang sama, bahkan untuk id tenant lain.
+                $this->actingAs($user)->{$method}($url)->assertForbidden();
             }
         }
 
@@ -76,6 +74,23 @@ class AdminPanelTest extends TestCase
 
         $this->assertSame(TenantStatus::Active, $this->fresh($tenant)->status);
         $this->actingAs($this->admin)->get(route('admin.dashboard'))->assertOk();
+    }
+
+    public function test_a_non_admin_cannot_tell_existing_from_missing_ids_in_the_admin_area(): void
+    {
+        [$tenant, $owner] = $this->tenantOn('pro');
+        $invoice = $this->subscribe($this->tenantOn('free')[0], 'pro');
+
+        foreach ([
+            ['get', route('admin.tenants.show', $tenant)],
+            ['get', route('admin.tenants.show', 999999)],
+            ['post', route('admin.tenants.suspend', 999999)],
+            ['post', route('admin.subscription-invoices.pay', $invoice)],
+            ['post', route('admin.subscription-invoices.pay', 999999)],
+            ['get', route('admin.plans.edit', 999999)],
+        ] as [$method, $url]) {
+            $this->actingAs($owner)->{$method}($url)->assertForbidden();
+        }
     }
 
     public function test_nothing_in_the_owner_panel_is_reachable_from_the_admin_role_by_accident(): void
@@ -170,7 +185,7 @@ class AdminPanelTest extends TestCase
 
         $this->actingAs($this->admin)->get(route('admin.tenants.show', $tenant))->assertOk()
             ->assertSee($tenant->name)->assertSee($owner->name)->assertSee($invoice->number)
-            ->assertSee('Rp 199.000')->assertSee('4 / 100')->assertSee('Catat pembayaran');
+            ->assertSee('Rp 199.000')->assertSee('4 / 10')->assertSee('Catat pembayaran');
     }
 
     public function test_suspending_and_reactivating_through_the_ui_is_audited_with_the_admin(): void

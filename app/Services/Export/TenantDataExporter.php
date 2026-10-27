@@ -79,7 +79,15 @@ class TenantDataExporter
      */
     public function counts(): Collection
     {
-        return collect($this->sheets())->map(fn (array $sheet) => $sheet['rows']->count());
+        return collect([
+            'Properti' => Property::query()->count(),
+            'Kamar' => Room::query()->count(),
+            'Penghuni' => Resident::query()->count(),
+            'Kontrak' => Lease::query()->count(),
+            'Tagihan' => Invoice::query()->count(),
+            'Pembayaran' => Payment::query()->count(),
+            'Pengeluaran' => Expense::query()->count(),
+        ]);
     }
 
     public function xlsx(string $filename): BinaryFileResponse
@@ -121,6 +129,11 @@ class TenantDataExporter
      */
     private function safe(mixed $value): mixed
     {
-        return is_string($value) && $value !== '' && str_contains('=+-@', $value[0]) ? "'".$value : $value;
+        if (! is_string($value) || $value === '' || ! str_contains('=+-@', $value[0])) {
+            return $value;
+        }
+
+        // Nomor telepon internasional (+62...) bukan rumus: dibiarkan apa adanya.
+        return preg_match('/^\+\d[\d\s-]*$/', $value) === 1 ? $value : "'".$value;
     }
 }

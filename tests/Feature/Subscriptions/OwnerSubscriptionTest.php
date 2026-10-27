@@ -98,11 +98,14 @@ class OwnerSubscriptionTest extends TestCase
         $this->actingAs($owner)->get(route('owner.subscription.show'))->assertOk()
             ->assertSee($invoice->number)->assertSee('Rp 199.000')->assertSee('Menunggu pembayaran')
             ->assertSee('BCA')->assertSee('1234567890')->assertSee('PT Kostra Digital')
+            ->assertSee('data-stat="pending-request"', false)->assertSee('Paket Anda tetap Gratis sampai transfer dicatat')
+            ->assertSee('data-stat="plan">Gratis</div>', false)
             ->assertSee('Masih ada tagihan langganan yang menunggu pembayaran')
             ->assertDontSee('Berlangganan bulanan');
 
         $this->actingAs($owner)->post(route('owner.subscription.subscribe'), ['plan_id' => $this->plan('business')->id])->assertSessionHasErrors('plan');
         $this->assertCount(1, $this->invoicesOf($tenant));
+        $this->assertSame('free', $this->fresh($tenant)->plan->key);
     }
 
     public function test_the_owner_can_choose_yearly_billing(): void
@@ -191,12 +194,15 @@ class OwnerSubscriptionTest extends TestCase
         $this->assertSame(1, $this->asTenant($tenant, fn () => Invitation::count()));
     }
 
-    public function test_upgrading_opens_room_for_more_staff_at_once(): void
+    public function test_upgrading_opens_room_for_more_staff_once_the_payment_is_recorded(): void
     {
         [$tenant, $owner] = $this->tenantOn('free');
         $this->actingAs($owner)->post(route('owner.staff.invite'), ['email' => 'staf@example.com'])->assertSessionHasErrors('plan_limit');
 
-        $this->subscribe($tenant, 'pro');
+        $invoice = $this->subscribe($tenant, 'pro');
+        $this->actingAs($owner)->post(route('owner.staff.invite'), ['email' => 'staf@example.com'])->assertSessionHasErrors('plan_limit');
+
+        $this->pay($invoice);
         $this->actingAs($owner)->post(route('owner.staff.invite'), ['email' => 'staf@example.com'])->assertSessionHasNoErrors();
 
         $this->assertSame(1, $this->asTenant($tenant, fn () => Invitation::count()));

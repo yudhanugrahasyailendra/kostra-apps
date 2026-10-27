@@ -14,6 +14,7 @@ use App\Models\Resident;
 use App\Models\Room;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Services\Export\TenantDataExporter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -115,6 +116,31 @@ class TenantExportTest extends TestCase
         $this->assertStringNotContainsStringIgnoringCase('ktp', $dump);
         $this->assertStringNotContainsString('token', strtolower($dump));
         $this->assertStringNotContainsString('password', strtolower($dump));
+    }
+
+    public function test_phone_numbers_stay_intact_and_the_row_counts_match_the_sheets(): void
+    {
+        [$tenant, $owner] = $this->tenantOn('free');
+        $this->seedData($tenant, 'Melati');
+
+        $sheets = $this->sheetsOf($this->actingAs($owner)->get(route('owner.export.download')));
+
+        $this->assertContains('+628123450000', array_column($sheets['Penghuni'], 1), 'Nomor internasional tidak diberi apostrof.');
+        $counts = $this->asTenant($tenant, fn () => app(TenantDataExporter::class)->counts());
+        foreach ($counts as $name => $count) {
+            $this->assertSame($count, count($sheets[$name]) - 1, "Jumlah baris lembar {$name} berbeda dari ringkasan.");
+        }
+    }
+
+    public function test_the_download_is_throttled(): void
+    {
+        [, $owner] = $this->tenantOn('free');
+
+        foreach (range(1, 3) as $i) {
+            $this->actingAs($owner)->get(route('owner.export.download'))->assertOk();
+        }
+
+        $this->actingAs($owner)->get(route('owner.export.download'))->assertStatus(429);
     }
 
     public function test_text_that_looks_like_a_formula_is_neutralised(): void

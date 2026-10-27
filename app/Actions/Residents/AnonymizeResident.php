@@ -5,6 +5,12 @@ namespace App\Actions\Residents;
 use App\Actions\Attachments\DeleteAttachment;
 use App\Actions\Audit\RecordAuditLog;
 use App\Enums\AuditEvent;
+use App\Models\Complaint;
+use App\Models\ComplaintComment;
+use App\Models\MessageLog;
+use App\Models\Payment;
+use App\Models\PaymentProof;
+use App\Models\PortalToken;
 use App\Models\Resident;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -45,6 +51,16 @@ class AnonymizeResident
                 'is_active' => false,
                 'whatsapp_opt_out_at' => $resident->whatsapp_opt_out_at ?? now(),
             ])->saveQuietly();
+
+            // Data pribadi yang tersalin ke tabel lain ikut dibersihkan. Pembaruan massal sengaja (tanpa event model)
+            // supaya nilai lama tidak masuk jejak audit. Baris keuangan tetap; hanya teks bebasnya yang dikosongkan.
+            $id = $resident->getKey();
+            MessageLog::query()->where('resident_id', $id)->update(['recipient' => '', 'body' => '[dihapus]']);
+            Complaint::query()->where('resident_id', $id)->update(['title' => '[dihapus]', 'description' => '[dihapus]']);
+            ComplaintComment::query()->where('resident_id', $id)->update(['body' => '[dihapus]']);
+            PaymentProof::query()->where('resident_id', $id)->update(['sender_note' => null]);
+            Payment::query()->where('resident_id', $id)->update(['notes' => null]);
+            PortalToken::query()->where('resident_id', $id)->whereNull('revoked_at')->update(['revoked_at' => now()]);
 
             ($this->audit)(AuditEvent::Deleted, $resident, null, ['anonymized' => true]);
 

@@ -30,7 +30,7 @@
                     Tanpa batas waktu
                 @endif
                 @if ($subscription->status === App\Enums\SubscriptionStatus::PastDue && $subscription->grace_ends_at)
-                    <div class="text-error">Bayar sebelum {{ $subscription->grace_ends_at->timezone($tenant->timezone)->subSecond()->translatedFormat('j F Y') }}</div>
+                    <div class="text-error">Perpanjangan belum dibayar. Bayar sebelum {{ $subscription->grace_ends_at->timezone($tenant->timezone)->subSecond()->translatedFormat('j F Y') }} agar akun tidak ditangguhkan.</div>
                 @endif
             </div>
         </div>
@@ -42,6 +42,12 @@
             <div class="rounded-xl bg-surface-container-low p-space-md"><dt class="font-label-sm text-secondary uppercase tracking-wider">Pesan bulan ini</dt><dd class="angka font-label-lg">{{ $usage['messages'] }} / {{ $limit($messageLimit) }}</dd></div>
         </dl>
     </x-panel>
+
+    @if ($pendingRequest)
+        <div class="rounded-xl bg-tertiary-fixed text-on-tertiary-fixed px-space-md py-space-sm font-label-md" role="status" data-stat="pending-request">
+            Pengajuan paket {{ $pendingRequest->plan->name }} ({{ $pendingRequest->billing_period->label() }}) menunggu pembayaran. Paket Anda tetap {{ $plan->name }} sampai transfer dicatat oleh tim Kostra.
+        </div>
+    @endif
 
     <x-panel title="Pilih paket">
         @if ($hasPending)

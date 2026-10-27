@@ -16,6 +16,7 @@ use App\Support\InvoiceMath;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 use ValueError;
 
@@ -70,8 +71,9 @@ class GenerateMonthlyInvoices
                     try {
                         $invoice = $this->issueFor($lease, $settings, $period, $monthStart, $today, $isCurrentMonth);
                     } catch (Throwable $e) {
-                        // Satu kontrak gagal tidak boleh menghentikan yang lain. Hanya id dan kelas galat yang dicatat.
-                        report($e);
+                        // Satu kontrak gagal tidak boleh menghentikan yang lain. Hanya id dan kelas galat yang dicatat:
+                        // pesan galat database memuat nilai binding (nama penghuni, catatan).
+                        Log::error('Penerbitan tagihan gagal untuk satu kontrak.', ['exception' => $e::class, 'lease_id' => $lease->getKey()]);
                         $result->failed++;
                         $result->failures[] = ['lease_id' => $lease->getKey(), 'error' => $e::class];
 

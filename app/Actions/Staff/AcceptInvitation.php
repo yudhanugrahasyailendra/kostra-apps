@@ -2,9 +2,12 @@
 
 namespace App\Actions\Staff;
 
+use App\Enums\TenantStatus;
 use App\Exceptions\InvalidInvitation;
 use App\Models\Invitation;
+use App\Models\Tenant;
 use App\Models\User;
+use App\Services\Plans\PlanLimits;
 use App\Tenancy\TenantContext;
 use Illuminate\Support\Facades\DB;
 
@@ -37,6 +40,24 @@ class AcceptInvitation
             if ($taken) {
                 throw new InvalidInvitation;
             }
+
+            // Undangan bisa dibuat sebelum paket diturunkan atau akun ditangguhkan: periksa ulang saat diterima.
+            $tenant = Tenant::query()->find($invitation->tenant_id);
+
+            if ($tenant === null || ! in_array($tenant->status, [TenantStatus::Active, TenantStatus::Trial], true)) {
+                throw new InvalidInvitation;
+            }
+
+            $this->context->run($tenant, function () use ($tenant, $invitation) {
+                app(PlanLimits::class)->lockTenant($tenant);
+
+                $others = User::query()->count() + Invitation::query()->pending()->whereKeyNot($invitation->getKey())->count();
+                $max = $tenant->plan->max_users;
+
+                if ($max !== null && $others + 1 > $max) {
+                    throw new InvalidInvitation;
+                }
+            });
 
             $user = User::create([
                 'tenant_id' => $invitation->tenant_id,

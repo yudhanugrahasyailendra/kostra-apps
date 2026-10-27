@@ -304,6 +304,8 @@ class PortalContentTest extends TestCase
         [$token, $invoice] = $this->residentWithInvoice();
         for ($i = 0; $i < 5; $i++) {
             $this->proof($token, $invoice, ['amount' => '1.000'], null, true)->assertSessionHasNoErrors();
+            // Bukti diperiksa pemilik: batas bukti menunggu per tagihan tidak ikut diuji di sini.
+            $this->asTenant($this->tenant, fn () => PaymentProof::query()->update(['status' => ProofStatus::Rejected]));
         }
 
         $this->proof($token, $invoice, ['amount' => '1.000'], null, true)->assertStatus(429);

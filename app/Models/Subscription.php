@@ -51,6 +51,14 @@ class Subscription extends Model
         return $this->hasMany(SubscriptionInvoice::class)->orderBy('period_start')->orderBy('id');
     }
 
+    /**
+     * Pengajuan berlangganan yang belum dibayar (paket belum dibuka).
+     */
+    public function scopePending(Builder $query): void
+    {
+        $query->where('status', SubscriptionStatus::Pending->value);
+    }
+
     public function scopeCurrent(Builder $query): void
     {
         $query->whereIn('status', SubscriptionStatus::currentValues());

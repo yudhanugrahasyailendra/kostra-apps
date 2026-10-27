@@ -7,12 +7,14 @@ use App\Http\Middleware\ResolvePortalToken;
 use App\Http\Middleware\SetCurrentTenant;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
@@ -52,11 +54,29 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->prependToPriorityList(before: SubstituteBindings::class, prepend: SetCurrentTenant::class);
         $middleware->appendToPriorityList(after: SetCurrentTenant::class, append: EnsureTenantIsActive::class);
 
+        // Peran diperiksa sebelum route model binding: pengguna tanpa peran mendapat 403 yang sama, ada atau tidaknya id.
+        $middleware->prependToPriorityList(before: SubstituteBindings::class, prepend: EnsureRole::class);
+
         // Portal: token divalidasi dan tenant ditetapkan sebelum binding apa pun.
         $middleware->prependToPriorityList(before: SubstituteBindings::class, prepend: ResolvePortalToken::class);
+
+        // IP klien yang benar menentukan pembatas laju (login, portal). Di belakang proksi atau penyeimbang beban,
+        // isi TRUSTED_PROXIES dengan alamatnya (pisahkan koma), atau "*" bila hanya penyeimbang beban tepercaya
+        // yang bisa menjangkau aplikasi. Kosong = tidak ada proksi tepercaya.
+        if (filled($proxies = env('TRUSTED_PROXIES'))) {
+            $middleware->trustProxies(at: $proxies === '*' ? '*' : array_map('trim', explode(',', $proxies)));
+        }
 
         $middleware->redirectUsersTo(fn (Request $request) => $request->user()?->isSuperAdmin() ? '/admin' : '/owner');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Pesan QueryException memuat SQL beserta nilai binding (nama, nomor telepon, isi catatan). Log aplikasi
+        // hanya boleh memuat kode galat dan lokasinya, tidak pernah nilai datanya.
+        $exceptions->report(function (QueryException $e) {
+            Log::error('Galat basis data.', [
+                'sqlstate' => $e->errorInfo[0] ?? null,
+                'driver_code' => $e->errorInfo[1] ?? null,
+                'file' => basename($e->getFile()).':'.$e->getLine(),
+            ]);
+        })->stop();
     })->create();

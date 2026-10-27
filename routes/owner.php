@@ -123,7 +123,8 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
         Route::post('subscription/downgrade', [SubscriptionController::class, 'downgrade'])->name('subscription.downgrade');
 
         Route::get('export', [ExportController::class, 'index'])->name('export.index');
-        Route::get('export/download', [ExportController::class, 'download'])->name('export.download');
+        // Berkas dibangun dari seluruh data tenant: dibatasi supaya tidak dipakai membebani server.
+        Route::get('export/download', [ExportController::class, 'download'])->middleware('throttle:3,1')->name('export.download');
     });
 
     Route::middleware('role:owner')->prefix('staff')->name('staff.')->group(function () {
