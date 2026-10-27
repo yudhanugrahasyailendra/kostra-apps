@@ -1,8 +1,13 @@
 <?php
 
+use App\Http\Middleware\EnsureRole;
+use App\Http\Middleware\EnsureTenantIsActive;
+use App\Http\Middleware\SetCurrentTenant;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -20,7 +25,17 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'role' => EnsureRole::class,
+            'tenant' => SetCurrentTenant::class,
+            'tenant.active' => EnsureTenantIsActive::class,
+        ]);
+
+        // Konteks tenant harus siap sebelum route model binding, supaya binding terscope.
+        $middleware->prependToPriorityList(before: SubstituteBindings::class, prepend: SetCurrentTenant::class);
+        $middleware->appendToPriorityList(after: SetCurrentTenant::class, append: EnsureTenantIsActive::class);
+
+        $middleware->redirectUsersTo(fn (Request $request) => $request->user()?->isSuperAdmin() ? '/admin' : '/owner');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

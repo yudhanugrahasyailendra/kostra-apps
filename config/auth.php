@@ -63,7 +63,8 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            // Provider khusus: pengguna dicari sebelum konteks tenant ada (lihat TenantAwareUserProvider).
+            'driver' => 'tenant-eloquent',
             'model' => env('AUTH_MODEL', User::class),
         ],
 

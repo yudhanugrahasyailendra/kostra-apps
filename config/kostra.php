@@ -19,6 +19,15 @@ return [
         'business' => ['name' => 'Business', 'price_monthly' => 499000, 'max_properties' => null, 'max_rooms' => null, 'max_users' => null, 'monthly_message_quota' => 2000],
     ],
 
+    /*
+    | Akun Super Admin untuk SuperAdminSeeder. Tanpa nilai bawaan; isi lewat .env.
+    */
+    'super_admin' => [
+        'name' => env('SUPERADMIN_NAME', 'Super Admin'),
+        'email' => env('SUPERADMIN_EMAIL'),
+        'password' => env('SUPERADMIN_PASSWORD'),
+    ],
+
     'trial_days' => 14,
     'grace_days' => 7,
 
