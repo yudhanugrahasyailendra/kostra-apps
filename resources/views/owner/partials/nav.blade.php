@@ -29,6 +29,12 @@
     <span>Kontrak</span>
 </a>
 
+<a href="{{ route('owner.invoices.index') }}" @if (request()->routeIs('owner.invoices.*')) aria-current="page" @endif
+   class="{{ $link }} {{ request()->routeIs('owner.invoices.*') ? $active : $idle }}">
+    <span class="material-symbols-outlined text-lg" aria-hidden="true">receipt_long</span>
+    <span>Tagihan</span>
+</a>
+
 @can('finance.view')
     <span class="{{ $link }} {{ $soon }}" aria-disabled="true">
         <span class="material-symbols-outlined text-lg" aria-hidden="true">account_balance_wallet</span>

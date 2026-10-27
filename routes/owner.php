@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Owner\AttachmentController;
+use App\Http\Controllers\Owner\BillingSettingsController;
 use App\Http\Controllers\Owner\DashboardController;
+use App\Http\Controllers\Owner\InvoiceController;
 use App\Http\Controllers\Owner\LeaseAttachmentController;
 use App\Http\Controllers\Owner\LeaseController;
 use App\Http\Controllers\Owner\PropertyController;
@@ -19,6 +21,10 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::get('/', DashboardController::class)->name('dashboard');
 
     Route::get('/settings', SettingsController::class)->middleware('can:settings.manage')->name('settings');
+    Route::middleware('can:settings.manage')->prefix('settings/billing')->name('settings.billing')->group(function () {
+        Route::get('/', [BillingSettingsController::class, 'edit']);
+        Route::put('/', [BillingSettingsController::class, 'update'])->name('.update');
+    });
 
     // Hak tulis diputuskan Policy (pemilik); staf hanya melihat.
     Route::resource('properties', PropertyController::class)->except(['show', 'create']);
@@ -40,6 +46,11 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::post('leases/{lease}/renew', [LeaseController::class, 'renew'])->name('leases.renew');
     Route::post('leases/{lease}/transfer', [LeaseController::class, 'transfer'])->name('leases.transfer');
     Route::post('leases/{lease}/attachments', [LeaseAttachmentController::class, 'store'])->name('leases.attachments.store');
+
+    // Tagihan tidak punya rute hapus: koreksi lewat penyesuaian, pembatalan lewat void.
+    Route::resource('invoices', InvoiceController::class)->only(['index', 'create', 'store', 'show']);
+    Route::post('invoices/{invoice}/adjustments', [InvoiceController::class, 'adjust'])->name('invoices.adjust');
+    Route::post('invoices/{invoice}/void', [InvoiceController::class, 'void'])->name('invoices.void');
 
     Route::post('rooms/bulk', [RoomController::class, 'bulk'])->name('rooms.bulk');
     Route::post('rooms/import', [RoomController::class, 'import'])->name('rooms.import');

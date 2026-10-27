@@ -89,6 +89,23 @@
         </x-panel>
     @endif
 
+    <x-panel title="Tagihan">
+        @forelse ($invoices as $invoice)
+            <a href="{{ route('owner.invoices.show', $invoice) }}" class="flex flex-wrap items-center justify-between gap-2 py-space-sm border-b border-outline-variant/40 last:border-0 hover:bg-surface-container-low/50">
+                <div>
+                    <div class="font-label-lg angka">{{ $invoice->number }}</div>
+                    <div class="font-body-sm text-secondary">Jatuh tempo {{ $invoice->due_date->translatedFormat('j M Y') }} · <span class="angka">{{ App\Support\Rupiah::format($invoice->total) }}</span></div>
+                </div>
+                <x-status-badge :tone="$invoice->status->tone()">{{ $invoice->status->label() }}</x-status-badge>
+            </a>
+        @empty
+            <p class="text-on-surface-variant">Belum ada tagihan untuk kontrak ini.</p>
+        @endforelse
+        @can('create', App\Models\Invoice::class)
+            <div class="mt-space-md"><x-button :href="route('owner.invoices.create', ['lease_id' => $lease->id])" variant="secondary">Buat tagihan manual</x-button></div>
+        @endcan
+    </x-panel>
+
     @if ($isActive)
         @can('operate', $lease)
             <x-panel title="Check-out">

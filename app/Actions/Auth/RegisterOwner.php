@@ -4,6 +4,7 @@ namespace App\Actions\Auth;
 
 use App\Enums\TenantStatus;
 use App\Enums\UserRole;
+use App\Models\BillingSetting;
 use App\Models\Plan;
 use App\Models\Tenant;
 use App\Models\User;
@@ -29,6 +30,9 @@ class RegisterOwner
                 'status' => TenantStatus::Active,
                 'timezone' => config('kostra.default_timezone'),
             ]);
+
+            // Pengaturan penagihan awal untuk tenant baru.
+            BillingSetting::create([...BillingSetting::defaults(), 'tenant_id' => $tenant->getKey()]);
 
             return User::create([
                 'tenant_id' => $tenant->getKey(),

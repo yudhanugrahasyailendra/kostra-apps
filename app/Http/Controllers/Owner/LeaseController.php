@@ -14,6 +14,7 @@ use App\Http\Requests\Owner\CheckOutRequest;
 use App\Http\Requests\Owner\LeaseIndexRequest;
 use App\Http\Requests\Owner\RenewLeaseRequest;
 use App\Http\Requests\Owner\TransferRoomRequest;
+use App\Models\Invoice;
 use App\Models\Lease;
 use App\Models\Property;
 use App\Models\Resident;
@@ -115,6 +116,7 @@ class LeaseController extends Controller
         return view('owner.leases.show', [
             'lease' => $lease,
             'outstanding' => $balance->forLease($lease),
+            'invoices' => Invoice::query()->where('lease_id', $lease->getKey())->orderByDesc('issue_date')->orderByDesc('id')->limit(24)->get(),
             'today' => $context->current()->today(),
             'vacantRooms' => $lease->status->value === 'active'
                 ? Room::query()->with('property:id,name')->where('status', RoomStatus::Vacant->value)
