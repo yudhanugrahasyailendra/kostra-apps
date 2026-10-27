@@ -59,6 +59,46 @@
         </x-panel>
     @endcan
 
+    @can('update', $resident)
+        <x-panel title="Portal penghuni">
+            <p class="text-body-md text-on-surface-variant mb-space-md">Tautan pribadi tanpa akun untuk melihat tagihan, membayar, dan mengajukan komplain. Tautan dikirim lewat WhatsApp; token aslinya tidak bisa ditampilkan lagi. Tautan berlaku {{ config('kostra.portal.token_days') }} hari atau sampai dicabut.</p>
+
+            <div class="flex flex-wrap gap-2 mb-space-md">
+                <form method="POST" action="{{ route('owner.residents.portal.send', $resident) }}">
+                    @csrf
+                    <x-button type="submit">{{ $portalTokens->isEmpty() ? 'Kirim tautan portal' : 'Kirim ulang tautan portal' }}</x-button>
+                </form>
+                @if ($portalTokens->isNotEmpty())
+                    <form method="POST" action="{{ route('owner.residents.portal.revoke-all', $resident) }}" onsubmit="return confirm('Cabut semua tautan portal penghuni ini?')">
+                        @csrf
+                        <x-button type="submit" variant="danger">Cabut semua tautan</x-button>
+                    </form>
+                @endif
+            </div>
+
+            @if ($portalTokens->isEmpty())
+                <p class="text-on-surface-variant">Belum ada tautan aktif.</p>
+            @else
+                <ul class="flex flex-col">
+                    @foreach ($portalTokens as $portalToken)
+                        <li class="flex flex-wrap items-center justify-between gap-space-sm py-space-sm border-t border-outline-variant/40 first:border-0">
+                            <div class="font-body-sm angka">
+                                Dibuat {{ $portalToken->created_at->timezone(auth()->user()->tenant->timezone)->translatedFormat('j M Y H:i') }}
+                                · berlaku sampai {{ $portalToken->expires_at?->timezone(auth()->user()->tenant->timezone)->translatedFormat('j M Y') ?? 'dicabut' }}
+                                · {{ $portalToken->last_used_at ? 'terakhir dibuka '.$portalToken->last_used_at->timezone(auth()->user()->tenant->timezone)->translatedFormat('j M H:i') : 'belum pernah dibuka' }}
+                            </div>
+                            <form method="POST" action="{{ route('owner.residents.portal.revoke', [$resident, $portalToken]) }}" onsubmit="return confirm('Cabut tautan ini?')">
+                                @csrf
+                                @method('DELETE')
+                                <x-button type="submit" variant="secondary">Cabut</x-button>
+                            </form>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </x-panel>
+    @endcan
+
     <x-panel title="Riwayat kontrak">
         @forelse ($leases as $lease)
             <a href="{{ route('owner.leases.show', $lease) }}" class="flex flex-wrap items-center justify-between gap-2 py-space-sm border-b border-outline-variant/40 last:border-0 hover:bg-surface-container-low/50">

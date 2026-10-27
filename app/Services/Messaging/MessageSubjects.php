@@ -2,12 +2,12 @@
 
 namespace App\Services\Messaging;
 
-use App\Contracts\PortalLink;
 use App\Models\Complaint;
 use App\Models\Invoice;
 use App\Models\Lease;
 use App\Models\Payment;
 use App\Models\Resident;
+use App\Services\Portal\PortalLinkResolver;
 use App\Support\Rupiah;
 use Carbon\CarbonInterface;
 
@@ -17,8 +17,6 @@ use Carbon\CarbonInterface;
  */
 class MessageSubjects
 {
-    public function __construct(private readonly PortalLink $link) {}
-
     /**
      * @return array{resident: ?Resident, values: array<string, string>}
      */
@@ -72,6 +70,16 @@ class MessageSubjects
     }
 
     /**
+     * Pesan tautan portal: hanya nama dan tautan.
+     *
+     * @return array<string, string>
+     */
+    public function portal(Resident $resident): array
+    {
+        return $this->values($resident, '', null);
+    }
+
+    /**
      * @return array<string, string>
      */
     private function values(?Resident $resident, string $amount, ?CarbonInterface $date, string $status = ''): array
@@ -80,7 +88,8 @@ class MessageSubjects
             'nama' => $resident?->name ?? '',
             'jumlah' => $amount,
             'jatuh_tempo' => $date?->locale('id')->translatedFormat('j F Y') ?? '',
-            'link' => $resident ? $this->link->forResident($resident) : '',
+            // Tautan asli (bertoken) dibuat saat pengiriman; log hanya menyimpan placeholder.
+            'link' => $resident ? PortalLinkResolver::PLACEHOLDER : '',
             'status' => $status,
         ];
     }

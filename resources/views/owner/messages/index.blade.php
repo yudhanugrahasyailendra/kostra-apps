@@ -73,7 +73,7 @@
                                 {{ $log->template?->name ?? '—' }}
                                 <details class="font-body-sm text-secondary">
                                     <summary class="cursor-pointer text-primary">Lihat isi pesan</summary>
-                                    <p class="whitespace-pre-line mt-1">{{ $log->body }}</p>
+                                    <p class="whitespace-pre-line mt-1">{{ $log->displayBody() }}</p>
                                 </details>
                             </td>
                             <td class="p-3">

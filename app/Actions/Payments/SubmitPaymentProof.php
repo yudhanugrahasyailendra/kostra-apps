@@ -10,6 +10,7 @@ use App\Enums\InvoiceStatus;
 use App\Enums\ProofStatus;
 use App\Models\Invoice;
 use App\Models\PaymentProof;
+use App\Models\Resident;
 use App\Models\User;
 use App\Support\Dates;
 use App\Support\Rupiah;
@@ -27,12 +28,12 @@ class SubmitPaymentProof
     ) {}
 
     /**
-     * Mencatat bukti transfer (menunggu verifikasi). Pada Fase 6 dicatat oleh staf atas nama penghuni;
-     * unggahan oleh penghuni lewat portal menyusul di Fase 10. Tidak mengubah tagihan sebelum disetujui.
+     * Mencatat bukti transfer (menunggu verifikasi). Dicatat oleh staf atas nama penghuni, atau oleh
+     * penghuni sendiri lewat portal ($actor berupa Resident). Tidak mengubah tagihan sebelum disetujui.
      *
      * @param  array<string, mixed>  $data  amount, [paid_on, sender_note]
      */
-    public function __invoke(Invoice $invoice, array $data, UploadedFile $file, ?User $actor = null): PaymentProof
+    public function __invoke(Invoice $invoice, array $data, UploadedFile $file, User|Resident|null $actor = null): PaymentProof
     {
         $tenant = $this->currentTenant();
         $today = $tenant->today();

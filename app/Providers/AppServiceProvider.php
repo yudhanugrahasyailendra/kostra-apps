@@ -30,6 +30,7 @@ use App\Models\Payment;
 use App\Models\PaymentAccount;
 use App\Models\PaymentAllocation;
 use App\Models\PaymentProof;
+use App\Models\PortalToken;
 use App\Models\Property;
 use App\Models\Resident;
 use App\Models\Room;
@@ -40,16 +41,19 @@ use App\Models\UsageCounter;
 use App\Models\User;
 use App\Services\Billing\AllocationInvoicePaidTotal;
 use App\Services\Billing\InvoiceOutstandingBalance;
-use App\Services\Messaging\AppUrlPortalLink;
 use App\Services\Messaging\FakeWhatsAppProvider;
 use App\Services\Messaging\Listeners\QueueComplaintStatusMessage;
 use App\Services\Messaging\Listeners\QueueInvoiceIssuedMessage;
 use App\Services\Messaging\Listeners\QueueReceiptMessage;
+use App\Services\Portal\TokenPortalLink;
 use App\Tenancy\TenantContext;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use LogicException;
 
@@ -69,8 +73,8 @@ class AppServiceProvider extends ServiceProvider
             default => throw new LogicException("Penyedia WhatsApp \"{$name}\" belum dipasang; gunakan \"fake\"."),
         });
 
-        // Diganti tautan portal bertoken di Fase 10.
-        $this->app->bind(PortalLink::class, AppUrlPortalLink::class);
+        // Tautan portal bertoken; dibuat hanya saat pesan dikirim (lihat PortalLinkResolver).
+        $this->app->bind(PortalLink::class, TokenPortalLink::class);
     }
 
     public function boot(): void
@@ -104,6 +108,7 @@ class AppServiceProvider extends ServiceProvider
             'message_template' => MessageTemplate::class,
             'message_log' => MessageLog::class,
             'usage_counter' => UsageCounter::class,
+            'portal_token' => PortalToken::class,
         ]);
 
         Auth::provider('tenant-eloquent', fn ($app, array $config) => new TenantAwareUserProvider($app['hash'], $config['model']));
@@ -113,6 +118,11 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Gate::define('subscription.manage', fn (User $user) => $user->isOwner());
+
+        // Batas laju portal publik. Kunci memuat alamat (dan hash token untuk unggahan), bukan token mentah.
+        RateLimiter::for('portal', fn (Request $request) => Limit::perMinute((int) config('kostra.portal.requests_per_minute'))->by('portal:'.$request->ip()));
+        RateLimiter::for('portal-write', fn (Request $request) => Limit::perMinute(20)->by('portal-write:'.hash('sha256', (string) $request->route('token')).'|'.$request->ip()));
+        RateLimiter::for('portal-upload', fn (Request $request) => Limit::perMinute(5)->by('portal-upload:'.hash('sha256', (string) $request->route('token')).'|'.$request->ip()));
 
         // Pemicu pesan WhatsApp. Pendengar berada di luar app/Listeners supaya tidak terdaftar ganda oleh penemuan otomatis.
         Event::listen(InvoiceIssued::class, [QueueInvoiceIssuedMessage::class, 'handle']);

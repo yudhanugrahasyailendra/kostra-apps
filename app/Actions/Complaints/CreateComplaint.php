@@ -25,7 +25,7 @@ class CreateComplaint
      *
      * @param  array{resident_id: int, category: string, title: string, description: string}  $data
      */
-    public function __invoke(array $data, ?UploadedFile $photo = null, ?User $actor = null): Complaint
+    public function __invoke(array $data, ?UploadedFile $photo = null, User|Resident|null $actor = null): Complaint
     {
         $resident = Resident::query()->findOrFail($data['resident_id']);
 

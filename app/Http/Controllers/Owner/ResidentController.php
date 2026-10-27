@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\ImportResidentsRequest;
 use App\Http\Requests\Owner\ResidentIndexRequest;
 use App\Http\Requests\Owner\ResidentRequest;
+use App\Models\PortalToken;
 use App\Models\Resident;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
@@ -91,6 +92,7 @@ class ResidentController extends Controller
                 ->orderByDesc('start_date')->orderByDesc('leases.id')->get(),
             'sharesPhone' => $resident->sharesPhoneWithOthers(),
             'categories' => AttachmentCategory::residentValues(),
+            'portalTokens' => PortalToken::query()->where('resident_id', $resident->getKey())->active()->latest('id')->get(),
         ]);
     }
 

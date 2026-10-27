@@ -35,7 +35,8 @@ class RecordAuditLog
         // Penulisan jejak audit lintas konteks disengaja: tenant_id diisi eksplisit di atas.
         return $this->context->withoutTenant(fn () => AuditLog::create([
             'tenant_id' => $tenantId,
-            'user_id' => Auth::id(),
+            // Aksi penghuni lewat portal tidak diatribusikan ke pengguna yang kebetulan login di peramban yang sama.
+            'user_id' => $this->isPortalRequest() ? null : Auth::id(),
             'event' => $event,
             'auditable_type' => $auditable?->getMorphClass(),
             'auditable_id' => $auditable?->getKey(),
@@ -44,6 +45,15 @@ class RecordAuditLog
             'ip_address' => $request?->ip(),
             'user_agent' => $request ? mb_substr((string) $request->userAgent(), 0, 255) : null,
         ]));
+    }
+
+    /**
+     * Permintaan portal penghuni (ditandai ResolvePortalToken) tidak punya pengguna: aksinya tidak boleh
+     * diatribusikan ke pengguna lain yang kebetulan login di peramban yang sama. Berlaku juga saat dijalankan di konsol.
+     */
+    private function isPortalRequest(): bool
+    {
+        return app()->bound('request') && request()->attributes->has('portal_resident');
     }
 
     /**

@@ -57,6 +57,15 @@ return [
     */
     'lease_expiring_days' => [30, 14, 7],
 
+    /*
+    | Portal penghuni lewat tautan token. Umur tautan dalam hari.
+    */
+    'portal' => [
+        'token_days' => 60,
+        // Penghuni satu kos biasanya berbagi satu IP publik (Wi-Fi kos), jadi batasnya longgar.
+        'requests_per_minute' => 240,
+    ],
+
     'attachments' => [
         'disk' => 'private',
         'max_kb' => 5120,

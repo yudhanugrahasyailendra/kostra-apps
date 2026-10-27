@@ -12,6 +12,8 @@ enum MessageTemplateKey: string
     case LeaseExpiring = 'lease_expiring';
     // Penyimpangan kecil dari docs/database.md: listener ComplaintStatusChanged (Fase 8) butuh template sendiri.
     case ComplaintStatus = 'complaint_status';
+    // Dikirim pemilik dari profil penghuni (Fase 10): tautan pribadi ke portal.
+    case PortalLink = 'portal_link';
 
     public function label(): string
     {
@@ -23,6 +25,7 @@ enum MessageTemplateKey: string
             self::Receipt => 'Kuitansi pembayaran',
             self::LeaseExpiring => 'Kontrak segera habis',
             self::ComplaintStatus => 'Perubahan status komplain',
+            self::PortalLink => 'Tautan portal penghuni',
         };
     }
 
@@ -39,6 +42,7 @@ enum MessageTemplateKey: string
             self::Receipt => 'Halo {{nama}}, pembayaran sebesar {{jumlah}} sudah kami terima. Terima kasih. Kuitansi: {{link}}',
             self::LeaseExpiring => 'Halo {{nama}}, kontrak sewa kamar Anda akan berakhir pada {{jatuh_tempo}}. Hubungi pengelola bila ingin memperpanjang. {{link}}',
             self::ComplaintStatus => 'Halo {{nama}}, status keluhan Anda kini: {{status}}. Detail: {{link}}',
+            self::PortalLink => 'Halo {{nama}}, ini tautan pribadi Anda untuk melihat tagihan, membayar, dan menghubungi pengelola: {{link}} Jangan bagikan tautan ini kepada orang lain.',
         };
     }
 }

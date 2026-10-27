@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\MessageSkipReason;
 use App\Enums\MessageStatus;
 use App\Models\Concerns\BelongsToTenant;
+use App\Services\Portal\PortalLinkResolver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,6 +62,14 @@ class MessageLog extends Model
     public function template(): BelongsTo
     {
         return $this->belongsTo(MessageTemplate::class, 'template_id');
+    }
+
+    /**
+     * Isi pesan untuk ditampilkan: tautan pribadi disembunyikan (token asli tidak pernah disimpan di log).
+     */
+    public function displayBody(): string
+    {
+        return PortalLinkResolver::mask($this->body);
     }
 
     public function resident(): BelongsTo

@@ -5,6 +5,7 @@ namespace App\Actions\Attachments;
 use App\Actions\Concerns\ResolvesTenant;
 use App\Enums\AttachmentCategory;
 use App\Models\Attachment;
+use App\Models\Resident;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
@@ -32,7 +33,7 @@ class StoreAttachment
      * Menyimpan lampiran di disk privat. Berkas sensitif (KTP) dienkripsi sebelum ditulis.
      * Kategori tunggal (KTP, foto) menggantikan berkas lama milik induk yang sama.
      */
-    public function __invoke(Model $attachable, UploadedFile $file, AttachmentCategory $category, ?User $uploader = null): Attachment
+    public function __invoke(Model $attachable, UploadedFile $file, AttachmentCategory $category, User|Resident|null $uploader = null): Attachment
     {
         $tenant = $this->currentTenant();
 
@@ -72,7 +73,8 @@ class StoreAttachment
                     'mime' => $mime,
                     'size' => $file->getSize(),
                     'is_sensitive' => $sensitive,
-                    'uploaded_by' => $uploader?->getKey(),
+                    'uploaded_by' => $uploader instanceof User ? $uploader->getKey() : null,
+                    'uploaded_by_resident_id' => $uploader instanceof Resident ? $uploader->getKey() : null,
                 ]);
             });
         } catch (Throwable $e) {

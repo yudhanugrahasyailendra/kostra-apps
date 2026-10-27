@@ -18,6 +18,7 @@ use App\Http\Controllers\Owner\PropertyPhotoController;
 use App\Http\Controllers\Owner\ReportController;
 use App\Http\Controllers\Owner\ResidentAttachmentController;
 use App\Http\Controllers\Owner\ResidentController;
+use App\Http\Controllers\Owner\ResidentPortalController;
 use App\Http\Controllers\Owner\ResidentWhatsAppController;
 use App\Http\Controllers\Owner\RoomController;
 use App\Http\Controllers\Owner\RoomTypeController;
@@ -53,6 +54,11 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::resource('residents', ResidentController::class);
     Route::post('residents/{resident}/attachments', [ResidentAttachmentController::class, 'store'])->name('residents.attachments.store');
     Route::post('residents/{resident}/whatsapp', [ResidentWhatsAppController::class, 'update'])->name('residents.whatsapp');
+
+    // Tautan portal penghuni: kirim lewat WhatsApp, cabut satu, atau cabut semua. Token asli tidak pernah ditampilkan.
+    Route::post('residents/{resident}/portal', [ResidentPortalController::class, 'send'])->name('residents.portal.send');
+    Route::post('residents/{resident}/portal/revoke', [ResidentPortalController::class, 'revokeAll'])->name('residents.portal.revoke-all');
+    Route::delete('residents/{resident}/portal/{portalToken}', [ResidentPortalController::class, 'revoke'])->name('residents.portal.revoke');
 
     // Lampiran disajikan hanya lewat tautan bertanda tangan berumur pendek, dan tetap melewati Policy.
     Route::get('attachments/{attachment}', [AttachmentController::class, 'show'])->middleware('signed')->name('attachments.show');

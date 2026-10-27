@@ -2,13 +2,19 @@
 
 use App\Http\Middleware\EnsureRole;
 use App\Http\Middleware\EnsureTenantIsActive;
+use App\Http\Middleware\PortalStartSession;
+use App\Http\Middleware\ResolvePortalToken;
 use App\Http\Middleware\SetCurrentTenant;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -18,22 +24,36 @@ return Application::configure(basePath: dirname(__DIR__))
         then: function () {
             Route::middleware('web')->prefix('owner')->name('owner.')
                 ->group(base_path('routes/owner.php'));
-            Route::middleware('web')->prefix('p')->name('portal.')
+            Route::middleware('portal')->prefix('p')->name('portal.')
                 ->group(base_path('routes/portal.php'));
             Route::middleware('web')->prefix('admin')->name('admin.')
                 ->group(base_path('routes/admin.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Portal: sama dengan grup web, tetapi sesinya tidak menyimpan URL halaman (URL memuat token asli).
+        $middleware->group('portal', [
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            PortalStartSession::class,
+            ShareErrorsFromSession::class,
+            ValidateCsrfToken::class,
+            SubstituteBindings::class,
+        ]);
+
         $middleware->alias([
             'role' => EnsureRole::class,
             'tenant' => SetCurrentTenant::class,
             'tenant.active' => EnsureTenantIsActive::class,
+            'portal.token' => ResolvePortalToken::class,
         ]);
 
         // Konteks tenant harus siap sebelum route model binding, supaya binding terscope.
         $middleware->prependToPriorityList(before: SubstituteBindings::class, prepend: SetCurrentTenant::class);
         $middleware->appendToPriorityList(after: SetCurrentTenant::class, append: EnsureTenantIsActive::class);
+
+        // Portal: token divalidasi dan tenant ditetapkan sebelum binding apa pun.
+        $middleware->prependToPriorityList(before: SubstituteBindings::class, prepend: ResolvePortalToken::class);
 
         $middleware->redirectUsersTo(fn (Request $request) => $request->user()?->isSuperAdmin() ? '/admin' : '/owner');
     })

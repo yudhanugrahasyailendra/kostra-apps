@@ -14,6 +14,7 @@ use App\Services\Messaging\MessageQuota;
 use App\Services\Messaging\OutboundMessage;
 use App\Services\Messaging\SendResult;
 use App\Services\Messaging\SendWindow;
+use App\Services\Portal\PortalLinkResolver;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -28,6 +29,7 @@ class DeliverWhatsAppMessage
         private readonly WhatsAppProvider $provider,
         private readonly MessageQuota $quota,
         private readonly SendWindow $window,
+        private readonly PortalLinkResolver $links,
     ) {}
 
     /**
@@ -83,10 +85,11 @@ class DeliverWhatsAppMessage
             }
 
             try {
+                // Tautan portal bertoken dibuat di sini dan hanya ada di pesan yang dikirim, tidak di message_logs.
                 $result = $this->provider->send(new OutboundMessage(
                     $log->getKey(),
                     $log->recipient,
-                    $log->body,
+                    $this->links->resolve($log->body, $log->resident),
                     $log->template?->provider_template_name,
                 ));
             } catch (Throwable $e) {

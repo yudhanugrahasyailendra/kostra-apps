@@ -70,7 +70,16 @@ class MessageDeliveryTest extends TestCase
         $this->assertNotNull($sent->sent_at);
         $this->assertSame(1, $this->usage());
         $this->assertCount(1, $this->provider()->sent());
-        $this->assertSame([$resident->phone, $log->body], [$this->provider()->sent()[0]->to, $this->provider()->sent()[0]->body]);
+        // Yang dikirim ke penyedia memuat tautan portal asli; yang tersimpan di log hanya placeholder.
+        $outbound = $this->provider()->sent()[0];
+        $this->assertSame($resident->phone, $outbound->to);
+        $this->assertStringContainsString('/p/', $outbound->body);
+        $this->assertStringNotContainsString('[[tautan-portal]]', $outbound->body);
+        $this->assertSame($log->body, str_replace(
+            preg_replace('#^(.*?)(https?://\S+)(.*)$#s', '$2', $outbound->body),
+            '[[tautan-portal]]',
+            $outbound->body,
+        ));
     }
 
     public function test_delivering_the_same_message_twice_never_sends_twice(): void
