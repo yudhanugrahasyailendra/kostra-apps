@@ -31,7 +31,7 @@
                 <div class="flex flex-col gap-1">
                     <label for="other_resident_ids" class="font-label-md text-label-md">Penghuni lain di kamar yang sama (opsional)</label>
                     <select id="other_resident_ids" name="other_resident_ids[]" multiple size="4"
-                            class="w-full rounded-lg bg-surface-container-low border border-outline-variant/60 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            class="w-full field h-auto py-2 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
                         @foreach ($residents as $resident)
                             <option value="{{ $resident->id }}" @selected(in_array($resident->id, array_map('intval', (array) old('other_resident_ids', []))))>{{ $resident->name }}</option>
                         @endforeach

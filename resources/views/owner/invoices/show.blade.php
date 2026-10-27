@@ -43,35 +43,35 @@
 
     <x-panel title="Rincian">
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
-                    <tr><th class="p-3">Item</th><th class="p-3">Kuantitas</th><th class="p-3">Harga satuan</th><th class="p-3 text-right">Jumlah</th></tr>
+            <table class="table">
+                <thead>
+                    <tr><th>Item</th><th>Kuantitas</th><th>Harga satuan</th><th class="text-right">Jumlah</th></tr>
                 </thead>
                 <tbody>
                     @foreach ($invoice->items as $item)
-                        <tr class="border-t border-outline-variant/40">
-                            <td class="p-3">{{ $item->description }} <span class="text-secondary font-body-sm">({{ $item->type->label() }})</span></td>
-                            <td class="p-3 angka">{{ rtrim(rtrim($item->quantity, '0'), '.') }}</td>
-                            <td class="p-3 angka">{{ App\Support\Rupiah::format($item->unit_price) }}</td>
-                            <td class="p-3 angka text-right">{{ App\Support\Rupiah::format($item->amount) }}</td>
+                        <tr>
+                            <td>{{ $item->description }} <span class="text-secondary font-body-sm">({{ $item->type->label() }})</span></td>
+                            <td class="angka">{{ rtrim(rtrim($item->quantity, '0'), '.') }}</td>
+                            <td class="angka">{{ App\Support\Rupiah::format($item->unit_price) }}</td>
+                            <td class="angka text-right">{{ App\Support\Rupiah::format($item->amount) }}</td>
                         </tr>
                     @endforeach
                     @foreach ($invoice->adjustments as $adjustment)
-                        <tr class="border-t border-outline-variant/40">
-                            <td class="p-3" colspan="3">
+                        <tr>
+                            <td colspan="3">
                                 Penyesuaian: {{ $adjustment->reason }}
                                 <span class="text-secondary font-body-sm">· {{ $adjustment->creator?->name ?? '—' }}, {{ $adjustment->created_at->timezone($tz)->translatedFormat('j M Y') }}</span>
                             </td>
-                            <td class="p-3 angka text-right {{ $adjustment->amount < 0 ? 'text-error' : '' }}">
+                            <td class="angka text-right {{ $adjustment->amount < 0 ? 'text-error' : '' }}">
                                 {{ $adjustment->amount < 0 ? '- ' : '+ ' }}{{ App\Support\Rupiah::format(abs($adjustment->amount)) }}
                             </td>
                         </tr>
                     @endforeach
                 </tbody>
                 <tfoot class="border-t-2 border-outline-variant">
-                    <tr><td class="p-3 font-label-lg" colspan="3">Total</td><td class="p-3 angka text-right font-label-lg">{{ App\Support\Rupiah::format($invoice->total) }}</td></tr>
-                    <tr><td class="p-3" colspan="3">Sudah dibayar</td><td class="p-3 angka text-right">{{ App\Support\Rupiah::format($invoice->paid_total) }}</td></tr>
-                    <tr><td class="p-3 font-label-lg" colspan="3">Sisa tagihan</td><td class="p-3 angka text-right font-label-lg">{{ App\Support\Rupiah::format($invoice->remaining()) }}</td></tr>
+                    <tr><td class="font-label-lg" colspan="3">Total</td><td class="angka text-right font-label-lg">{{ App\Support\Rupiah::format($invoice->total) }}</td></tr>
+                    <tr><td colspan="3">Sudah dibayar</td><td class="angka text-right">{{ App\Support\Rupiah::format($invoice->paid_total) }}</td></tr>
+                    <tr><td class="font-label-lg" colspan="3">Sisa tagihan</td><td class="angka text-right font-label-lg">{{ App\Support\Rupiah::format($invoice->remaining()) }}</td></tr>
                 </tfoot>
             </table>
         </div>

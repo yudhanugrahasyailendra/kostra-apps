@@ -48,9 +48,10 @@ class RolesAndMenuTest extends TestCase
         $owner = User::factory()->for($this->tenant)->create();
 
         $this->actingAs($owner)->get('/owner')
-            ->assertSee('Pengeluaran')
-            ->assertSee('Pengaturan')
-            ->assertSee('Langganan');
+            ->assertSee('Laporan Keuangan')
+            ->assertSee('Pengaturan Kos')
+            ->assertSee('Kuota WhatsApp')
+            ->assertSee('Upgrade');
     }
 
     public function test_only_super_admin_can_open_admin_panel(): void

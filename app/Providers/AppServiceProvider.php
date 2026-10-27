@@ -50,6 +50,7 @@ use App\Services\Messaging\Listeners\QueueInvoiceIssuedMessage;
 use App\Services\Messaging\Listeners\QueueReceiptMessage;
 use App\Services\Portal\TokenPortalLink;
 use App\Tenancy\TenantContext;
+use App\View\Composers\OwnerLayoutComposer;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
@@ -58,6 +59,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use LogicException;
 
@@ -83,6 +85,8 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        View::composer('layouts.owner', OwnerLayoutComposer::class);
+
         // Di production semua tautan (termasuk tautan bertanda tangan) memakai HTTPS, juga di belakang proksi.
         if ($this->app->isProduction()) {
             URL::forceScheme('https');

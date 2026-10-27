@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>Kostra - Manajemen Kos &amp; Kontrakan Modern</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary":"#ffffff","on-tertiary-fixed":"#2f1500","outline-variant":"#bdc9c2","on-primary-fixed-variant":"#00513e","tertiary-fixed-dim":"#ffb77d","secondary-fixed":"#d8e3fb","outline":"#6e7a74","inverse-surface":"#213145","surface-container":"#e5eeff","primary-fixed-dim":"#7cd8b8","on-error-container":"#93000a","on-secondary-container":"#586377","tertiary-container":"#a45800","surface-container-lowest":"#ffffff","primary-container":"#0d7a5f","surface-container-highest":"#d3e4fe","on-tertiary-fixed-variant":"#6e3900","secondary-container":"#d5e0f8","on-error":"#ffffff","on-secondary-fixed":"#111c2d","primary-fixed":"#98f4d3","secondary":"#545f73","surface-tint":"#006c53","on-surface-variant":"#3e4944","on-secondary-fixed-variant":"#3c475a","inverse-primary":"#7cd8b8","surface-variant":"#d3e4fe","on-primary":"#ffffff","surface-container-high":"#dce9ff","surface":"#f8f9ff","error-container":"#ffdad6","on-primary-fixed":"#002117","on-surface":"#0b1c30","surface-dim":"#cbdbf5","inverse-on-surface":"#eaf1ff","secondary-fixed-dim":"#bcc7de","surface-bright":"#f8f9ff","on-background":"#0b1c30","on-tertiary-container":"#ffeadd","on-tertiary":"#ffffff","primary":"#005f49","surface-container-low":"#eff4ff","tertiary-fixed":"#ffdcc3","on-primary-container":"#a8ffdf","background":"#f8f9ff","tertiary":"#814400","error":"#ba1a1a"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-md":"1rem",margin:"1rem","space-lg":"1.5rem","margin-desktop":"2rem","space-xl":"2rem","space-sm":"0.5rem","space-xs":"0.25rem","gutter-desktop":"1.5rem",gutter:"1rem"},fontFamily:{"headline-lg-mobile":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"body-sm":["Inter"],"label-md":["Inter"],"headline-xl":["Plus Jakarta Sans"],"label-sm":["Inter"],"currency-stat":["Plus Jakarta Sans"],"label-lg":["Inter"],"headline-md":["Plus Jakarta Sans"],"body-lg":["Inter"],"headline-lg":["Plus Jakarta Sans"],"body-md":["Inter"]},fontSize:{"headline-lg-mobile":["20px",{lineHeight:"28px",fontWeight:"600"}],"headline-xl-mobile":["26px",{lineHeight:"34px",fontWeight:"700"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"label-md":["12px",{lineHeight:"16px",fontWeight:"600"}],"headline-xl":["32px",{lineHeight:"40px",fontWeight:"700"}],"label-sm":["10px",{lineHeight:"14px",fontWeight:"700"}],"currency-stat":["28px",{lineHeight:"36px",fontWeight:"700"}],"label-lg":["14px",{lineHeight:"20px",fontWeight:"600"}],"headline-md":["18px",{lineHeight:"24px",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"headline-lg":["24px",{lineHeight:"32px",fontWeight:"600"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface min-h-screen flex flex-col"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(15,23,42,0.04)]"><div class="h-16 max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-on-primary shadow-sm"><span class="material-symbols-outlined text-[20px]">apartment</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-tight text-on-surface">KOSTRA</span><span class="font-label-sm text-label-sm tracking-wider uppercase text-outline">Sistem Properti Kos</span></div></div><nav class="hidden md:flex items-center gap-6" data-active-classes="bg-surface-container-high text-on-surface font-semibold rounded-lg"><a aria-current="page" class="px-3 py-1.5 transition-colors bg-surface-container-high text-on-surface font-semibold rounded-lg" data-path="login" href="00-login.html">Masuk Portal</a><a class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface transition-colors font-body-md text-body-md" data-path="bantuan-pusat" href="#">Pusat Bantuan</a><a class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface transition-colors font-body-md text-body-md" data-path="status-sistem" href="#">Status Server</a></nav><div class="flex items-center gap-4"><a class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors" href="https://wa.me/" target="_blank"><span class="material-symbols-outlined text-primary text-[18px]">support_agent</span><span class="font-label-md text-label-md">Hubungi CS</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full flex-1 pt-16 bg-surface"><div class="flex flex-col w-full">
+<div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+<!-- Breadcrumb & Top Meta -->
+<div class="flex items-center justify-between pb-6 mb-6">
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high text-primary font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          Server Region: Jakarta (ID-JKT01) • Online
+        </span>
+<span class="hidden sm:inline-block text-outline font-body-sm text-body-sm">• Waktu respons rata-rata 42ms</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-body-sm text-body-sm text-on-surface-variant hidden md:inline">Butuh bantuan darurat properti?</span>
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-md text-label-md transition-colors" href="https://wa.me/" target="_blank">
+<span class="material-symbols-outlined text-[16px]">support_agent</span>
+<span>Helpdesk 24/7</span>
+</a>
+</div>
+</div>
+<!-- Main Auth Card Container (Two-Column Masterpiece) -->
+<div class="w-full bg-surface-container-lowest rounded-2xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 relative">
+<!-- Sisi Kiri: Form Otentikasi Terintegrasi (7 Kolom di Desktop) -->
+<div class="lg:col-span-7 p-6 sm:p-10 lg:p-12 xl:p-14 flex flex-col justify-between relative z-10">
+<div>
+<!-- Header Tag & Identity -->
+<div class="flex items-center gap-2.5 mb-4">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span class="material-symbols-outlined text-[14px]">shield_person</span>
+              Portal Pemilik &amp; Staf Properti
+            </span>
+<span class="text-outline-variant text-[12px]">•</span>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Versi 3.4.2</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight mb-2">
+            Selamat Datang Kembali di Kostra
+          </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mb-8">
+            Masuk ke dasbor kelola kos, pantau okupansi, dan verifikasi pembayaran otomatis langsung dari satu kendali.
+          </p>
+<!-- Pill Switcher Metode Masuk (FND-01) -->
+<div class="p-1 rounded-xl bg-surface-container-low flex items-center gap-1 mb-8 max-w-md">
+<button class="flex-1 py-2 px-4 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 bg-surface-container-lowest text-primary shadow-sm font-semibold" id="tab-pw" type="button">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span>Kata Sandi</span>
+</button>
+<button class="flex-1 py-2 px-4 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 text-on-surface-variant hover:text-on-surface" id="tab-otp" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span>WhatsApp OTP</span>
+</button>
+</div>
+<!-- Form Area -->
+<form class="space-y-5 max-w-lg" id="auth-form" onsubmit="event.preventDefault();location.href='01-dashboard.html';">
+<!-- Input 1: Email / WA -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-1.5" for="identifier">
+<span>Email atau Nomor WhatsApp</span>
+<span class="text-error">*</span>
+</label>
+<span class="font-body-sm text-body-sm text-outline">Format: 08xx atau user@domain.com</span>
+</div>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">alternate_email</span>
+</div>
+<input class="w-full pl-11 pr-4 py-3 rounded-xl bg-surface-container-low text-on-surface placeholder:text-outline/70 font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm transition-all" id="identifier" name="identifier" placeholder="contoh@email.com atau 08123456789" required="" type="text"/>
+<span class="absolute right-3.5 hidden px-2 py-0.5 rounded text-[11px] font-semibold tracking-wide uppercase bg-secondary-container text-on-secondary-container" id="badge-type">
+                  Deteksi: Otomatis
+                </span>
+</div>
+</div>
+<!-- Input 2: Kata Sandi (Dynamic toggled for PW mode) -->
+<div class="space-y-1.5" id="pw-field-container">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface flex items-center gap-1.5" for="password">
+<span>Kata Sandi Akun</span>
+<span class="text-error">*</span>
+</label>
+<a class="font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant transition-colors underline-offset-2 hover:underline" href="#">
+                  Lupa kata sandi?
+                </a>
+</div>
+<div class="relative flex items-center">
+<div class="absolute left-3.5 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined text-[20px]">key</span>
+</div>
+<input class="w-full pl-11 pr-11 py-3 rounded-xl bg-surface-container-low text-on-surface placeholder:text-outline/70 font-body-md text-body-md focus:bg-surface-container-lowest focus:outline-none focus:ring-2 focus:ring-primary/20 shadow-sm transition-all" id="password" name="password" placeholder="Masukkan 8+ karakter sandi Anda" required="" type="password"/>
+<button aria-label="Tampilkan atau sembunyikan kata sandi" class="absolute right-3.5 flex items-center text-outline hover:text-on-surface transition-colors p-1" id="toggle-password" type="button">
+<span class="material-symbols-outlined text-[20px]" id="eye-icon">visibility</span>
+</button>
+</div>
+</div>
+<!-- Checkbox Remember Me & Sesi -->
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2.5 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary/20 accent-primary cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface-variant">
+                  Ingat saya selama 30 hari di perangkat ini
+                </span>
+</label>
+</div>
+<!-- Submit CTA -->
+<div class="pt-2">
+<button class="w-full py-3.5 px-6 rounded-xl bg-primary text-on-primary font-label-lg text-label-lg hover:bg-primary-container active:scale-[0.99] transition-all flex items-center justify-center gap-2.5 shadow-md group" id="btn-submit" type="submit">
+<span>Masuk ke Dasbor Kostra</span>
+<span class="material-symbols-outlined text-[20px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+<!-- Divider -->
+<div class="relative flex items-center justify-center my-6">
+<div class="w-full h-px bg-surface-container"></div>
+<span class="absolute px-3 bg-surface-container-lowest font-body-sm text-body-sm text-outline">
+                atau masuk dengan metode aman
+              </span>
+</div>
+<!-- Secondary Quick Action: WhatsApp Magic Link -->
+<button class="w-full py-3 px-5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface font-label-lg text-label-lg transition-colors flex items-center justify-center gap-3 shadow-sm" type="button">
+<div class="w-6 h-6 rounded-full bg-[#25D366]/20 flex items-center justify-center text-[#128C7E]">
+<span class="material-symbols-outlined text-[16px]">chat</span>
+</div>
+<span>Kirim Tautan Masuk via WhatsApp (Magic Link OTP)</span>
+</button>
+</form>
+<!-- Register Callout Card -->
+<div class="mt-8 p-4 rounded-xl bg-surface-container-low flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 max-w-lg">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed flex items-center justify-center text-on-primary-fixed-variant shrink-0">
+<span class="material-symbols-outlined text-[18px]">storefront</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Belum punya akun pengelola kos?</span>
+<span class="font-body-sm text-body-sm text-outline">Daftar sekarang untuk coba gratis.</span>
+</div>
+</div>
+<a class="px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-label-md transition-colors shrink-0" href="#">
+              Uji Coba 14 Hari →
+            </a>
+</div>
+</div>
+<!-- Security & Legal Microcopy -->
+<div class="pt-8 mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 font-body-sm text-body-sm text-outline">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">lock_clock</span>
+<span>Enkripsi SSL 256-bit terverifikasi</span>
+</div>
+<span class="text-outline-variant">•</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+<span>Dilindungi kepatuhan UU PDP 2024</span>
+</div>
+</div>
+</div>
+<!-- Sisi Kanan: Showcase Feature & Value Proposition (5 Kolom di Desktop) -->
+<div class="lg:col-span-5 bg-gradient-to-br from-primary via-primary-container to-inverse-surface p-8 sm:p-10 lg:p-12 text-on-primary flex flex-col justify-between relative overflow-hidden">
+<!-- Decorative Ambient Light Circles -->
+<div class="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-primary-fixed opacity-10 blur-3xl pointer-events-none"></div>
+<div class="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-tertiary-fixed opacity-15 blur-3xl pointer-events-none"></div>
+<div class="relative z-10">
+<!-- Top Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container-lowest/15 backdrop-blur-md text-on-primary font-label-sm text-label-sm uppercase tracking-wider mb-6">
+<span class="material-symbols-outlined text-[16px] text-primary-fixed">verified</span>
+<span>SaaS Manajemen Kos #1 di Indonesia</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg tracking-tight mb-3 text-on-primary">
+            Kelola puluhan pintu kos tanpa stres rekap manual.
+          </h2>
+<p class="font-body-md text-body-md text-on-primary/80 mb-8">
+            Platform terpadu untuk pencatatan meteran listrik, penagihan terjadwal via WhatsApp, dan mutasi bank tanpa rekonsiliasi manual.
+          </p>
+<!-- Floating Stats Mosaics / Bento Cards -->
+<div class="space-y-3.5 mb-8">
+<!-- Kartu 1: Okupansi Real-Time -->
+<div class="p-4 rounded-xl bg-surface-container-lowest/10 backdrop-blur-lg shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-fixed/20 flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined text-[22px]">bed</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-primary/70 uppercase">Tingkat Okupansi Aktif</div>
+<div class="font-headline-md text-headline-md text-on-primary font-bold">93% <span class="font-body-sm text-body-sm font-normal text-primary-fixed">(28/30 Kamar Terisi)</span></div>
+</div>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span>Optimal</span>
+</div>
+</div>
+<!-- Kartu 2: WhatsApp Automation -->
+<div class="p-4 rounded-xl bg-surface-container-lowest/10 backdrop-blur-lg shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-[#25D366]/20 flex items-center justify-center text-[#25D366]">
+<span class="material-symbols-outlined text-[22px]">send_and_archive</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-primary/70 uppercase">Otomasi Notifikasi WA API</div>
+<div class="font-label-lg text-label-lg text-on-primary font-semibold">Kirim H-3 Jatuh Tempo &amp; Kuitansi Instan</div>
+</div>
+</div>
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">check_circle</span>
+</div>
+<!-- Kartu 3: 0% Komisi -->
+<div class="p-4 rounded-xl bg-surface-container-lowest/10 backdrop-blur-lg shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed/20 flex items-center justify-center text-tertiary-fixed">
+<span class="material-symbols-outlined text-[22px]">percent</span>
+</div>
+<div>
+<div class="font-label-sm text-label-sm text-on-primary/70 uppercase">Skema Transaksi Adil</div>
+<div class="font-label-lg text-label-lg text-on-primary font-semibold">100% Bebas Potongan Komisi Sewa</div>
+</div>
+</div>
+<span class="text-tertiary-fixed font-label-sm text-label-sm px-2 py-0.5 rounded bg-tertiary-fixed/15">Rp 0 Biaya Potongan</span>
+</div>
+</div>
+<!-- Testimonial Juragan Kos -->
+<div class="p-5 rounded-xl bg-surface-container-lowest/10 backdrop-blur-md relative">
+<div class="flex items-center gap-1 text-tertiary-fixed mb-2">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="material-symbols-outlined text-[18px]">star</span>
+</div>
+<p class="font-body-md text-body-md italic text-on-primary/95 mb-4 leading-relaxed">
+              “Dulu tiap tanggal 1 pusing kejar transferan penghuni di WA. Sekarang sejak pakai Kostra, arus kas tercatat rapi, kuitansi keluar otomatis, dan waktu luang lebih banyak!”
+            </p>
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 rounded-full object-cover shadow-sm bg-surface-container-high" data-alt="Close up professional portrait of Indonesian male property entrepreneur Hendra Wijaya smiling warmly in casual business shirt, warm natural daylight, Jakarta residential architecture in soft blur background, crisp tones reflecting trust and property leadership." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjaxsRe0dnaTrfeZZjCVwL4Wmv907tmofO8rva_9Tq5C2ZOpPGhjoaYWgg8VzeIMr7qHB50xaI4JIUVsKMs4FYFV59kHUgZK6H6mZeSkLa9PaP5aBj88ONLPKiUOhhn-c3cTvmJGqnLNwixW22mBCz_k9ako_mEqBjLqoGTxxp6nCznn1O8TPbjn6kPzitvj9oizlcYVLsFKOX8DYzZp1GgokFFP8TrxTAELQ-tOBSH1QMgYdNiWoQYg"/>
+<div>
+<div class="font-label-md text-label-md text-on-primary font-bold">Hendra Wijaya</div>
+<div class="font-body-sm text-body-sm text-on-primary/70">Pemilik Kost Singgah Harmoni • 28 Kamar (Bandung)</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footnote Mitra Pembayaran Terpercaya -->
+<div class="mt-8 pt-6 border-t border-on-primary/10 relative z-10">
+<div class="font-label-sm text-label-sm text-on-primary/70 uppercase tracking-wider mb-2">
+            Terhubung Langsung dengan Ekosistem Finansial Nasional:
+          </div>
+<div class="flex flex-wrap items-center gap-4 text-on-primary/90 font-label-md text-label-md">
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest/10 backdrop-blur-sm">BCA Virtual Account</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest/10 backdrop-blur-sm">Mandiri Bill</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest/10 backdrop-blur-sm">BNI</span>
+<span class="px-2.5 py-1 rounded bg-surface-container-lowest/10 backdrop-blur-sm">QRIS Statis/Dinamis</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Help & Switch User Section -->
+<div class="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 px-2">
+<div class="flex items-center gap-2 text-outline font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">help_outline</span>
+<span>Mengalami kendala saat login? Hubungi Manajer Akun Anda atau kirim email ke support@kostra.id</span>
+</div>
+<div class="flex items-center gap-4">
+<a class="font-label-md text-label-md text-primary hover:text-on-primary-fixed-variant transition-colors flex items-center gap-1" href="#">
+<span>Panduan Penggunaan Cepat</span>
+<span class="material-symbols-outlined text-[16px]">open_in_new</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Tab Switcher behavior (Password vs WhatsApp OTP)
+  const tabPw = document.getElementById('tab-pw');
+  const tabOtp = document.getElementById('tab-otp');
+  const pwContainer = document.getElementById('pw-field-container');
+  const btnSubmit = document.getElementById('btn-submit');
+  const identifierInput = document.getElementById('identifier');
+  const badgeType = document.getElementById('badge-type');
+
+  if (tabPw && tabOtp) {
+    tabPw.addEventListener('click', () => {
+      tabPw.className = 'flex-1 py-2 px-4 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 bg-surface-container-lowest text-primary shadow-sm font-semibold';
+      tabOtp.className = 'flex-1 py-2 px-4 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 text-on-surface-variant hover:text-on-surface';
+      pwContainer.style.display = 'block';
+      btnSubmit.querySelector('span:first-child').innerText = 'Masuk ke Dasbor Kostra';
+    });
+
+    tabOtp.addEventListener('click', () => {
+      tabOtp.className = 'flex-1 py-2 px-4 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 bg-surface-container-lowest text-primary shadow-sm font-semibold';
+      tabPw.className = 'flex-1 py-2 px-4 rounded-lg font-label-md text-label-md transition-all flex items-center justify-center gap-2 text-on-surface-variant hover:text-on-surface';
+      pwContainer.style.display = 'none';
+      btnSubmit.querySelector('span:first-child').innerText = 'Kirim Kode OTP via WhatsApp';
+    });
+  }
+
+  // Password visibility toggle
+  const toggleBtn = document.getElementById('toggle-password');
+  const passwordInput = document.getElementById('password');
+  const eyeIcon = document.getElementById('eye-icon');
+
+  if (toggleBtn && passwordInput && eyeIcon) {
+    toggleBtn.addEventListener('click', () => {
+      const isPassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+      eyeIcon.innerText = isPassword ? 'visibility_off' : 'visibility';
+    });
+  }
+
+  // Dynamic input detection (Email vs WhatsApp phone format)
+  if (identifierInput && badgeType) {
+    identifierInput.addEventListener('input', (e) => {
+      const val = e.target.value.trim();
+      if (!val) {
+        badgeType.classList.add('hidden');
+        return;
+      }
+      badgeType.classList.remove('hidden');
+      if (/^[0-9+]+$/.test(val) || val.startsWith('08') || val.startsWith('62')) {
+        badgeType.innerText = 'WhatsApp';
+        badgeType.className = 'absolute right-3.5 px-2 py-0.5 rounded text-[11px] font-semibold tracking-wide uppercase bg-primary-fixed text-on-primary-fixed';
+      } else if (val.includes('@')) {
+        badgeType.innerText = 'Email';
+        badgeType.className = 'absolute right-3.5 px-2 py-0.5 rounded text-[11px] font-semibold tracking-wide uppercase bg-secondary-container text-on-secondary-container';
+      } else {
+        badgeType.innerText = 'Memeriksa';
+        badgeType.className = 'absolute right-3.5 px-2 py-0.5 rounded text-[11px] font-semibold tracking-wide uppercase bg-surface-container-high text-on-surface-variant';
+      }
+    });
+  }
+</script></main><footer class="w-full bg-surface-container-low shadow-[0_-1px_6px_rgba(15,23,42,0.02)] py-8"><div class="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center justify-between gap-4"><div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-6 text-center sm:text-left"><span class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Kostra Indonesia. Hak Cipta Dilindungi.</span><div class="flex items-center gap-2 font-label-sm text-label-sm text-outline"><span class="material-symbols-outlined text-[14px] text-primary">verified_user</span><span>UU PDP No. 27/2022 Patuh</span><span class="text-outline-variant">•</span><span class="material-symbols-outlined text-[14px] text-primary">lock</span><span>Enkripsi AES 256-bit</span></div></div><div class="flex items-center gap-6"><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="syarat-ketentuan" href="#">Syarat &amp; Ketentuan</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors" data-path="kebijakan-privasi" href="#">Kebijakan Privasi</a></div></div></footer></body></html>

@@ -1,98 +1,29 @@
+{{-- Menu utama panel pemilik. Gaya dan label mengikuti sidebar docs/screens; penghitung dari OwnerLayoutComposer. --}}
 @php
-    $link = 'flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all';
-    $active = 'bg-primary text-on-primary font-label-lg';
-    $idle = 'font-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface';
-    $soon = 'font-body-md text-on-surface-variant opacity-60 cursor-not-allowed';
+    $items = [
+        ['owner.dashboard', ['owner.dashboard'], 'dashboard', 'Ringkasan', null, null],
+        ['owner.rooms.index', ['owner.rooms.*', 'owner.properties.*', 'owner.room-types.*'], 'meeting_room', 'Properti & Kamar', null, null],
+        ['owner.residents.index', ['owner.residents.*', 'owner.leases.*'], 'group', 'Penghuni & Kontrak', null, null],
+        ['owner.invoices.index', ['owner.invoices.*', 'owner.payments.*'], 'receipt_long', 'Tagihan & Invoice', null, ($shell['overdueInvoices'] ?? 0) > 0 ? ['danger', (string) $shell['overdueInvoices']] : null],
+        ['owner.proofs.index', ['owner.proofs.*'], 'verified', 'Verifikasi Pembayaran', null, ($shell['pendingProofs'] ?? 0) > 0 ? ['warn', (string) $shell['pendingProofs']] : null],
+        ['owner.complaints.index', ['owner.complaints.*'], 'home_repair_service', 'Komplain & Perawatan', null, ($shell['openComplaints'] ?? 0) > 0 ? ['warn', (string) $shell['openComplaints']] : null],
+        ['owner.messages.index', ['owner.messages.*', 'owner.message-templates.*'], 'chat', 'Kuota WhatsApp', 'settings.manage', null],
+        ['owner.reports.index', ['owner.reports.*', 'owner.expenses.*'], 'bar_chart', 'Laporan Keuangan', 'finance.view', null],
+        ['owner.settings', ['owner.settings', 'owner.staff.*', 'owner.subscription.*'], 'settings', 'Pengaturan Kos', 'settings.manage', null],
+    ];
 @endphp
 
-<a href="{{ route('owner.dashboard') }}" @if (request()->routeIs('owner.dashboard')) aria-current="page" @endif
-   class="{{ $link }} {{ request()->routeIs('owner.dashboard') ? $active : $idle }}">
-    <span class="material-symbols-outlined text-lg" aria-hidden="true">dashboard</span>
-    <span>Ringkasan</span>
-</a>
-
-<a href="{{ route('owner.rooms.index') }}" @if (request()->routeIs('owner.rooms.*', 'owner.properties.*', 'owner.room-types.*')) aria-current="page" @endif
-   class="{{ $link }} {{ request()->routeIs('owner.rooms.*', 'owner.properties.*', 'owner.room-types.*') ? $active : $idle }}">
-    <span class="material-symbols-outlined text-lg" aria-hidden="true">meeting_room</span>
-    <span>Properti &amp; Kamar</span>
-</a>
-
-<a href="{{ route('owner.residents.index') }}" @if (request()->routeIs('owner.residents.*')) aria-current="page" @endif
-   class="{{ $link }} {{ request()->routeIs('owner.residents.*') ? $active : $idle }}">
-    <span class="material-symbols-outlined text-lg" aria-hidden="true">group</span>
-    <span>Penghuni</span>
-</a>
-
-<a href="{{ route('owner.leases.index') }}" @if (request()->routeIs('owner.leases.*')) aria-current="page" @endif
-   class="{{ $link }} {{ request()->routeIs('owner.leases.*') ? $active : $idle }}">
-    <span class="material-symbols-outlined text-lg" aria-hidden="true">assignment</span>
-    <span>Kontrak</span>
-</a>
-
-<a href="{{ route('owner.invoices.index') }}" @if (request()->routeIs('owner.invoices.*')) aria-current="page" @endif
-   class="{{ $link }} {{ request()->routeIs('owner.invoices.*') ? $active : $idle }}">
-    <span class="material-symbols-outlined text-lg" aria-hidden="true">receipt_long</span>
-    <span>Tagihan</span>
-</a>
-
-<a href="{{ route('owner.payments.index') }}" @if (request()->routeIs('owner.payments.*')) aria-current="page" @endif
-   class="{{ $link }} {{ request()->routeIs('owner.payments.*') ? $active : $idle }}">
-    <span class="material-symbols-outlined text-lg" aria-hidden="true">payments</span>
-    <span>Pembayaran</span>
-</a>
-
-@php($pendingProofs = App\Models\PaymentProof::query()->pending()->count())
-<a href="{{ route('owner.proofs.index') }}" @if (request()->routeIs('owner.proofs.*')) aria-current="page" @endif
-   class="{{ $link }} {{ request()->routeIs('owner.proofs.*') ? $active : $idle }}">
-    <span class="material-symbols-outlined text-lg" aria-hidden="true">verified</span>
-    <span>Verifikasi bukti</span>
-    @if ($pendingProofs > 0)
-        <span class="badge badge-warn ml-auto">{{ $pendingProofs }} menunggu</span>
-    @endif
-</a>
-
-@php($openComplaints = App\Models\Complaint::query()->open()->count())
-<a href="{{ route('owner.complaints.index') }}" @if (request()->routeIs('owner.complaints.*')) aria-current="page" @endif
-   class="{{ $link }} {{ request()->routeIs('owner.complaints.*') ? $active : $idle }}">
-    <span class="material-symbols-outlined text-lg" aria-hidden="true">build</span>
-    <span>Komplain</span>
-    @if ($openComplaints > 0)
-        <span class="badge badge-warn ml-auto">{{ $openComplaints }} terbuka</span>
-    @endif
-</a>
-
-@can('finance.view')
-    <a href="{{ route('owner.expenses.index') }}" @if (request()->routeIs('owner.expenses.*')) aria-current="page" @endif
-       class="{{ $link }} {{ request()->routeIs('owner.expenses.*') ? $active : $idle }}">
-        <span class="material-symbols-outlined text-lg" aria-hidden="true">account_balance_wallet</span>
-        <span>Pengeluaran</span>
+@foreach ($items as [$route, $patterns, $icon, $label, $ability, $badge])
+    @continue($ability && ! auth()->user()->can($ability))
+    @php($isActive = request()->routeIs(...$patterns))
+    <a href="{{ route($route) }}" @if ($isActive) aria-current="page" @endif
+       class="flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl transition-all {{ $isActive ? 'bg-primary text-on-primary font-label-lg shadow-[0_4px_12px_rgba(13,122,95,0.12)]' : 'font-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface' }}">
+        <span class="flex items-center gap-3 min-w-0">
+            <span class="material-symbols-outlined text-lg" aria-hidden="true">{{ $icon }}</span>
+            <span class="truncate">{{ $label }}</span>
+        </span>
+        @if ($badge)
+            <span class="badge badge-{{ $badge[0] }} px-2 py-0.5 shrink-0 angka">{{ $badge[1] }}</span>
+        @endif
     </a>
-
-    <a href="{{ route('owner.reports.index') }}" @if (request()->routeIs('owner.reports.*')) aria-current="page" @endif
-       class="{{ $link }} {{ request()->routeIs('owner.reports.*') ? $active : $idle }}">
-        <span class="material-symbols-outlined text-lg" aria-hidden="true">bar_chart</span>
-        <span>Laporan</span>
-    </a>
-@endcan
-
-@can('settings.manage')
-    <a href="{{ route('owner.messages.index') }}" @if (request()->routeIs('owner.messages.*', 'owner.message-templates.*')) aria-current="page" @endif
-       class="{{ $link }} {{ request()->routeIs('owner.messages.*', 'owner.message-templates.*') ? $active : $idle }}">
-        <span class="material-symbols-outlined text-lg" aria-hidden="true">chat</span>
-        <span>Pesan</span>
-    </a>
-
-    <a href="{{ route('owner.settings') }}" @if (request()->routeIs('owner.settings', 'owner.staff.*')) aria-current="page" @endif
-       class="{{ $link }} {{ request()->routeIs('owner.settings', 'owner.staff.*') ? $active : $idle }}">
-        <span class="material-symbols-outlined text-lg" aria-hidden="true">settings</span>
-        <span>Pengaturan</span>
-    </a>
-@endcan
-
-@can('subscription.manage')
-    <a href="{{ route('owner.subscription.show') }}" @if (request()->routeIs('owner.subscription.*')) aria-current="page" @endif
-       class="{{ $link }} {{ request()->routeIs('owner.subscription.*') ? $active : $idle }}">
-        <span class="material-symbols-outlined text-lg" aria-hidden="true">workspace_premium</span>
-        <span>Langganan</span>
-    </a>
-@endcan
+@endforeach

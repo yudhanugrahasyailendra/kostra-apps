@@ -20,7 +20,7 @@
                     <div class="grid grid-cols-12 gap-space-sm items-start">
                         <div class="col-span-12 sm:col-span-3">
                             <select name="items[{{ $i }}][type]" aria-label="Jenis item {{ $i + 1 }}"
-                                    class="w-full rounded-lg bg-surface-container-low border border-outline-variant/60 px-3 h-12 lg:h-10">
+                                    class="field">
                                 @foreach ($itemTypes as $type)
                                     <option value="{{ $type->value }}" @selected(old("items.$i.type", 'other') === $type->value)>{{ $type->label() }}</option>
                                 @endforeach
@@ -28,17 +28,17 @@
                         </div>
                         <div class="col-span-12 sm:col-span-4">
                             <input type="text" name="items[{{ $i }}][description]" value="{{ old("items.$i.description") }}" placeholder="Deskripsi" aria-label="Deskripsi item {{ $i + 1 }}"
-                                   class="w-full rounded-lg bg-surface-container-low border border-outline-variant/60 px-3 h-12 lg:h-10">
+                                   class="field">
                             @error("items.$i.description")<p class="font-body-sm text-body-sm text-error" role="alert">{{ $message }}</p>@enderror
                         </div>
                         <div class="col-span-4 sm:col-span-1">
                             <input type="text" inputmode="decimal" name="items[{{ $i }}][quantity]" value="{{ old("items.$i.quantity", '1') }}" aria-label="Kuantitas item {{ $i + 1 }}"
-                                   class="w-full rounded-lg bg-surface-container-low border border-outline-variant/60 px-3 h-12 lg:h-10 angka">
+                                   class="field angka">
                             @error("items.$i.quantity")<p class="font-body-sm text-body-sm text-error" role="alert">{{ $message }}</p>@enderror
                         </div>
                         <div class="col-span-8 sm:col-span-4">
                             <input type="text" inputmode="numeric" name="items[{{ $i }}][unit_price]" value="{{ old("items.$i.unit_price") }}" placeholder="Harga satuan (Rp)" aria-label="Harga satuan item {{ $i + 1 }}"
-                                   class="w-full rounded-lg bg-surface-container-low border border-outline-variant/60 px-3 h-12 lg:h-10 angka">
+                                   class="field angka">
                             @error("items.$i.unit_price")<p class="font-body-sm text-body-sm text-error" role="alert">{{ $message }}</p>@enderror
                         </div>
                     </div>

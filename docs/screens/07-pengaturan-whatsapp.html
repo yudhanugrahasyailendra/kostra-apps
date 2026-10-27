@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary-fixed-dim":"#ffb77d","on-error":"#ffffff","surface-container-highest":"#d3e4fe","surface-container-low":"#eff4ff","outline":"#6e7a74","on-tertiary-fixed-variant":"#6e3900","tertiary-fixed":"#ffdcc3","on-primary-fixed-variant":"#00513e","surface-container-high":"#dce9ff","inverse-on-surface":"#eaf1ff","on-tertiary-container":"#ffeadd","primary-fixed":"#98f4d3","background":"#f8f9ff","surface-container":"#e5eeff","on-secondary-container":"#586377","on-surface-variant":"#3e4944","on-secondary":"#ffffff","surface-variant":"#d3e4fe","on-error-container":"#93000a","on-tertiary-fixed":"#2f1500","on-primary-container":"#a8ffdf","primary-fixed-dim":"#7cd8b8","inverse-surface":"#213145","on-secondary-fixed-variant":"#3c475a","secondary-container":"#d5e0f8","inverse-primary":"#7cd8b8","secondary-fixed":"#d8e3fb","on-secondary-fixed":"#111c2d","secondary":"#545f73","outline-variant":"#bdc9c2","surface":"#f8f9ff","tertiary-container":"#a45800","primary-container":"#0d7a5f","surface-container-lowest":"#ffffff","tertiary":"#814400","surface-bright":"#f8f9ff","on-surface":"#0b1c30","primary":"#005f49","on-background":"#0b1c30","on-primary-fixed":"#002117","surface-tint":"#006c53","error-container":"#ffdad6","on-tertiary":"#ffffff","error":"#ba1a1a","surface-dim":"#cbdbf5","secondary-fixed-dim":"#bcc7de","on-primary":"#ffffff"},borderRadius:{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},spacing:{"space-xl":"2rem","space-sm":"0.5rem","margin-desktop":"2rem","gutter":"1rem","gutter-desktop":"1.5rem","space-lg":"1.5rem","margin":"1rem","space-md":"1rem","space-xs":"0.25rem"},fontFamily:{"headline-md":["Plus Jakarta Sans"],"body-md":["Inter"],"label-sm":["Inter"],"label-lg":["Inter"],"body-sm":["Inter"],"label-md":["Inter"],"headline-lg":["Plus Jakarta Sans"],"headline-xl":["Plus Jakarta Sans"],"currency-stat":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-xl-mobile":["Plus Jakarta Sans"],"body-lg":["Inter"]},fontSize:{"headline-md":["18px",{"lineHeight":"24px","fontWeight":"600"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"400"}],"label-sm":["10px",{"lineHeight":"14px","fontWeight":"700"}],"label-lg":["14px",{"lineHeight":"20px","fontWeight":"600"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"400"}],"label-md":["12px",{"lineHeight":"16px","fontWeight":"600"}],"headline-lg":["24px",{"lineHeight":"32px","fontWeight":"600"}],"headline-xl":["32px",{"lineHeight":"40px","fontWeight":"700"}],"currency-stat":["28px",{"lineHeight":"36px","fontWeight":"700"}],"headline-lg-mobile":["20px",{"lineHeight":"28px","fontWeight":"600"}],"headline-xl-mobile":["26px",{"lineHeight":"34px","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"24px","fontWeight":"400"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface"><aside class="fixed left-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col flex-1 overflow-y-auto"><div class="p-space-md flex items-center gap-space-sm"><img alt="Kostra Brand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1XKJIUgVWevzfFYgZop9DJwbFRRXzmgdwFU3mOen7O6QWMMNsErrCrry1Pl1UpBpdQyWSnB45WVW8PunVezdHTIP8ZL5Tf1Zdg44xcNZF2PzpTJGegzZMffaqxE9HwFG8yk1UX1SPi6rS08FyEgNheQ2OQFXNufF-mc9nERAdXQMiiRX544FLmOcjU3haQNI6245m5ZnglZeDhQ9sSmphYOy9CncMmhJhSRAV5kUNfsXSsJxkgmHcwdkpWU"/><div class="flex flex-col"><span class="font-headline-md text-headline-md text-primary tracking-tight">Kostra</span><span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Manajemen Kos</span></div></div><div class="px-space-md mb-space-sm"><div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-secondary uppercase">Pilih Properti</span><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">Paket Starter</span></div><button class="flex items-center justify-between w-full text-left font-label-lg text-label-lg text-on-surface hover:text-primary transition-colors"><span class="truncate">Kost Singgah Harmoni</span><span class="material-symbols-outlined text-secondary text-sm">expand_more</span></button><span class="font-body-sm text-body-sm text-secondary">28 Kamar Terdaftar</span></div></div><nav class="flex flex-col gap-1 px-space-md py-space-xs flex-1" data-active-classes="bg-primary text-on-primary font-label-lg rounded-xl shadow-[0_4px_12px_rgba(13,122,95,0.12)]"><a class="flex items-center justify-between px-3 py-2.5 rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="ringkasan" href="01-dashboard.html"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">dashboard</span><span>Ringkasan</span></div></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="properti-kamar" href="02-properti-kamar.html"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">meeting_room</span><span>Properti &amp; Kamar</span></div></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="penghuni-kontrak" href="03-penghuni-kontrak.html"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">group</span><span>Penghuni &amp; Kontrak</span></div></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="tagihan-invoice" href="04-tagihan-pembayaran.html"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">receipt_long</span><span>Tagihan &amp; Invoice</span></div><span class="px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm font-bold">3</span></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="verifikasi-pembayaran" href="04-tagihan-pembayaran.html"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">verified</span><span>Verifikasi Pembayaran</span></div><span class="px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold">2 Baru</span></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="komplain-perawatan" href="05-komplain-perawatan.html"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">build</span><span>Komplain &amp; Perawatan</span></div></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="kuota-whatsapp" href="07-pengaturan-whatsapp.html"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">chat</span><span>Kuota WhatsApp</span></div><span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">420/500</span></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="laporan-keuangan" href="06-laporan-keuangan.html"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">account_balance_wallet</span><span>Laporan Keuangan</span></div></a><a class="flex items-center justify-between px-3 py-2.5 rounded-xl font-body-md text-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="pengaturan-kos" href="08-pengaturan-kos.html"><div class="flex items-center gap-3"><span class="material-symbols-outlined text-lg">settings</span><span>Pengaturan Kos</span></div></a></nav></div><div class="p-space-md flex flex-col gap-space-sm"><div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-md text-label-md text-on-surface">Paket Starter</span><span class="font-label-sm text-label-sm text-secondary">28/30 Kamar</span></div><div class="w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden"><div class="h-full bg-primary rounded-full" style="width: 93%;"></div></div><a class="font-label-sm text-label-sm text-primary hover:underline font-bold mt-1 inline-flex items-center gap-1" data-path="pengaturan-kos" href="08-pengaturan-kos.html"><span>Upgrade ke Pro</span><span class="material-symbols-outlined text-xs">arrow_forward</span></a></div><a class="flex items-center gap-3 px-3 py-2 rounded-xl font-body-sm text-body-sm text-error hover:bg-error-container/20 transition-colors" data-path="login" href="00-login.html"><span class="material-symbols-outlined text-base">logout</span><span>Keluar Akun</span></a></div></aside><div class="pl-72"><header class="fixed top-0 left-72 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md w-full max-w-md"><div class="flex items-center w-full px-3 py-2 rounded-xl bg-surface-container-low text-on-surface-variant focus-within:ring-2 focus-within:ring-primary/20"><span class="material-symbols-outlined text-secondary mr-2 text-lg">search</span><input class="bg-transparent w-full text-on-surface placeholder:text-secondary focus:outline-none font-body-sm text-body-sm" placeholder="Cari penghuni, kamar, nomor tagihan... [Ctrl+K]" type="text"/></div></div><div class="flex items-center gap-space-md"><div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low text-secondary font-label-sm text-label-sm"><span class="material-symbols-outlined text-primary text-base">send</span><span>WA Kuota: <strong class="text-on-surface">420 tersisa</strong></span></div><button class="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container hover:text-on-primary transition-all shadow-[0_1px_3px_rgba(15,23,42,0.05)]"><span class="material-symbols-outlined text-base">add_circle</span><span>+ Catat Pembayaran</span></button><button class="relative p-2 rounded-xl text-secondary hover:bg-surface-container hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error ring-2 ring-surface-container-lowest"></span></button><div class="flex items-center gap-3 pl-2 border-l border-outline-variant/30"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBT9fd_Dd2JAev_uWQ36bsJf6jb6LJtWcKHztcfC80yScFCh95SqPvCQEoWq5DKrRcOOwCa3T046c5uv0NoBtK-yBiLPEglyfrrLKlyw6Jv2I6193JkuEZFnO3rznrhX63e7g0iWvIOtl1ZUeKUiEZVQjZRYxX7t9OfhUzuI5EISZTXR9dmyR-gutZZl2QNVm3PwDNEgVy8FSmJLKXlx_DKYPrKREdnnfXS00duW2huPf0cBGe9clSlEA"/><div class="hidden md:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface">Bpk. Hendra Wijaya</span><span class="font-body-sm text-body-sm text-secondary">Pemilik</span></div><span class="material-symbols-outlined text-secondary text-base">unfold_more</span></div></div></header><main class="w-full pt-16 px-gutter-desktop bg-background min-h-screen"><div class="flex flex-col w-full pb-16">
+<!-- Top Action & Meta Headline -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md mb-space-lg">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs text-secondary font-label-md text-label-md uppercase tracking-wider mb-1">
+<span>Modul 10</span>
+<span>•</span>
+<span>Meta Cloud API Utility</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Pengaturan &amp; Log Notifikasi WhatsApp</h1>
+<p class="font-body-md text-body-md text-secondary mt-1">Otomasi pengingat tagihan resmi, kuitansi digital, dan pemantauan kuota utility Meta.</p>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-all shadow-sm" onclick="document.getElementById('modalTestWA').classList.remove('hidden')">
+<span class="material-symbols-outlined text-primary text-base">send_to_mobile</span>
+<span>Uji Kirim Pesan</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg transition-all shadow-sm" onclick="document.getElementById('modalBeliKuota').classList.remove('hidden')">
+<span class="material-symbols-outlined text-base">add_circle</span>
+<span>+ Beli Kuota Tambahan</span>
+</button>
+</div>
+</div>
+<!-- Gateway Connectivity Alert Bar -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between p-4 rounded-xl bg-surface-container-lowest shadow-sm mb-space-lg gap-3">
+<div class="flex items-center gap-3">
+<span class="relative flex h-3 w-3">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
+</span>
+<div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+<span class="font-label-lg text-label-lg text-on-surface">Terkoneksi Resmi Meta Cloud API</span>
+<span class="hidden sm:inline text-secondary font-label-sm">•</span>
+<span class="font-body-sm text-body-sm text-secondary">Nomor Bisnis Resmi Kost Singgah Harmoni Terverifikasi (+62 811-2349-8800)</span>
+</div>
+</div>
+<div class="flex items-center gap-4 text-secondary font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5 bg-surface-container-low px-3 py-1 rounded-full text-on-surface">
+<span class="material-symbols-outlined text-primary text-sm">schedule</span>
+<span>Jam Kirim Aktif: <strong>08:00 - 20:00 WIB</strong></span>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant">Tier 2 Verified</span>
+</div>
+</div>
+<!-- Grid Metric KPI Cards (4 Kolom Dense) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-xl">
+<!-- Card 1: Sisa Kuota WhatsApp -->
+<div class="flex flex-col justify-between p-5 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-start justify-between mb-3">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Sisa Kuota WhatsApp</span>
+<span class="p-2 rounded-lg bg-surface-container-low text-primary">
+<span class="material-symbols-outlined text-lg">chat</span>
+</span>
+</div>
+<div class="flex flex-col mb-3">
+<div class="flex items-baseline gap-2">
+<span class="font-currency-stat text-currency-stat text-on-surface">412</span>
+<span class="font-label-md text-label-md text-secondary">/ 500 Pesan</span>
+</div>
+<span class="font-body-sm text-body-sm text-primary font-bold">82.4% kuota aman tersedia</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="w-full h-2 bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 82.4%;"></div>
+</div>
+<div class="flex items-center justify-between font-label-sm text-label-sm text-secondary pt-1">
+<span>88 Terpakai bln ini</span>
+<span class="text-tertiary font-bold">Reset dalam 7 hari</span>
+</div>
+</div>
+</div>
+<!-- Card 2: Delivery Success Rate -->
+<div class="flex flex-col justify-between p-5 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-start justify-between mb-3">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Tingkat Keberhasilan</span>
+<span class="p-2 rounded-lg bg-surface-container-low text-primary-container">
+<span class="material-symbols-outlined text-lg">verified</span>
+</span>
+</div>
+<div class="flex flex-col mb-3">
+<div class="flex items-baseline gap-2">
+<span class="font-currency-stat text-currency-stat text-on-surface">98.2%</span>
+<span class="font-label-sm text-label-sm text-primary font-bold bg-primary-fixed px-2 py-0.5 rounded-full">+0.4%</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Dari 1.240 pesan terkirim kumulatif</span>
+</div>
+<div class="flex items-center gap-2 pt-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>0 Nomor terblokir / bermasalah</span>
+</div>
+</div>
+<!-- Card 3: Efisiensi Operasional Penghematan Waktu -->
+<div class="flex flex-col justify-between p-5 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-start justify-between mb-3">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Efisiensi Penagihan</span>
+<span class="p-2 rounded-lg bg-surface-container-low text-tertiary">
+<span class="material-symbols-outlined text-lg">hourglass_empty</span>
+</span>
+</div>
+<div class="flex flex-col mb-3">
+<div class="flex items-baseline gap-2">
+<span class="font-currency-stat text-currency-stat text-on-surface">18.5 Jam</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Waktu kerja dihemat tiap siklus bulan</span>
+</div>
+<div class="flex items-center gap-2 pt-2 text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-sm text-primary">savings</span>
+<span>Otomasi 100% tanpa ketik manual</span>
+</div>
+</div>
+<!-- Card 4: Penagihan Tepat Waktu (Cashflow) -->
+<div class="flex flex-col justify-between p-5 rounded-xl bg-surface-container-lowest shadow-sm">
+<div class="flex items-start justify-between mb-3">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Kecepatan Bayar (H-0)</span>
+<span class="p-2 rounded-lg bg-surface-container-low text-secondary">
+<span class="material-symbols-outlined text-lg">payments</span>
+</span>
+</div>
+<div class="flex flex-col mb-3">
+<div class="flex items-baseline gap-2">
+<span class="font-currency-stat text-currency-stat text-on-surface">89.4%</span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">Tepat Waktu</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary">Berkat pengingat H-3 berlink bayar</span>
+</div>
+<div class="flex items-center gap-1.5 pt-2 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>Tunggakan turun 62% vs manual</span>
+</div>
+</div>
+</div>
+<!-- Tabs Navigation Bar -->
+<div class="flex items-center justify-between border-b-0 mb-space-lg">
+<div class="flex items-center gap-2 bg-surface-container-low p-1.5 rounded-xl">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-lowest text-primary shadow-sm font-label-md text-label-md transition-all" id="tabBtnLog" onclick="switchTab('log')">
+<span class="material-symbols-outlined text-base">receipt_long</span>
+<span>Log Pengiriman Terakhir</span>
+<span class="px-2 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-label-sm font-bold">Live</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg text-secondary hover:text-on-surface font-label-md text-label-md transition-all" id="tabBtnTpl" onclick="switchTab('template')">
+<span class="material-symbols-outlined text-base">description</span>
+<span>Template Pesan Resmi (Utility)</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container text-secondary text-label-sm">4 Aktif</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg text-secondary hover:text-on-surface font-label-md text-label-md transition-all" id="tabBtnSchedule" onclick="switchTab('schedule')">
+<span class="material-symbols-outlined text-base">event_repeat</span>
+<span>Jadwal Otomasi Pengingat</span>
+</button>
+</div>
+<!-- Quick Search for Table (Visible on Log tab) -->
+<div class="hidden md:flex items-center gap-2 bg-surface-container-lowest px-3 py-2 rounded-xl shadow-sm" id="tableSearchWrapper">
+<span class="material-symbols-outlined text-secondary text-sm">search</span>
+<input class="bg-transparent text-on-surface placeholder:text-secondary focus:outline-none font-body-sm text-body-sm w-64" placeholder="Cari nama penghuni, kamar, atau tgl..." type="text"/>
+</div>
+</div>
+<!-- Content Split Area: Main Content Table/Templates + Interactive Right Drawer -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Main Tab Contents (Span 8) -->
+<div class="xl:col-span-8 flex flex-col gap-space-lg">
+<!-- TAB CONTENT 1: Log Pengiriman (NTF-05) -->
+<div class="flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden" id="tabContentLog">
+<!-- Table Control & Filter Header -->
+<div class="p-space-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-surface-container-low/50">
+<div class="flex items-center gap-2">
+<span class="font-label-lg text-label-lg text-on-surface">Riwayat Pengiriman Pesan</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-secondary font-label-sm text-label-sm">28 Hari Terakhir</span>
+</div>
+<div class="flex items-center gap-2 flex-wrap">
+<select class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface text-body-sm font-body-sm focus:outline-none shadow-sm cursor-pointer">
+<option>Semua Tipe Pesan</option>
+<option>Tagihan Bulanan</option>
+<option>Kuitansi Lunas</option>
+<option>Peringatan Jatuh Tempo</option>
+<option>Kontrak Habis</option>
+</select>
+<select class="px-3 py-1.5 rounded-lg bg-surface-container-lowest text-on-surface text-body-sm font-body-sm focus:outline-none shadow-sm cursor-pointer">
+<option>Semua Status</option>
+<option>Dibaca (Read)</option>
+<option>Terkirim (Sent)</option>
+<option>Dalam Antrean</option>
+<option>Gagal Kirim</option>
+</select>
+</div>
+</div>
+<!-- Table Responsive -->
+<div class="w-full overflow-x-auto">
+<table class="w-full text-left font-body-md text-body-md">
+<thead>
+<tr class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-4">Waktu &amp; Tanggal</th>
+<th class="py-3 px-4">Penerima &amp; Kamar</th>
+<th class="py-3 px-4">Nomor WhatsApp</th>
+<th class="py-3 px-4">Template Pesan</th>
+<th class="py-3 px-4">Status Pengiriman</th>
+<th class="py-3 px-4 text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y-0 text-body-sm font-body-sm">
+<!-- Row 1: Budi Santoso -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="py-3.5 px-4 text-on-surface">
+<div class="font-label-md text-label-md text-on-surface">18 Okt 2026</div>
+<div class="text-secondary text-body-sm">08:14 WIB</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">Budi Santoso</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-secondary-container font-label-sm text-label-sm">Kmr 201</span>
+</div>
+<span class="text-secondary text-body-sm">IDP-290192 (Dukcapil OK)</span>
+</td>
+<td class="py-3.5 px-4 text-secondary font-body-sm">+62 812-9901-2241</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-1.5 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-base">receipt</span>
+<span>Pengingat Tagihan Okt 2026</span>
+</div>
+<span class="text-secondary text-body-sm">Rp 1.850.000 (H-3)</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-primary text-sm font-bold">done_all</span>
+<span>Dibaca (Read)</span>
+</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="p-1.5 rounded-lg text-primary hover:bg-surface-container-high transition-colors" onclick="previewSpecificMessage('budi')" title="Lihat detail pesan">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Siti Rahma -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="py-3.5 px-4 text-on-surface">
+<div class="font-label-md text-label-md text-on-surface">18 Okt 2026</div>
+<div class="text-secondary text-body-sm">08:02 WIB</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">Siti Rahma</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-secondary-container font-label-sm text-label-sm">Kmr 104</span>
+</div>
+<span class="text-secondary text-body-sm">Deposit Terpenuhi</span>
+</td>
+<td class="py-3.5 px-4 text-secondary font-body-sm">+62 857-1188-4390</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-1.5 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary-container text-base">verified</span>
+<span>Kuitansi Digital Lunas</span>
+</div>
+<span class="text-secondary text-body-sm">Rp 2.100.000 (No: INV-8821)</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-secondary text-sm">done_all</span>
+<span>Terkirim (Sent)</span>
+</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="p-1.5 rounded-lg text-primary hover:bg-surface-container-high transition-colors" onclick="previewSpecificMessage('siti')" title="Lihat detail pesan">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: Kevin Jonathan -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="py-3.5 px-4 text-on-surface">
+<div class="font-label-md text-label-md text-on-surface">17 Okt 2026</div>
+<div class="text-secondary text-body-sm">16:45 WIB</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">Kevin Jonathan</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-secondary-container font-label-sm text-label-sm">Kmr 302</span>
+</div>
+<span class="text-secondary text-body-sm">Tunggakan Hari Ke-5</span>
+</td>
+<td class="py-3.5 px-4 text-secondary font-body-sm">+62 813-8899-0012</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-1.5 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-tertiary-container text-base">warning</span>
+<span>Peringatan Jatuh Tempo H+5</span>
+</div>
+<span class="text-secondary text-body-sm">Rp 1.950.000 (+Denda Rp 50rb)</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-secondary text-sm">done_all</span>
+<span>Terkirim (Sent)</span>
+</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="p-1.5 rounded-lg text-primary hover:bg-surface-container-high transition-colors" onclick="previewSpecificMessage('kevin')" title="Lihat detail pesan">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Rian Dimas -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="py-3.5 px-4 text-on-surface">
+<div class="font-label-md text-label-md text-on-surface">17 Okt 2026</div>
+<div class="text-secondary text-body-sm">09:12 WIB</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">Rian Dimas</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-secondary-container font-label-sm text-label-sm">Kmr 204</span>
+</div>
+<span class="text-secondary text-body-sm">Kontrak Habis 24 Okt</span>
+</td>
+<td class="py-3.5 px-4 text-secondary font-body-sm">+62 878-3321-9988</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-1.5 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-primary text-base">update</span>
+<span>Konfirmasi Perpanjangan (H-7)</span>
+</div>
+<span class="text-secondary text-body-sm">Sewa 6 Bulanan</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-primary text-sm font-bold">done_all</span>
+<span>Dibaca (Read)</span>
+</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<button class="p-1.5 rounded-lg text-primary hover:bg-surface-container-high transition-colors" onclick="previewSpecificMessage('rian')" title="Lihat detail pesan">
+<span class="material-symbols-outlined text-lg">visibility</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Amanda Putri (Queue Scheduled) -->
+<tr class="hover:bg-surface-container-low/30 transition-colors">
+<td class="py-3.5 px-4 text-on-surface">
+<div class="font-label-md text-label-md text-on-surface">19 Okt 2026</div>
+<div class="text-secondary text-body-sm">08:00 WIB (Terjadwal)</div>
+</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface">Amanda Putri</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-on-secondary-container font-label-sm text-label-sm">Kmr 102</span>
+</div>
+<span class="text-secondary text-body-sm">Jatuh Tempo H-0</span>
+</td>
+<td class="py-3.5 px-4 text-secondary font-body-sm">+62 821-4455-6677</td>
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-1.5 text-on-surface font-label-md text-label-md">
+<span class="material-symbols-outlined text-secondary text-base">alarm</span>
+<span>Pemberitahuan Hari Jatuh Tempo</span>
+</div>
+<span class="text-secondary text-body-sm">Rp 1.700.000</span>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-secondary text-sm">schedule</span>
+<span>Dalam Antrean</span>
+</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="text-secondary font-label-sm text-label-sm">Siap Kirim</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="p-space-md bg-surface-container-lowest flex items-center justify-between font-body-sm text-body-sm text-secondary">
+<span>Menampilkan 5 dari 142 total transaksi pesan log bulan ini</span>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md disabled:opacity-50" disabled="">Sebelumnya</button>
+<span class="px-2 font-label-md text-label-md text-primary">1</span>
+<button class="px-3 py-1 rounded-lg bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors">Berikutnya</button>
+</div>
+</div>
+</div>
+<!-- TAB CONTENT 2: Template Pesan Resmi Utility (Hidden by default, switched by JS) -->
+<div class="hidden flex-col gap-space-md" id="tabContentTpl">
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Template Terdaftar Meta (Utility Category)</h3>
+<p class="font-body-sm text-body-sm text-secondary">Template resmi yang sudah disetujui Meta Cloud API. Kategori Utility menjamin tarif terendah dan deliverability 99.9%.</p>
+</div>
+<span class="px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">100% Approved</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Tpl 1 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface">kostra_tagihan_reminder_v2</span>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">UTILITY</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Pengingat berkala sebelum jatuh tempo (H-3 dan H-0) beserta tautan pembayaran.</p>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-primary font-bold">Variabel: 4 Parameter</span>
+<button class="font-label-sm text-label-sm text-primary hover:underline" onclick="previewSpecificMessage('budi')">Pratinjau Teks</button>
+</div>
+</div>
+<!-- Tpl 2 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface">kostra_kuitansi_lunas_v1</span>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">UTILITY</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Kuitansi sah tanda terima pembayaran transfer sewa &amp; deposit.</p>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-primary font-bold">Variabel: 5 Parameter</span>
+<button class="font-label-sm text-label-sm text-primary hover:underline" onclick="previewSpecificMessage('siti')">Pratinjau Teks</button>
+</div>
+</div>
+<!-- Tpl 3 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface">kostra_peringatan_tunggakan</span>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">UTILITY</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Surat teguran sopan atas keterlambatan sewa kamar melewati jatuh tempo.</p>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-primary font-bold">Variabel: 5 Parameter</span>
+<button class="font-label-sm text-label-sm text-primary hover:underline" onclick="previewSpecificMessage('kevin')">Pratinjau Teks</button>
+</div>
+</div>
+<!-- Tpl 4 -->
+<div class="p-4 rounded-xl bg-surface-container-low flex flex-col justify-between gap-3">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-lg text-label-lg text-on-surface">kostra_kontrak_expiry_h7</span>
+<span class="px-2 py-0.5 rounded bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-bold">UTILITY</span>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Pemberitahuan masa sewa segera berakhir untuk konfirmasi perpanjangan.</p>
+</div>
+<div class="flex items-center justify-between pt-2">
+<span class="font-label-sm text-label-sm text-primary font-bold">Variabel: 3 Parameter</span>
+<button class="font-label-sm text-label-sm text-primary hover:underline" onclick="previewSpecificMessage('rian')">Pratinjau Teks</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- TAB CONTENT 3: Jadwal Otomasi Pengingat (Hidden by default) -->
+<div class="hidden flex-col gap-space-md" id="tabContentSchedule">
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Peta Alur Otomasi Notifikasi WhatsApp</h3>
+<p class="font-body-sm text-body-sm text-secondary">Sistem secara otomatis mengeksekusi pesan penagihan pada waktu-waktu krusial tanpa perlu intervensi staf.</p>
+</div>
+</div>
+<!-- Flow Chart Visual Step -->
+<div class="flex flex-col gap-4">
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-container-low">
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center font-label-lg font-bold shrink-0">
+                H-3
+              </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Pengingat Tagihan Terbit &amp; Pengecekan Awal</span>
+<span class="font-body-sm text-body-sm text-secondary">Dikirim tepat jam 08:30 WIB. Berisi rincian sewa, tagihan listrik meteran, dan tautan unik upload bukti transfer via portal.</span>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-container-low">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-label-lg font-bold shrink-0">
+                H-0
+              </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Hari Jatuh Tempo Sewa</span>
+<span class="font-body-sm text-body-sm text-secondary">Dikirim jam 09:00 WIB untuk penghuni yang belum melakukan pelunasan tagihan. Mengingatkan batas transfer pukul 23:59 WIB.</span>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-container-low">
+<div class="w-10 h-10 rounded-full bg-tertiary-container text-on-primary flex items-center justify-center font-label-lg font-bold shrink-0">
+                H+3
+              </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Peringatan Keterlambatan Tingkat 1</span>
+<span class="font-body-sm text-body-sm text-secondary">Pesan ramah namun tegas beserta kalkulasi denda harian (jika diaktifkan) dan permohonan konfirmasi kendala finansial kepada pengelola.</span>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl bg-surface-container-low">
+<div class="w-10 h-10 rounded-full bg-error text-on-error flex items-center justify-center font-label-lg font-bold shrink-0">
+                H+7
+              </div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Peringatan Keterlambatan Tingkat 2 &amp; Pemberitahuan Deposit</span>
+<span class="font-body-sm text-body-sm text-secondary">Peringatan resmi pemotongan deposit sewa dan opsi pembicaraan tatap muka dengan pemilik kos.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Informasi Kebijakan Meta & PDP Indonesia -->
+<div class="p-5 rounded-xl bg-surface-container-low flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-2xl shrink-0 mt-0.5">policy</span>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Kepatuhan UU Perlindungan Data Pribadi (UU PDP 2024)</span>
+<span class="font-body-sm text-body-sm text-secondary">Seluruh nomor ponsel penghuni dienkripsi di server Kostra. Tautan tagihan menggunakan token acak 128-bit yang kedaluwarsa otomatis.</span>
+</div>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<span class="material-symbols-outlined text-primary text-base">lock</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">End-to-End Secure</span>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Interactive WA Preview Mockup & Rules Switcher (Span 4) -->
+<div class="xl:col-span-4 flex flex-col gap-space-lg">
+<!-- WA Bubble Phone Preview Card -->
+<div class="flex flex-col rounded-xl bg-surface-container-lowest shadow-sm overflow-hidden">
+<!-- Phone Top Bar Mockup -->
+<div class="bg-primary text-on-primary p-3.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-lg">apartment</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md font-bold leading-tight">Kost Singgah Harmoni</span>
+<span class="material-symbols-outlined text-primary-fixed text-xs" title="Official WhatsApp Business Verified">verified</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary-fixed leading-none">Akun WhatsApp Bisnis Resmi</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-lg text-on-primary opacity-80">more_vert</span>
+</div>
+<!-- Chat Bubble Container Background (Khas WA Light Tint) -->
+<div class="p-4 bg-surface-container-low flex flex-col gap-3 min-h-[350px] relative">
+<!-- Time separator -->
+<div class="flex justify-center">
+<span class="bg-surface-container px-2.5 py-0.5 rounded-full font-label-sm text-label-sm text-secondary shadow-sm">Hari ini</span>
+</div>
+<!-- The WhatsApp Bubble (Green Tint WA) -->
+<div class="self-end max-w-[92%] bg-[#E7F8E8] text-on-surface p-3.5 rounded-2xl rounded-tr-none shadow-sm flex flex-col gap-2 font-body-sm text-body-sm leading-relaxed" id="waBubbleContent">
+<div class="font-bold text-on-surface text-label-md">
+              Yth. <span class="text-primary font-bold" id="previewName">Bpk. Budi Santoso</span>,
+            </div>
+<p>
+              Tagihan sewa kos Anda di <strong class="text-on-surface">Kost Singgah Harmoni</strong> untuk <strong class="text-on-surface" id="previewRoom">Kamar 201</strong> periode <strong id="previewPeriode">Oktober 2026</strong> telah siap dengan rincian berikut:
+            </p>
+<div class="p-2.5 bg-white/80 rounded-lg flex flex-col gap-1 text-label-sm">
+<div class="flex justify-between">
+<span class="text-secondary">Sewa Kamar:</span>
+<span class="font-bold text-on-surface">Rp 1.700.000</span>
+</div>
+<div class="flex justify-between">
+<span class="text-secondary">Listrik PLN (32 kWh):</span>
+<span class="font-bold text-on-surface">Rp 150.000</span>
+</div>
+<div class="border-t border-dashed border-outline-variant pt-1 mt-1 flex justify-between font-bold text-label-md text-primary">
+<span>Total Tagihan:</span>
+<span id="previewTotal">Rp 1.850.000</span>
+</div>
+</div>
+<p class="text-secondary text-body-sm">
+              Jatuh tempo: <strong class="text-on-surface">21 Oktober 2026</strong>. Untuk melihat rincian kuitansi dan mengunggah bukti bayar instan, silakan akses portal penghuni Anda:
+            </p>
+<div class="pt-1">
+<a class="block text-center py-2 px-3 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-sm hover:opacity-95" href="#">
+                🔗 Buka Portal &amp; Bayar Tagihan
+              </a>
+</div>
+<div class="flex items-center justify-end gap-1 text-[10px] text-secondary self-end pt-1">
+<span>08:14</span>
+<span class="material-symbols-outlined text-xs text-primary font-bold">done_all</span>
+</div>
+</div>
+<div class="text-center font-label-sm text-label-sm text-secondary pt-2">
+            Pesan otomatis Meta Utility • Enkripsi 256-bit
+          </div>
+</div>
+<!-- Preview Switcher Dropdown inside preview card -->
+<div class="p-3 bg-surface-container-lowest flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary">Tampilkan Skenario:</span>
+<select class="bg-surface-container-low px-2.5 py-1 rounded text-on-surface font-label-sm text-label-sm focus:outline-none" id="selectPreviewPreset" onchange="applyPreviewPreset(this.value)">
+<option value="budi">Budi (Tagihan H-3)</option>
+<option value="siti">Siti (Kuitansi Lunas)</option>
+<option value="kevin">Kevin (Peringatan H+5)</option>
+<option value="rian">Rian (Kontrak Habis H-7)</option>
+</select>
+</div>
+</div>
+<!-- Sakelar Toggle Otomatisasi (NTF-02 & NTF-03) -->
+<div class="p-5 rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Aturan Otomasi Pengingat</span>
+<span class="font-body-sm text-body-sm text-secondary">Kelola sakelar pemicu otomatisasi bot</span>
+</div>
+<span class="material-symbols-outlined text-primary text-xl">tune</span>
+</div>
+<div class="flex flex-col gap-3.5 pt-1">
+<!-- Toggle 1: H-3 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Pengingat H-3 Sebelum Jatuh Tempo</span>
+<span class="font-body-sm text-body-sm text-secondary">Kirim jam 08:30 WIB</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle 2: H-0 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Pengingat di Hari Jatuh Tempo (H-0)</span>
+<span class="font-body-sm text-body-sm text-secondary">Kirim jam 09:00 WIB</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle 3: Peringatan Tunggakan H+3 & H+7 -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Peringatan Tunggakan H+3 &amp; H+7</span>
+<span class="font-body-sm text-body-sm text-secondary">Teguran sopan &amp; denda sewa</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<!-- Toggle 4: Kuitansi Otomatis -->
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-container-low">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Kuitansi Otomatis Pasca Verifikasi</span>
+<span class="font-body-sm text-body-sm text-secondary">Instan setelah klik verifikasi lunas</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-surface-container text-on-surface font-body-sm text-body-sm flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-base shrink-0 mt-0.5">info</span>
+<span>Pesan hanya dikirim ke penghuni berstatus kontrak <strong>Aktif</strong> dengan nomor WhatsApp valid.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- MODAL 1: Beli Kuota Tambahan (NTF-08) -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 hidden" id="modalBeliKuota">
+<div class="bg-surface-container-lowest rounded-2xl max-w-lg w-full p-6 shadow-2xl flex flex-col gap-5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-xl bg-primary-fixed text-primary">
+<span class="material-symbols-outlined text-2xl">add_shopping_cart</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Beli Kuota WhatsApp</h3>
+<p class="font-body-sm text-body-sm text-secondary">Top up instan kuota pengiriman pesan Meta Cloud API</p>
+</div>
+</div>
+<button class="p-1 rounded-lg hover:bg-surface-container text-secondary" onclick="document.getElementById('modalBeliKuota').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Paket Pilihan -->
+<div class="flex flex-col gap-3">
+<!-- Paket A -->
+<label class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all">
+<div class="flex items-center gap-3">
+<input checked="" class="text-primary focus:ring-primary h-4 w-4" name="paket" type="radio" value="500"/>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Paket Booster 500 Pesan</span>
+<span class="font-body-sm text-body-sm text-secondary">Masa aktif 60 hari • Cocok untuk kos 20-35 kamar</span>
+</div>
+</div>
+<span class="font-label-lg text-label-lg text-primary font-bold">Rp 125.000</span>
+</label>
+<!-- Paket B -->
+<label class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low cursor-pointer hover:bg-surface-container transition-all">
+<div class="flex items-center gap-3">
+<input class="text-primary focus:ring-primary h-4 w-4" name="paket" type="radio" value="1500"/>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-on-surface">Paket Juragan 1.500 Pesan</span>
+<span class="font-body-sm text-body-sm text-secondary">Masa aktif 120 hari • Hemat 20%</span>
+</div>
+</div>
+<span class="font-label-lg text-label-lg text-primary font-bold">Rp 300.000</span>
+</label>
+</div>
+<!-- Ringkasan & Metode Bayar -->
+<div class="p-3.5 rounded-xl bg-surface-container flex items-center justify-between text-body-sm">
+<span class="text-secondary">Metode Pembayaran:</span>
+<span class="font-label-md text-label-md text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-base">qr_code_2</span> QRIS Instan / Virtual Account
+        </span>
+</div>
+<div class="flex items-center gap-3 pt-2">
+<button class="w-1/2 py-2.5 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" onclick="document.getElementById('modalBeliKuota').classList.add('hidden')">
+          Batal
+        </button>
+<button class="w-1/2 py-2.5 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="simulasiBeliKuota()">
+          Lanjut ke Pembayaran
+        </button>
+</div>
+</div>
+</div>
+<!-- MODAL 2: Uji Kirim Pesan (NTF-07) -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 hidden" id="modalTestWA">
+<div class="bg-surface-container-lowest rounded-2xl max-w-md w-full p-6 shadow-2xl flex flex-col gap-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-xl bg-surface-container-high text-primary">
+<span class="material-symbols-outlined text-2xl">phonelink_ring</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Uji Kirim Pesan WhatsApp</h3>
+<p class="font-body-sm text-body-sm text-secondary">Kirim contoh pesan ke ponsel pemilik kos</p>
+</div>
+</div>
+<button class="p-1 rounded-lg hover:bg-surface-container text-secondary" onclick="document.getElementById('modalTestWA').classList.add('hidden')">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-3">
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase">Nomor WhatsApp Penguji</label>
+<div class="flex items-center px-3 py-2 rounded-xl bg-surface-container-low">
+<span class="text-secondary font-label-md mr-2">+62</span>
+<input class="bg-transparent text-on-surface w-full focus:outline-none font-body-sm text-body-sm" id="testPhoneInput" type="tel" value="812-3456-7890"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-sm text-label-sm text-secondary uppercase">Pilih Template Uji</label>
+<select class="px-3 py-2 rounded-xl bg-surface-container-low text-on-surface font-body-sm text-body-sm focus:outline-none">
+<option>kostra_tagihan_reminder_v2 (Pengingat H-3)</option>
+<option>kostra_kuitansi_lunas_v1 (Kuitansi Digital)</option>
+<option>kostra_peringatan_tunggakan (Teguran H+5)</option>
+</select>
+</div>
+<p class="font-body-sm text-body-sm text-secondary">Pengujian akan menggunakan 1 kuota utility resmi dari alokasi Anda.</p>
+</div>
+<div class="flex items-center gap-3 pt-2">
+<button class="w-1/2 py-2.5 rounded-xl bg-surface-container text-on-surface font-label-md text-label-md hover:bg-surface-container-high transition-colors" onclick="document.getElementById('modalTestWA').classList.add('hidden')">
+          Batal
+        </button>
+<button class="w-1/2 py-2.5 rounded-xl bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" onclick="simulasiKirimUji()">
+          Kirim Sekarang
+        </button>
+</div>
+</div>
+</div>
+<!-- Toast Notification Feedback -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-inverse-surface text-inverse-on-surface px-5 py-3.5 rounded-xl shadow-xl flex items-center gap-3 font-body-sm text-body-sm" id="toastNotification">
+<span class="material-symbols-outlined text-inverse-primary text-xl">check_circle</span>
+<span id="toastMessage">Pesan pengujian berhasil terkirim ke WhatsApp!</span>
+</div>
+</div>
+<script>
+  function switchTab(tabName) {
+    const tabLog = document.getElementById('tabContentLog');
+    const tabTpl = document.getElementById('tabContentTpl');
+    const tabSch = document.getElementById('tabContentSchedule');
+    const searchWrapper = document.getElementById('tableSearchWrapper');
+
+    const btnLog = document.getElementById('tabBtnLog');
+    const btnTpl = document.getElementById('tabBtnTpl');
+    const btnSch = document.getElementById('tabBtnSchedule');
+
+    const activeClasses = 'bg-surface-container-lowest text-primary shadow-sm';
+    const inactiveClasses = 'text-secondary hover:text-on-surface';
+
+    // Hide all
+    tabLog.classList.add('hidden');
+    tabTpl.classList.add('hidden');
+    tabSch.classList.add('hidden');
+
+    btnLog.className = btnLog.className.replace(activeClasses, inactiveClasses);
+    btnTpl.className = btnTpl.className.replace(activeClasses, inactiveClasses);
+    btnSch.className = btnSch.className.replace(activeClasses, inactiveClasses);
+
+    if (tabName === 'log') {
+      tabLog.classList.remove('hidden');
+      btnLog.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      btnLog.classList.remove('text-secondary');
+      if (searchWrapper) searchWrapper.classList.remove('hidden');
+    } else if (tabName === 'template') {
+      tabTpl.classList.remove('hidden');
+      btnTpl.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      btnTpl.classList.remove('text-secondary');
+      if (searchWrapper) searchWrapper.classList.add('hidden');
+    } else if (tabName === 'schedule') {
+      tabSch.classList.remove('hidden');
+      btnSch.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+      btnSch.classList.remove('text-secondary');
+      if (searchWrapper) searchWrapper.classList.add('hidden');
+    }
+  }
+
+  const presets = {
+    budi: {
+      name: 'Bpk. Budi Santoso',
+      room: 'Kamar 201',
+      periode: 'Oktober 2026',
+      total: 'Rp 1.850.000',
+      html: `
+        <div class="font-bold text-on-surface text-label-md">Yth. <span class="text-primary font-bold">Bpk. Budi Santoso</span>,</div>
+        <p>Tagihan sewa kos Anda di <strong class="text-on-surface">Kost Singgah Harmoni</strong> untuk <strong class="text-on-surface">Kamar 201</strong> periode <strong class="text-on-surface">Oktober 2026</strong> telah siap dengan rincian berikut:</p>
+        <div class="p-2.5 bg-white/80 rounded-lg flex flex-col gap-1 text-label-sm">
+          <div class="flex justify-between"><span class="text-secondary">Sewa Kamar:</span><span class="font-bold text-on-surface">Rp 1.700.000</span></div>
+          <div class="flex justify-between"><span class="text-secondary">Listrik PLN (32 kWh):</span><span class="font-bold text-on-surface">Rp 150.000</span></div>
+          <div class="border-t border-dashed border-outline-variant pt-1 mt-1 flex justify-between font-bold text-label-md text-primary"><span>Total Tagihan:</span><span>Rp 1.850.000</span></div>
+        </div>
+        <p class="text-secondary text-body-sm">Jatuh tempo: <strong class="text-on-surface">21 Oktober 2026</strong>. Untuk melihat rincian kuitansi dan mengunggah bukti bayar instan, silakan akses portal penghuni Anda:</p>
+        <div class="pt-1"><a href="#" class="block text-center py-2 px-3 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-sm">🔗 Buka Portal & Bayar Tagihan</a></div>
+        <div class="flex items-center justify-end gap-1 text-[10px] text-secondary self-end pt-1"><span>08:14</span><span class="material-symbols-outlined text-xs text-primary font-bold">done_all</span></div>
+      `
+    },
+    siti: {
+      name: 'Sdri. Siti Rahma',
+      room: 'Kamar 104',
+      periode: 'Oktober 2026',
+      total: 'Rp 2.100.000',
+      html: `
+        <div class="font-bold text-on-surface text-label-md">Yth. <span class="text-primary font-bold">Sdri. Siti Rahma</span>,</div>
+        <p>Terima kasih! Pembayaran sewa <strong class="text-on-surface">Kamar 104</strong> sebesar <strong class="text-on-surface">Rp 2.100.000</strong> telah <strong>BERHASIL DIVERIFIKASI LUNAS</strong>.</p>
+        <div class="p-2.5 bg-white/80 rounded-lg flex flex-col gap-1 text-label-sm">
+          <div class="flex justify-between"><span class="text-secondary">Nomor Kuitansi:</span><span class="font-bold text-on-surface">KST-2026-10-019</span></div>
+          <div class="flex justify-between"><span class="text-secondary">Tanggal Lunas:</span><span class="font-bold text-on-surface">18 Okt 2026 08:01 WIB</span></div>
+          <div class="flex justify-between"><span class="text-secondary">Masa Berlaku:</span><span class="font-bold text-on-surface">18 Okt s/d 18 Nov 2026</span></div>
+        </div>
+        <p class="text-secondary text-body-sm">Kuitansi elektronik resmi dalam format PDF sudah dapat diunduh langsung di portal penghuni Anda:</p>
+        <div class="pt-1"><a href="#" class="block text-center py-2 px-3 rounded-lg bg-primary-container text-on-primary font-label-sm text-label-sm font-bold shadow-sm">📄 Unduh Kuitansi PDF Resmi</a></div>
+        <div class="flex items-center justify-end gap-1 text-[10px] text-secondary self-end pt-1"><span>08:02</span><span class="material-symbols-outlined text-xs text-secondary">done_all</span></div>
+      `
+    },
+    kevin: {
+      name: 'Sdr. Kevin Jonathan',
+      room: 'Kamar 302',
+      periode: 'Oktober 2026',
+      total: 'Rp 1.950.000',
+      html: `
+        <div class="font-bold text-on-surface text-label-md">Yth. <span class="text-tertiary font-bold">Sdr. Kevin Jonathan</span>,</div>
+        <p>Pemberitahuan bahwa pembayaran sewa <strong class="text-on-surface">Kamar 302</strong> telah melewati tanggal jatuh tempo (<strong class="text-error font-bold">Terlambat 5 Hari</strong>).</p>
+        <div class="p-2.5 bg-white/80 rounded-lg flex flex-col gap-1 text-label-sm">
+          <div class="flex justify-between"><span class="text-secondary">Tagihan Pokok:</span><span class="font-bold text-on-surface">Rp 1.900.000</span></div>
+          <div class="flex justify-between"><span class="text-secondary">Denda Keterlambatan:</span><span class="font-bold text-error">Rp 50.000</span></div>
+          <div class="border-t border-dashed border-outline-variant pt-1 mt-1 flex justify-between font-bold text-label-md text-error"><span>Total Harus Dibayar:</span><span>Rp 1.950.000</span></div>
+        </div>
+        <p class="text-secondary text-body-sm">Mohon segera melunasi tagihan hari ini atau hubungi pengelola jika ada kendala administrasi.</p>
+        <div class="pt-1"><a href="#" class="block text-center py-2 px-3 rounded-lg bg-tertiary text-on-tertiary font-label-sm text-label-sm font-bold shadow-sm">⚠️ Bayar Segera & Konfirmasi</a></div>
+        <div class="flex items-center justify-end gap-1 text-[10px] text-secondary self-end pt-1"><span>16:45</span><span class="material-symbols-outlined text-xs text-secondary">done_all</span></div>
+      `
+    },
+    rian: {
+      name: 'Sdr. Rian Dimas',
+      room: 'Kamar 204',
+      periode: 'Oktober 2026',
+      total: 'Rp 1.700.000',
+      html: `
+        <div class="font-bold text-on-surface text-label-md">Yth. <span class="text-primary font-bold">Sdr. Rian Dimas</span>,</div>
+        <p>Kontrak sewa hunian Anda di <strong class="text-on-surface">Kamar 204</strong> akan berakhir dalam 7 hari lagi pada tanggal <strong class="text-on-surface">24 Oktober 2026</strong>.</p>
+        <div class="p-2.5 bg-white/80 rounded-lg flex flex-col gap-1 text-label-sm">
+          <div class="flex justify-between"><span class="text-secondary">Durasi Sebelumnya:</span><span class="font-bold text-on-surface">6 Bulan (Semester)</span></div>
+          <div class="flex justify-between"><span class="text-secondary">Status Kamar:</span><span class="font-bold text-primary">Dapat Diperpanjang</span></div>
+        </div>
+        <p class="text-secondary text-body-sm">Apakah Anda berencana memperpanjang masa sewa? Silakan konfirmasi status Anda melalui tombol di bawah ini:</p>
+        <div class="pt-1"><a href="#" class="block text-center py-2 px-3 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold shadow-sm">🔄 Konfirmasi Perpanjangan Sewa</a></div>
+        <div class="flex items-center justify-end gap-1 text-[10px] text-secondary self-end pt-1"><span>09:12</span><span class="material-symbols-outlined text-xs text-primary font-bold">done_all</span></div>
+      `
+    }
+  };
+
+  function applyPreviewPreset(key) {
+    const data = presets[key];
+    if (!data) return;
+    document.getElementById('waBubbleContent').innerHTML = data.html;
+    document.getElementById('selectPreviewPreset').value = key;
+  }
+
+  function previewSpecificMessage(key) {
+    applyPreviewPreset(key);
+    // Smooth scroll down to preview on small screens
+    if (window.innerWidth < 1280) {
+      document.getElementById('waBubbleContent').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastNotification');
+    const toastMsg = document.getElementById('toastMessage');
+    toastMsg.textContent = msg;
+    toast.classList.remove('translate-y-24', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+    setTimeout(() => {
+      toast.classList.remove('translate-y-0', 'opacity-100');
+      toast.classList.add('translate-y-24', 'opacity-0');
+    }, 3500);
+  }
+
+  function simulasiKirimUji() {
+    document.getElementById('modalTestWA').classList.add('hidden');
+    showToast('Pesan uji berhasil dikirim ke nomor WhatsApp penguji!');
+  }
+
+  function simulasiBeliKuota() {
+    document.getElementById('modalBeliKuota').classList.add('hidden');
+    showToast('Instruksi pembayaran QRIS berhasil diterbitkan!');
+  }
+</script></main></div></body></html>

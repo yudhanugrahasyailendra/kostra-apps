@@ -62,19 +62,19 @@
             </dl>
 
             <table class="w-full text-left mt-space-md">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
-                    <tr><th class="p-2">Untuk pembayaran tagihan</th><th class="p-2 text-right">Jumlah</th></tr>
+                <thead>
+                    <tr><th>Untuk pembayaran tagihan</th><th class="text-right">Jumlah</th></tr>
                 </thead>
                 <tbody>
                     @foreach ($payment->allocations as $allocation)
-                        <tr class="border-t border-outline-variant/40">
-                            <td class="p-2">
+                        <tr>
+                            <td>
                                 <span class="angka">{{ $allocation->invoice->number }}</span>
                                 @foreach ($allocation->invoice->items->take(2) as $item)
                                     <div class="font-body-sm text-secondary">{{ $item->description }}</div>
                                 @endforeach
                             </td>
-                            <td class="p-2 angka text-right">{{ App\Support\Rupiah::format($allocation->amount) }}</td>
+                            <td class="angka text-right">{{ App\Support\Rupiah::format($allocation->amount) }}</td>
                         </tr>
                     @endforeach
                 </tbody>

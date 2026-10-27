@@ -3,30 +3,17 @@
 @section('title', 'Komplain')
 
 @section('content')
-    <div class="flex flex-wrap items-center justify-between gap-space-sm">
-        <p class="text-secondary">Keluhan penghuni dilacak sampai selesai. Tiket tidak dihapus, hanya ditutup.</p>
+    <x-page-header eyebrow="Operasional kos" title="Komplain & Perawatan Fasilitas" subtitle="Keluhan penghuni dilacak sampai selesai. Tiket tidak dihapus, hanya ditutup.">
         @can('create', App\Models\Complaint::class)
-            <x-button :href="route('owner.complaints.create')">Buat tiket</x-button>
+            <x-button :href="route('owner.complaints.create')"><span class="material-symbols-outlined text-base" aria-hidden="true">add_task</span> Buat Tiket Manual</x-button>
         @endcan
-    </div>
+    </x-page-header>
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-space-md">
-        <div class="panel p-space-md">
-            <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Terbuka</div>
-            <div class="font-currency-stat text-currency-stat angka">{{ $counts['open'] }}</div>
-        </div>
-        <div class="panel p-space-md">
-            <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Baru</div>
-            <div class="font-currency-stat text-currency-stat angka">{{ $counts['new'] }}</div>
-        </div>
-        <div class="panel p-space-md">
-            <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Diproses</div>
-            <div class="font-currency-stat text-currency-stat angka">{{ $counts['in_progress'] }}</div>
-        </div>
-        <div class="panel p-space-md">
-            <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Selesai</div>
-            <div class="font-currency-stat text-currency-stat angka">{{ $counts['done'] }}</div>
-        </div>
+        <x-kpi-card label="Tiket belum selesai" :value="$counts['open']" icon="assignment_late" :tone="$counts['open'] > 0 ? 'warn' : 'neutral'" hint="baru dan sedang diproses" />
+        <x-kpi-card label="Baru" :value="$counts['new']" icon="fiber_new" :tone="$counts['new'] > 0 ? 'danger' : 'neutral'" hint="belum ditanggapi" />
+        <x-kpi-card label="Diproses" :value="$counts['in_progress']" icon="build" hint="sedang ditangani" />
+        <x-kpi-card label="Selesai" :value="$counts['done']" icon="task_alt" tone="ok" hint="tiket ditutup" />
     </div>
 
     <form method="GET" action="{{ route('owner.complaints.index') }}" class="panel p-space-md grid grid-cols-2 lg:grid-cols-5 gap-space-md items-end">
@@ -62,29 +49,29 @@
 
     <x-panel>
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="p-3">Tiket</th>
-                        <th class="p-3">Kamar</th>
-                        <th class="p-3 hidden md:table-cell">Kategori</th>
-                        <th class="p-3 hidden md:table-cell">Penanggung jawab</th>
-                        <th class="p-3">Dibuat</th>
-                        <th class="p-3">Status</th>
+                        <th>Tiket</th>
+                        <th>Kamar</th>
+                        <th class="hidden md:table-cell">Kategori</th>
+                        <th class="hidden md:table-cell">Penanggung jawab</th>
+                        <th>Dibuat</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($complaints as $complaint)
-                        <tr class="border-t border-outline-variant/40 hover:bg-surface-container-low/50">
-                            <td class="p-3">
+                        <tr>
+                            <td>
                                 <a href="{{ route('owner.complaints.show', $complaint) }}" class="font-label-lg text-primary hover:underline">{{ $complaint->title }}</a>
                                 <div class="font-body-sm text-secondary">{{ $complaint->resident?->name ?? 'Penghuni dihapus' }}</div>
                             </td>
-                            <td class="p-3 angka">{{ $complaint->property->name }} · {{ $complaint->room->number }}</td>
-                            <td class="p-3 hidden md:table-cell">{{ $complaint->category->label() }}</td>
-                            <td class="p-3 hidden md:table-cell">{{ $complaint->assignee?->name ?? 'Belum ditugaskan' }}</td>
-                            <td class="p-3 angka">{{ $complaint->created_at->timezone(auth()->user()->tenant->timezone)->translatedFormat('j M Y') }}</td>
-                            <td class="p-3">
+                            <td class="angka">{{ $complaint->property->name }} · {{ $complaint->room->number }}</td>
+                            <td class="hidden md:table-cell">{{ $complaint->category->label() }}</td>
+                            <td class="hidden md:table-cell">{{ $complaint->assignee?->name ?? 'Belum ditugaskan' }}</td>
+                            <td class="angka">{{ $complaint->created_at->timezone(auth()->user()->tenant->timezone)->translatedFormat('j M Y') }}</td>
+                            <td>
                                 <x-status-badge :tone="$complaint->status->tone()">{{ $complaint->status->label() }}</x-status-badge>
                                 @if ($complaint->isStale())
                                     <x-status-badge tone="danger">Terbuka lebih dari {{ App\Models\Complaint::STALE_AFTER_DAYS }} hari</x-status-badge>

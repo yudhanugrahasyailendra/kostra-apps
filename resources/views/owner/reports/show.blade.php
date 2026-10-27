@@ -3,10 +3,16 @@
 @section('title', $table->title)
 
 @section('content')
-    <nav class="flex flex-wrap gap-2" aria-label="Jenis laporan">
+    <x-page-header eyebrow="Keuangan kos" title="Laporan Keuangan" subtitle="Pemasukan, tunggakan, okupansi, dan rekap bulanan. Unduh sebagai Excel atau PDF.">
+        @can('finance.view')
+            <x-button :href="route('owner.expenses.index')" variant="secondary"><span class="material-symbols-outlined text-base" aria-hidden="true">account_balance_wallet</span> Buku Pengeluaran</x-button>
+        @endcan
+    </x-page-header>
+
+    <nav class="flex flex-wrap gap-1 p-1.5 rounded-xl bg-surface-container-low w-fit max-w-full" aria-label="Jenis laporan">
         @foreach ($reports as $key => $label)
             <a href="{{ route('owner.reports.show', $key) }}" @if ($key === $report) aria-current="page" @endif
-               class="btn {{ $key === $report ? 'btn-primary' : 'btn-secondary' }}">{{ $label }}</a>
+               class="px-4 py-2 rounded-lg font-label-md text-label-md transition-colors {{ $key === $report ? 'bg-primary text-on-primary shadow-sm' : 'text-on-surface-variant hover:bg-surface-container' }}">{{ $label }}</a>
         @endforeach
     </nav>
 
@@ -64,19 +70,19 @@
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+            <table class="table">
+                <thead>
                     <tr>
                         @foreach ($table->columns as $column)
-                            <th class="p-3 {{ $table->isRightAligned($column['type']) ? 'text-right' : '' }}">{{ $column['label'] }}</th>
+                            <th class="{{ $table->isRightAligned($column['type']) ? 'text-right' : '' }}">{{ $column['label'] }}</th>
                         @endforeach
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($table->rows as $row)
-                        <tr class="border-t border-outline-variant/40">
+                        <tr>
                             @foreach ($table->columns as $column)
-                                <td class="p-3 {{ in_array($column['type'], ['money', 'int', 'percent', 'decimal', 'date', 'month'], true) ? 'angka' : '' }} {{ $table->isRightAligned($column['type']) ? 'text-right' : '' }}">{{ App\Services\Reports\ReportTable::display($column, $row[$column['key']] ?? null) }}</td>
+                                <td class="{{ in_array($column['type'], ['money', 'int', 'percent', 'decimal', 'date', 'month'], true) ? 'angka' : '' }} {{ $table->isRightAligned($column['type']) ? 'text-right' : '' }}">{{ App\Services\Reports\ReportTable::display($column, $row[$column['key']] ?? null) }}</td>
                             @endforeach
                         </tr>
                     @empty
@@ -87,7 +93,7 @@
                     <tfoot class="border-t-2 border-outline-variant">
                         <tr class="font-label-lg">
                             @foreach ($table->columns as $column)
-                                <td class="p-3 {{ $table->isRightAligned($column['type']) ? 'text-right angka' : '' }}">{{ array_key_exists($column['key'], $table->totals) ? App\Services\Reports\ReportTable::display($column, $table->totals[$column['key']]) : '' }}</td>
+                                <td class="{{ $table->isRightAligned($column['type']) ? 'text-right angka' : '' }}">{{ array_key_exists($column['key'], $table->totals) ? App\Services\Reports\ReportTable::display($column, $table->totals[$column['key']]) : '' }}</td>
                             @endforeach
                         </tr>
                     </tfoot>

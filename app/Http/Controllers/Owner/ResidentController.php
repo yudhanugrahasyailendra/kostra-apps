@@ -7,12 +7,19 @@ use App\Actions\Residents\CreateResident;
 use App\Actions\Residents\ImportResidents;
 use App\Actions\Residents\UpdateResident;
 use App\Enums\AttachmentCategory;
+use App\Enums\InvoiceStatus;
+use App\Enums\LeaseStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\ImportResidentsRequest;
 use App\Http\Requests\Owner\ResidentIndexRequest;
 use App\Http\Requests\Owner\ResidentRequest;
+use App\Models\Invoice;
+use App\Models\Lease;
+use App\Models\LeaseDeposit;
 use App\Models\PortalToken;
 use App\Models\Resident;
+use App\Models\Room;
+use App\Tenancy\TenantContext;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
@@ -53,7 +60,16 @@ class ResidentController extends Controller
             ->select('phone')->groupBy('phone')->havingRaw('count(*) > 1')
             ->pluck('phone')->flip();
 
+        $today = app(TenantContext::class)->current()->today();
+
         return view('owner.residents.index', [
+            'stats' => [
+                'active' => Resident::query()->where('is_active', true)->count(),
+                'rooms' => Room::query()->count(),
+                'expiring' => Lease::query()->expiringWithin(14, $today)->count(),
+                'overdueLeases' => Invoice::query()->where('status', InvoiceStatus::Overdue->value)->distinct()->count('lease_id'),
+                'deposits' => (int) LeaseDeposit::query()->whereHas('lease', fn ($lease) => $lease->where('status', LeaseStatus::Active->value))->sum('amount'),
+            ],
             'residents' => $residents,
             'sharedPhones' => $sharedPhones,
             'q' => $q,

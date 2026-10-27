@@ -51,7 +51,7 @@
                                     <input id="alloc-{{ $invoice->id }}" type="text" inputmode="numeric" name="allocations[{{ $invoice->id }}]"
                                            value="{{ old("allocations.$invoice->id", $preselected === $invoice->id ? number_format($invoice->remaining(), 0, ',', '.') : '') }}"
                                            placeholder="Nominal dibayar (Rp)"
-                                           class="w-full rounded-lg bg-surface-container-low border border-outline-variant/60 px-3 h-12 lg:h-10 angka focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                                           class="field angka">
                                     @error("allocations.$invoice->id")<p class="font-body-sm text-body-sm text-error" role="alert">{{ $message }}</p>@enderror
                                 </div>
                             </div>

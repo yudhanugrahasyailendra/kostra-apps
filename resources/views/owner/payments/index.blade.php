@@ -53,28 +53,28 @@
 
     <x-panel>
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="p-3">Kuitansi</th>
-                        <th class="p-3">Tanggal</th>
-                        <th class="p-3">Penghuni</th>
-                        <th class="p-3 hidden md:table-cell">Tagihan</th>
-                        <th class="p-3">Metode</th>
-                        <th class="p-3 text-right">Jumlah</th>
-                        <th class="p-3">Status</th>
+                        <th>Kuitansi</th>
+                        <th>Tanggal</th>
+                        <th>Penghuni</th>
+                        <th class="hidden md:table-cell">Tagihan</th>
+                        <th>Metode</th>
+                        <th class="text-right">Jumlah</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($payments as $payment)
-                        <tr class="border-t border-outline-variant/40 hover:bg-surface-container-low/50">
-                            <td class="p-3 angka"><a href="{{ route('owner.payments.show', $payment) }}" class="font-label-lg text-primary hover:underline">{{ $payment->receipt_number }}</a></td>
-                            <td class="p-3 angka">{{ $payment->paid_on->translatedFormat('j M Y') }}</td>
-                            <td class="p-3">{{ $payment->resident->name }}</td>
-                            <td class="p-3 hidden md:table-cell font-body-sm angka">{{ $payment->allocations->map(fn ($a) => $a->invoice->number)->implode(', ') }}</td>
-                            <td class="p-3">{{ $payment->method->label() }}</td>
-                            <td class="p-3 angka text-right">{{ App\Support\Rupiah::format($payment->amount) }}</td>
-                            <td class="p-3"><x-status-badge :tone="$payment->status->tone()">{{ $payment->status->label() }}</x-status-badge></td>
+                        <tr>
+                            <td class="angka"><a href="{{ route('owner.payments.show', $payment) }}" class="font-label-lg text-primary hover:underline">{{ $payment->receipt_number }}</a></td>
+                            <td class="angka">{{ $payment->paid_on->translatedFormat('j M Y') }}</td>
+                            <td>{{ $payment->resident->name }}</td>
+                            <td class="hidden md:table-cell font-body-sm angka">{{ $payment->allocations->map(fn ($a) => $a->invoice->number)->implode(', ') }}</td>
+                            <td>{{ $payment->method->label() }}</td>
+                            <td class="angka text-right">{{ App\Support\Rupiah::format($payment->amount) }}</td>
+                            <td><x-status-badge :tone="$payment->status->tone()">{{ $payment->status->label() }}</x-status-badge></td>
                         </tr>
                     @empty
                         <tr><td colspan="7" class="p-4 text-on-surface-variant">Belum ada pembayaran yang cocok.</td></tr>

@@ -17,13 +17,13 @@
         <table class="w-full mt-space-md text-left">
             <tbody>
                 @foreach ($invoice->items as $item)
-                    <tr class="border-t border-outline-variant/40">
+                    <tr>
                         <td class="py-2">{{ $item->description }}</td>
                         <td class="py-2 text-right angka">{{ App\Support\Rupiah::format($item->amount) }}</td>
                     </tr>
                 @endforeach
                 @if ($invoice->adjustment_total !== 0)
-                    <tr class="border-t border-outline-variant/40">
+                    <tr>
                         <td class="py-2">Penyesuaian</td>
                         <td class="py-2 text-right angka">{{ $invoice->adjustment_total < 0 ? '−' : '' }}{{ App\Support\Rupiah::format(abs($invoice->adjustment_total)) }}</td>
                     </tr>

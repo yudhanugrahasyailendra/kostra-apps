@@ -1,8 +1,8 @@
-{{-- Sel denah kamar. Status selalu teks + warna. $tone: ok | warn | danger | neutral | maintenance --}}
+{{-- Sel denah kamar (docs/screens: sel p-2 rounded-lg text-center). Status selalu teks + warna. $tone: ok | warn | danger | neutral | maintenance --}}
 @props(['number', 'label', 'tone' => 'neutral', 'sub' => null, 'href' => null])
 
 @php
-    $class = 'block p-2 rounded-lg text-center badge-'.$tone;
+    $class = 'block p-2 rounded-lg text-center transition-all hover:shadow-md badge-'.$tone;
 @endphp
 
 @if ($href)

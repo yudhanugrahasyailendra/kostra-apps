@@ -3,9 +3,11 @@
 @section('title', 'Template pesan')
 
 @section('content')
-    <nav class="flex flex-wrap gap-2" aria-label="Bagian pesan">
-        <a href="{{ route('owner.messages.index') }}" class="btn btn-secondary">Log pengiriman</a>
-        <a href="{{ route('owner.message-templates.index') }}" aria-current="page" class="btn btn-primary">Template pesan</a>
+    <x-page-header eyebrow="Notifikasi" title="Template Pesan WhatsApp" />
+
+    <nav class="flex flex-wrap gap-1 p-1.5 rounded-xl bg-surface-container-low w-fit max-w-full" aria-label="Bagian pesan">
+        <a href="{{ route('owner.messages.index') }}" class="px-4 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container">Log pengiriman</a>
+        <a href="{{ route('owner.message-templates.index') }}" aria-current="page" class="px-4 py-2 rounded-lg font-label-md text-label-md bg-surface-container-lowest text-primary shadow-sm">Template pesan</a>
     </nav>
 
     <x-panel title="Template pesan WhatsApp">

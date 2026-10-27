@@ -3,7 +3,7 @@
     $active = 'bg-primary text-on-primary font-label-lg';
     $idle = 'font-body-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface';
     $items = [
-        ['admin.dashboard', 'Ringkasan', 'dashboard', ['admin.dashboard']],
+        ['admin.dashboard', 'Dashboard', 'dashboard', ['admin.dashboard']],
         ['admin.tenants.index', 'Tenant', 'apartment', ['admin.tenants.*']],
         ['admin.plans.index', 'Paket', 'workspace_premium', ['admin.plans.*']],
     ];

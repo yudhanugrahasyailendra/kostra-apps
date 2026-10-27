@@ -10,35 +10,50 @@
             ->map(fn ($group) => $group->groupBy(fn ($room) => $room->floor ?? 0));
     @endphp
 
-    <div class="flex flex-wrap items-center justify-between gap-space-sm">
-        <div class="flex flex-wrap gap-space-sm">
-            <x-button :href="route('owner.properties.index')" variant="secondary">Properti</x-button>
-            <x-button :href="route('owner.room-types.index')" variant="secondary">Tipe kamar</x-button>
+
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-space-md">
+        <div>
+            <p class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Inventaris kamar</p>
+            <h2 class="font-headline-lg-mobile text-headline-lg-mobile lg:font-headline-lg lg:text-headline-lg">Manajemen Properti &amp; Kamar</h2>
         </div>
-        @can('create', App\Models\Room::class)
-            <div class="flex flex-wrap gap-space-sm">
-                <x-button type="button" variant="secondary" data-modal-open="modal-import">Impor CSV</x-button>
-                <x-button type="button" variant="secondary" data-modal-open="modal-bulk">Tambah massal</x-button>
-                <x-button type="button" data-modal-open="modal-room">Tambah kamar</x-button>
-            </div>
-        @endcan
+        <div class="flex flex-wrap items-center gap-space-sm">
+            <x-button :href="route('owner.properties.index')" variant="secondary"><span class="material-symbols-outlined text-base" aria-hidden="true">apartment</span> Properti</x-button>
+            <x-button :href="route('owner.room-types.index')" variant="secondary"><span class="material-symbols-outlined text-base" aria-hidden="true">category</span> Tipe kamar</x-button>
+            @can('create', App\Models\Room::class)
+                <x-button type="button" variant="secondary" data-modal-open="modal-import"><span class="material-symbols-outlined text-base" aria-hidden="true">upload</span> Impor CSV</x-button>
+                <x-button type="button" variant="secondary" data-modal-open="modal-bulk"><span class="material-symbols-outlined text-base" aria-hidden="true">domain_add</span> Tambah massal</x-button>
+                <x-button type="button" data-modal-open="modal-room"><span class="material-symbols-outlined text-base" aria-hidden="true">add</span> Tambah kamar</x-button>
+            @endcan
+        </div>
     </div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-space-md">
+    @php
+        $occupied = $counts[App\Enums\RoomStatus::Occupied->value] ?? 0;
+        $percent = $total > 0 ? round($occupied / $total * 100, 1) : 0;
+    @endphp
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-space-md">
         @foreach ([
-            ['Total kamar', $total, 'neutral'],
-            ['Terisi', $counts[App\Enums\RoomStatus::Occupied->value] ?? 0, 'ok'],
-            ['Kosong', $counts[App\Enums\RoomStatus::Vacant->value] ?? 0, 'neutral'],
-            ['Perawatan', $counts[App\Enums\RoomStatus::Maintenance->value] ?? 0, 'maintenance'],
-        ] as [$label, $value, $tone])
-            <div class="panel p-space-md">
-                <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">{{ $label }}</div>
-                <div class="font-currency-stat text-currency-stat angka">{{ $value }}</div>
+            ['Total kamar', $total, 'meeting_room', 'text-on-surface'],
+            ['Terisi', $occupied, 'how_to_reg', 'text-primary'],
+            ['Kosong', $counts[App\Enums\RoomStatus::Vacant->value] ?? 0, 'bed', 'text-tertiary'],
+            ['Perawatan', $counts[App\Enums\RoomStatus::Maintenance->value] ?? 0, 'build', 'text-on-surface'],
+        ] as [$label, $value, $icon, $color])
+            <div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm">
+                <div class="flex items-center justify-between">
+                    <span class="kpi-label">{{ $label }}</span>
+                    <span class="material-symbols-outlined text-secondary" aria-hidden="true">{{ $icon }}</span>
+                </div>
+                <div class="font-currency-stat text-currency-stat {{ $color }} angka">{{ $value }}</div>
             </div>
         @endforeach
+        <div class="col-span-2 lg:col-span-1 p-space-md rounded-xl bg-primary text-on-primary shadow-sm flex flex-col justify-between">
+            <span class="font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container">Tingkat hunian</span>
+            <div class="font-currency-stat text-currency-stat angka">{{ str_replace('.', ',', (string) $percent) }}%</div>
+            <span class="font-label-md text-label-md text-on-primary-container angka">{{ $occupied }} dari {{ $total }} kamar terisi</span>
+        </div>
     </div>
 
-    <p class="text-body-sm text-secondary">
+    <p class="font-body-sm text-body-sm text-secondary">
         Paket {{ $planName }}:
         @if ($maxRooms === null)
             kamar tanpa batas.
@@ -49,17 +64,17 @@
 
     @if (session('import_failures'))
         <x-panel title="Baris impor yang gagal">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-body-sm">
-                    <thead class="bg-surface-container-low text-secondary font-label-sm uppercase tracking-wider">
-                        <tr><th class="p-2">Baris</th><th class="p-2">Nomor</th><th class="p-2">Alasan</th></tr>
+            <div class="table-wrap">
+                <table class="table">
+                    <thead>
+                        <tr><th>Baris</th><th>Nomor</th><th>Alasan</th></tr>
                     </thead>
                     <tbody>
                         @foreach (session('import_failures') as $failure)
-                            <tr class="border-t border-outline-variant/40">
-                                <td class="p-2 angka">{{ $failure['line'] }}</td>
-                                <td class="p-2">{{ $failure['number'] ?: '—' }}</td>
-                                <td class="p-2">{{ $failure['reason'] }}</td>
+                            <tr>
+                                <td class="angka">{{ $failure['line'] }}</td>
+                                <td>{{ $failure['number'] ?: '—' }}</td>
+                                <td>{{ $failure['reason'] }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -92,32 +107,55 @@
     </form>
 
     @forelse ($grouped as $propertyName => $floors)
-        <x-panel :title="$propertyName">
-            <div class="flex flex-col gap-space-md">
-                @foreach ($floors as $floor => $floorRooms)
-                    <div>
-                        <h3 class="font-label-md text-label-md text-secondary uppercase tracking-wider mb-space-sm">
-                            {{ $floor === 0 ? 'Tanpa lantai' : 'Lantai '.$floor }} · {{ $floorRooms->count() }} kamar
-                        </h3>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-space-sm">
-                            @foreach ($floorRooms as $room)
-                                @can('update', $room)
-                                    <x-room-plate :number="$room->number" :label="$room->status->label()" :tone="$room->status->tone()"
-                                                  :sub="$room->activeLease?->primaryResident?->name ?? $room->roomType?->name" :href="route('owner.rooms.edit', $room)">
-                                        <div class="font-body-sm text-body-sm angka">{{ App\Support\Rupiah::format($room->price) }}</div>
-                                    </x-room-plate>
-                                @else
-                                    <x-room-plate :number="$room->number" :label="$room->status->label()" :tone="$room->status->tone()"
-                                                  :sub="$room->activeLease?->primaryResident?->name ?? $room->roomType?->name">
-                                        <div class="font-body-sm text-body-sm angka">{{ App\Support\Rupiah::format($room->price) }}</div>
-                                    </x-room-plate>
-                                @endcan
-                            @endforeach
+        <section class="flex flex-col gap-space-md">
+            <h2 class="panel-title">{{ $propertyName }}</h2>
+            @foreach ($floors as $floor => $floorRooms)
+                <div class="flex flex-col gap-space-sm">
+                    <div class="flex items-center gap-space-sm">
+                        <span class="w-9 h-9 rounded-lg bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center font-label-lg text-label-lg angka" aria-hidden="true">{{ $floor === 0 ? '–' : 'L'.$floor }}</span>
+                        <div>
+                            <h3 class="font-headline-md text-headline-md">{{ $floor === 0 ? 'Tanpa lantai' : 'Lantai '.$floor }}</h3>
+                            <p class="font-body-sm text-body-sm text-secondary angka">{{ $floorRooms->count() }} unit · {{ $floorRooms->where('status', App\Enums\RoomStatus::Occupied)->count() }} terisi · {{ $floorRooms->where('status', App\Enums\RoomStatus::Vacant)->count() }} kosong</p>
                         </div>
                     </div>
-                @endforeach
-            </div>
-        </x-panel>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-space-md">
+                        @foreach ($floorRooms as $room)
+                            @php($resident = $room->activeLease?->primaryResident?->name)
+                            <div class="group p-space-md rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between gap-space-sm">
+                                <div class="flex items-start justify-between gap-2">
+                                    <div>
+                                        <div class="font-headline-lg text-headline-lg angka">{{ $room->number }}</div>
+                                        <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">{{ $room->roomType?->name ?? 'Tanpa tipe' }}</div>
+                                    </div>
+                                    <x-status-badge :tone="$room->status->tone()">{{ $room->status->label() }}</x-status-badge>
+                                </div>
+                                <div class="font-body-sm text-body-sm min-h-10">
+                                    @if ($resident)
+                                        <div class="font-label-md text-label-md text-on-surface">{{ $resident }}</div>
+                                        @if ($room->activeLease?->end_date)
+                                            <div class="text-secondary angka">Kontrak sampai {{ $room->activeLease->end_date->translatedFormat('j M Y') }}</div>
+                                        @endif
+                                    @elseif ($room->status === App\Enums\RoomStatus::Vacant)
+                                        <div class="font-label-md text-label-md text-tertiary">Siap disewakan</div>
+                                    @endif
+                                    @if (! empty($room->facilities))
+                                        <div class="text-secondary truncate">{{ implode(' • ', (array) $room->facilities) }}</div>
+                                    @endif
+                                </div>
+                                <div class="pt-space-sm border-t border-outline-variant/30 flex items-center justify-between">
+                                    <span class="font-label-lg text-label-lg angka">{{ App\Support\Rupiah::format($room->price) }}<span class="font-body-sm text-body-sm text-secondary">/bln</span></span>
+                                    @can('update', $room)
+                                        <a href="{{ route('owner.rooms.edit', $room) }}" class="p-1.5 rounded-lg text-secondary hover:text-primary hover:bg-surface-container-low transition-colors" aria-label="Ubah kamar {{ $room->number }}">
+                                            <span class="material-symbols-outlined text-base" aria-hidden="true">chevron_right</span>
+                                        </a>
+                                    @endcan
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endforeach
+        </section>
     @empty
         <x-panel>
             <p class="text-on-surface-variant">

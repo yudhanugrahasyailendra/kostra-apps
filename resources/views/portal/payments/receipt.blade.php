@@ -18,15 +18,15 @@
             <dt class="text-secondary">Metode</dt><dd class="col-span-2">{{ $payment->method->label() }}</dd>
         </dl>
 
-        <table class="w-full text-left">
-            <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
-                <tr><th class="p-2">Untuk tagihan</th><th class="p-2 text-right">Jumlah</th></tr>
+        <table class="table">
+            <thead>
+                <tr><th>Untuk tagihan</th><th class="text-right">Jumlah</th></tr>
             </thead>
             <tbody>
                 @foreach ($payment->allocations as $allocation)
-                    <tr class="border-t border-outline-variant/40">
-                        <td class="p-2 angka">{{ $allocation->invoice->number }}</td>
-                        <td class="p-2 angka text-right">{{ App\Support\Rupiah::format($allocation->amount) }}</td>
+                    <tr>
+                        <td class="angka">{{ $allocation->invoice->number }}</td>
+                        <td class="angka text-right">{{ App\Support\Rupiah::format($allocation->amount) }}</td>
                     </tr>
                 @endforeach
             </tbody>

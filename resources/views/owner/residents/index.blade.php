@@ -3,36 +3,42 @@
 @section('title', 'Penghuni')
 
 @section('content')
-    <div class="flex flex-wrap items-center justify-between gap-space-sm">
-        <form method="GET" action="{{ route('owner.residents.index') }}" class="flex flex-wrap items-end gap-space-sm">
-            <x-input name="q" label="Cari nama, nomor, atau kamar" :value="$q" />
-            <x-select name="status" label="Status" placeholder="Semua">
-                <option value="active" @selected($status === 'active')>Aktif</option>
-                <option value="inactive" @selected($status === 'inactive')>Tidak aktif</option>
-            </x-select>
-            <x-button type="submit">Cari</x-button>
-            <x-button :href="route('owner.residents.index')" variant="secondary">Atur ulang</x-button>
-        </form>
+    <x-page-header eyebrow="Modul operasional" title="Daftar Penghuni & Kontrak Sewa" subtitle="Kelola data penyewa, kontrak, dan deposit yang tercatat.">
         @can('create', App\Models\Resident::class)
-            <div class="flex gap-space-sm">
-                <x-button type="button" variant="secondary" data-modal-open="modal-import">Impor CSV</x-button>
-                <x-button :href="route('owner.residents.create')">Tambah penghuni</x-button>
-            </div>
+            <x-button type="button" variant="secondary" data-modal-open="modal-import"><span class="material-symbols-outlined text-base" aria-hidden="true">upload_file</span> Impor CSV</x-button>
+            <x-button :href="route('owner.residents.create')"><span class="material-symbols-outlined text-base" aria-hidden="true">person_add</span> Tambah Penghuni Baru</x-button>
         @endcan
+    </x-page-header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+        <x-kpi-card label="Penghuni aktif" :value="$stats['active']" icon="task_alt" tone="ok" :hint="'dari '.$stats['rooms'].' kamar terdaftar'" />
+        <x-kpi-card label="Segera berakhir (≤ 14 hari)" :value="$stats['expiring']" icon="schedule" tone="warn" hint="kontrak perlu diperpanjang" />
+        <x-kpi-card label="Menunggak sewa" :value="$stats['overdueLeases']" icon="event_busy" :tone="$stats['overdueLeases'] > 0 ? 'danger' : 'neutral'" hint="kontrak dengan tagihan lewat tempo" />
+        <x-kpi-card label="Total deposit tercatat" :value="App\Support\Rupiah::format($stats['deposits'])" icon="savings" hint="dicatat, bukan ditahan Kostra" />
     </div>
+
+    <form method="GET" action="{{ route('owner.residents.index') }}" class="panel p-space-md flex flex-wrap items-end gap-space-sm">
+        <div class="flex-1 min-w-56"><x-input name="q" label="Cari nama, nomor, atau kamar" :value="$q" placeholder="Cari nama penghuni, nomor WhatsApp, nomor kamar..." /></div>
+        <x-select name="status" label="Status" placeholder="Semua">
+            <option value="active" @selected($status === 'active')>Aktif</option>
+            <option value="inactive" @selected($status === 'inactive')>Tidak aktif</option>
+        </x-select>
+        <x-button type="submit"><span class="material-symbols-outlined text-base" aria-hidden="true">search</span> Cari</x-button>
+        <x-button :href="route('owner.residents.index')" variant="secondary">Atur ulang</x-button>
+    </form>
 
     @if (session('import_failures'))
         <x-panel title="Baris impor yang gagal">
-            <table class="w-full text-left text-body-sm">
-                <thead class="bg-surface-container-low text-secondary font-label-sm uppercase tracking-wider">
-                    <tr><th class="p-2">Baris</th><th class="p-2">Nama</th><th class="p-2">Alasan</th></tr>
+            <table class="table">
+                <thead>
+                    <tr><th>Baris</th><th>Nama</th><th>Alasan</th></tr>
                 </thead>
                 <tbody>
                     @foreach (session('import_failures') as $failure)
-                        <tr class="border-t border-outline-variant/40">
-                            <td class="p-2 angka">{{ $failure['line'] }}</td>
-                            <td class="p-2">{{ $failure['name'] ?: '—' }}</td>
-                            <td class="p-2">{{ $failure['reason'] }}</td>
+                        <tr>
+                            <td class="angka">{{ $failure['line'] }}</td>
+                            <td>{{ $failure['name'] ?: '—' }}</td>
+                            <td>{{ $failure['reason'] }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -52,37 +58,37 @@
 
     <x-panel>
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="p-3">Nama</th>
-                        <th class="p-3">Nomor WhatsApp</th>
-                        <th class="p-3">Kamar</th>
-                        <th class="p-3 hidden sm:table-cell">Pekerjaan / kampus</th>
-                        <th class="p-3">Status</th>
+                        <th>Nama</th>
+                        <th>Nomor WhatsApp</th>
+                        <th>Kamar</th>
+                        <th class="hidden sm:table-cell">Pekerjaan / kampus</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($residents as $resident)
-                        <tr class="border-t border-outline-variant/40 hover:bg-surface-container-low/50">
-                            <td class="p-3 font-label-lg">
+                        <tr>
+                            <td class="font-label-lg">
                                 <a href="{{ route('owner.residents.show', $resident) }}" class="text-primary hover:underline">{{ $resident->name }}</a>
                             </td>
-                            <td class="p-3 angka">
+                            <td class="angka">
                                 {{ $resident->phone }}
                                 @if ($sharedPhones->has($resident->phone))
                                     <x-status-badge tone="warn">Nomor ganda</x-status-badge>
                                 @endif
                             </td>
-                            <td class="p-3">
+                            <td>
                                 @forelse ($resident->leases as $lease)
                                     <a href="{{ route('owner.leases.show', $lease) }}" class="text-primary hover:underline">{{ $lease->room->number }}</a>@unless ($loop->last), @endunless
                                 @empty
                                     —
                                 @endforelse
                             </td>
-                            <td class="p-3 hidden sm:table-cell">{{ $resident->occupation ?? '—' }}</td>
-                            <td class="p-3">
+                            <td class="hidden sm:table-cell">{{ $resident->occupation ?? '—' }}</td>
+                            <td>
                                 <x-status-badge :tone="$resident->is_active ? 'ok' : 'neutral'">{{ $resident->is_active ? 'Aktif' : 'Tidak aktif' }}</x-status-badge>
                             </td>
                         </tr>

@@ -29,35 +29,35 @@
 
     <x-panel>
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="p-3">Tenant</th>
-                        <th class="p-3">Paket</th>
-                        <th class="p-3">Status</th>
-                        <th class="p-3 text-right">Properti</th>
-                        <th class="p-3 text-right">Kamar</th>
-                        <th class="p-3 text-right">Pesan bulan ini</th>
+                        <th>Tenant</th>
+                        <th>Paket</th>
+                        <th>Status</th>
+                        <th class="text-right">Properti</th>
+                        <th class="text-right">Kamar</th>
+                        <th class="text-right">Pesan bulan ini</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($tenants as $tenant)
                         @php($subscription = $subscriptions[$tenant->id] ?? null)
-                        <tr class="border-t border-outline-variant/40 hover:bg-surface-container-low/50">
-                            <td class="p-3">
+                        <tr>
+                            <td>
                                 <a href="{{ route('admin.tenants.show', $tenant) }}" class="font-label-lg text-primary hover:underline">{{ $tenant->name }}</a>
                                 <div class="font-body-sm text-secondary">{{ $tenant->slug }}</div>
                             </td>
-                            <td class="p-3">
+                            <td>
                                 {{ $tenant->plan->name }}
                                 @if ($subscription)
                                     <div><x-status-badge :tone="$subscription->status->tone()">{{ $subscription->status->label() }}</x-status-badge></div>
                                 @endif
                             </td>
-                            <td class="p-3"><x-status-badge :tone="match ($tenant->status) { App\Enums\TenantStatus::Active => 'ok', App\Enums\TenantStatus::Trial => 'warn', App\Enums\TenantStatus::Suspended => 'danger', default => 'neutral' }">{{ $tenant->status->label() }}</x-status-badge></td>
-                            <td class="p-3 angka text-right">{{ $properties[$tenant->id] ?? 0 }}</td>
-                            <td class="p-3 angka text-right">{{ $rooms[$tenant->id] ?? 0 }}</td>
-                            <td class="p-3 angka text-right">{{ $messages[$tenant->id] ?? 0 }}</td>
+                            <td><x-status-badge :tone="match ($tenant->status) { App\Enums\TenantStatus::Active => 'ok', App\Enums\TenantStatus::Trial => 'warn', App\Enums\TenantStatus::Suspended => 'danger', default => 'neutral' }">{{ $tenant->status->label() }}</x-status-badge></td>
+                            <td class="angka text-right">{{ $properties[$tenant->id] ?? 0 }}</td>
+                            <td class="angka text-right">{{ $rooms[$tenant->id] ?? 0 }}</td>
+                            <td class="angka text-right">{{ $messages[$tenant->id] ?? 0 }}</td>
                         </tr>
                     @empty
                         <tr><td colspan="6" class="p-4 text-on-surface-variant">Tidak ada tenant yang cocok.</td></tr>

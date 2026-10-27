@@ -39,31 +39,31 @@
 
     <x-panel>
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="p-3">Kamar</th>
-                        <th class="p-3">Penghuni</th>
-                        <th class="p-3">Masa kontrak</th>
-                        <th class="p-3">Sewa</th>
-                        <th class="p-3">Status</th>
+                        <th>Kamar</th>
+                        <th>Penghuni</th>
+                        <th>Masa kontrak</th>
+                        <th>Sewa</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($leases as $lease)
                         @php($days = $lease->daysRemaining($today))
-                        <tr class="border-t border-outline-variant/40 hover:bg-surface-container-low/50">
-                            <td class="p-3">
+                        <tr>
+                            <td>
                                 <a href="{{ route('owner.leases.show', $lease) }}" class="font-label-lg text-primary hover:underline angka">{{ $lease->room->number }}</a>
                                 <div class="font-body-sm text-secondary">{{ $lease->property->name }}</div>
                             </td>
-                            <td class="p-3">
+                            <td>
                                 {{ $lease->primaryResident->name }}
                                 @if ($lease->residents_count > 1)
                                     <span class="font-body-sm text-secondary">+{{ $lease->residents_count - 1 }} lainnya</span>
                                 @endif
                             </td>
-                            <td class="p-3 angka">
+                            <td class="angka">
                                 {{ $lease->start_date->translatedFormat('j M Y') }} s/d {{ $lease->end_date?->translatedFormat('j M Y') ?? '—' }}
                                 @if ($lease->status->value === 'active' && $days !== null)
                                     <div class="font-body-sm {{ $days < 0 ? 'text-error' : 'text-secondary' }}">
@@ -71,8 +71,8 @@
                                     </div>
                                 @endif
                             </td>
-                            <td class="p-3 angka">{{ App\Support\Rupiah::format($lease->rent_amount) }}</td>
-                            <td class="p-3">
+                            <td class="angka">{{ App\Support\Rupiah::format($lease->rent_amount) }}</td>
+                            <td>
                                 <x-status-badge :tone="$lease->status->tone()">{{ $lease->status->label() }}</x-status-badge>
                                 @if ($lease->isPastEnd($today))
                                     <x-status-badge tone="danger">Lewat masa sewa</x-status-badge>

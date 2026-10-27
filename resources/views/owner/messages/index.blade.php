@@ -5,9 +5,11 @@
 @section('content')
     @php($tz = auth()->user()->tenant->timezone)
 
-    <nav class="flex flex-wrap gap-2" aria-label="Bagian pesan">
-        <a href="{{ route('owner.messages.index') }}" aria-current="page" class="btn btn-primary">Log pengiriman</a>
-        <a href="{{ route('owner.message-templates.index') }}" class="btn btn-secondary">Template pesan</a>
+    <x-page-header eyebrow="Notifikasi" title="Pengaturan & Log Notifikasi WhatsApp" subtitle="Pengingat tagihan dan kuitansi otomatis, dengan pemantauan kuota pesan bulanan." />
+
+    <nav class="flex flex-wrap gap-1 p-1.5 rounded-xl bg-surface-container-low w-fit max-w-full" aria-label="Bagian pesan">
+        <a href="{{ route('owner.messages.index') }}" aria-current="page" class="px-4 py-2 rounded-lg font-label-md text-label-md bg-surface-container-lowest text-primary shadow-sm">Log pengiriman</a>
+        <a href="{{ route('owner.message-templates.index') }}" class="px-4 py-2 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container">Template pesan</a>
     </nav>
 
     @if ($quota['remaining'] === 0)
@@ -17,23 +19,20 @@
     @endif
 
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-space-md">
-        <div class="panel p-space-md">
-            <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Sisa kuota {{ $quota['period'] }}</div>
-            <div class="font-currency-stat text-currency-stat angka" data-stat="quota-remaining">{{ $quota['remaining'] }}</div>
-            <div class="font-body-sm text-secondary">{{ $quota['used'] }} terpakai dari {{ $quota['limit'] }} pesan</div>
+        <div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-sm">
+            <div class="flex items-start justify-between">
+                <div>
+                    <div class="kpi-label">Sisa kuota {{ $quota['period'] }}</div>
+                    <div class="font-currency-stat text-currency-stat angka" data-stat="quota-remaining">{{ $quota['remaining'] }}</div>
+                </div>
+                <span class="kpi-icon bg-secondary-container text-on-secondary-container" aria-hidden="true"><span class="material-symbols-outlined">chat</span></span>
+            </div>
+            <div class="meter" role="img" aria-label="Kuota terpakai {{ $quota['used'] }} dari {{ $quota['limit'] }}"><span style="width: {{ $quota['limit'] > 0 ? min(100, round($quota['used'] / $quota['limit'] * 100)) : 0 }}%"></span></div>
+            <div class="font-body-sm text-body-sm text-secondary">{{ $quota['used'] }} terpakai dari {{ $quota['limit'] }} pesan</div>
         </div>
-        <div class="panel p-space-md">
-            <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Terkirim</div>
-            <div class="font-currency-stat text-currency-stat angka">{{ $counts['sent'] + $counts['delivered'] }}</div>
-        </div>
-        <div class="panel p-space-md">
-            <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Gagal</div>
-            <div class="font-currency-stat text-currency-stat angka">{{ $counts['failed'] }}</div>
-        </div>
-        <div class="panel p-space-md">
-            <div class="font-label-sm text-label-sm text-secondary uppercase tracking-wider">Dilewati</div>
-            <div class="font-currency-stat text-currency-stat angka">{{ $counts['skipped'] }}</div>
-        </div>
+        <x-kpi-card label="Terkirim" :value="$counts['sent'] + $counts['delivered']" icon="mark_email_read" tone="ok" hint="berhasil dikirim" />
+        <x-kpi-card label="Gagal" :value="$counts['failed']" icon="error" :tone="$counts['failed'] > 0 ? 'danger' : 'neutral'" hint="perlu dicek atau dikirim ulang" />
+        <x-kpi-card label="Dilewati" :value="$counts['skipped']" icon="do_not_disturb_on" hint="kuota habis atau penghuni berhenti" />
     </div>
 
     <form method="GET" action="{{ route('owner.messages.index') }}" class="panel p-space-md flex flex-wrap items-end gap-space-md">
@@ -51,32 +50,32 @@
 
     <x-panel>
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="p-3">Waktu</th>
-                        <th class="p-3">Penerima</th>
-                        <th class="p-3">Template</th>
-                        <th class="p-3">Status</th>
-                        <th class="p-3"><span class="sr-only">Aksi</span></th>
+                        <th>Waktu</th>
+                        <th>Penerima</th>
+                        <th>Template</th>
+                        <th>Status</th>
+                        <th><span class="sr-only">Aksi</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($logs as $log)
                         <tr class="border-t border-outline-variant/40 align-top">
-                            <td class="p-3 angka">{{ $log->created_at->timezone($tz)->translatedFormat('j M Y H:i') }}</td>
-                            <td class="p-3">
+                            <td class="angka">{{ $log->created_at->timezone($tz)->translatedFormat('j M Y H:i') }}</td>
+                            <td>
                                 {{ $log->resident?->name ?? '—' }}
                                 <div class="font-body-sm text-secondary angka">…{{ substr($log->recipient, -4) }}</div>
                             </td>
-                            <td class="p-3">
+                            <td>
                                 {{ $log->template?->name ?? '—' }}
                                 <details class="font-body-sm text-secondary">
                                     <summary class="cursor-pointer text-primary">Lihat isi pesan</summary>
                                     <p class="whitespace-pre-line mt-1">{{ $log->displayBody() }}</p>
                                 </details>
                             </td>
-                            <td class="p-3">
+                            <td>
                                 <x-status-badge :tone="$log->status->tone()">{{ $log->status->label() }}</x-status-badge>
                                 @if ($log->skip_reason)
                                     <div class="font-body-sm text-secondary">{{ $log->skip_reason->label() }}</div>
@@ -88,7 +87,7 @@
                                     <div class="font-body-sm text-secondary angka">Dijadwalkan {{ $log->scheduled_for->timezone($tz)->translatedFormat('j M H:i') }}</div>
                                 @endif
                             </td>
-                            <td class="p-3 text-right">
+                            <td class="text-right">
                                 @if ($log->canResend())
                                     <form method="POST" action="{{ route('owner.messages.resend', $log) }}">
                                         @csrf

@@ -144,18 +144,41 @@
 }
 
 @layer components {
-  .badge { @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-label-sm text-label-sm uppercase tracking-wider; }
+  /* Komponen bersama, diturunkan dari pola yang berulang di docs/screens (kartu tanpa garis tepi, input berlatar isi). */
+  .badge { @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full font-label-sm text-label-sm; }
   .badge-ok { @apply bg-primary-fixed text-on-primary-fixed-variant; }
   .badge-warn { @apply bg-tertiary-fixed text-on-tertiary-fixed; }
   .badge-danger { @apply bg-error-container text-on-error-container; }
   .badge-neutral { @apply bg-secondary-container text-on-secondary-container; }
 
-  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 h-12 lg:h-10 font-label-lg text-label-lg transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 disabled:opacity-50; }
-  .btn-primary { @apply bg-primary text-on-primary hover:bg-primary-container; }
-  .btn-secondary { @apply bg-surface-container-lowest text-on-surface border border-outline-variant hover:bg-surface-container; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 h-12 lg:h-10 font-label-md text-label-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 disabled:opacity-50; }
+  .btn-primary { @apply bg-primary text-on-primary hover:bg-primary-container shadow-[0_1px_3px_rgba(15,23,42,0.05)]; }
+  .btn-secondary { @apply bg-surface-container text-on-surface hover:bg-surface-container-high; }
   .btn-danger { @apply bg-error-container text-on-error-container hover:bg-error-container/70; }
+  .btn-sm { @apply h-9 lg:h-8 px-3 text-label-sm; }
 
-  .panel { @apply rounded-xl bg-surface-container-lowest border border-outline-variant/40 shadow-sm; }
+  .panel { @apply rounded-xl bg-surface-container-lowest shadow-sm; }
+  .panel-title { @apply font-headline-md text-headline-md text-on-surface; }
+
+  .field { @apply w-full px-3 h-12 lg:h-10 rounded-xl bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-secondary focus:outline-none focus:ring-2 focus:ring-primary/20; }
+  textarea.field { @apply h-auto py-2; }
+  .field-label { @apply font-label-md text-label-md text-on-surface; }
+
+  /* Tabel daftar: kepala tabel latar tipis, baris menyorot saat disentuh */
+  .table-wrap { @apply overflow-x-auto; }
+  .table { @apply w-full text-left border-collapse; }
+  .table thead tr { @apply bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider; }
+  .table th { @apply py-3 px-space-md font-bold; }
+  .table td { @apply py-3 px-space-md align-middle; }
+  .table tbody tr { @apply hover:bg-surface-container-low/50 transition-colors; }
+  .table tbody tr + tr { @apply border-t border-outline-variant/30; }
+
+  /* Kartu angka (KPI) */
+  .kpi-label { @apply font-label-sm text-label-sm text-secondary uppercase tracking-wider; }
+  .kpi-value { @apply font-currency-stat text-currency-stat text-on-surface; font-variant-numeric: tabular-nums; }
+  .kpi-icon { @apply w-10 h-10 rounded-xl flex items-center justify-center shrink-0; }
+  .meter { @apply w-full h-1.5 bg-surface-container-high rounded-full overflow-hidden; }
+  .meter > span { @apply block h-full bg-primary rounded-full; }
 }
 
 @layer components {

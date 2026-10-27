@@ -52,7 +52,8 @@ class PaymentUiAndIsolationTest extends TestCase
 
         $this->actingAs($this->owner)->get(route('owner.invoices.show', $invoice))
             ->assertSee('Catat pembayaran')->assertSee('Bukti transfer')->assertSee($payment->receipt_number);
-        $this->actingAs($this->owner)->get(route('owner.dashboard'))->assertSee('Pembayaran')->assertSee('Verifikasi bukti')->assertSee('1 menunggu');
+        $this->actingAs($this->owner)->get(route('owner.dashboard'))->assertSee('Verifikasi Pembayaran')->assertSee('Tagihan & Invoice');
+        $this->actingAs($this->owner)->get(route('owner.invoices.index'))->assertSee('Riwayat Pembayaran');
     }
 
     public function test_the_payment_form_lists_open_invoices_and_prefills_only_the_chosen_one(): void

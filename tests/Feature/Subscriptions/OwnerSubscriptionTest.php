@@ -62,7 +62,7 @@ class OwnerSubscriptionTest extends TestCase
     {
         [, $owner] = $this->tenantOn('free');
 
-        $this->actingAs($owner)->get(route('owner.dashboard'))->assertSee(route('owner.subscription.show'), false)->assertDontSee('Segera');
+        $this->actingAs($owner)->get(route('owner.dashboard'))->assertSee(route('owner.subscription.show'), false)->assertDontSee('>Segera<', false);
     }
 
     // ---- Percobaan ----

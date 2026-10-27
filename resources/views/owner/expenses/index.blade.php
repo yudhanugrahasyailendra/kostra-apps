@@ -44,39 +44,39 @@
 
     <x-panel>
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+            <table class="table">
+                <thead>
                     <tr>
-                        <th class="p-3">Tanggal</th>
-                        <th class="p-3">Keterangan</th>
-                        <th class="p-3">Kategori</th>
-                        <th class="p-3 hidden md:table-cell">Properti</th>
-                        <th class="p-3 text-right">Jumlah</th>
-                        <th class="p-3">Nota</th>
-                        <th class="p-3"><span class="sr-only">Aksi</span></th>
+                        <th>Tanggal</th>
+                        <th>Keterangan</th>
+                        <th>Kategori</th>
+                        <th class="hidden md:table-cell">Properti</th>
+                        <th class="text-right">Jumlah</th>
+                        <th>Nota</th>
+                        <th><span class="sr-only">Aksi</span></th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($expenses as $expense)
-                        <tr class="border-t border-outline-variant/40 hover:bg-surface-container-low/50">
-                            <td class="p-3 angka">{{ $expense->spent_on->translatedFormat('j M Y') }}</td>
-                            <td class="p-3">
+                        <tr>
+                            <td class="angka">{{ $expense->spent_on->translatedFormat('j M Y') }}</td>
+                            <td>
                                 {{ $expense->description }}
                                 @if ($expense->vendor_name)
                                     <div class="font-body-sm text-secondary">{{ $expense->vendor_name }}</div>
                                 @endif
                             </td>
-                            <td class="p-3">{{ $expense->category->name }}</td>
-                            <td class="p-3 hidden md:table-cell">{{ $expense->property?->name ?? 'Umum (semua properti)' }}</td>
-                            <td class="p-3 angka text-right">{{ App\Support\Rupiah::format($expense->amount) }}</td>
-                            <td class="p-3">
+                            <td>{{ $expense->category->name }}</td>
+                            <td class="hidden md:table-cell">{{ $expense->property?->name ?? 'Umum (semua properti)' }}</td>
+                            <td class="angka text-right">{{ App\Support\Rupiah::format($expense->amount) }}</td>
+                            <td>
                                 @forelse ($expense->attachments as $attachment)
                                     <a class="text-primary hover:underline" href="{{ $attachment->temporaryUrl() }}" target="_blank" rel="noopener">Lihat</a>
                                 @empty
                                     <span class="text-secondary">Tidak ada</span>
                                 @endforelse
                             </td>
-                            <td class="p-3 text-right"><a class="text-primary hover:underline" href="{{ route('owner.expenses.edit', $expense) }}">Ubah</a></td>
+                            <td class="text-right"><a class="text-primary hover:underline" href="{{ route('owner.expenses.edit', $expense) }}">Ubah</a></td>
                         </tr>
                     @empty
                         <tr><td colspan="7" class="p-4 text-on-surface-variant">Belum ada pengeluaran yang cocok.</td></tr>

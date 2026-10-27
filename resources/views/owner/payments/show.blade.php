@@ -41,21 +41,21 @@
     </x-panel>
 
     <x-panel title="Dialokasikan ke tagihan">
-        <table class="w-full text-left">
-            <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
-                <tr><th class="p-3">Tagihan</th><th class="p-3">Status tagihan</th><th class="p-3 text-right">Alokasi</th></tr>
+        <table class="table">
+            <thead>
+                <tr><th>Tagihan</th><th>Status tagihan</th><th class="text-right">Alokasi</th></tr>
             </thead>
             <tbody>
                 @foreach ($payment->allocations as $allocation)
-                    <tr class="border-t border-outline-variant/40">
-                        <td class="p-3 angka"><a class="text-primary hover:underline" href="{{ route('owner.invoices.show', $allocation->invoice_id) }}">{{ $allocation->invoice->number }}</a></td>
-                        <td class="p-3"><x-status-badge :tone="$allocation->invoice->status->tone()">{{ $allocation->invoice->status->label() }}</x-status-badge></td>
-                        <td class="p-3 angka text-right">{{ App\Support\Rupiah::format($allocation->amount) }}</td>
+                    <tr>
+                        <td class="angka"><a class="text-primary hover:underline" href="{{ route('owner.invoices.show', $allocation->invoice_id) }}">{{ $allocation->invoice->number }}</a></td>
+                        <td><x-status-badge :tone="$allocation->invoice->status->tone()">{{ $allocation->invoice->status->label() }}</x-status-badge></td>
+                        <td class="angka text-right">{{ App\Support\Rupiah::format($allocation->amount) }}</td>
                     </tr>
                 @endforeach
             </tbody>
             <tfoot class="border-t-2 border-outline-variant">
-                <tr><td class="p-3 font-label-lg" colspan="2">Total</td><td class="p-3 angka text-right font-label-lg">{{ App\Support\Rupiah::format($payment->amount) }}</td></tr>
+                <tr><td class="font-label-lg" colspan="2">Total</td><td class="angka text-right font-label-lg">{{ App\Support\Rupiah::format($payment->amount) }}</td></tr>
             </tfoot>
         </table>
     </x-panel>

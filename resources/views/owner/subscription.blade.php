@@ -6,6 +6,8 @@
     @php($rank = fn ($candidate) => $candidate->price_monthly <=> $plan->price_monthly)
     @php($limit = fn ($value) => $value === null ? 'tanpa batas' : number_format($value, 0, ',', '.'))
 
+    <x-page-header eyebrow="Pengaturan kos" title="Paket Langganan & Kuota" subtitle="Pantau batas kamar, pengguna, dan pesan WhatsApp, lalu pilih paket yang sesuai dengan skala kos Anda." />
+
     @if ($tenant->isSuspended())
         <div class="rounded-xl bg-error-container text-on-error-container px-space-md py-space-sm font-label-md" role="alert">
             Akun ditangguhkan karena langganan belum dibayar. Anda masih bisa melihat dan mengekspor data. Setelah transfer dicatat Super Admin, akun aktif kembali.
@@ -35,12 +37,23 @@
             </div>
         </div>
 
-        <dl class="mt-space-md grid grid-cols-2 lg:grid-cols-4 gap-space-md">
-            <div class="rounded-xl bg-surface-container-low p-space-md"><dt class="font-label-sm text-secondary uppercase tracking-wider">Properti</dt><dd class="angka font-label-lg">{{ $usage['properties'] }} / {{ $limit($plan->max_properties) }}</dd></div>
-            <div class="rounded-xl bg-surface-container-low p-space-md"><dt class="font-label-sm text-secondary uppercase tracking-wider">Kamar</dt><dd class="angka font-label-lg">{{ $usage['rooms'] }} / {{ $limit($plan->max_rooms) }}</dd></div>
-            <div class="rounded-xl bg-surface-container-low p-space-md"><dt class="font-label-sm text-secondary uppercase tracking-wider">Pengguna</dt><dd class="angka font-label-lg">{{ $usage['users'] }} / {{ $limit($plan->max_users) }}</dd></div>
-            <div class="rounded-xl bg-surface-container-low p-space-md"><dt class="font-label-sm text-secondary uppercase tracking-wider">Pesan bulan ini</dt><dd class="angka font-label-lg">{{ $usage['messages'] }} / {{ $limit($messageLimit) }}</dd></div>
-        </dl>
+        <div class="mt-space-md grid grid-cols-2 lg:grid-cols-4 gap-space-md">
+            @foreach ([
+                ['Properti', $usage['properties'], $plan->max_properties],
+                ['Kamar', $usage['rooms'], $plan->max_rooms],
+                ['Pengguna', $usage['users'], $plan->max_users],
+                ['Pesan bulan ini', $usage['messages'], $messageLimit],
+            ] as [$label, $used, $max])
+                @php($pct = $max ? min(100, round($used / $max * 100)) : 0)
+                <div class="rounded-xl bg-surface-container-low p-space-md flex flex-col gap-space-xs">
+                    <div class="kpi-label">{{ $label }}</div>
+                    <div class="angka font-label-lg text-label-lg">{{ $used }} / {{ $limit($max) }}</div>
+                    @if ($max)
+                        <div class="meter" role="img" aria-label="{{ $label }}: {{ $used }} dari {{ $max }} ({{ $pct }}%)"><span style="width: {{ $pct }}%" class="{{ $pct >= 90 ? 'bg-error!' : '' }}"></span></div>
+                    @endif
+                </div>
+            @endforeach
+        </div>
     </x-panel>
 
     @if ($pendingRequest)
@@ -57,7 +70,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
             @foreach ($plans as $candidate)
                 @php($relation = $rank($candidate))
-                <div class="rounded-xl border {{ $relation === 0 ? 'border-primary' : 'border-outline-variant/60' }} p-space-md flex flex-col gap-space-sm">
+                <div class="rounded-xl p-space-md flex flex-col gap-space-sm {{ $relation === 0 ? 'bg-primary-fixed/30 ring-2 ring-primary' : 'bg-surface-container-low' }}">
                     <div class="flex items-center justify-between gap-2">
                         <h3 class="font-headline-md text-headline-md">{{ $candidate->name }}</h3>
                         @if ($relation === 0)
@@ -121,18 +134,18 @@
     <x-panel title="Tagihan langganan">
         @if ($invoices->isNotEmpty())
             <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="bg-surface-container-low text-secondary font-label-sm text-label-sm uppercase tracking-wider">
-                        <tr><th class="p-3">Nomor</th><th class="p-3">Periode</th><th class="p-3 text-right">Jumlah</th><th class="p-3">Jatuh tempo</th><th class="p-3">Status</th></tr>
+                <table class="table">
+                    <thead>
+                        <tr><th>Nomor</th><th>Periode</th><th class="text-right">Jumlah</th><th>Jatuh tempo</th><th>Status</th></tr>
                     </thead>
                     <tbody>
                         @foreach ($invoices as $invoice)
-                            <tr class="border-t border-outline-variant/40">
-                                <td class="p-3 angka">{{ $invoice->number }}</td>
-                                <td class="p-3 angka">{{ $invoice->period_start->translatedFormat('j M Y') }} – {{ $invoice->period_end->translatedFormat('j M Y') }}</td>
-                                <td class="p-3 angka text-right">{{ App\Support\Rupiah::format($invoice->amount) }}</td>
-                                <td class="p-3 angka">{{ $invoice->due_date->translatedFormat('j M Y') }}</td>
-                                <td class="p-3"><x-status-badge :tone="$invoice->status->tone()">{{ $invoice->status->label() }}</x-status-badge></td>
+                            <tr>
+                                <td class="angka">{{ $invoice->number }}</td>
+                                <td class="angka">{{ $invoice->period_start->translatedFormat('j M Y') }} – {{ $invoice->period_end->translatedFormat('j M Y') }}</td>
+                                <td class="angka text-right">{{ App\Support\Rupiah::format($invoice->amount) }}</td>
+                                <td class="angka">{{ $invoice->due_date->translatedFormat('j M Y') }}</td>
+                                <td><x-status-badge :tone="$invoice->status->tone()">{{ $invoice->status->label() }}</x-status-badge></td>
                             </tr>
                         @endforeach
                     </tbody>
