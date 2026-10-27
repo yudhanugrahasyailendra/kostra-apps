@@ -4,6 +4,7 @@ use App\Http\Middleware\EnsureRole;
 use App\Http\Middleware\EnsureTenantIsActive;
 use App\Http\Middleware\PortalStartSession;
 use App\Http\Middleware\ResolvePortalToken;
+use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\SetCurrentTenant;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -49,6 +50,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'tenant.active' => EnsureTenantIsActive::class,
             'portal.token' => ResolvePortalToken::class,
         ]);
+
+        // Header keamanan untuk semua respons web dan portal.
+        $middleware->append(SecurityHeaders::class);
 
         // Konteks tenant harus siap sebelum route model binding, supaya binding terscope.
         $middleware->prependToPriorityList(before: SubstituteBindings::class, prepend: SetCurrentTenant::class);

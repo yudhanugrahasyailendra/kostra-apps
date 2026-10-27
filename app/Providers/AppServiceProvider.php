@@ -57,6 +57,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use LogicException;
 
@@ -82,6 +83,11 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Di production semua tautan (termasuk tautan bertanda tangan) memakai HTTPS, juga di belakang proksi.
+        if ($this->app->isProduction()) {
+            URL::forceScheme('https');
+        }
+
         // Nama kelas tidak boleh tersimpan di database (audit_logs, attachments, dst.).
         Relation::enforceMorphMap([
             'tenant' => Tenant::class,
