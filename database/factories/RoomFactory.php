@@ -21,7 +21,8 @@ class RoomFactory extends Factory
             'tenant_id' => Tenant::factory(),
             'property_id' => Property::factory(),
             'room_type_id' => null,
-            'number' => (string) fake()->unique()->numberBetween(100, 9999),
+            // Berawalan F supaya tidak pernah bentrok dengan nomor angka yang dipakai tes.
+            'number' => 'F'.fake()->unique()->numberBetween(100, 99999),
             'floor' => 1,
             'price' => 1_500_000,
             'status' => RoomStatus::Vacant,
