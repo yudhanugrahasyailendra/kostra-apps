@@ -263,3 +263,5 @@ Belum diputuskan (keputusan 6). Kebutuhan minimum: PHP-FPM atau setara, worker a
 | 2026-10 | Nomor KTP tidak disimpan | Minimalkan data pribadi |
 | 2026-10 | DESIGN.md (Stitch) menjadi sumber desain, menggantikan palet navy dan kuningan di mockup awal | Satu sumber visual yang konsisten |
 | 2026-10-27 | Fase 0: MySQL, panel pemilik Blade tanpa Filament (Livewire/Alpine ditambah saat dibutuhkan), PHPUnit, antrean dan sesi driver database | Sesuai rekomendasi rencana Fase 0; ekstensi pdo_mysql sudah ada di lingkungan lokal |
+| 2026-10-27 | Fase 3: foto KTP opsional dengan peringatan (keputusan terbuka 4); staf tidak boleh menganonimkan data penghuni (usulan keputusan 5); izin `documents.view` untuk dokumen sensitif | Meminimalkan data pribadi; pemilik tetap pengendali utama |
+| 2026-10-27 | Data pribadi penghuni tidak disalin ke audit_logs (nilai disamarkan), dan penghapusan data berarti anonimisasi | Audit bersifat append-only sehingga tidak boleh menyimpan data yang kelak harus dihapus |

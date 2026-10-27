@@ -11,7 +11,11 @@
     <x-panel title="Daftar properti">
         @forelse ($properties as $property)
             <div class="py-space-sm border-b border-outline-variant/40 last:border-0 flex flex-wrap items-center justify-between gap-3">
-                <div class="min-w-0">
+                <div class="min-w-0 flex items-center gap-3">
+                    @if ($property->photo)
+                        <img src="{{ $property->photo->temporaryUrl() }}" alt="" class="w-12 h-12 rounded-lg object-cover" loading="lazy">
+                    @endif
+                    <div class="min-w-0">
                     <div class="font-label-lg">{{ $property->name }}
                         @unless ($property->is_active)
                             <x-status-badge tone="neutral">Nonaktif</x-status-badge>
@@ -20,6 +24,7 @@
                     <div class="font-body-sm text-secondary">
                         {{ $property->city ?? '—' }} · {{ $property->rooms_count }} kamar
                         @if ($property->floors) · {{ $property->floors }} lantai @endif
+                    </div>
                     </div>
                 </div>
                 @can('update', $property)

@@ -9,12 +9,14 @@ enum Permission: string
 {
     case FinanceView = 'finance.view';
     case SettingsManage = 'settings.manage';
+    case DocumentsView = 'documents.view';
 
     public function label(): string
     {
         return match ($this) {
             self::FinanceView => 'Melihat keuangan (pengeluaran dan laporan)',
             self::SettingsManage => 'Mengelola pengaturan',
+            self::DocumentsView => 'Mengelola dan melihat dokumen sensitif (foto KTP)',
         };
     }
 

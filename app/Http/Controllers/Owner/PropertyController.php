@@ -19,7 +19,7 @@ class PropertyController extends Controller
         Gate::authorize('viewAny', Property::class);
 
         return view('owner.properties.index', [
-            'properties' => Property::query()->withCount('rooms')->orderBy('name')->get(),
+            'properties' => Property::query()->with('photo')->withCount('rooms')->orderBy('name')->get(),
         ]);
     }
 
@@ -34,7 +34,7 @@ class PropertyController extends Controller
     {
         Gate::authorize('update', $property);
 
-        return view('owner.properties.edit', ['property' => $property]);
+        return view('owner.properties.edit', ['property' => $property->load('photo')]);
     }
 
     public function update(PropertyRequest $request, Property $property, UpdateProperty $update): RedirectResponse

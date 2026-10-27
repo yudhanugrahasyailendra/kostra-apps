@@ -14,4 +14,20 @@
             </div>
         </form>
     </x-panel>
+
+    <x-panel title="Foto properti">
+        @if ($property->photo)
+            <img src="{{ $property->photo->temporaryUrl() }}" alt="Foto {{ $property->name }}" class="max-h-64 rounded-lg mb-space-md">
+            <form method="POST" action="{{ route('owner.attachments.destroy', $property->photo) }}" class="mb-space-md" onsubmit="return confirm('Hapus foto ini?')">
+                @csrf
+                @method('DELETE')
+                <x-button type="submit" variant="danger">Hapus foto</x-button>
+            </form>
+        @endif
+        <form method="POST" action="{{ route('owner.properties.photo.store', $property) }}" enctype="multipart/form-data" class="flex flex-col gap-space-md">
+            @csrf
+            <x-input name="file" type="file" accept=".jpg,.jpeg,.png" label="{{ $property->photo ? 'Ganti foto' : 'Unggah foto' }} (JPG atau PNG, maksimal 5 MB)" required />
+            <div><x-button type="submit" variant="secondary">Unggah</x-button></div>
+        </form>
+    </x-panel>
 @endsection

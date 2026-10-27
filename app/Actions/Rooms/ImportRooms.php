@@ -8,10 +8,10 @@ use App\Models\Property;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Services\Plans\PlanLimits;
+use App\Support\CsvReader;
 use App\Support\Rupiah;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 
 class ImportRooms
 {
@@ -38,7 +38,7 @@ class ImportRooms
     public function __invoke(Property $property, string $path): ImportResult
     {
         $tenant = $this->currentTenant();
-        $rows = $this->readRows($path);
+        $rows = CsvReader::read($path, self::HEADERS, 'number', self::MAX_ROWS);
         $result = new ImportResult;
 
         DB::transaction(function () use ($tenant, $property, $rows, $result) {
@@ -151,71 +151,5 @@ class ImportRooms
         $items = array_values(array_filter(array_map('trim', explode('|', $raw)), fn ($item) => $item !== ''));
 
         return $items === [] ? null : array_slice(array_map(fn ($i) => mb_substr($i, 0, 60), $items), 0, 20);
-    }
-
-    /**
-     * @return list<array{line: int, data: array<string, string>}>
-     */
-    private function readRows(string $path): array
-    {
-        $handle = fopen($path, 'rb');
-
-        if ($handle === false) {
-            throw ValidationException::withMessages(['file' => 'Berkas tidak bisa dibaca.']);
-        }
-
-        try {
-            $first = fgets($handle);
-
-            if ($first === false || trim($first) === '') {
-                throw ValidationException::withMessages(['file' => 'Berkas kosong.']);
-            }
-
-            $first = $this->toUtf8(preg_replace('/^\xEF\xBB\xBF/', '', $first));
-            $delimiter = substr_count($first, ';') > substr_count($first, ',') ? ';' : ',';
-
-            $header = array_map(
-                fn ($name) => self::HEADERS[mb_strtolower(trim((string) $name))] ?? null,
-                str_getcsv($first, $delimiter, '"', ''),
-            );
-
-            if (! in_array('number', $header, true)) {
-                throw ValidationException::withMessages(['file' => 'Kolom "nomor" tidak ditemukan di baris pertama.']);
-            }
-
-            $rows = [];
-            $line = 1;
-
-            while (($cells = fgetcsv($handle, 0, $delimiter, '"', '')) !== false) {
-                $line++;
-
-                if ($cells === [null] || count(array_filter($cells, fn ($c) => trim((string) $c) !== '')) === 0) {
-                    continue;
-                }
-
-                if (count($rows) >= self::MAX_ROWS) {
-                    throw ValidationException::withMessages(['file' => 'Maksimal '.self::MAX_ROWS.' baris per impor.']);
-                }
-
-                $data = [];
-
-                foreach ($header as $index => $column) {
-                    if ($column !== null) {
-                        $data[$column] = $this->toUtf8((string) ($cells[$index] ?? ''));
-                    }
-                }
-
-                $rows[] = ['line' => $line, 'data' => $data];
-            }
-
-            return $rows;
-        } finally {
-            fclose($handle);
-        }
-    }
-
-    private function toUtf8(string $value): string
-    {
-        return mb_check_encoding($value, 'UTF-8') ? $value : mb_convert_encoding($value, 'UTF-8', 'Windows-1252');
     }
 }

@@ -55,6 +55,9 @@
                 @if (session('status'))
                     <div class="rounded-xl bg-primary-fixed text-on-primary-fixed-variant px-space-md py-space-sm font-label-md" role="status">{{ session('status') }}</div>
                 @endif
+                @if (session('warning'))
+                    <div class="rounded-xl bg-tertiary-fixed text-on-tertiary-fixed px-space-md py-space-sm font-label-md" role="status">{{ session('warning') }}</div>
+                @endif
                 @if ($errors->has('plan_limit'))
                     <div class="rounded-xl bg-tertiary-fixed text-on-tertiary-fixed px-space-md py-space-sm font-label-md" role="alert">
                         {{ $errors->first('plan_limit') }}

@@ -17,6 +17,12 @@
     <span>Properti &amp; Kamar</span>
 </a>
 
+<a href="{{ route('owner.residents.index') }}" @if (request()->routeIs('owner.residents.*')) aria-current="page" @endif
+   class="{{ $link }} {{ request()->routeIs('owner.residents.*') ? $active : $idle }}">
+    <span class="material-symbols-outlined text-lg" aria-hidden="true">group</span>
+    <span>Penghuni</span>
+</a>
+
 @can('finance.view')
     <span class="{{ $link }} {{ $soon }}" aria-disabled="true">
         <span class="material-symbols-outlined text-lg" aria-hidden="true">account_balance_wallet</span>

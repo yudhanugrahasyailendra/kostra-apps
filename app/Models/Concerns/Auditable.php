@@ -52,6 +52,17 @@ trait Auditable
      */
     public function auditableValues(array $values): array
     {
-        return array_diff_key($values, array_flip($this->auditExclude()));
+        $values = array_diff_key($values, array_flip($this->auditExclude()));
+
+        // Data pribadi tidak disalin ke jejak audit: kolom tercatat berubah, nilainya disamarkan.
+        $masked = property_exists($this, 'auditMasked') ? $this->auditMasked : [];
+
+        foreach ($masked as $column) {
+            if (array_key_exists($column, $values)) {
+                $values[$column] = '***';
+            }
+        }
+
+        return $values;
     }
 }

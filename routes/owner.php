@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Owner\AttachmentController;
 use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\PropertyController;
+use App\Http\Controllers\Owner\PropertyPhotoController;
+use App\Http\Controllers\Owner\ResidentAttachmentController;
+use App\Http\Controllers\Owner\ResidentController;
 use App\Http\Controllers\Owner\RoomController;
 use App\Http\Controllers\Owner\RoomTypeController;
 use App\Http\Controllers\Owner\SettingsController;
@@ -18,6 +22,16 @@ Route::middleware(['auth', 'role:owner,staff', 'tenant', 'tenant.active'])->grou
     Route::resource('properties', PropertyController::class)->except(['show', 'create']);
     Route::resource('room-types', RoomTypeController::class)->except(['show', 'create'])
         ->parameters(['room-types' => 'roomType']);
+
+    Route::post('properties/{property}/photo', [PropertyPhotoController::class, 'store'])->name('properties.photo.store');
+
+    Route::post('residents/import', [ResidentController::class, 'import'])->name('residents.import');
+    Route::resource('residents', ResidentController::class);
+    Route::post('residents/{resident}/attachments', [ResidentAttachmentController::class, 'store'])->name('residents.attachments.store');
+
+    // Lampiran disajikan hanya lewat tautan bertanda tangan berumur pendek, dan tetap melewati Policy.
+    Route::get('attachments/{attachment}', [AttachmentController::class, 'show'])->middleware('signed')->name('attachments.show');
+    Route::delete('attachments/{attachment}', [AttachmentController::class, 'destroy'])->name('attachments.destroy');
 
     Route::post('rooms/bulk', [RoomController::class, 'bulk'])->name('rooms.bulk');
     Route::post('rooms/import', [RoomController::class, 'import'])->name('rooms.import');
