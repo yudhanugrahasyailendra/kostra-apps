@@ -13,3 +13,23 @@ document.addEventListener('click', (event) => {
         closer.closest('dialog')?.close();
     }
 });
+
+// Menu dropdown berbasis <details data-dropdown>: tutup saat klik di luar atau tekan Escape.
+document.addEventListener('click', (event) => {
+    document.querySelectorAll('details[data-dropdown][open]').forEach((menu) => {
+        if (!menu.contains(event.target)) {
+            menu.open = false;
+        }
+    });
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') {
+        return;
+    }
+
+    document.querySelectorAll('details[data-dropdown][open]').forEach((menu) => {
+        menu.open = false;
+        menu.querySelector('summary')?.focus();
+    });
+});

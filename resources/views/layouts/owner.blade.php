@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Panel') · Kostra</title>
     @include('layouts.fonts')
+    @include('layouts.theme')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-background font-body-md text-body-md text-on-surface">
@@ -95,6 +96,7 @@
             </div>
 
             <div class="flex items-center gap-space-md">
+                <x-theme-toggle />
                 @if ($shell)
                     @can('settings.manage')
                         <a href="{{ route('owner.messages.index') }}" class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low text-secondary font-label-sm text-label-sm hover:bg-surface-container transition-colors">
@@ -110,13 +112,33 @@
                     @endcan
                 @endif
                 @auth
-                    <div class="flex items-center gap-space-sm">
-                        <span class="w-9 h-9 rounded-full bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center font-label-lg text-label-lg" aria-hidden="true">{{ mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}</span>
-                        <div class="hidden md:flex flex-col leading-tight">
-                            <span class="font-label-md text-label-md truncate max-w-40">{{ auth()->user()->name }}</span>
-                            <span class="font-body-sm text-body-sm text-secondary">{{ auth()->user()->role->label() }}</span>
+                    <details data-dropdown class="relative group">
+                        <summary class="flex items-center gap-space-sm cursor-pointer list-none [&::-webkit-details-marker]:hidden rounded-xl p-1 hover:bg-surface-container-low focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20" aria-label="Menu akun">
+                            <span class="w-9 h-9 rounded-full bg-primary-fixed text-on-primary-fixed-variant flex items-center justify-center font-label-lg text-label-lg" aria-hidden="true">{{ mb_strtoupper(mb_substr(auth()->user()->name, 0, 1)) }}</span>
+                            <div class="hidden md:flex flex-col leading-tight">
+                                <span class="font-label-md text-label-md truncate max-w-40">{{ auth()->user()->name }}</span>
+                                <span class="font-body-sm text-body-sm text-secondary">{{ auth()->user()->role->label() }}</span>
+                            </div>
+                            <span class="material-symbols-outlined text-secondary text-lg motion-safe:transition-transform group-open:rotate-180" aria-hidden="true">expand_more</span>
+                        </summary>
+                        <div class="absolute right-0 top-full mt-2 w-56 rounded-xl bg-surface-container-lowest shadow-lg ring-1 ring-outline-variant/30 p-space-xs z-50 flex flex-col">
+                            <div class="px-3 py-2 md:hidden border-b border-outline-variant/30 mb-1">
+                                <div class="font-label-md text-label-md truncate">{{ auth()->user()->name }}</div>
+                                <div class="font-body-sm text-body-sm text-secondary">{{ auth()->user()->role->label() }}</div>
+                            </div>
+                            <a href="{{ route('account.edit') }}" class="flex items-center gap-3 px-3 py-2 rounded-lg font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors">
+                                <span class="material-symbols-outlined text-base text-secondary" aria-hidden="true">manage_accounts</span>
+                                <span>Edit Akun</span>
+                            </a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="flex items-center gap-3 w-full px-3 py-2 rounded-lg font-label-md text-label-md text-error hover:bg-error-container/20 transition-colors">
+                                    <span class="material-symbols-outlined text-base" aria-hidden="true">logout</span>
+                                    <span>Keluar Akun</span>
+                                </button>
+                            </form>
                         </div>
-                    </div>
+                    </details>
                 @endauth
             </div>
         </header>

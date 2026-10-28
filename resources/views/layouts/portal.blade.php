@@ -8,6 +8,7 @@
     <meta name="referrer" content="no-referrer">
     <title>@yield('title', 'Portal penghuni') · {{ $portalTenant->name }}</title>
     @include('layouts.fonts')
+    @include('layouts.theme')
     @vite(['resources/css/app.css'])
 </head>
 <body class="bg-background font-body-md text-body-md text-on-surface">
@@ -28,7 +29,10 @@
             <div class="min-w-0">
                 <div class="font-headline-md text-headline-md text-primary truncate">{{ $portalTenant->name }}</div>
             </div>
-            <div class="font-label-md text-label-md text-secondary truncate max-w-[45%]">{{ $portalResident->name }}</div>
+            <div class="flex items-center gap-space-xs min-w-0">
+                <div class="font-label-md text-label-md text-secondary truncate max-w-40">{{ $portalResident->name }}</div>
+                <x-theme-toggle class="shrink-0" />
+            </div>
         </div>
     </header>
 

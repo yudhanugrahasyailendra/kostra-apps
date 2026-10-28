@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Masuk') · Kostra</title>
     @include('layouts.fonts')
+    @include('layouts.theme')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-background text-on-surface min-h-screen flex flex-col">
@@ -20,6 +21,7 @@
                 </span>
             </a>
             <nav class="flex items-center gap-space-sm" aria-label="Akun">
+                <x-theme-toggle />
                 <a href="{{ route('login') }}" @if (request()->routeIs('login')) aria-current="page" @endif class="px-4 py-2 rounded-xl font-label-md text-label-md {{ request()->routeIs('login') ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container' }}">Masuk</a>
                 <a href="{{ route('register') }}" @if (request()->routeIs('register')) aria-current="page" @endif class="px-4 py-2 rounded-xl font-label-md text-label-md {{ request()->routeIs('register') ? 'bg-secondary-container text-on-secondary-container' : 'text-on-surface-variant hover:bg-surface-container' }}">Daftar</a>
             </nav>
