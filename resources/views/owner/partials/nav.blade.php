@@ -1,7 +1,7 @@
 {{-- Menu utama panel pemilik. Gaya dan label mengikuti sidebar docs/screens; penghitung dari OwnerLayoutComposer. --}}
 @php
     $items = [
-        ['owner.dashboard', ['owner.dashboard'], 'dashboard', 'Ringkasan', null, null],
+        ['owner.dashboard', ['owner.dashboard'], 'dashboard', 'Dashboard', null, null],
         ['owner.rooms.index', ['owner.rooms.*', 'owner.properties.*', 'owner.room-types.*'], 'meeting_room', 'Properti & Kamar', null, null],
         ['owner.residents.index', ['owner.residents.*', 'owner.leases.*'], 'group', 'Penghuni & Kontrak', null, null],
         ['owner.invoices.index', ['owner.invoices.*', 'owner.payments.*'], 'receipt_long', 'Tagihan & Invoice', null, ($shell['overdueInvoices'] ?? 0) > 0 ? ['danger', (string) $shell['overdueInvoices']] : null],
