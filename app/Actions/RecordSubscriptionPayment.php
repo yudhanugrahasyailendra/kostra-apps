@@ -34,6 +34,17 @@ class RecordSubscriptionPayment
                     throw ValidationException::withMessages(['invoice' => 'Tagihan ini sudah lunas atau dibatalkan.']);
                 }
 
+                // Hanya tagihan langganan yang berjalan, atau langganan yang berakhir karena tunggakan saat tenant
+                // belum punya langganan berjalan. Tagihan periode lama tidak boleh memundurkan periode atau paket.
+                $current = $tenant->currentSubscription();
+                $belongsToCurrent = $current !== null
+                    ? $invoice->subscription_id === $current->id
+                    : Subscription::query()->whereKey($invoice->subscription_id)->where('status', SubscriptionStatus::Expired->value)->exists();
+
+                if (! $belongsToCurrent) {
+                    throw ValidationException::withMessages(['invoice' => 'Tagihan ini bukan milik langganan yang sedang berjalan.']);
+                }
+
                 $invoice->forceFill([
                     'status' => SubscriptionInvoiceStatus::Paid,
                     'paid_at' => now(),
@@ -47,12 +58,17 @@ class RecordSubscriptionPayment
                 if (in_array($subscription->status, [SubscriptionStatus::Active, SubscriptionStatus::PastDue, SubscriptionStatus::Expired], true)) {
                     $wasExpired = $subscription->status === SubscriptionStatus::Expired;
 
-                    $subscription->forceFill([
-                        'status' => SubscriptionStatus::Active,
-                        'current_period_start' => $invoice->period_start,
-                        'current_period_end' => $invoice->period_end,
-                        'grace_ends_at' => null,
-                    ])->save();
+                    $subscription->forceFill(['status' => SubscriptionStatus::Active, 'grace_ends_at' => null]);
+
+                    // Periode hanya maju, tidak pernah mundur.
+                    if ($invoice->period_end >= $subscription->current_period_end) {
+                        $subscription->forceFill([
+                            'current_period_start' => $invoice->period_start,
+                            'current_period_end' => $invoice->period_end,
+                        ]);
+                    }
+
+                    $subscription->save();
 
                     if ($wasExpired && $tenant->status === TenantStatus::Suspended) {
                         $tenant->forceFill(['status' => TenantStatus::Active, 'suspended_at' => null]);

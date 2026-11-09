@@ -3,9 +3,11 @@
 namespace Tests\Feature\Subscriptions;
 
 use App\Actions\ChangeSubscriptionPlan;
+use App\Actions\ProcessSubscriptions;
 use App\Actions\RegisterOwner;
 use App\Actions\SuspendTenant;
 use App\Enums\SubscriptionPeriod;
+use App\Enums\TenantStatus;
 use App\Models\Invitation;
 use App\Models\Plan;
 use App\Models\Property;
@@ -298,5 +300,79 @@ class SubscriptionHttpTest extends TestCase
         $plans = TenantContext::instance()->runAs($a, fn () => Subscription::query()->with('plan')->get()->pluck('plan.key')->unique()->values()->all());
 
         $this->assertEqualsCanonicalizing(['free', 'starter'], $plans);
+    }
+
+    // --- Perbaikan hasil audit tenant-auditor ---
+
+    public function test_tenant_ditutup_tidak_bisa_ditangguhkan_atau_diaktifkan_dari_panel(): void
+    {
+        [$tenant] = $this->tenantWithOwner();
+        $tenant->forceFill(['status' => TenantStatus::Closed])->save();
+        $admin = User::factory()->superAdmin()->create();
+
+        $this->actingAs($admin)->post(route('admin.tenants.suspend', $tenant))->assertSessionHasErrors('tenant');
+        $this->actingAs($admin)->post(route('admin.tenants.activate', $tenant))->assertSessionHasErrors('tenant');
+
+        $this->assertSame(TenantStatus::Closed, $tenant->refresh()->status);
+    }
+
+    public function test_tagihan_langganan_lama_tidak_bisa_dibayar_dan_tidak_memundurkan_paket(): void
+    {
+        [$tenant] = $this->tenantWithOwner('Kos A', 'starter');
+        $old = $this->pendingInvoice($tenant);
+        // Percobaan berakhir tanpa bayar: tenant kembali ke Gratis dan tagihan lama menjadi void. Paksa kembali pending.
+        $this->travelTo(now()->addDays(15));
+        app(ProcessSubscriptions::class)->handle($tenant);
+        TenantContext::instance()->runAs($tenant, fn () => SubscriptionInvoice::query()->whereKey($old->id)->update(['status' => 'pending']));
+        $admin = User::factory()->superAdmin()->create();
+
+        $this->actingAs($admin)->post(route('admin.tenants.invoices.pay', [$tenant, $old->id]), ['payment_method' => 'Transfer'])
+            ->assertSessionHasErrors('invoice');
+
+        $this->assertSame('free', $tenant->refresh()->plan->key);
+        $this->assertSame('pending', TenantContext::instance()->runAs($tenant, fn () => $old->fresh())->status->value);
+    }
+
+    public function test_id_tagihan_terlalu_besar_menghasilkan_404_bukan_500(): void
+    {
+        [$tenant] = $this->tenantWithOwner();
+        $admin = User::factory()->superAdmin()->create();
+
+        $this->actingAs($admin)->post(route('admin.tenants.invoices.pay', [$tenant, '99999999999999999999999']), ['payment_method' => 'Transfer'])
+            ->assertNotFound();
+    }
+
+    public function test_detail_tenant_hanya_memuat_tagihan_tenant_itu_dan_tanpa_kolom_terlarang(): void
+    {
+        [$a] = $this->tenantWithOwner('Kos A', 'starter');
+        [$b] = $this->tenantWithOwner('Kos B', 'pro');
+        $admin = User::factory()->superAdmin()->create();
+
+        $response = $this->actingAs($admin)->get(route('admin.tenants.show', $a))
+            ->assertOk()
+            ->assertInertia(fn (AssertableInertia $page) => $page
+                ->component('Admin/Tenants/Show')
+                ->has('invoices', 1)
+                ->where('invoices.0.number', $this->pendingInvoice($a)->number)
+                ->missing('tenant.settings')
+                ->missing('invoices.0.tenant_id'));
+
+        $this->assertStringNotContainsString($this->pendingInvoice($b)->number, $response->getContent());
+    }
+
+    public function test_semua_route_admin_menolak_pemilik_dan_staf(): void
+    {
+        [$tenant, $owner] = $this->tenantWithOwner('Kos A', 'starter');
+        $staff = User::factory()->forTenant($tenant)->staff(['finance.view'])->create();
+        $invoice = $this->pendingInvoice($tenant);
+        $pay = route('admin.tenants.invoices.pay', [$tenant, $invoice->id]);
+
+        foreach ([$owner, $staff] as $user) {
+            $this->actingAs($user)->get(route('admin.tenants.show', $tenant))->assertForbidden();
+            $this->actingAs($user)->post(route('admin.tenants.activate', $tenant))->assertForbidden();
+            $this->actingAs($user)->post($pay, ['payment_method' => 'Transfer'])->assertForbidden();
+        }
+
+        $this->assertSame('pending', TenantContext::instance()->runAs($tenant, fn () => $invoice->fresh())->status->value);
     }
 }

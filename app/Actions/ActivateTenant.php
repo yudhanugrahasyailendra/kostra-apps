@@ -7,6 +7,7 @@ use App\Enums\TenantStatus;
 use App\Models\Tenant;
 use App\Tenancy\TenantContext;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class ActivateTenant
 {
@@ -18,6 +19,10 @@ class ActivateTenant
      */
     public function handle(Tenant $tenant): Tenant
     {
+        if ($tenant->status === TenantStatus::Closed) {
+            throw ValidationException::withMessages(['tenant' => 'Tenant ini sudah ditutup dan tidak bisa diaktifkan kembali.']);
+        }
+
         return DB::transaction(function () use ($tenant) {
             $tenant->forceFill([
                 'status' => $tenant->currentSubscription()?->status === SubscriptionStatus::Trialing ? TenantStatus::Trial : TenantStatus::Active,

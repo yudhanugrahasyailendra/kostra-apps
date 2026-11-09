@@ -2,14 +2,13 @@
 
 namespace App\Http\Requests\Admin;
 
-use App\Models\Tenant;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RecordSubscriptionPaymentRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('update', $this->route('tenant') ?? Tenant::class);
+        return $this->user()->can('update', $this->route('tenant'));
     }
 
     /** @return array<string, mixed> */

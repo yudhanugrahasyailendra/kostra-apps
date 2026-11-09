@@ -12,7 +12,7 @@ Route::redirect('/', '/admin/tenant')->name('home');
 
 Route::get('/tenant', [TenantController::class, 'index'])->name('tenants.index');
 Route::get('/tenant/{tenant}', [TenantController::class, 'show'])->name('tenants.show');
-Route::post('/tenant/{tenant}/tangguhkan', [TenantController::class, 'suspend'])->name('tenants.suspend');
-Route::post('/tenant/{tenant}/aktifkan', [TenantController::class, 'activate'])->name('tenants.activate');
+Route::post('/tenant/{tenant}/tangguhkan', [TenantController::class, 'suspend'])->middleware('throttle:30,1')->name('tenants.suspend');
+Route::post('/tenant/{tenant}/aktifkan', [TenantController::class, 'activate'])->middleware('throttle:30,1')->name('tenants.activate');
 Route::post('/tenant/{tenant}/tagihan/{invoice}/bayar', [SubscriptionInvoiceController::class, 'pay'])
-    ->whereNumber('invoice')->middleware('throttle:30,1')->name('tenants.invoices.pay');
+    ->where('invoice', '[0-9]{1,18}')->middleware('throttle:30,1')->name('tenants.invoices.pay');
