@@ -56,6 +56,48 @@ export interface ImportResult {
     failures: { row: number; number: string; reason: string }[];
 }
 
+export interface ResidentData {
+    id: number;
+    name: string;
+    phone: string;
+    occupation: string | null;
+    emergency_name: string | null;
+    emergency_relation: string | null;
+    emergency_phone: string | null;
+    is_active: boolean;
+    status_label: string;
+    status_tone: StatusTone;
+    has_ktp: boolean;
+    has_duplicate_phone: boolean;
+}
+
+export interface ResidentDetailData extends ResidentData {
+    email: string | null;
+    notes: string | null;
+    consented_at: string | null;
+    whatsapp_opted_out: boolean;
+    created_at: string | null;
+}
+
+export interface AttachmentData {
+    id: number;
+    category: string;
+    category_label: string;
+    original_name: string;
+    mime: string;
+    size: number;
+    is_sensitive: boolean;
+    created_at: string | null;
+    /** Tautan bertanda tangan berumur 5 menit. */
+    url: string;
+}
+
+export interface ResidentImportResult {
+    created: number;
+    failures: { row: number; name: string; reason: string }[];
+    duplicates: { row: number; name: string }[];
+}
+
 export type StatusTone = 'lunas' | 'menunggu' | 'jatuh-tempo' | 'kosong';
 
 /** Props bersama dari HandleInertiaRequests. `can` hanya untuk menyembunyikan menu. */
@@ -71,6 +113,11 @@ export interface SharedProps {
         };
     } | null;
     tenant: { name: string; status: string; suspended: boolean } | null;
-    flash: { success: string | null; invitation_link: string | null; import_result: ImportResult | null };
+    flash: {
+        success: string | null;
+        invitation_link: string | null;
+        import_result: ImportResult | null;
+        resident_import_result: ResidentImportResult | null;
+    };
     [key: string]: unknown;
 }

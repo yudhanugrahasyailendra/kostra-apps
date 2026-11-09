@@ -10,6 +10,7 @@ enum Permission: string
     case FinanceView = 'finance.view';
     case SettingsManage = 'settings.manage';
     case DataExport = 'data.export';
+    case SensitiveFiles = 'files.sensitive';
 
     public function label(): string
     {
@@ -17,6 +18,7 @@ enum Permission: string
             self::FinanceView => 'Melihat keuangan dan laporan',
             self::SettingsManage => 'Mengelola pengaturan',
             self::DataExport => 'Mengekspor data',
+            self::SensitiveFiles => 'Membuka foto KTP dan dokumen sensitif',
         };
     }
 

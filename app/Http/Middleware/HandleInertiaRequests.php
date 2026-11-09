@@ -54,6 +54,7 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get('success'),
                 'invitation_link' => fn () => $request->session()->get('invitation_link'),
                 'import_result' => fn () => $request->session()->get('import_result'),
+                'resident_import_result' => fn () => $request->session()->get('resident_import_result'),
             ],
         ];
     }
