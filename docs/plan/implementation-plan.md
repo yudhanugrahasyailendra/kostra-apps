@@ -206,13 +206,13 @@ Aturan memakainya:
 4. Pola yang berulang (badge status, kartu KPI, sel kamar, tombol, input, tabel, modal, drawer) dijadikan komponen Vue; jangan menyalin deretan kelas utilitas ke tiap halaman. Kerangka sidebar dan header dijadikan `OwnerLayout.vue` dengan lebar sidebar `w-72`.
 5. Icon memakai Material Symbols dari mockup (font), atau ikon Vue yang disetujui; sebut nama paketnya dulu sebelum memasang.
 
-Peta fase ke layar mockup (dipetakan dari nama folder; isi tiap layar belum diperiksa satu per satu):
+Peta fase ke layar mockup (sudah diperiksa isi teks dan markup tiap layar; gambar `screen.png` belum dibandingkan satu per satu):
 
 | Fase | Layar mockup | Folder di `docs/plan/mockup/` |
 | --- | --- | --- |
 | 0 | Token, font, kerangka layout (sidebar, header) | `dashboard_ringkasan_pemilik` (shell), token dari `docs/plan/DESIGN.md` |
-| 1 | Masuk dan reset kata sandi; onboarding; tab staf di pengaturan; panel staf; log audit | `autentikasi_reset_password_kostra`, `onboarding_wizard_setup_kos_perdana`, `pengaturan_gateway_whatsapp` (tab Staf), `panel_staf_penjaga_kos_operasional_1`, `panel_staf_penjaga_kos_operasional_2`, `log_audit_keamanan_kepatuhan_pdp` |
-| 2 | Properti dan kamar, detail kamar; denah kamar di dashboard | `kamar_properti`, `detail_kamar_104_histori_pemeliharaan`, `dashboard_ringkasan_pemilik`. `kalender_okupansi_timeline_kamar` untuk PRP-08 (tahap berikutnya) |
+| 1 | Masuk dan reset kata sandi; tab staf di pengaturan; panel staf; log audit | `autentikasi_reset_password_kostra`, `pengaturan_gateway_whatsapp` (tab Staf), `panel_staf_penjaga_kos_operasional_1`, `panel_staf_penjaga_kos_operasional_2`, `log_audit_keamanan_kepatuhan_pdp` |
+| 2 | Properti dan kamar, detail kamar, wizard onboarding kamar; denah kamar di dashboard | `onboarding_wizard_setup_kos_perdana`, `kamar_properti`, `detail_kamar_104_histori_pemeliharaan`, `dashboard_ringkasan_pemilik`. `kalender_okupansi_timeline_kamar` untuk PRP-08 (tahap berikutnya) |
 | 3 | Daftar penghuni, modal tambah penghuni | `penghuni_kontrak_sewa` |
 | 4 | Kontrak, wizard check-out | `penghuni_kontrak_sewa`, `inspeksi_check_out_rekonsiliasi_deposit_1` sampai `_3`. `kontrak_sewa_digital` untuk KTR-09 (tahap berikutnya) |
 | 5 | Tagihan; tab penagihan di pengaturan | `tagihan_pembayaran`, `pengaturan_gateway_whatsapp` (tab Penagihan). `input_tagihan_insidental_meteran_utilitas_1` dan `_2` hanya untuk tagihan insidental (TGH-04); meteran tahap berikutnya. `dokumen_resmi_cetak_kuitansi_invoice` untuk PDF (TGH-10, tahap berikutnya) |
@@ -223,6 +223,14 @@ Peta fase ke layar mockup (dipetakan dari nama folder; isi tiap layar belum dipe
 | 10 | Portal penghuni | `portal_penghuni_mobile`, `portal_penghuni_komplain_kuitansi_mobile` |
 | 11 | Paket langganan; panel Super Admin | `paket_langganan_kostra`, `panel_super_admin_kostra` |
 | 12 | Tidak ada. Periksa tampilan di lebar ponsel dan desktop | semua |
+
+Hasil pemeriksaan mockup yang berlaku di semua fase:
+
+- **Sidebar tidak seragam.** Ada tiga varian menu. Varian A (dashboard, kamar, tagihan, penghuni, komplain, laporan, pengaturan, paket) adalah acuan `OwnerLayout.vue`: Kamar & Properti, Tagihan & Bayar, Penghuni & Kontrak, Komplain & Servis, Laporan Keuangan, Pengaturan. Varian B (`input_tagihan_*`, `inspeksi_*`, `verifikasi_*`, `panel_staf_*`: "Kamar & Unit", "Data Penghuni", "Tagihan & Sewa", "Keluhan & Servis") dan varian C (`kalender_*`, `kontrak_sewa_digital`, `log_audit_*`, `panel_super_admin_*`: "Tagihan & Invoice", "WhatsApp Tagihan", "Laporan Arus Kas") hanya dipakai isi halamannya; jangan menyalin menunya.
+- **Sembunyikan menu "Top Up Kuota"** di sidebar varian A (NTF-09, tahap berikutnya).
+- **Layar kembar** (`inspeksi_check_out_*` tiga varian, `input_tagihan_*`, `verifikasi_bukti_transfer_*`, `panel_staf_*` masing-masing dua) belum diputuskan mana yang final. Sampai diputuskan, pakai varian bernomor terkecil (`_1`) sebagai acuan dan ambil elemen dari varian lain hanya bila diminta. Bandingkan `screen.png` varian-variannya sebelum fase terkait.
+- **Nomor KTP tidak boleh tampil atau disimpan** (`AGENTS.md`). Contoh "NIK KTP: 3171xxxx" di `kontrak_sewa_digital` tidak dipakai.
+- **Istilah "Escrow"** (`penghuni_kontrak_sewa`, `inspeksi_*`, `kontrak_sewa_digital`) diganti "Deposit Tercatat": Kostra tidak menahan dana.
 
 Belum ada mockup: daftar akun, detail penghuni, detail tagihan, dan check-in. Minta Claude Code memakai kerangka, komponen, dan token yang sama, atau buat dulu di Stitch.
 
@@ -261,7 +269,7 @@ Fase 0 menyiapkan proyek Laravel 12 yang bisa diuji, dengan keputusan teknis yan
 | Keputusan | Rekomendasi | Alasan |
 | --- | --- | --- |
 | Database | Pilih satu (MySQL 8 atau PostgreSQL) dan samakan dengan produksi | Desain berjalan di keduanya; jangan campur |
-| Frontend | Starter kit resmi Laravel 12 untuk Vue (Inertia, Vue 3, TypeScript, Tailwind v4). Periksa versi saat dipasang | Satu kerangka untuk panel, portal, dan admin. Keputusan sudah diambil (`ARCHITECTURE.md`) |
+| Frontend | Inertia, Vue 3, TypeScript, Tailwind v4. Proyek yang ada dikonversi ke TypeScript di Fase 0 (bukan memasang ulang starter kit). Periksa versi saat dipasang | Satu kerangka untuk panel, portal, dan admin. Keputusan sudah diambil (`ARCHITECTURE.md`) |
 | Autentikasi | Pakai yang dibawa starter kit untuk masuk, daftar, dan reset sandi; masuk dengan OTP WhatsApp dibuat sendiri di Fase 1 | Jangan menulis ulang yang sudah ada |
 | Komponen UI | Komponen sendiri yang mengikuti `app.css`; bila starter kit membawa shadcn-vue, selaraskan tokennya, jangan dua sistem warna | Satu sistem desain |
 | UI portal penghuni | Halaman Inertia dengan layout mobile-first di grup route `portal` | Halaman ringan di ponsel |
@@ -280,7 +288,7 @@ Jangan memasang paket apa pun sebelum saya menyetujui rencananya.
 3. Usulkan folder app/Actions, app/Enums, app/Services, app/Models/Concerns, serta routes/owner.php, routes/portal.php, routes/admin.php yang didaftarkan di bootstrap/app.php lewat parameter `then` pada withRouting.
 4. Buat config/kostra.php berisi batas paket bawaan dan nilai bawaan penagihan (hari terbit, hari jatuh tempo, jam kirim pesan).
 5. Pastikan `php artisan test` hijau pada proyek kosong.
-6. Usulkan cara memasang starter kit Laravel 12 untuk Vue (Inertia + TypeScript) pada proyek ini, dan sebut paket tambahan yang diperlukan (nama, versi, alasan) sebelum memasangnya. Jangan memasang Filament, Livewire, atau Alpine.
+6. Proyek sudah berisi Laravel 12, Inertia, Vue 3, dan Tailwind 4, tetapi `resources/js/app.js` belum TypeScript. Usulkan konversi ke TypeScript pada proyek yang ada (tanpa memasang ulang starter kit), dan sebut paket tambahan yang diperlukan (misalnya `typescript` dan `vue-tsc`: nama, versi, alasan) sebelum memasangnya. Jangan memasang Filament, Livewire, atau Alpine.
 7. Siapkan helper `formatRupiah` di `resources/js/lib` dan satu kelas API Resource contoh, lalu tulis tes Inertia yang memastikan props tidak memuat kolom terlarang.
 ```
 
@@ -309,7 +317,7 @@ Fase 1 membuat setiap pemilik kos terisolasi, peran dan izin berfungsi, dan aksi
 
 **Prasyarat**: Fase 0. **Rujukan**: PRD modul Fondasi (FND-01 sampai FND-06); Desain Database bagian Platform dan tenant, ditambah tabel `audit_logs`. **Tabel baru**: plans, tenants, users (menyesuaikan tabel bawaan), invitations, audit_logs.
 
-**Mockup**: `autentikasi_reset_password_kostra` (masuk dan reset kata sandi), `onboarding_wizard_setup_kos_perdana`, dan tab Staf di `pengaturan_gateway_whatsapp`. Daftar akun belum punya mockup; pakai komponen yang sama.
+**Mockup**: `autentikasi_reset_password_kostra` (masuk dan reset kata sandi), tab Staf di `pengaturan_gateway_whatsapp`, `panel_staf_penjaga_kos_operasional_1` (menu terbatas staf), dan `log_audit_keamanan_kepatuhan_pdp` (hanya daftar log FND-06). Daftar akun belum punya mockup; pakai komponen yang sama. Sembunyikan di panel staf: Log Tamu Menginap, Log Kunci, "KTP terverifikasi sistem", dan "Titip Sewa". Sembunyikan di log audit: sesi login aktif, "Integritas Kriptografi Log", dan klaim keamanan ("AES-256", "100%") sampai benar-benar diimplementasikan.
 
 **Prompt untuk Claude Code**
 
@@ -357,7 +365,7 @@ Fase 2 membuat pemilik bisa memasukkan seluruh kamarnya dalam beberapa menit, de
 
 **Prasyarat**: Fase 1. **Rujukan**: PRD modul Properti dan Kamar (PRP-01 sampai PRP-07); Desain Database bagian Properti dan kamar. **Tabel baru**: properties, room_types, rooms.
 
-**Mockup**: `kamar_properti` dan `detail_kamar_104_histori_pemeliharaan` (daftar, denah, detail kamar). Sembunyikan bagian meteran listrik (TGH-09, tahap berikutnya). Denah kamar di `dashboard_ringkasan_pemilik` dibuat sebagai komponen `RoomPlate.vue` di fase ini.
+**Mockup**: `onboarding_wizard_setup_kos_perdana` (tambah kamar massal PRP-04, impor Excel/CSV PRP-05; langkah undang staf memakai FND-05 dari Fase 1), `kamar_properti`, dan `detail_kamar_104_histori_pemeliharaan` (daftar, denah, detail kamar). Sembunyikan bagian meteran listrik (TGH-09, tahap berikutnya), Jadwal Preventif (KMP-07), dan Aset & Inventaris Kamar (tidak ada di PRD). Denah kamar di `dashboard_ringkasan_pemilik` dibuat sebagai komponen `RoomPlate.vue` di fase ini.
 
 **Prompt untuk Claude Code**
 
@@ -400,7 +408,7 @@ Fase 3 menyimpan data penghuni seminimal mungkin dan membuat lampiran (terutama 
 
 **Prasyarat**: Fase 2. **Rujukan**: PRD modul Penghuni (PNG-01 sampai PNG-06); Desain Database bagian Penghuni dan lampiran. **Tabel baru**: residents, attachments.
 
-**Mockup**: `penghuni_kontrak_sewa` (daftar penghuni, modal tambah). Detail penghuni belum punya mockup. Jangan tampilkan nomor KTP atau "Sinkron Dukcapil".
+**Mockup**: `penghuni_kontrak_sewa` (daftar penghuni, modal tambah). Detail penghuni belum punya mockup. Jangan tampilkan nomor KTP atau "Sinkron Dukcapil"; badge "KTP Terenkripsi" hanya menandai ada atau tidaknya berkas foto KTP. Ganti "Escrow" menjadi "Deposit Tercatat".
 
 **Prompt untuk Claude Code**
 
@@ -443,7 +451,7 @@ Fase 4 menghubungkan penghuni, kamar, harga, dan masa sewa, dan menjamin satu ka
 
 **Prasyarat**: Fase 2 dan 3. **Rujukan**: PRD modul Kontrak Sewa (KTR-01 sampai KTR-07); Desain Database bagian Kontrak sewa. **Tabel baru**: leases, lease_residents, lease_deposits, room_transfers.
 
-**Mockup**: `penghuni_kontrak_sewa` (kontrak) dan `inspeksi_check_out_rekonsiliasi_deposit_1` sampai `_3` (wizard check-out). Check-in belum punya mockup. Ganti "Deposit Escrow" menjadi "Deposit Tercatat"; sembunyikan Template Kontrak (KTR-09).
+**Mockup**: `penghuni_kontrak_sewa` (kontrak) dan `inspeksi_check_out_rekonsiliasi_deposit_1` sampai `_3` (wizard check-out). Check-in belum punya mockup. Ganti "Deposit Escrow" menjadi "Deposit Tercatat"; sembunyikan input meteran listrik kWh dan Template Kontrak (KTR-09). `kontrak_sewa_digital` tidak dipakai di MVP.
 
 **Prompt untuk Claude Code**
 
@@ -533,7 +541,7 @@ Fase 6 mencatat uang yang diterima pemilik di luar sistem dan menutup tagihan se
 
 **Prasyarat**: Fase 5. **Rujukan**: PRD modul Pembayaran (PBY-01 sampai PBY-07); Desain Database bagian Pembayaran. **Tabel baru**: payment_accounts, payments, payment_allocations, payment_proofs.
 
-**Mockup**: `tagihan_pembayaran`, `verifikasi_bukti_transfer_rekonsiliasi_1` dan `_2` (audit bukti, catat pembayaran). Hapus label "Auto-QRIS", "Auto Reconcile", dan VA otomatis.
+**Mockup**: `tagihan_pembayaran`, `verifikasi_bukti_transfer_rekonsiliasi_1` dan `_2` (audit bukti, catat pembayaran). Hapus label "Auto-QRIS", "Auto Reconcile", dan VA otomatis. Rekonsiliasi bank (PBY-09) tahap berikutnya.
 
 **Prompt untuk Claude Code**
 
@@ -662,7 +670,7 @@ Fase 9 mengirim pengingat tagihan dan kuitansi lewat WhatsApp dengan biaya terke
 
 **Prasyarat**: Fase 5 dan 6 (Fase 8 untuk event komplain). **Rujukan**: PRD modul Notifikasi WhatsApp (NTF-01 sampai NTF-08); Desain Database tabel message_templates, message_logs, dan usage_counters. **Tabel baru**: message_templates, message_logs, usage_counters.
 
-**Mockup**: `pengaturan_gateway_whatsapp`. Penyedia WhatsApp belum diputuskan; jangan menampilkan "Meta Cloud API Tier 2". Uji hanya dengan `FakeProvider`.
+**Mockup**: `pengaturan_gateway_whatsapp`. Penyedia WhatsApp belum diputuskan; jangan menampilkan "Meta Cloud API Tier 2", "Meta Verified", atau QRIS. Uji hanya dengan `FakeProvider`.
 
 **Prompt untuk Claude Code**
 
@@ -754,7 +762,7 @@ Fase 11 membuat Kostra sendiri bisa dijual: paket, batas pemakaian, masa percoba
 
 **Prasyarat**: Fase 1 dan 9. **Rujukan**: PRD modul Langganan Kostra dan Super Admin (LGN-01 sampai LGN-07); Desain Database tabel subscriptions dan subscription_invoices. **Tabel baru**: subscriptions, subscription_invoices.
 
-**Mockup**: `paket_langganan_kostra`. Samakan paket dan harga dengan PRD; sembunyikan auto-debit, QRIS dinamis, paket Business, dan faktur pajak sampai diputuskan. Panel Super Admin: `panel_super_admin_kostra`.
+**Mockup**: `paket_langganan_kostra`. Samakan paket dan harga dengan PRD; sembunyikan auto-debit, QRIS dinamis, virtual account, Enterprise, add-on kuota (NTF-09), dan faktur pajak sampai diputuskan. Panel Super Admin: `panel_super_admin_kostra`; sembunyikan Telemetri WhatsApp Cloud API (penyedia belum diputuskan), Siaran Pesan Nasional (NTF-10), dan Mode Impersonasi (FND-08), semuanya tahap berikutnya.
 
 **Prompt untuk Claude Code**
 

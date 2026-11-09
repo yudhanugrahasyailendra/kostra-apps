@@ -208,7 +208,7 @@ Satu tabel polimorfik `attachments`, disk privat, tanpa URL publik. Penyajian le
 ## 13. Frontend
 
 - **Layout:** `layouts/owner` (sidebar dan header), `layouts/portal` (mobile-first, tabbar bawah); panel pemilik memakai navigasi bawah di ponsel, `layouts/guest` (autentikasi), `layouts/admin`.
-- **Gaya:** `docs/plan/DESIGN.md` dan `docs/plan/mockup/` (dari Stitch) adalah sumber desain; palet masih ditentukan (lihat keputusan terbuka). Tailwind v4: token di `resources/css/app.css` (ditulis dari `docs/plan/DESIGN.md`). Komponen Vue membungkus kelas supaya halaman bersih.
+- **Gaya:** `docs/plan/DESIGN.md` dan `docs/plan/mockup/` (dari Stitch) adalah sumber desain; palet diputuskan mengikuti `DESIGN.md`, bukan warna logo. Tailwind v4: token di `resources/css/app.css` (ditulis dari `docs/plan/DESIGN.md`). Komponen Vue membungkus kelas supaya halaman bersih.
 - **Halaman dan komponen:** satu halaman Vue per layar mockup; komponen bersama `Button`, `StatusBadge`, `KpiCard`, `RoomPlate`, `Panel`, `Modal`, `Drawer`, `DataTable`. Pemetaan warna status dari Enum ke kelas ada di satu tempat.
 - **Interaksi:** modal, drawer, tab, dan filter dikelola Vue di sisi klien; data dan aksi lewat Inertia (props, form, partial reload). Tanpa Livewire dan tanpa Alpine.
 - **Data ke klien:** hanya lewat Resource. Uang dikirim sebagai integer dan diformat di `resources/js/lib`. Izin dikirim sebagai props dari Policy; server tetap memeriksa ulang.
@@ -266,3 +266,5 @@ Belum diputuskan (keputusan 6). Kebutuhan minimum: PHP-FPM atau setara, worker a
 | 2026-10 | Portal penghuni lewat tautan token | Adopsi mudah; penghuni tidak perlu akun |
 | 2026-10 | Nomor KTP tidak disimpan | Minimalkan data pribadi |
 | 2026-10 | DESIGN.md (Stitch) menjadi sumber desain, menggantikan palet navy dan kuningan di mockup awal | Satu sumber visual yang konsisten |
+| 2026-11 | Antarmuka memakai palet `DESIGN.md`, bukan warna logo | Mockup dan aturan UI sudah memakai palet itu; logo dipertahankan apa adanya |
+| 2026-11 | Frontend yang ada dikonversi ke TypeScript di Fase 0, tanpa memasang ulang starter kit | Struktur Inertia dan Vue sudah ada; konversi lebih kecil risikonya |

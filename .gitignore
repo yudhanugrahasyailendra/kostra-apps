@@ -25,3 +25,5 @@ Thumbs.db
 
 # Arsip hasil ekspor
 *.zip
+.claude/settings.local.json
+CLAUDE.local.md
