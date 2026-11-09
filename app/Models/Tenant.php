@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Enums\SubscriptionStatus;
 use App\Enums\TenantStatus;
 use App\Models\Concerns\Auditable;
+use App\Tenancy\TenantContext;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,6 +33,15 @@ class Tenant extends Model
     public function plan(): BelongsTo
     {
         return $this->belongsTo(Plan::class);
+    }
+
+    /** Langganan yang sedang memberi hak paket (percobaan, aktif, atau menunggak); null bila belum ada. */
+    public function currentSubscription(): ?Subscription
+    {
+        // Subscription terscope tenant, jadi dibaca di dalam konteks tenant ini.
+        return TenantContext::instance()->runAs($this, fn () => Subscription::query()
+            ->whereIn('status', array_map(fn (SubscriptionStatus $s) => $s->value, SubscriptionStatus::current()))
+            ->latest('id')->first());
     }
 
     public function isSuspended(): bool

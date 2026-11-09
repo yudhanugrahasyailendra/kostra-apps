@@ -23,6 +23,7 @@ use App\Http\Controllers\Owner\ResidentPortalController;
 use App\Http\Controllers\Owner\RoomController;
 use App\Http\Controllers\Owner\RoomTypeController;
 use App\Http\Controllers\Owner\StaffController;
+use App\Http\Controllers\Owner\SubscriptionController;
 use Illuminate\Support\Facades\Route;
 
 // Panel pemilik dan staf. Dimuat di bootstrap/app.php dengan middleware
@@ -139,3 +140,6 @@ Route::patch('/pengaturan/rekening/{paymentAccount}', [PaymentAccountController:
 
 Route::get('/pengaturan/penagihan', [BillingSettingsController::class, 'show'])->name('settings.billing');
 Route::patch('/pengaturan/penagihan', [BillingSettingsController::class, 'update'])->name('settings.billing.update');
+
+Route::get('/langganan', [SubscriptionController::class, 'index'])->name('subscription.index');
+Route::post('/langganan', [SubscriptionController::class, 'update'])->middleware('throttle:10,1')->name('subscription.update');

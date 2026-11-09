@@ -19,9 +19,10 @@ class PlanFactory extends Factory
             'price_yearly' => null,
             'max_properties' => 1,
             'max_rooms' => 10,
-            'max_users' => 1,
+            'max_users' => null,
             'monthly_message_quota' => 0,
-            'features' => [],
+            // Semua fitur menyala supaya tes fitur lain tidak tersandung; tes pembatasan memakai ->state(['features' => []]).
+            'features' => Plan::FEATURES,
             'is_active' => true,
             'sort_order' => 0,
         ];

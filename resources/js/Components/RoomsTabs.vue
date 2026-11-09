@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import { Link, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
-import type { SharedProps } from '@/types';
+import { Link } from '@inertiajs/vue3';
 
 const props = defineProps<{ active: 'kamar' | 'properti' | 'tipe' }>();
-
-const page = usePage<SharedProps>();
-const limit = computed(() => (page.props.errors as Record<string, string>).limit);
 
 const tabs = [
     { key: 'kamar', label: 'Kamar', href: '/app/kamar' },
@@ -30,13 +25,5 @@ const tabs = [
             </Link>
         </nav>
 
-        <div
-            v-if="limit"
-            class="mt-space-md flex flex-wrap items-center justify-between gap-space-sm rounded-md border border-status-menunggu-border bg-status-menunggu-bg p-space-md text-status-menunggu-text"
-            role="alert"
-        >
-            <p class="text-body-md">{{ limit }}</p>
-            <span class="text-label-md">Halaman langganan segera hadir.</span>
-        </div>
     </div>
 </template>

@@ -17,3 +17,7 @@ Schedule::command('invoices:mark-overdue')->dailyAt('01:00')->withoutOverlapping
 // Pengingat tagihan WhatsApp. Idempoten per tagihan, template, dan hari (message_logs), jadi hourly aman
 // untuk tenant di zona waktu berbeda; jam kirim ditegakkan saat pengiriman, bukan di jadwal ini.
 Schedule::command('reminders:send')->hourly()->withoutOverlapping()->onOneServer();
+
+// Langganan Kostra: percobaan berakhir, tagihan perpanjangan, tunggakan, penangguhan setelah masa tenggang.
+// Idempoten per tenant, jadi pengulangan per jam aman dan bila satu putaran gagal berikutnya menyusul.
+Schedule::command('subscriptions:process')->hourly()->withoutOverlapping()->onOneServer();

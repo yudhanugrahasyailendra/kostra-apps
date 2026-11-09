@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Http\Resources\UserResource;
 use App\Models\AuditLog;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Tenancy\TenantContext;
 use Illuminate\Http\Request;
@@ -38,6 +39,7 @@ class HandleInertiaRequests extends Middleware
                     'viewFinance' => $user->can('view-finance'),
                     'manageSettings' => $user->can('manage-settings'),
                     'exportData' => $user->can('export-data'),
+                    'manageSubscription' => $user->can('viewAny', Subscription::class),
                 ],
             ] : null,
             // Dievaluasi saat render, setelah SetCurrentTenant menetapkan tenant.

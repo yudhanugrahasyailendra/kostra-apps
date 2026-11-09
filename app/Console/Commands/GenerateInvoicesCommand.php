@@ -24,6 +24,11 @@ class GenerateInvoicesCommand extends Command
         $failed = 0;
 
         $tenants->each(function (Tenant $tenant) use ($generate, &$created, &$failed) {
+            // Tagihan otomatis adalah fitur paket (LGN-02); paket Gratis menerbitkan tagihan manual.
+            if (! $tenant->plan->hasFeature('billing.auto')) {
+                return;
+            }
+
             try {
                 $created += $generate->handle($tenant)['created'];
             } catch (\Throwable $e) {

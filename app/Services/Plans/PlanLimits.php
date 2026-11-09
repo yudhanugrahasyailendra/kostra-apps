@@ -2,9 +2,12 @@
 
 namespace App\Services\Plans;
 
+use App\Models\Invitation;
+use App\Models\Plan;
 use App\Models\Property;
 use App\Models\Room;
 use App\Models\Tenant;
+use App\Models\User;
 use App\Tenancy\TenantContext;
 use Closure;
 use Illuminate\Support\Facades\DB;
@@ -48,6 +51,65 @@ class PlanLimits
         $max = $this->maxRooms();
 
         return $max === null ? null : max(0, $max - $this->roomsUsed());
+    }
+
+    public function maxUsers(): ?int
+    {
+        return $this->tenant()->plan->max_users;
+    }
+
+    /** Pengguna aktif ditambah undangan yang masih berlaku: keduanya memakai jatah yang sama. */
+    public function usersUsed(): int
+    {
+        return User::query()->count()
+            + Invitation::query()->whereNull('accepted_at')->where('expires_at', '>', now())->count();
+    }
+
+    public function hasFeature(string $feature): bool
+    {
+        return $this->tenant()->plan->hasFeature($feature);
+    }
+
+    /** Fitur di luar paket ditolak dengan tawaran naik paket, bukan galat teknis. */
+    public function assertFeature(string $feature, string $label): void
+    {
+        if (! $this->hasFeature($feature)) {
+            throw new PlanLimitExceededException(
+                "Fitur {$label} tidak termasuk paket {$this->tenant()->plan->name}. Naik paket untuk memakainya."
+            );
+        }
+    }
+
+    public function assertCanAddUser(): void
+    {
+        $max = $this->maxUsers();
+
+        if ($max !== null && $this->usersUsed() >= $max) {
+            throw new PlanLimitExceededException(
+                "Paket {$this->tenant()->plan->name} dibatasi {$max} pengguna. Naik paket untuk menambah staf."
+            );
+        }
+    }
+
+    /**
+     * Turun paket hanya boleh bila pemakaian sekarang muat di paket tujuan (LGN-05).
+     * Data yang ada tidak pernah dihapus; yang ditolak adalah turun paketnya.
+     */
+    public function assertFitsPlan(Plan $target): void
+    {
+        $checks = [
+            ['properti', $this->propertiesUsed(), $target->max_properties],
+            ['kamar', $this->roomsUsed(), $target->max_rooms],
+            ['pengguna', User::query()->count(), $target->max_users],
+        ];
+
+        foreach ($checks as [$label, $used, $max]) {
+            if ($max !== null && $used > $max) {
+                throw new PlanLimitExceededException(
+                    "Paket {$target->name} dibatasi {$max} {$label}, sedangkan Anda memakai {$used}. Kurangi dulu sebelum turun paket."
+                );
+            }
+        }
     }
 
     public function assertCanAddProperty(): void

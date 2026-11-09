@@ -23,6 +23,11 @@ class SendRemindersCommand extends Command
             ->when($this->option('tenant'), fn ($q, $id) => $q->whereKey($id))
             ->orderBy('id')
             ->each(function (Tenant $tenant) use ($reminders, &$queued, &$failed) {
+                // Pengingat WhatsApp adalah fitur paket (LGN-02).
+                if (! $tenant->plan->hasFeature('whatsapp.reminders')) {
+                    return;
+                }
+
                 try {
                     $queued += $reminders->handle($tenant);
                 } catch (\Throwable $e) {

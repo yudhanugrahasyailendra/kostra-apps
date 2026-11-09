@@ -166,6 +166,7 @@ export interface SharedProps {
             viewFinance: boolean;
             manageSettings: boolean;
             exportData: boolean;
+            manageSubscription: boolean;
         };
     } | null;
     tenant: { name: string; status: string; suspended: boolean } | null;
@@ -485,4 +486,73 @@ export interface PortalComplaintData {
     created_at: string;
     closed_at: string | null;
     comments?: { id: number; body: string; from_resident: boolean; author_name: string; created_at: string }[];
+}
+
+export interface PlanData {
+    id: number;
+    key: string;
+    name: string;
+    price_monthly: number;
+    price_yearly: number | null;
+    max_properties: number | null;
+    max_rooms: number | null;
+    max_users: number | null;
+    monthly_message_quota: number;
+    features: string[];
+    is_free: boolean;
+}
+
+export interface SubscriptionData {
+    id: number;
+    plan_key: string;
+    plan_name: string;
+    status: 'trialing' | 'active' | 'past_due' | 'canceled' | 'expired';
+    status_label: string;
+    billing_period: 'monthly' | 'yearly';
+    billing_period_label: string;
+    trial_ends_at: string | null;
+    current_period_start: string;
+    current_period_end: string;
+    grace_ends_at: string | null;
+}
+
+export interface SubscriptionInvoiceData {
+    id: number;
+    number: string;
+    period_start: string;
+    period_end: string;
+    amount: number;
+    status: 'pending' | 'paid' | 'void';
+    status_label: string;
+    due_date: string;
+    paid_at: string | null;
+    payment_method: string | null;
+    reference: string | null;
+}
+
+export interface TenantUsageData {
+    properties: number;
+    max_properties: number | null;
+    rooms: number;
+    max_rooms: number | null;
+    users: number;
+    max_users: number | null;
+    messages: number;
+    message_quota: number;
+}
+
+export interface AdminTenantRow {
+    id: number;
+    name: string;
+    slug: string;
+    status: 'trial' | 'active' | 'suspended' | 'closed';
+    status_label: string;
+    created_at: string | null;
+    plan_name: string;
+    subscription_status: SubscriptionData['status'] | null;
+    subscription_status_label: string | null;
+    period_end: string | null;
+    trial_ends_at: string | null;
+    grace_ends_at: string | null;
+    usage: TenantUsageData;
 }

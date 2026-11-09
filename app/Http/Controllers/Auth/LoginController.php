@@ -27,7 +27,7 @@ class LoginController extends Controller
 
         return $user->tenant_id !== null
             ? redirect()->intended(route('owner.dashboard'))
-            : redirect()->intended(route('home'));
+            : redirect()->intended($user->isSuperAdmin() ? route('admin.tenants.index') : route('home'));
     }
 
     public function destroy(Request $request): RedirectResponse

@@ -6,12 +6,12 @@ use App\Enums\UserRole;
 use App\Models\Invitation;
 use App\Models\User;
 use App\Services\AuditLogger;
-use Illuminate\Support\Facades\DB;
+use App\Services\Plans\PlanLimits;
 use Illuminate\Support\Str;
 
 class InviteStaff
 {
-    public function __construct(private AuditLogger $audit) {}
+    public function __construct(private AuditLogger $audit, private PlanLimits $limits) {}
 
     /**
      * Mengembalikan token asli satu kali; yang disimpan hanya hash SHA-256.
@@ -21,7 +21,10 @@ class InviteStaff
      */
     public function handle(User $inviter, array $data): array
     {
-        return DB::transaction(function () use ($inviter, $data) {
+        // Dikunci bersama batas paket supaya dua undangan bersamaan tidak sama-sama lolos (LGN-02).
+        return $this->limits->withinLock(function () use ($inviter, $data) {
+            $this->limits->assertCanAddUser();
+
             $token = Str::random(48);
 
             $invitation = new Invitation([

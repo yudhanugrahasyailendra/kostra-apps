@@ -33,6 +33,8 @@ use App\Models\Resident;
 use App\Models\Room;
 use App\Models\RoomTransfer;
 use App\Models\RoomType;
+use App\Models\Subscription;
+use App\Models\SubscriptionInvoice;
 use App\Models\Tenant;
 use App\Models\UsageCounter;
 use App\Models\User;
@@ -112,6 +114,8 @@ class AppServiceProvider extends ServiceProvider
             'message_log' => MessageLog::class,
             'usage_counter' => UsageCounter::class,
             'portal_token' => PortalToken::class,
+            'subscription' => Subscription::class,
+            'subscription_invoice' => SubscriptionInvoice::class,
         ]);
 
         // Daftar model yang boleh diekspor (NFR-12). Fase berikutnya menambah modelnya di sini.
@@ -144,6 +148,8 @@ class AppServiceProvider extends ServiceProvider
         $registry->register(MessageLog::class);
         $registry->register(UsageCounter::class);
         $registry->register(PortalToken::class);
+        $registry->register(Subscription::class);
+        $registry->register(SubscriptionInvoice::class);
 
         // Listener di app/Listeners (QueueInvoiceIssuedMessage, QueueReceiptMessage, QueueComplaintStatusMessage)
         // ditemukan otomatis lewat tipe parameter handle(); jangan didaftarkan lagi di sini agar tidak berjalan dua kali.

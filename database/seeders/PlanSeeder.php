@@ -23,6 +23,9 @@ class PlanSeeder extends Seeder
         foreach ($plans as $index => $plan) {
             $limits = config('kostra.plans.'.$plan['key']);
 
+            // Tahunan = 10 x bulanan (bayar 10 bulan, pakai 12); Gratis tidak punya harga tahunan.
+            $plan['price_yearly'] = $plan['price_monthly'] > 0 ? $plan['price_monthly'] * 10 : null;
+
             Plan::query()->updateOrCreate(['key' => $plan['key']], $plan + [
                 'max_properties' => $limits['max_properties'],
                 'max_rooms' => $limits['max_rooms'],

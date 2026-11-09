@@ -13,6 +13,8 @@ const can = computed(() => page.props.auth?.can);
 const user = computed(() => page.props.auth?.user);
 const tenant = computed(() => page.props.tenant);
 const flash = computed(() => page.props.flash);
+// Melewati batas paket bukan galat teknis: tampilkan penjelasan dan tautan naik paket di halaman mana pun.
+const limitError = computed(() => (page.props.errors as Record<string, string>).limit);
 
 interface NavItem {
     key: string;
@@ -38,6 +40,7 @@ const navItems = computed<NavItem[]>(() => [
     { key: 'rekening', label: 'Rekening Bayar', icon: 'account_balance', href: '/app/pengaturan/rekening', visible: !!can.value?.manageSettings },
     { key: 'staf', label: 'Staf', icon: 'badge', href: '/app/staf', visible: !!can.value?.manageStaff },
     { key: 'audit', label: 'Log Audit', icon: 'policy', href: '/app/log-audit', visible: !!can.value?.viewAudit },
+    { key: 'langganan', label: 'Paket Langganan', icon: 'workspace_premium', href: '/app/langganan', visible: !!can.value?.manageSubscription },
     { key: 'pengaturan', label: 'Pengaturan', icon: 'settings', href: '/app/pengaturan/penagihan', visible: !!can.value?.manageSettings },
     { key: 'ekspor', label: 'Ekspor Data', icon: 'download', href: '/app/ekspor', visible: !!can.value?.exportData, download: true },
 ].filter((item) => item.visible));
@@ -151,6 +154,14 @@ function linkClass(key: string) {
                 >
                     {{ flash.success }}
                 </p>
+                <div
+                    v-if="limitError"
+                    class="mb-space-md flex flex-wrap items-center justify-between gap-space-sm rounded-md border border-status-menunggu-border bg-status-menunggu-bg p-space-md text-status-menunggu-text print:hidden"
+                    role="alert"
+                >
+                    <p class="text-body-md">{{ limitError }}</p>
+                    <Link v-if="can?.manageSubscription" href="/app/langganan" class="text-label-md underline">Lihat paket langganan</Link>
+                </div>
                 <h1 class="mb-space-lg print:hidden text-display-lg-mobile text-text-primary lg:text-headline-lg">{{ title }}</h1>
                 <slot />
             </main>

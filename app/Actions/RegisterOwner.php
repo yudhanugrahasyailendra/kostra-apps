@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 
 class RegisterOwner
 {
+    public function __construct(private StartFreeSubscription $startFree) {}
+
     /**
      * Membuat tenant paket Gratis dan pengguna pemilik dalam satu transaksi.
      *
@@ -31,6 +33,9 @@ class RegisterOwner
                 'phone' => $data['phone'] ?? null,
                 'timezone' => config('kostra.display_timezone'),
             ]);
+
+            // Langganan Gratis sekaligus menyamakan tenants.plan_id.
+            $this->startFree->handle($tenant);
 
             return TenantContext::instance()->runAs($tenant, function () use ($data) {
                 $user = new User([
