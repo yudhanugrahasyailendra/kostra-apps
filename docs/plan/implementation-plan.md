@@ -315,7 +315,7 @@ Jangan memasang paket apa pun sebelum saya menyetujui rencananya.
 
 Fase 1 membuat setiap pemilik kos terisolasi, peran dan izin berfungsi, dan aksi penting tercatat. Semua fase lain bergantung padanya, jadi isolasi tenant harus lulus uji sebelum Anda lanjut.
 
-**Prasyarat**: Fase 0. **Rujukan**: PRD modul Fondasi (FND-01 sampai FND-06); Desain Database bagian Platform dan tenant, ditambah tabel `audit_logs`. **Tabel baru**: plans, tenants, users (menyesuaikan tabel bawaan), invitations, audit_logs.
+**Prasyarat**: Fase 0. **Rujukan**: PRD modul Fondasi (FND-01 sampai FND-06) dan NFR-12 (ekspor data); Desain Database bagian Platform dan tenant, ditambah tabel `audit_logs`. **Tabel baru**: plans, tenants, users (menyesuaikan tabel bawaan), invitations, audit_logs.
 
 **Mockup**: `autentikasi_reset_password_kostra` (masuk dan reset kata sandi), tab Staf di `pengaturan_gateway_whatsapp`, `panel_staf_penjaga_kos_operasional_1` (menu terbatas staf), dan `log_audit_keamanan_kepatuhan_pdp` (hanya daftar log FND-06). Daftar akun belum punya mockup; pakai komponen yang sama. Sembunyikan di panel staf: Log Tamu Menginap, Log Kunci, "KTP terverifikasi sistem", dan "Titip Sewa". Sembunyikan di log audit: sesi login aktif, "Integritas Kriptografi Log", dan klaim keamanan ("AES-256", "100%") sampai benar-benar diimplementasikan.
 
@@ -333,6 +333,7 @@ Rencanakan dulu, lalu kerjakan dengan tes lebih dulu:
 6. Undangan staf (token disimpan sebagai hash, kedaluwarsa 7 hari, sekali pakai), izin staf lewat kolom permissions, dan Policy dasar.
 7. Pencatat audit untuk aksi penting, menyimpan data sebelum dan sesudah.
 8. PlanSeeder (Gratis, Starter, Pro, Business) dan seeder satu Super Admin.
+9. Kerangka ekspor data tenant (NFR-12): interface TenantExportable dan registri model yang boleh diekspor, Action ExportTenantData yang menghasilkan arsip CSV per tabel hanya untuk tenant yang sedang aktif (tanpa paket baru; pakai fputcsv dan streaming), dan route ekspor untuk owner. Ekspor tetap boleh dipakai saat tenant ditangguhkan atau langganan berakhir. Di fase ini yang terdaftar baru users dan invitations (tanpa kolom password dan token_hash); setiap fase berikutnya mendaftarkan model barunya.
 Mulai dari tes isolasi tenant: pengguna tenant A tidak bisa membaca atau mengubah data tenant B lewat query, URL, maupun route model binding.
 ```
 
@@ -342,6 +343,7 @@ Mulai dari tes isolasi tenant: pengguna tenant A tidak bisa membaca atau menguba
 - Model Tenant, User, Plan, Invitation, AuditLog; trait `BelongsToTenant` dan `TenantScope`; `TenantContext`.
 - Middleware `SetCurrentTenant` dan `EnsureTenantIsActive`.
 - Action `RegisterOwner`, `InviteStaff`, `AcceptInvitation`, dan pencatat audit.
+- Kerangka ekspor data tenant: interface `TenantExportable`, registri, Action `ExportTenantData`, dan route ekspor owner.
 - Policy dasar, `PlanSeeder`, seeder Super Admin.
 - Tes di `tests/Feature/Tenancy/` dan `tests/Feature/Auth/`.
 
@@ -354,6 +356,7 @@ Mulai dari tes isolasi tenant: pengguna tenant A tidak bisa membaca atau menguba
 - Tenant ditangguhkan: menulis ditolak, membaca boleh.
 - Perubahan data penting tercatat di audit dengan nilai lama dan baru.
 - Tautan reset kata sandi kedaluwarsa setelah 60 menit.
+- Ekspor hanya memuat data tenant yang bersangkutan, tidak memuat `password` maupun `token_hash`, dan tetap bisa dipakai saat tenant ditangguhkan; staf tanpa izin tidak bisa mengekspor.
 
 **Selesai bila**: semua tes lulus; `tenant-auditor` tidak melaporkan temuan tinggi; tidak ada query tanpa scope pada tabel tenant; skema cocok dengan `docs/plan/database.md`.
 
@@ -777,7 +780,7 @@ Pembayaran langganan Kostra semi-manual di MVP (transfer, dicatat Super Admin). 
 5. Naik dan turun paket; turun paket diperiksa terhadap jumlah properti, kamar, dan staf yang ada.
 6. Tagihan langganan (subscription_invoices) bulanan atau tahunan dengan nomor tersendiri; Super Admin mencatat pembayaran manual.
 7. Panel Super Admin di routes/admin.php: daftar tenant (cari dalam satu langkah), status langganan, pemakaian kamar dan pesan, tangguhkan dan aktifkan tenant. Tenant yang ditangguhkan hanya bisa membaca dan mengekspor.
-8. Ekspor seluruh data tenant (Excel atau CSV) untuk pemilik, tersedia juga saat langganan berakhir.
+8. Pastikan ekspor data tenant dari Fase 1 tetap bisa dipakai saat langganan berakhir atau tenant ditangguhkan, dan periksa bahwa semua model tenant sudah terdaftar di registri ekspor. Jangan membuat mekanisme ekspor kedua.
 ```
 
 **Hasil yang diharapkan**
@@ -785,7 +788,7 @@ Pembayaran langganan Kostra semi-manual di MVP (transfer, dicatat Super Admin). 
 - Dua migrasi, model, factory, dan Policy; enum `SubscriptionStatus`.
 - Action untuk mulai percobaan, ganti paket, tangguhkan, aktifkan, dan catat pembayaran langganan.
 - Penjadwal masa percobaan dan masa tenggang.
-- `routes/admin.php` dan tampilan panel Super Admin; ekspor data tenant.
+- `routes/admin.php` dan tampilan panel Super Admin; pemeriksaan bahwa ekspor data tenant (dari Fase 1) tetap bisa dipakai.
 
 **Tes wajib**
 
@@ -795,7 +798,7 @@ Pembayaran langganan Kostra semi-manual di MVP (transfer, dicatat Super Admin). 
 - Tenant ditangguhkan: menulis ditolak, membaca dan ekspor tetap boleh.
 - Naik paket langsung membuka fitur dan batas baru.
 - Hanya `super_admin` yang bisa mengakses `/admin`; owner dan staf mendapat penolakan.
-- Ekspor hanya memuat data tenant yang bersangkutan.
+- Ekspor tetap bisa dipakai saat langganan berakhir dan hanya memuat data tenant yang bersangkutan.
 - Nomor `subscription_invoices` unik.
 
 **Selesai bila**: semua tes lulus, `/cek-fase 11` tanpa kegagalan, dan satu tenant uji menjalani siklus daftar, percobaan, naik paket, bayar manual, dan tangguhan tanpa mengedit database langsung.
@@ -833,6 +836,7 @@ Fase 12 Kostra: hardening sebelum pilot. Jangan menambah fitur. Baca CLAUDE.md, 
 - Seluruh suite tes hijau dan `pint --test` bersih.
 - `tenant-auditor` tidak menyisakan temuan tinggi atau menengah yang belum dicatat.
 - Penjadwal dijalankan dua kali berturut-turut tanpa tagihan atau pesan ganda.
+- Setiap model tenant terdaftar di registri ekspor, dan hasil ekspor satu tenant demo tidak memuat data tenant lain atau rahasia (password, token_hash, kunci).
 - Uji pemulihan: pulihkan cadangan ke database baru lalu jalankan uji asap.
 - Dashboard dan daftar 100 kamar terbuka kurang dari 2 detik pada data uji.
 - Log dan galat produksi tidak memuat data pribadi.

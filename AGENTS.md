@@ -83,6 +83,9 @@ resources/views/app.blade.php                    satu-satunya view Blade (akar I
 - **Status kamar `occupied`** ditentukan oleh kontrak aktif, bukan diatur manual.
 - **Kuota pesan WhatsApp** dinaikkan atomik saat pesan dikirim, dan pengiriman berhenti saat kuota habis.
 
+### Ekspor data
+- Setiap model milik tenant yang baru didaftarkan ke registri ekspor data tenant (`TenantExportable`, dibuat di Fase 1; NFR-12). Kolom rahasia (`password`, `token_hash`, kunci) dikecualikan dari ekspor.
+
 ### Berkas dan privasi
 - Semua lampiran lewat tabel `attachments` di disk privat, disajikan lewat tautan bertanda tangan. Foto KTP dienkripsi dan aksesnya dicatat ke `audit_logs`.
 - **Nomor KTP tidak disimpan.** Tidak sebagai kolom, tidak di log, tidak di catatan.
