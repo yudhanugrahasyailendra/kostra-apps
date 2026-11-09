@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Enums\InvoiceStatus;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentStatus;
+use App\Events\PaymentRecorded;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Models\PaymentAccount;
@@ -123,6 +124,8 @@ class RecordPayment
             foreach ($invoices as $invoice) {
                 $this->recalculate->handle($invoice);
             }
+
+            PaymentRecorded::dispatch($payment);
 
             return $payment;
         });

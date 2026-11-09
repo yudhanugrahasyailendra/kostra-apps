@@ -1,5 +1,7 @@
 <?php
 
+use App\Services\WhatsApp\FakeWhatsAppProvider;
+
 /*
 |--------------------------------------------------------------------------
 | Konfigurasi Kostra
@@ -34,6 +36,20 @@ return [
         'reminder_offsets' => [-3, 0, 3],
         'send_window_start' => '08:00',
         'send_window_end' => '20:00',
+    ],
+
+    // Notifikasi WhatsApp (NTF-01). Penyedia dipilih lewat KOSTRA_WHATSAPP_PROVIDER; daftar di bawah memetakan
+    // nama ke kelas yang mengimplementasikan WhatsAppProvider. Hanya `fake` yang tersedia sampai penyedia resmi
+    // diputuskan; penyedia baru cukup menambah satu adapter dan satu baris di sini.
+    'whatsapp' => [
+        'provider' => env('KOSTRA_WHATSAPP_PROVIDER', 'fake'),
+        'providers' => [
+            'fake' => FakeWhatsAppProvider::class,
+        ],
+        // Percobaan pengiriman per pesan (termasuk yang pertama) sebelum berstatus failed.
+        'max_attempts' => 3,
+        // Jeda detik sebelum percobaan ke-2, ke-3, dan seterusnya.
+        'retry_backoff_seconds' => [60, 300],
     ],
 
     // Super Admin awal untuk SuperAdminSeeder. Dibaca lewat config agar tetap jalan saat config:cache.

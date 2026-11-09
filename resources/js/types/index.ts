@@ -387,3 +387,29 @@ export interface ComplaintDetailData extends ComplaintData {
     photos: AttachmentFileData[];
     comments: ComplaintCommentData[];
 }
+
+export interface MessageTemplateData {
+    key: string;
+    label: string;
+    body: string;
+    is_custom: boolean;
+    available: boolean;
+}
+
+export interface MessageLogData {
+    id: number;
+    resident_name: string | null;
+    /** Nomor sudah disamarkan di server. */
+    recipient: string;
+    template_name: string | null;
+    status: string;
+    status_label: string;
+    status_tone: StatusTone;
+    skip_reason_label: string | null;
+    error_code: string | null;
+    attempts: number;
+    scheduled_for: string | null;
+    sent_at: string | null;
+    created_at: string;
+    can_resend: boolean;
+}

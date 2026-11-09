@@ -12,6 +12,7 @@ use App\Http\Controllers\Owner\LeaseCheckOutController;
 use App\Http\Controllers\Owner\LeaseController;
 use App\Http\Controllers\Owner\LeaseRenewController;
 use App\Http\Controllers\Owner\LeaseTransferController;
+use App\Http\Controllers\Owner\MessageController;
 use App\Http\Controllers\Owner\PaymentAccountController;
 use App\Http\Controllers\Owner\PaymentController;
 use App\Http\Controllers\Owner\PaymentProofController;
@@ -110,6 +111,13 @@ Route::post('/komplain/{complaint}/penanggung-jawab', [ComplaintController::clas
 Route::post('/komplain/{complaint}/komentar', [ComplaintController::class, 'comment'])
     ->middleware('throttle:60,1')->name('complaints.comment');
 // Sengaja tanpa route hapus: tiket ditutup lewat status, tidak dihapus.
+
+Route::get('/pesan', [MessageController::class, 'index'])->name('messages.index');
+Route::patch('/pesan/templat/{key}', [MessageController::class, 'updateTemplate'])
+    ->middleware('throttle:30,1')->name('messages.templates.update');
+Route::post('/pesan/templat/{key}/reset', [MessageController::class, 'resetTemplate'])->name('messages.templates.reset');
+Route::post('/pesan/{log}/kirim-ulang', [MessageController::class, 'resend'])
+    ->middleware('throttle:30,1')->name('messages.resend');
 
 Route::get('/laporan', [ReportController::class, 'index'])->name('reports.index');
 Route::get('/laporan/xlsx', [ReportController::class, 'xlsx'])->middleware('throttle:20,1')->name('reports.xlsx');

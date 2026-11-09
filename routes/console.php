@@ -13,3 +13,7 @@ Artisan::command('inspire', function () {
 // bila putaran sebelumnya gagal.
 Schedule::command('invoices:generate')->hourly()->withoutOverlapping()->onOneServer();
 Schedule::command('invoices:mark-overdue')->dailyAt('01:00')->withoutOverlapping()->onOneServer();
+
+// Pengingat tagihan WhatsApp. Idempoten per tagihan, template, dan hari (message_logs), jadi hourly aman
+// untuk tenant di zona waktu berbeda; jam kirim ditegakkan saat pengiriman, bukan di jadwal ini.
+Schedule::command('reminders:send')->hourly()->withoutOverlapping()->onOneServer();

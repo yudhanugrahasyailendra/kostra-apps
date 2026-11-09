@@ -34,6 +34,7 @@ const navItems = computed<NavItem[]>(() => [
     { key: 'bukti', label: 'Bukti Transfer', icon: 'fact_check', href: '/app/bukti-transfer', visible: !!can.value?.viewFinance },
     { key: 'pengeluaran', label: 'Pengeluaran', icon: 'outbox', href: '/app/pengeluaran', visible: !!can.value?.viewFinance },
     { key: 'laporan', label: 'Laporan Keuangan', icon: 'query_stats', href: '/app/laporan', visible: !!can.value?.viewFinance },
+    { key: 'pesan', label: 'Pesan WhatsApp', icon: 'chat', href: '/app/pesan', visible: !!can.value?.manageSettings },
     { key: 'rekening', label: 'Rekening Bayar', icon: 'account_balance', href: '/app/pengaturan/rekening', visible: !!can.value?.manageSettings },
     { key: 'staf', label: 'Staf', icon: 'badge', href: '/app/staf', visible: !!can.value?.manageStaff },
     { key: 'audit', label: 'Log Audit', icon: 'policy', href: '/app/log-audit', visible: !!can.value?.viewAudit },

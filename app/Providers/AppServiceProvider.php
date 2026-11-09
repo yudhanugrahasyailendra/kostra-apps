@@ -19,6 +19,8 @@ use App\Models\InvoiceItem;
 use App\Models\Lease;
 use App\Models\LeaseDeposit;
 use App\Models\LeaseResident;
+use App\Models\MessageLog;
+use App\Models\MessageTemplate;
 use App\Models\NumberSequence;
 use App\Models\Payment;
 use App\Models\PaymentAccount;
@@ -31,8 +33,10 @@ use App\Models\Room;
 use App\Models\RoomTransfer;
 use App\Models\RoomType;
 use App\Models\Tenant;
+use App\Models\UsageCounter;
 use App\Models\User;
 use App\Services\Billing\InvoiceOutstandingBalance;
+use App\Services\WhatsApp\WhatsAppProvider;
 use App\Tenancy\TenantContext;
 use App\Tenancy\TenantUserProvider;
 use Illuminate\Contracts\Foundation\Application;
@@ -40,6 +44,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use InvalidArgumentException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -50,6 +55,17 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(TenantExportRegistry::class);
 
         $this->app->bind(OutstandingBalance::class, InvoiceOutstandingBalance::class);
+
+        $this->app->singleton(WhatsAppProvider::class, function (Application $app) {
+            $name = config('kostra.whatsapp.provider');
+            $class = config("kostra.whatsapp.providers.$name");
+
+            if (! is_string($class) || ! is_subclass_of($class, WhatsAppProvider::class)) {
+                throw new InvalidArgumentException("Penyedia WhatsApp '$name' tidak terdaftar di config/kostra.php.");
+            }
+
+            return $app->make($class);
+        });
     }
 
     public function boot(): void
@@ -88,6 +104,9 @@ class AppServiceProvider extends ServiceProvider
             'expense' => Expense::class,
             'complaint' => Complaint::class,
             'complaint_comment' => ComplaintComment::class,
+            'message_template' => MessageTemplate::class,
+            'message_log' => MessageLog::class,
+            'usage_counter' => UsageCounter::class,
         ]);
 
         // Daftar model yang boleh diekspor (NFR-12). Fase berikutnya menambah modelnya di sini.
@@ -116,6 +135,13 @@ class AppServiceProvider extends ServiceProvider
         $registry->register(Expense::class);
         $registry->register(Complaint::class);
         $registry->register(ComplaintComment::class);
+        $registry->register(MessageTemplate::class);
+        $registry->register(MessageLog::class);
+        $registry->register(UsageCounter::class);
+
+        // Listener di app/Listeners (QueueInvoiceIssuedMessage, QueueReceiptMessage, QueueComplaintStatusMessage)
+        // ditemukan otomatis lewat tipe parameter handle(); jangan didaftarkan lagi di sini agar tidak berjalan dua kali.
+        // Di produksi jalankan `php artisan event:cache` saat deploy.
 
         Gate::define('export-data', fn (User $user) => $user->hasPermission(Permission::DataExport));
         Gate::define('view-finance', fn (User $user) => $user->hasPermission(Permission::FinanceView));

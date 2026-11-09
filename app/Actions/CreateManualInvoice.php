@@ -5,6 +5,7 @@ namespace App\Actions;
 use App\Enums\InvoiceItemType;
 use App\Enums\InvoiceStatus;
 use App\Enums\InvoiceType;
+use App\Events\InvoiceIssued;
 use App\Models\BillingSetting;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
@@ -73,7 +74,10 @@ class CreateManualInvoice
                 ]);
             }
 
-            return $this->recalculate->handle($invoice);
+            $invoice = $this->recalculate->handle($invoice);
+            InvoiceIssued::dispatch($invoice);
+
+            return $invoice;
         });
     }
 }
