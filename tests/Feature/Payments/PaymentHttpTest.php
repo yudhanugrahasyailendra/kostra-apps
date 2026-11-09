@@ -165,6 +165,7 @@ class PaymentHttpTest extends TestCase
         $this->get('/app/pembayaran')->assertForbidden();
         $this->get('/app/pembayaran/baru')->assertForbidden();
         $this->get("/app/pembayaran/{$payment->id}/kuitansi")->assertForbidden();
+        $this->get("/app/pembayaran/{$payment->id}/kuitansi.pdf")->assertForbidden();
         $this->get('/app/bukti-transfer')->assertForbidden();
         $this->post("/app/bukti-transfer/{$proof->id}/setujui", ['method' => 'transfer'])->assertForbidden();
         $this->post("/app/bukti-transfer/{$proof->id}/tolak", ['reason' => 'x'])->assertForbidden();
@@ -286,6 +287,19 @@ class PaymentHttpTest extends TestCase
     }
 
     // Kuitansi
+
+    public function test_kuitansi_dapat_diunduh_sebagai_pdf(): void
+    {
+        $invoice = $this->invoiceIn($this->tenantA, $this->leaseIn($this->tenantA, $this->propertyA));
+        $payment = $this->paymentIn($this->tenantA, $this->ownerA, $invoice);
+
+        $response = $this->actingAs($this->ownerA)->get("/app/pembayaran/{$payment->id}/kuitansi.pdf");
+
+        $response->assertOk();
+        $this->assertSame('application/pdf', $response->headers->get('Content-Type'));
+        $this->assertStringContainsString($payment->receipt_number, $response->headers->get('Content-Disposition'));
+        $this->assertStringStartsWith('%PDF', $response->getContent());
+    }
 
     public function test_kuitansi_memuat_data_yang_diperlukan_tanpa_data_pribadi_berlebih(): void
     {
@@ -412,6 +426,7 @@ class PaymentHttpTest extends TestCase
         $this->actingAs($this->ownerB);
 
         $this->get("/app/pembayaran/{$payment->id}/kuitansi")->assertNotFound();
+        $this->get("/app/pembayaran/{$payment->id}/kuitansi.pdf")->assertNotFound();
         $this->post("/app/pembayaran/{$payment->id}/batal", ['reason' => 'Serang'])->assertNotFound();
         $this->post("/app/bukti-transfer/{$proof->id}/setujui", ['method' => 'transfer'])->assertNotFound();
         $this->post("/app/bukti-transfer/{$proof->id}/tolak", ['reason' => 'Serang'])->assertNotFound();

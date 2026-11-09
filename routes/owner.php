@@ -88,6 +88,7 @@ Route::get('/pembayaran', [PaymentController::class, 'index'])->name('payments.i
 Route::get('/pembayaran/baru', [PaymentController::class, 'create'])->name('payments.create');
 Route::post('/pembayaran', [PaymentController::class, 'store'])->name('payments.store');
 Route::get('/pembayaran/{payment}/kuitansi', [PaymentController::class, 'receipt'])->name('payments.receipt');
+Route::get('/pembayaran/{payment}/kuitansi.pdf', [PaymentController::class, 'receiptPdf'])->name('payments.receipt.pdf');
 Route::post('/pembayaran/{payment}/batal', [PaymentController::class, 'void'])->name('payments.void');
 
 Route::get('/bukti-transfer', [PaymentProofController::class, 'index'])->name('proofs.index');
