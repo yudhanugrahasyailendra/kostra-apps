@@ -23,7 +23,7 @@ class Attachment extends Model implements TenantExportable
 
     protected $fillable = [
         'attachable_type', 'attachable_id', 'category', 'disk', 'path', 'original_name',
-        'mime', 'size', 'is_sensitive', 'uploaded_by',
+        'mime', 'size', 'is_sensitive', 'uploaded_by', 'uploaded_by_resident_id',
     ];
 
     protected function casts(): array

@@ -41,6 +41,19 @@ class MessageLog extends Model implements TenantExportable
         ];
     }
 
+    /**
+     * Ganti token portal di teks pesan dengan penanda. Log menyimpan teks akhir sebagai bukti, tetapi token
+     * adalah kunci akses; setelah pesan terkirim (atau dilewati) tidak ada alasan menyimpannya lagi.
+     */
+    public function redactPortalTokens(): void
+    {
+        $redacted = preg_replace('#/p/[a-f0-9]{64}#', '/p/[tautan-rahasia]', $this->body);
+
+        if ($redacted !== null && $redacted !== $this->body) {
+            $this->forceFill(['body' => $redacted])->save();
+        }
+    }
+
     /** @return BelongsTo<Resident, $this> */
     public function resident(): BelongsTo
     {

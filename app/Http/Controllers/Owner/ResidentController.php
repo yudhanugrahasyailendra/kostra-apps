@@ -16,6 +16,7 @@ use App\Http\Resources\ResidentResource;
 use App\Models\Attachment;
 use App\Models\Lease;
 use App\Models\LeaseResident;
+use App\Models\PortalToken;
 use App\Models\Resident;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -102,6 +103,10 @@ class ResidentController extends Controller
             'attachments' => AttachmentResource::collection($attachments)->resolve(),
             'leases' => LeaseResource::collection($leases)->resolve(),
             'categories' => array_map(fn (AttachmentCategory $c) => ['value' => $c->value, 'label' => $c->label()], AttachmentCategory::forResident()),
+            'portal' => [
+                'active_links' => PortalToken::query()->usable()->where('resident_id', $resident->id)->count(),
+                'last_used_at' => PortalToken::query()->where('resident_id', $resident->id)->max('last_used_at'),
+            ],
             'can' => [
                 'update' => $user->can('update', $resident),
                 'delete' => $user->can('delete', $resident),

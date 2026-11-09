@@ -27,6 +27,7 @@ use App\Models\PaymentAccount;
 use App\Models\PaymentAllocation;
 use App\Models\PaymentProof;
 use App\Models\Plan;
+use App\Models\PortalToken;
 use App\Models\Property;
 use App\Models\Resident;
 use App\Models\Room;
@@ -39,10 +40,13 @@ use App\Services\Billing\InvoiceOutstandingBalance;
 use App\Services\WhatsApp\WhatsAppProvider;
 use App\Tenancy\TenantContext;
 use App\Tenancy\TenantUserProvider;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use InvalidArgumentException;
 
@@ -107,6 +111,7 @@ class AppServiceProvider extends ServiceProvider
             'message_template' => MessageTemplate::class,
             'message_log' => MessageLog::class,
             'usage_counter' => UsageCounter::class,
+            'portal_token' => PortalToken::class,
         ]);
 
         // Daftar model yang boleh diekspor (NFR-12). Fase berikutnya menambah modelnya di sini.
@@ -138,10 +143,17 @@ class AppServiceProvider extends ServiceProvider
         $registry->register(MessageTemplate::class);
         $registry->register(MessageLog::class);
         $registry->register(UsageCounter::class);
+        $registry->register(PortalToken::class);
 
         // Listener di app/Listeners (QueueInvoiceIssuedMessage, QueueReceiptMessage, QueueComplaintStatusMessage)
         // ditemukan otomatis lewat tipe parameter handle(); jangan didaftarkan lagi di sini agar tidak berjalan dua kali.
         // Di produksi jalankan `php artisan event:cache` saat deploy.
+
+        // Portal publik: batas per IP untuk semua halaman, dan batas lebih ketat per penghuni untuk
+        // unggahan bukti, pengajuan komplain, dan komentar.
+        RateLimiter::for('portal', fn (Request $request) => Limit::perMinute((int) config('kostra.portal.requests_per_minute'))->by($request->ip()));
+        RateLimiter::for('portal-write', fn (Request $request) => Limit::perMinute((int) config('kostra.portal.writes_per_minute'))
+            ->by('portal-write:'.($request->attributes->get('portal_resident')?->id ?? $request->ip())));
 
         Gate::define('export-data', fn (User $user) => $user->hasPermission(Permission::DataExport));
         Gate::define('view-finance', fn (User $user) => $user->hasPermission(Permission::FinanceView));

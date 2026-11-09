@@ -52,6 +52,14 @@ return [
         'retry_backoff_seconds' => [60, 300],
     ],
 
+    // Portal penghuni (PRT-01). Tautan berumur terbatas; percobaan token salah dibatasi per IP per menit.
+    'portal' => [
+        'token_ttl_days' => 90,
+        'invalid_attempts_per_minute' => 10,
+        'requests_per_minute' => 120,
+        'writes_per_minute' => 10,
+    ],
+
     // Super Admin awal untuk SuperAdminSeeder. Dibaca lewat config agar tetap jalan saat config:cache.
     'admin' => [
         'email' => env('KOSTRA_ADMIN_EMAIL'),

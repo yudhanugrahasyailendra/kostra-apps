@@ -20,6 +20,7 @@ class MessageTemplateSeeder extends Seeder
             [MessageTemplateKey::Receipt, "Halo {{nama}}, pembayaran sebesar {{jumlah}} sudah kami terima. Terima kasih.\n\n{{link}}"],
             [MessageTemplateKey::LeaseExpiring, "Halo {{nama}}, masa sewa kamar Anda akan berakhir pada {{jatuh_tempo}}. Hubungi pengelola untuk perpanjangan.\n\n{{link}}"],
             [MessageTemplateKey::ComplaintStatus, "Halo {{nama}}, status komplain Anda telah diperbarui oleh pengelola.\n\n{{link}}"],
+            [MessageTemplateKey::PortalLink, "Halo {{nama}}, berikut tautan portal penghuni Anda untuk melihat tagihan, mengirim bukti transfer, dan mengajukan komplain:\n\n{{link}}"],
         ];
 
         // Alasan unscoped: baris sistem bertenant_id null, tidak terlihat dan tidak bisa dibuat dalam konteks tenant.

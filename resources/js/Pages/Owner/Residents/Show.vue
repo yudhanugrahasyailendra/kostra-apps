@@ -18,6 +18,7 @@ const props = defineProps<{
     attachments: AttachmentData[];
     leases: LeaseData[];
     categories: { value: string; label: string }[];
+    portal: { active_links: number; last_used_at: string | null };
     can: { update: boolean; delete: boolean; upload_sensitive: boolean };
 }>();
 
@@ -32,6 +33,16 @@ function formatDate(value: string | null): string {
 
 function formatSize(bytes: number): string {
     return bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
+// Tautan portal: dibuat dan langsung dikirim lewat WhatsApp; tautannya tidak pernah ditampilkan di sini.
+const portalBusy = ref(false);
+function sendPortalLink() {
+    router.post(`/app/penghuni/${props.resident.id}/portal`, {}, { preserveScroll: true, onStart: () => (portalBusy.value = true), onFinish: () => (portalBusy.value = false) });
+}
+const revokeOpen = ref(false);
+function revokePortalLinks() {
+    router.post(`/app/penghuni/${props.resident.id}/portal/cabut`, {}, { preserveScroll: true, onSuccess: () => (revokeOpen.value = false) });
 }
 
 // Ubah data
@@ -130,6 +141,27 @@ function removeAttachment(attachment: AttachmentData) {
                     </div>
                 </dl>
             </Panel>
+
+            <Panel title="Portal penghuni">
+                <p class="text-body-md text-text-secondary">
+                    Penghuni membuka tagihan, mengirim bukti transfer, dan mengajukan komplain lewat tautan di WhatsApp, tanpa akun.
+                    {{ portal.active_links > 0 ? `${portal.active_links} tautan masih berlaku.` : 'Belum ada tautan aktif.' }}
+                    <template v-if="portal.last_used_at">Terakhir dibuka {{ formatDate(portal.last_used_at) }}.</template>
+                </p>
+                <p v-if="resident.whatsapp_opted_out" class="mt-space-sm text-body-sm text-status-menunggu-text">Penghuni ini berhenti menerima pesan WhatsApp, jadi tautan tidak bisa dikirim.</p>
+                <div v-if="can.update" class="mt-space-md flex flex-wrap gap-space-sm">
+                    <Button icon="send" :disabled="portalBusy || resident.whatsapp_opted_out" @click="sendPortalLink">{{ portal.active_links > 0 ? 'Kirim ulang tautan baru' : 'Kirim tautan portal' }}</Button>
+                    <Button v-if="portal.active_links > 0" variant="secondary" icon="link_off" @click="revokeOpen = true">Cabut semua tautan</Button>
+                </div>
+            </Panel>
+
+            <Modal :show="revokeOpen" title="Cabut tautan portal" @close="revokeOpen = false">
+                <p class="text-body-md text-text-secondary">Semua tautan portal {{ resident.name }} langsung tidak bisa dibuka lagi. Anda dapat mengirim tautan baru kapan saja.</p>
+                <template #footer>
+                    <Button variant="ghost" @click="revokeOpen = false">Batal</Button>
+                    <Button icon="link_off" @click="revokePortalLinks">Cabut</Button>
+                </template>
+            </Modal>
 
             <Panel title="Dokumen">
                 <p v-if="hiddenKtp" class="mb-space-md rounded-md border border-border-subtle bg-bg-subtle p-space-sm text-body-sm text-text-secondary">

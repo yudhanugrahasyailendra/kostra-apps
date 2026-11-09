@@ -4,6 +4,7 @@ namespace App\Actions;
 
 use App\Enums\AttachmentCategory;
 use App\Models\Attachment;
+use App\Models\Resident;
 use App\Models\User;
 use App\Tenancy\TenantContext;
 use App\Tenancy\TenantMismatchException;
@@ -24,7 +25,7 @@ class StoreAttachment
      * ditulis, jadi isi di disk bukan byte gambar asli. Nama berkas acak, tanpa nama asli
      * dan tanpa ekstensi, di folder per tenant. Tipe diambil dari isi berkas, bukan dari klien.
      */
-    public function handle(Model $attachable, UploadedFile $file, AttachmentCategory $category, ?User $uploader = null): Attachment
+    public function handle(Model $attachable, UploadedFile $file, AttachmentCategory $category, ?User $uploader = null, ?Resident $residentUploader = null): Attachment
     {
         // Induk harus milik tenant aktif; hook creating hanya menjaga tenant_id lampiran itu sendiri.
         if ((int) $attachable->getAttribute('tenant_id') !== TenantContext::instance()->id()) {
@@ -50,6 +51,8 @@ class StoreAttachment
                 'size' => strlen($contents),
                 'is_sensitive' => $sensitive,
                 'uploaded_by' => $uploader?->id,
+                // Terisi bila penghuni mengunggah dari portal; kolom pengguna di atas null pada kasus itu.
+                'uploaded_by_resident_id' => $residentUploader?->id,
             ]));
         } catch (Throwable $e) {
             $disk->delete($path);

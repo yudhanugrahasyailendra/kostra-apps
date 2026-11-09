@@ -413,3 +413,76 @@ export interface MessageLogData {
     created_at: string;
     can_resend: boolean;
 }
+
+export interface PortalShell {
+    resident: { name: string };
+    business_name: string;
+    room_number: string | null;
+    property_name: string | null;
+    read_only: boolean;
+}
+
+export interface PortalInvoiceData {
+    id: number;
+    number: string;
+    period: string | null;
+    due_date: string;
+    status: string;
+    status_label: string;
+    status_tone: StatusTone;
+    total: number;
+    paid_total: number;
+    outstanding: number;
+    items?: { description: string; amount: number }[];
+    has_pending_proof: boolean;
+}
+
+export interface PortalPaymentData {
+    id: number;
+    receipt_number: string;
+    amount: number;
+    paid_on: string;
+    method_label: string;
+    periods?: (string | null)[];
+}
+
+export interface PortalReceiptData {
+    number: string;
+    business_name: string | null;
+    property_name: string | null;
+    resident_name: string;
+    room_number: string | null;
+    amount: number;
+    paid_on: string;
+    method_label: string;
+    reference: string | null;
+    lines: { invoice_number: string | null; amount: number }[];
+}
+
+export interface PortalLeaseData {
+    room_number: string | null;
+    room_type: string | null;
+    property_name: string | null;
+    property_address: string | null;
+    start_date: string;
+    end_date: string | null;
+    days_remaining: number | null;
+    rent_amount: number;
+    billing_cycle_label: string;
+    due_day: number | null;
+    deposit_amount: number | null;
+}
+
+export interface PortalComplaintData {
+    id: number;
+    title: string;
+    description: string;
+    category_label: string;
+    status: string;
+    status_label: string;
+    status_tone: StatusTone;
+    is_closed: boolean;
+    created_at: string;
+    closed_at: string | null;
+    comments?: { id: number; body: string; from_resident: boolean; author_name: string; created_at: string }[];
+}

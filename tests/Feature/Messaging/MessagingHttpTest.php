@@ -88,7 +88,7 @@ class MessagingHttpTest extends TestCase
                 ->component('Owner/Messages/Index')
                 ->where('quota', ['period' => '2026-11', 'limit' => 300, 'used' => 120, 'remaining' => 180])
                 ->where('provider', 'fake')
-                ->has('templates', 7)
+                ->has('templates', 8)
                 ->where('templates.0.is_custom', false)
                 ->where('variables', ['nama', 'jumlah', 'jatuh_tempo', 'link'])
                 ->has('logs', 1)

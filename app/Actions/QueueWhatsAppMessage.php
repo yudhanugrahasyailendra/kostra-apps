@@ -22,6 +22,7 @@ class QueueWhatsAppMessage
         private MessageTemplateRenderer $renderer,
         private SendWindow $window,
         private WhatsAppProvider $provider,
+        private IssuePortalToken $portal,
     ) {}
 
     /**
@@ -46,6 +47,14 @@ class QueueWhatsAppMessage
             return null;
         }
 
+        $optedOut = $resident->whatsapp_opt_out_at !== null;
+
+        // {{link}} selalu tautan portal penghuni ini. Token baru dibuat hanya bila isi template memakainya
+        // dan pesan akan dikirim; nilai `link` dari pemanggil diabaikan agar tautan tidak bisa dipalsukan.
+        $values['link'] = ! $optedOut && preg_match('/\{\{\s*link\s*\}\}/', $template->body) === 1
+            ? $this->portal->url($resident)
+            : '';
+
         $log = new MessageLog([
             'template_id' => $template->id,
             'resident_id' => $resident->id,
@@ -61,7 +70,7 @@ class QueueWhatsAppMessage
             'counted_in_quota' => false,
         ]);
 
-        if ($resident->whatsapp_opt_out_at !== null) {
+        if ($optedOut) {
             $log->status = MessageStatus::Skipped;
             $log->skip_reason = MessageSkipReason::OptedOut;
             $log->save();

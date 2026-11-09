@@ -19,6 +19,7 @@ use App\Http\Controllers\Owner\PaymentProofController;
 use App\Http\Controllers\Owner\PropertyController;
 use App\Http\Controllers\Owner\ReportController;
 use App\Http\Controllers\Owner\ResidentController;
+use App\Http\Controllers\Owner\ResidentPortalController;
 use App\Http\Controllers\Owner\RoomController;
 use App\Http\Controllers\Owner\RoomTypeController;
 use App\Http\Controllers\Owner\StaffController;
@@ -53,6 +54,9 @@ Route::get('/penghuni/impor/templat', [ResidentController::class, 'template'])->
 Route::get('/penghuni/{resident}', [ResidentController::class, 'show'])->name('residents.show');
 Route::patch('/penghuni/{resident}', [ResidentController::class, 'update'])->name('residents.update');
 Route::delete('/penghuni/{resident}', [ResidentController::class, 'destroy'])->name('residents.destroy');
+Route::post('/penghuni/{resident}/portal', [ResidentPortalController::class, 'store'])
+    ->middleware('throttle:10,1')->name('residents.portal.send');
+Route::post('/penghuni/{resident}/portal/cabut', [ResidentPortalController::class, 'revoke'])->name('residents.portal.revoke');
 Route::post('/penghuni/{resident}/lampiran', [AttachmentController::class, 'store'])
     ->middleware('throttle:30,1')->name('residents.attachments.store');
 

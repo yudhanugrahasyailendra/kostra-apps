@@ -12,6 +12,8 @@ enum MessageTemplateKey: string
     case LeaseExpiring = 'lease_expiring';
     // Tidak ada di daftar database.md; dipakai listener ComplaintStatusChanged (NTF dan KMP-02).
     case ComplaintStatus = 'complaint_status';
+    // Tautan portal penghuni dikirim pemilik dari profil penghuni (Fase 10).
+    case PortalLink = 'portal_link';
 
     public function label(): string
     {
@@ -23,6 +25,7 @@ enum MessageTemplateKey: string
             self::Receipt => 'Kuitansi pembayaran',
             self::LeaseExpiring => 'Kontrak segera habis',
             self::ComplaintStatus => 'Status komplain berubah',
+            self::PortalLink => 'Tautan portal penghuni',
         };
     }
 

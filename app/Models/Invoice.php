@@ -73,6 +73,12 @@ class Invoice extends Model implements TenantExportable
         return $this->hasMany(InvoiceItem::class)->orderBy('sort_order')->orderBy('id');
     }
 
+    /** @return HasMany<PaymentProof, $this> */
+    public function proofs(): HasMany
+    {
+        return $this->hasMany(PaymentProof::class);
+    }
+
     /** @return HasMany<InvoiceAdjustment, $this> */
     public function adjustments(): HasMany
     {

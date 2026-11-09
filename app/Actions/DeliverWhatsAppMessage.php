@@ -100,6 +100,7 @@ class DeliverWhatsAppMessage
                 'error_code' => null,
                 'error_message' => null,
             ])->save();
+            $log->redactPortalTokens();
 
             return [self::SENT, null];
         }
@@ -135,6 +136,7 @@ class DeliverWhatsAppMessage
     private function skip(MessageLog $log, MessageSkipReason $reason): array
     {
         $log->forceFill(['status' => MessageStatus::Skipped, 'skip_reason' => $reason])->save();
+        $log->redactPortalTokens();
 
         return [self::SKIPPED, null];
     }
