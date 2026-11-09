@@ -260,7 +260,7 @@ Fase 7 dan 11 tidak menjadi prasyarat fase lain, jadi boleh digeser ke akhir bil
 
 Fase 0 menyiapkan proyek Laravel 12 yang bisa diuji, dengan keputusan teknis yang tidak boleh berubah di tengah jalan: database, UI, kerangka tes, antrean, dan penyimpanan berkas.
 
-**Prasyarat**: PHP dan Composer sesuai syarat Laravel 12 (lihat `composer.json`), Node.js untuk Vite, MySQL 8 yang berjalan, repo git, dan persiapan di bagian 2 selesai.
+**Prasyarat**: PHP dan Composer sesuai syarat Laravel 12 (lihat `composer.json`), Node.js untuk Vite, MySQL yang berjalan (lihat catatan lingkungan di bawah), repo git, dan persiapan di bagian 2 selesai.
 
 **Mockup**: `dashboard_ringkasan_pemilik` untuk kerangka (bagian 2.6). Tulis token dari `docs/plan/DESIGN.md` ke `resources/css/app.css`, pasang font Inter, Plus Jakarta Sans, dan Material Symbols, lalu bangun `OwnerLayout.vue`, `GuestLayout.vue`, dan komponen dasar (`Button`, `StatusBadge`, `Panel`, `Modal`, `Drawer`) dari kerangka mockup.
 
@@ -268,7 +268,7 @@ Fase 0 menyiapkan proyek Laravel 12 yang bisa diuji, dengan keputusan teknis yan
 
 | Keputusan | Rekomendasi | Alasan |
 | --- | --- | --- |
-| Database | **MySQL 8** (diputuskan), sama dengan produksi dan dipakai juga untuk tes | Tes memakai mesin yang sama dengan produksi; jangan campur |
+| Database | **MySQL** (diputuskan; lokal 9.1.0, lihat catatan lingkungan), sama dengan produksi dan dipakai juga untuk tes | Tes memakai mesin yang sama dengan produksi; jangan campur |
 | Frontend | Inertia, Vue 3, TypeScript, Tailwind v4. Proyek yang ada dikonversi ke TypeScript di Fase 0 (bukan memasang ulang starter kit). Periksa versi saat dipasang | Satu kerangka untuk panel, portal, dan admin. Keputusan sudah diambil (`ARCHITECTURE.md`) |
 | Autentikasi | Pakai yang dibawa starter kit untuk masuk, daftar, dan reset sandi; masuk dengan OTP WhatsApp dibuat sendiri di Fase 1 | Jangan menulis ulang yang sudah ada |
 | Komponen UI | Komponen sendiri yang mengikuti `app.css`; bila starter kit membawa shadcn-vue, selaraskan tokennya, jangan dua sistem warna | Satu sistem desain |
@@ -277,6 +277,13 @@ Fase 0 menyiapkan proyek Laravel 12 yang bisa diuji, dengan keputusan teknis yan
 | Antrean dan sesi | Driver database untuk MVP | Tanpa Redis di awal |
 | Berkas | Disk lokal privat; penyimpanan kompatibel S3 nanti | Foto KTP tidak boleh publik |
 
+**Catatan lingkungan lokal (dicatat 2026-11)**
+
+- Server: MySQL **9.1.0** dari WAMP di `127.0.0.1:3306` (rilis inovasi; keputusan awal menyebut MySQL 8). MariaDB 11.5.2 di port 3307 tidak dipakai. Server ini juga berisi database proyek lain, jadi jangan memakai `root` dan jangan menjalankan perintah destruktif seperti `db:wipe` tanpa memeriksa nama database.
+- Database: `kostra_apps` (aplikasi) dan `kostra_apps_testing` (tes), keduanya `utf8mb4`. User `kostra` hanya berhak atas dua database itu. Kredensial ada di `.env` (tidak ikut git); `.env.example` hanya memuat nama variabel.
+- `phpunit.xml` masih memakai SQLite `:memory:` dan harus diarahkan ke MySQL (`DB_CONNECTION=mysql`, `DB_DATABASE=kostra_apps_testing`) di Fase 0, karena tes Fase 5 dan 6 wajib memakai mesin yang sama dengan produksi.
+- Sebelum pilot (Fase 12), uji aplikasi pada versi MySQL yang akan dipakai hosting produksi. Bila hosting memakai 8.0 atau 8.4, jalankan suite tes di versi itu (misalnya lewat Docker) dan catat hasilnya.
+
 **Prompt untuk Claude Code**
 
 ```text
@@ -284,7 +291,7 @@ Kita memulai Fase 0 proyek Kostra (lihat CLAUDE.md dan docs/plan/implementation-
 Jangan memasang paket apa pun sebelum saya menyetujui rencananya.
 
 1. Periksa proyek ini: versi PHP dan Laravel, kerangka tes, isi composer.json dan package.json, dan .env.example.
-2. Usulkan rencana untuk: koneksi database (saya memakai MySQL 8), antrean dan sesi berbasis database, disk privat untuk lampiran, zona waktu aplikasi UTC dengan tampilan Asia/Makassar, Pint, dan CI sederhana yang menjalankan tes.
+2. Usulkan rencana untuk: koneksi database (MySQL 9.1.0 lokal, database kostra_apps dan kostra_apps_testing sudah dibuat; arahkan phpunit.xml ke kostra_apps_testing), antrean dan sesi berbasis database, disk privat untuk lampiran, zona waktu aplikasi UTC dengan tampilan Asia/Makassar, Pint, dan CI sederhana yang menjalankan tes.
 3. Usulkan folder app/Actions, app/Enums, app/Services, app/Models/Concerns, serta routes/owner.php, routes/portal.php, routes/admin.php yang didaftarkan di bootstrap/app.php lewat parameter `then` pada withRouting.
 4. Buat config/kostra.php berisi batas paket bawaan dan nilai bawaan penagihan (hari terbit, hari jatuh tempo, jam kirim pesan).
 5. Pastikan `php artisan test` hijau pada proyek kosong.
@@ -833,7 +840,7 @@ Fase 12 Kostra: hardening sebelum pilot. Jangan menambah fitur. Baca CLAUDE.md, 
 
 **Pemeriksaan wajib**
 
-- Seluruh suite tes hijau dan `pint --test` bersih.
+- Seluruh suite tes hijau dan `pint --test` bersih, termasuk pada versi MySQL yang akan dipakai produksi (bukan hanya 9.1.0 lokal).
 - `tenant-auditor` tidak menyisakan temuan tinggi atau menengah yang belum dicatat.
 - Penjadwal dijalankan dua kali berturut-turut tanpa tagihan atau pesan ganda.
 - Setiap model tenant terdaftar di registri ekspor, dan hasil ekspor satu tenant demo tidak memuat data tenant lain atau rahasia (password, token_hash, kunci).
