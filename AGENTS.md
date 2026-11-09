@@ -79,7 +79,7 @@ resources/views/app.blade.php                    satu-satunya view Blade (akar I
 - **Nomor dokumen:** dari `number_sequences` dengan `lockForUpdate` di dalam transaksi. Nomor tidak boleh berlubang atau ganda.
 - **Tagihan terbit tidak diubah jumlahnya.** Koreksi lewat `invoice_adjustments`. Pembatalan lewat status `void`, bukan hapus.
 - **Pembayaran dialokasikan** lewat `payment_allocations`. `invoices.paid_total` dihitung dari alokasi pembayaran berstatus `active` dan dihitung ulang saat pembayaran dibatalkan. Alokasi tidak boleh melebihi jumlah pembayaran maupun sisa tagihan.
-- **Data keuangan tidak dihapus.** Hanya `void`.
+- **Data keuangan tidak dihapus.** Tagihan, penyesuaian, pembayaran, dan alokasi hanya `void`. Pengeluaran (`expenses`) memakai soft delete.
 - **Status kamar `occupied`** ditentukan oleh kontrak aktif, bukan diatur manual.
 - **Kuota pesan WhatsApp** dinaikkan atomik saat pesan dikirim, dan pengiriman berhenti saat kuota habis.
 

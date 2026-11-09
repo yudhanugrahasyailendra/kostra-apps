@@ -1,10 +1,10 @@
 # Desain Database Kostra
 
-Diperbarui 20 Oktober 2026
+Diperbarui 9 November 2026
 
 ## 1. Keputusan desain dan konvensi
 
-Skema MVP terdiri dari 33 tabel dalam 9 kelompok, dan semua data milik pemilik kos memuat kolom tenant_id sehingga satu database melayani banyak tenant. Desain ini mengikuti PRD Kostra dan cocok untuk MySQL 8 maupun PostgreSQL; tipe kolom ditulis dengan nama method migrasi Laravel supaya mudah diterjemahkan.
+Skema MVP terdiri dari 33 tabel dalam 9 kelompok, dan semua data milik pemilik kos memuat kolom tenant_id sehingga satu database melayani banyak tenant. Desain ini mengikuti PRD Kostra dan dijalankan di MySQL 8 (diputuskan); tipe kolom ditulis dengan nama method migrasi Laravel supaya mudah diterjemahkan.
 
 | Aspek | Keputusan | Alasan |
 | --- | --- | --- |
@@ -13,7 +13,7 @@ Skema MVP terdiri dari 33 tabel dalam 9 kelompok, dan semua data milik pemilik k
 | Uang | unsignedBigInteger dalam rupiah penuh; nilai yang boleh negatif (penyesuaian) memakai bigInteger | Tanpa pecahan, bebas galat pembulatan |
 | Tanggal | date untuk tanggal bisnis (jatuh tempo, mulai kontrak); timestamp UTC untuk kejadian | Laporan per hari tidak bergeser; tampil dalam zona waktu tenant (default Asia/Makassar) |
 | Enum | Disimpan sebagai string, dipetakan ke PHP Enum di model | Menambah nilai tidak butuh migrasi berat |
-| Soft delete | deleted_at pada properties, rooms, residents, users, expenses | Data keuangan (invoices, payments) tidak dihapus, hanya berstatus void |
+| Soft delete | deleted_at pada properties, rooms, residents, users, expenses | Data keuangan (invoices, invoice_adjustments, payments, payment_allocations) tidak dihapus, hanya berstatus void; expenses adalah catatan operasional sehingga boleh soft delete |
 | Lampiran | Satu tabel polimorfik attachments di disk privat | Dipakai KTP, bukti transfer, foto komplain, dan nota |
 | Foreign key | restrictOnDelete untuk data keuangan; cascadeOnDelete hanya untuk anak murni | Mencegah hilangnya riwayat uang tanpa sengaja |
 | Stempel waktu | created_at dan updated_at di semua tabel kecuali dinyatakan lain | Standar Laravel |
@@ -620,7 +620,13 @@ Seeder yang dibutuhkan sejak awal: PlanSeeder (empat paket), template pesan sist
 ### Pertanyaan terbuka
 
 - [x] MySQL 8 (diputuskan 2026-11). Sebelumnya: MySQL 8 atau PostgreSQL? Desain ini berjalan di keduanya; PostgreSQL unggul untuk json dan laporan, MySQL lebih umum di hosting murah.
-- [ ] Kelebihan bayar ditolak (seperti sekarang) atau dicatat sebagai saldo penghuni?
-- [ ] Boleh satu penghuni memiliki dua kontrak aktif di kamar berbeda? Desain sekarang mengizinkan, karena batasan hanya per kamar.
+- [ ] Kelebihan bayar ditolak (perilaku MVP saat ini) atau dicatat sebagai saldo penghuni?
+- [ ] Boleh satu penghuni memiliki dua kontrak aktif di kamar berbeda? Desain sekarang mengizinkan, karena batasan hanya per kamar. Perilaku MVP: diizinkan.
 - [ ] Tipe kamar dikelola per properti atau satu daftar untuk seluruh tenant? Sekarang opsional per properti.
-- [ ] Perlukah nomor KTP disimpan sebagai kolom? Sekarang tidak, hanya foto opsional, demi meminimalkan data pribadi.
+- [x] Nomor KTP tidak disimpan sebagai kolom; hanya foto opsional, demi meminimalkan data pribadi (diputuskan, lihat `AGENTS.md`).
+
+### Nilai yang dihitung, bukan kolom
+
+- Pengingat kontrak segera habis (30, 14, 7 hari): scope `Lease::expiringWithin`, interval tetap pada MVP.
+- Status "lewat masa sewa": nilai terhitung dari `end_date` dan `status = active`.
+- Masa tenggang langganan 7 hari: dihitung penjadwal dari `subscriptions.status = past_due`.

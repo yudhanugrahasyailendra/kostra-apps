@@ -2,7 +2,7 @@
 
 <p align="center"><img src="brand/Logo%20Kostra%20(Kost%20Rapi).png" alt="Logo Kostra, Kost Rapi" width="220"></p>
 
-Diperbarui 20 Oktober 2026
+Diperbarui 9 November 2026
 
 ## 1. PRD induk
 
@@ -90,11 +90,11 @@ Modul ini memastikan setiap pemilik kos hanya melihat data miliknya dan setiap p
 
 - Satu pengguna terhubung ke satu tenant pada MVP.
 - Batas paket (jumlah properti dan kamar) diperiksa di sisi server saat membuat data baru.
-- Menghapus data penting memakai penghapusan lunak agar bisa dipulihkan.
+- Properti, kamar, penghuni, pengguna, dan pengeluaran memakai penghapusan lunak agar bisa dipulihkan. Data keuangan (tagihan, pembayaran, alokasi, penyesuaian) tidak pernah dihapus, hanya berstatus `void`.
 
 ### Data utama
 
-`tenants`, `users`, `roles`, `permissions`, `invitations`, `audit_logs`.
+`tenants`, `users` (kolom `role` dan `permissions`), `invitations`, `audit_logs`.
 
 ### Di luar lingkup MVP
 
@@ -123,7 +123,7 @@ Modul ini menyimpan daftar properti, tipe kamar, dan status tiap kamar, karena s
 
 ### Data utama
 
-`properties`, `room_types`, `rooms`, `facilities`.
+`properties`, `room_types`, `rooms` (fasilitas disimpan sebagai kolom json).
 
 ### Di luar lingkup MVP
 
@@ -141,7 +141,7 @@ Modul ini menyimpan data orang yang menyewa kamar beserta dokumennya, dengan per
 | PNG-04 | Riwayat penghuni yang sudah check-out | MVP | Penghuni lama tetap dapat dicari dengan status tidak aktif |
 | PNG-05 | Cari dan filter (nama, nomor kamar, status, tunggakan) | MVP | Hasil muncul kurang dari 1 detik untuk 500 penghuni |
 | PNG-06 | Impor penghuni dari Excel/CSV | MVP | Mendeteksi nomor WhatsApp ganda dan menandainya |
-| PNG-07 | Catatan internal pemilik per penghuni | Tahap berikutnya | Tidak terlihat oleh penghuni |
+| PNG-07 | Catatan internal pemilik per penghuni | MVP | Tidak terlihat oleh penghuni |
 | PNG-08 | Calon penghuni dan booking kamar | Tahap berikutnya | Calon dapat diubah menjadi penghuni dan kontrak |
 
 ### Aturan bisnis
@@ -152,7 +152,7 @@ Modul ini menyimpan data orang yang menyewa kamar beserta dokumennya, dengan per
 
 ### Data utama
 
-`residents`, `resident_documents`, `emergency_contacts`.
+`residents` (termasuk kontak darurat dan catatan internal), `attachments` (foto KTP dan dokumen lain).
 
 ### Di luar lingkup MVP
 
@@ -165,11 +165,11 @@ Kontrak menghubungkan penghuni, kamar, harga, dan masa sewa; dari kontrak inilah
 | ID | Kebutuhan | Prioritas | Kriteria penerimaan |
 | --- | --- | --- | --- |
 | KTR-01 | Buat kontrak (penghuni, kamar, tanggal mulai, durasi, harga sewa, siklus tagihan, deposit) | MVP | Kontrak aktif mengubah status kamar menjadi terisi |
-| KTR-02 | Cegah dua kontrak aktif yang tumpang tindih pada kamar yang sama | MVP | Percobaan membuat kontrak bentrok ditolak dengan pesan jelas |
+| KTR-02 | Cegah dua kontrak aktif yang tumpang tindih pada kamar yang sama | MVP | Percobaan membuat kontrak bentrok ditolak dengan pesan jelas; dijaga constraint unik di database (`leases.active_room_id`), bukan hanya validasi |
 | KTR-03 | Check-in: catat tanggal masuk, deposit, dan catatan kondisi kamar | MVP | Deposit tercatat sebagai kewajiban yang dapat dikembalikan |
 | KTR-04 | Check-out: hitung sisa tagihan, potongan, dan pengembalian deposit | MVP | Check-out menutup kontrak dan mengembalikan kamar ke status kosong |
 | KTR-05 | Perpanjangan kontrak dengan satu klik | MVP | Kontrak baru mewarisi data lama dengan tanggal mulai menyambung |
-| KTR-06 | Pengingat kontrak segera habis (30, 14, 7 hari) | MVP | Pemilik menerima notifikasi; penghuni menerima pesan WhatsApp bila diaktifkan |
+| KTR-06 | Pengingat kontrak segera habis (30, 14, 7 hari) | MVP | Pemilik menerima notifikasi; penghuni menerima pesan WhatsApp bila diaktifkan; interval 30, 14, dan 7 hari bersifat tetap pada MVP |
 | KTR-07 | Pindah kamar di tengah kontrak | MVP | Riwayat kamar lama tersimpan; tagihan berikutnya memakai harga kamar baru |
 | KTR-08 | Kenaikan harga sewa terjadwal saat perpanjangan | Tahap berikutnya | Pemilik menetapkan persentase atau nominal baru |
 | KTR-09 | Template kontrak PDF dengan tanda tangan digital | Tahap berikutnya | PDF memuat data kontrak dan syarat dari pemilik |
@@ -182,7 +182,7 @@ Kontrak menghubungkan penghuni, kamar, harga, dan masa sewa; dari kontrak inilah
 
 ### Data utama
 
-`leases`, `lease_deposits`, `room_transfers`, `checkin_records`.
+`leases` (termasuk catatan check-in dan check-out), `lease_residents`, `lease_deposits`, `room_transfers`.
 
 ### Di luar lingkup MVP
 
@@ -203,7 +203,7 @@ Tagihan bulanan harus terbit sendiri dari kontrak aktif, tanpa pemilik membuatny
 | TGH-07 | Pembatalan atau koreksi tagihan dengan alasan | MVP | Tagihan lunas tidak dapat dihapus, hanya dikoreksi lewat penyesuaian tercatat |
 | TGH-08 | Denda keterlambatan otomatis | Tahap berikutnya | Pemilik memilih tarif tetap atau persentase per hari |
 | TGH-09 | Tagihan berdasarkan meteran listrik dan air | Tahap berikutnya | Pencatatan meteran bulanan menghasilkan item pemakaian |
-| TGH-10 | Unduh tagihan sebagai PDF | Tahap berikutnya | PDF memuat logo dan rekening pemilik |
+| TGH-10 | Unduh tagihan sebagai PDF | Tahap berikutnya | PDF memuat logo dan rekening pemilik; pada MVP tagihan dibaca di portal dan dikirim lewat tautan WhatsApp, kuitansi digital tetap MVP (PBY-05) |
 
 ### Aturan bisnis
 
@@ -214,7 +214,7 @@ Tagihan bulanan harus terbit sendiri dari kontrak aktif, tanpa pemilik membuatny
 
 ### Data utama
 
-`invoices`, `invoice_items`, `invoice_adjustments`, `billing_settings`.
+`invoices`, `invoice_items`, `invoice_adjustments`, `billing_settings`, `number_sequences`.
 
 ### Di luar lingkup MVP
 
@@ -227,7 +227,7 @@ Pada MVP, Kostra mencatat pembayaran yang terjadi di luar sistem (tunai atau tra
 | ID | Kebutuhan | Prioritas | Kriteria penerimaan |
 | --- | --- | --- | --- |
 | PBY-01 | Catat pembayaran (tagihan, jumlah, tanggal, metode, catatan) oleh pemilik atau staf | MVP | Pembayaran mengubah status tagihan sesuai jumlah |
-| PBY-02 | Pembayaran sebagian dan pembayaran untuk beberapa tagihan sekaligus | MVP | Sisa tagihan dihitung otomatis dan tampil di daftar |
+| PBY-02 | Pembayaran sebagian dan pembayaran untuk beberapa tagihan sekaligus | MVP | Sisa tagihan dihitung otomatis dan tampil di daftar; pembayaran yang melebihi sisa tagihan ditolak pada MVP |
 | PBY-03 | Penghuni mengunggah bukti transfer dari portal | MVP | Bukti masuk antrean verifikasi dengan status menunggu |
 | PBY-04 | Pemilik menyetujui atau menolak bukti transfer dengan alasan | MVP | Persetujuan membuat catatan pembayaran dan menutup tagihan; penolakan memberi tahu penghuni |
 | PBY-05 | Kuitansi digital otomatis dengan nomor unik | MVP | Kuitansi terkirim ke penghuni lewat WhatsApp dan dapat dibuka di portal |
@@ -244,7 +244,7 @@ Pada MVP, Kostra mencatat pembayaran yang terjadi di luar sistem (tunai atau tra
 
 ### Data utama
 
-`payments`, `payment_proofs`, `receipts`, `payment_accounts`.
+`payments` (termasuk nomor kuitansi), `payment_allocations`, `payment_proofs`, `payment_accounts`.
 
 ### Di luar lingkup MVP
 
@@ -303,7 +303,7 @@ Penghuni mengajukan keluhan lewat portal, dan pemilik melacaknya sampai selesai 
 
 ### Data utama
 
-`complaints`, `complaint_comments`, `complaint_attachments`.
+`complaints`, `complaint_comments`, `attachments` (foto komplain).
 
 ### Di luar lingkup MVP
 
@@ -335,7 +335,7 @@ Pengingat tagihan lewat WhatsApp adalah alasan utama pemilik membayar, tetapi ju
 
 ### Data utama
 
-`message_templates`, `message_logs`, `message_quotas`, `notification_preferences`.
+`message_templates`, `message_logs`; kuota di `plans` dan `usage_counters`, opt-out di `residents`, jam kirim di `billing_settings`.
 
 ### Di luar lingkup MVP
 
@@ -366,7 +366,7 @@ Penghuni membuka tagihannya lewat tautan di WhatsApp tanpa membuat akun atau mem
 
 ### Data utama
 
-`portal_tokens`, `portal_sessions`, tabel dari modul tagihan, pembayaran, dan komplain.
+`portal_tokens` (sesi memakai sesi Laravel), tabel dari modul tagihan, pembayaran, dan komplain.
 
 ### Di luar lingkup MVP
 
@@ -381,7 +381,7 @@ Modul ini mengatur bagaimana Kostra sendiri mendapat uang: paket, batas pemakaia
 | LGN-01 | Definisi paket (harga, batas properti, batas kamar, kuota pesan, fitur aktif) yang dapat diubah Super Admin | MVP | Perubahan paket tidak mengubah tenant yang sudah berlangganan kecuali diatur |
 | LGN-02 | Pembatasan fitur dan batas berdasarkan paket tenant | MVP | Melewati batas menampilkan tawaran naik paket, bukan galat |
 | LGN-03 | Masa percobaan 14 hari untuk paket berbayar | MVP | Tenant kembali ke paket Gratis bila tidak berlangganan setelah masa percobaan |
-| LGN-04 | Tagihan langganan bulanan atau tahunan ke pemilik | MVP | Pemilik membayar lewat transfer atau pembayaran online; status paket berubah setelah konfirmasi |
+| LGN-04 | Tagihan langganan bulanan atau tahunan ke pemilik | MVP | Pada MVP pemilik membayar lewat transfer dan Super Admin mengonfirmasi manual; status paket berubah setelah konfirmasi (pembayaran online: LGN-10) |
 | LGN-05 | Naik dan turun paket | MVP | Turun paket diperiksa terhadap jumlah kamar dan properti yang ada |
 | LGN-06 | Panel Super Admin: daftar tenant, status langganan, pemakaian kamar dan pesan | MVP | Pencarian tenant dalam satu langkah |
 | LGN-07 | Tangguhkan dan aktifkan kembali tenant | MVP | Tenant yang ditangguhkan hanya dapat membaca dan mengekspor data |
@@ -456,7 +456,7 @@ Lanjut mengembangkan tahap berikutnya bila setidaknya 4 dari 5 pemilik pilot mas
 
 - [ ] Penyedia WhatsApp resmi mana yang dipakai, dan berapa tarif template utility untuk Indonesia?
 - [x] Antarmuka panel: diputuskan Laravel 12 dengan Inertia + Vue 3 (TypeScript). Filament dan Livewire tidak dipakai (lihat `ARCHITECTURE.md`).
-- [ ] Apakah foto KTP penghuni wajib atau opsional pada pilot?
+- [x] Foto KTP penghuni: diputuskan opsional; nomor KTP tidak disimpan (lihat `database.md`).
 - [ ] Berapa harga final tiap paket setelah wawancara dengan 10 pemilik kos?
 - [ ] Apakah nama dan merek Kostra sudah lolos pemeriksaan domain dan DJKI?
 - [x] Warna antarmuka: diputuskan tetap memakai palet `docs/plan/DESIGN.md` (primary `#005F49`); logo teal dan emas dipertahankan apa adanya.
