@@ -126,6 +126,8 @@ class DeliverWhatsAppMessage
         $refund = $log->counted_in_quota;
 
         $log->forceFill(['status' => MessageStatus::Failed, 'failed_at' => now(), 'counted_in_quota' => false])->save();
+        // Pesan gagal tidak lagi butuh token hidup; kirim ulang membuat token baru (ResendWhatsAppMessage).
+        $log->redactPortalTokens();
 
         if ($refund && ($tenant = TenantContext::instance()->tenant()) !== null) {
             $this->quota->release($tenant);

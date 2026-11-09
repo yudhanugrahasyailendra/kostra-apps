@@ -21,3 +21,8 @@ Schedule::command('reminders:send')->hourly()->withoutOverlapping()->onOneServer
 // Langganan Kostra: percobaan berakhir, tagihan perpanjangan, tunggakan, penangguhan setelah masa tenggang.
 // Idempoten per tenant, jadi pengulangan per jam aman dan bila satu putaran gagal berikutnya menyusul.
 Schedule::command('subscriptions:process')->hourly()->withoutOverlapping()->onOneServer();
+
+// Antrean (NFR-09). Pemantauan memicu peristiwa QueueBusy bila lebih dari 100 pekerjaan menumpuk, yang dicatat sebagai
+// critical (lihat AppServiceProvider). Pekerjaan gagal disimpan di failed_jobs dan dibuang setelah 14 hari.
+Schedule::command('queue:monitor '.config('queue.default').':default --max=100')->everyFiveMinutes()->onOneServer();
+Schedule::command('queue:prune-failed --hours=336')->daily()->onOneServer();

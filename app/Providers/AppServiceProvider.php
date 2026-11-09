@@ -45,10 +45,16 @@ use App\Tenancy\TenantUserProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
+use Illuminate\Queue\Events\JobFailed;
+use Illuminate\Queue\Events\QueueBusy;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use InvalidArgumentException;
 
@@ -76,6 +82,28 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Di belakang proxy balik (Nginx, Cloudflare) IP klien dibaca dari header; tanpa ini pembatas laju login dan
+        // portal melihat semua klien sebagai satu IP. Kosong = tidak ada proxy tepercaya (header diabaikan).
+        $proxies = config('kostra.trusted_proxies');
+        TrustProxies::at($proxies === '*' ? '*' : array_values(array_filter(array_map('trim', explode(',', (string) $proxies)))));
+
+        // Pekerjaan antrean yang gagal dan antrean yang menumpuk harus terlihat (NFR-09, NFR-11). Hanya nama kelas
+        // dicatat; payload pekerjaan bisa memuat id penghuni dan isi pesan.
+        Event::listen(JobFailed::class, fn (JobFailed $event) => Log::error('Pekerjaan antrean gagal', [
+            'job' => $event->job->resolveName(),
+            'queue' => $event->job->getQueue(),
+            'exception' => $event->exception::class,
+        ]));
+        Event::listen(QueueBusy::class, fn (QueueBusy $event) => Log::critical('Antrean menumpuk', [
+            'queue' => $event->queue,
+            'size' => $event->size,
+        ]));
+
+        // Produksi hanya HTTPS (NFR-01): tautan, aset, dan tautan bertanda tangan dibangun dengan skema https.
+        if ($this->app->isProduction()) {
+            URL::forceHttps();
+        }
+
         Auth::provider('tenant-eloquent', function (Application $app, array $config) {
             return new TenantUserProvider($app['hash'], $config['model']);
         });

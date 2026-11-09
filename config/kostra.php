@@ -17,6 +17,9 @@ use App\Services\WhatsApp\FakeWhatsAppProvider;
 
 return [
 
+    // IP proxy balik tepercaya, dipisah koma, atau * bila server hanya dijangkau lewat proxy (lihat docs/deploy.md).
+    'trusted_proxies' => env('TRUSTED_PROXIES', ''),
+
     // Database menyimpan UTC; tampilan dan laporan memakai zona ini (default tenant).
     'display_timezone' => env('KOSTRA_DISPLAY_TIMEZONE', 'Asia/Makassar'),
 

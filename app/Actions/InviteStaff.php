@@ -39,8 +39,6 @@ class InviteStaff
             $invitation->save();
 
             $this->audit->record('invited_staff', $invitation, null, [
-                'email' => $invitation->email,
-                'phone' => $invitation->phone,
                 'permissions' => $invitation->permissions,
             ]);
 

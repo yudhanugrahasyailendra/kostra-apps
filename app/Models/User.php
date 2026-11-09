@@ -24,7 +24,7 @@ class User extends Authenticatable implements TenantExportable
     protected $hidden = ['password', 'remember_token'];
 
     /** Kolom yang tidak masuk jejak audit. */
-    protected array $auditExclude = ['password', 'remember_token', 'last_login_at', 'updated_at'];
+    protected array $auditExclude = ['password', 'remember_token', 'last_login_at', 'updated_at', 'email', 'phone'];
 
     protected function casts(): array
     {

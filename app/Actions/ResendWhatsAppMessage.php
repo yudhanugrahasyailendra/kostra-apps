@@ -11,6 +11,8 @@ use Illuminate\Validation\ValidationException;
 
 class ResendWhatsAppMessage
 {
+    public function __construct(private IssuePortalToken $portal) {}
+
     /**
      * Kirim ulang pesan yang gagal dari log (NTF-05). Baris yang sama diantrekan lagi dengan penghitung
      * percobaan nol; opt-out, jam kirim, dan kuota diperiksa ulang seperti pesan baru.
@@ -22,6 +24,15 @@ class ResendWhatsAppMessage
 
             if ($locked->status !== MessageStatus::Failed) {
                 throw ValidationException::withMessages(['message' => 'Hanya pesan yang gagal yang dapat dikirim ulang.']);
+            }
+
+            // Pesan gagal menyimpan tautan yang sudah disamarkan; terbitkan token baru supaya kirim ulang tetap berguna.
+            if (str_contains($locked->body, '/p/[tautan-rahasia]') && $locked->resident !== null && ! $locked->resident->trashed()) {
+                $locked->body = str_replace(
+                    '/p/[tautan-rahasia]',
+                    parse_url($this->portal->url($locked->resident), PHP_URL_PATH),
+                    $locked->body,
+                );
             }
 
             $locked->forceFill([

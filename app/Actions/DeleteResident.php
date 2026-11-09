@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class DeleteResident
 {
-    public function __construct(private DeleteAttachment $deleteAttachment) {}
+    public function __construct(private DeleteAttachment $deleteAttachment, private RevokePortalLinks $revokePortalLinks) {}
 
     /**
      * Hapus penghuni (soft delete) beserta lampirannya. Foto KTP tidak boleh tertinggal
@@ -18,6 +18,9 @@ class DeleteResident
     {
         DB::transaction(function () use ($resident) {
             $resident->attachments()->get()->each(fn (Attachment $attachment) => $this->deleteAttachment->handle($attachment));
+
+            // Tautan portal penghuni yang dihapus tidak boleh tetap hidup di portal_tokens.
+            $this->revokePortalLinks->handle($resident);
 
             $resident->delete();
         });

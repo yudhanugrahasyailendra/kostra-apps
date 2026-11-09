@@ -16,16 +16,24 @@ class MarkOverdueInvoicesCommand extends Command
     public function handle(MarkOverdueInvoices $mark): int
     {
         $changed = 0;
+        $failed = 0;
 
         Tenant::query()
             ->whereIn('status', [TenantStatus::Trial->value, TenantStatus::Active->value])
             ->orderBy('id')
-            ->each(function (Tenant $tenant) use ($mark, &$changed) {
-                $changed += $mark->handle($tenant);
+            ->each(function (Tenant $tenant) use ($mark, &$changed, &$failed) {
+                try {
+                    $changed += $mark->handle($tenant);
+                } catch (\Throwable $e) {
+                    // Satu tenant gagal tidak boleh menghentikan tenant lain; putaran berikutnya mengulang.
+                    $failed++;
+                    report($e);
+                    $this->error("Tenant {$tenant->id} gagal: ".$e::class);
+                }
             });
 
-        $this->info("Tagihan lewat jatuh tempo: $changed.");
+        $this->info("Tagihan lewat jatuh tempo: $changed. Tenant gagal: $failed.");
 
-        return self::SUCCESS;
+        return $failed === 0 ? self::SUCCESS : self::FAILURE;
     }
 }
