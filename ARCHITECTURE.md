@@ -70,7 +70,7 @@ routes/
 resources/js/        Pages (Auth, Owner, Portal, Admin), Components, Layouts, lib
 resources/views/app.blade.php   akar Inertia, satu-satunya view Blade
 database/           migrasi, seeder (PlanSeeder, template pesan, kategori pengeluaran)
-docs/               plan/PRD.md, database.md, implementation-plan.md, DESIGN.md, mockup/
+docs/               plan/ (PRD.md, database.md, implementation-plan.md, DESIGN.md, mockup/, brand/)
 ```
 
 `bootstrap/app.php` memuat `owner`, `portal`, dan `admin` lewat `withRouting(... then: ...)` dengan prefix dan middleware group masing-masing. Penjadwal didaftarkan di `routes/console.php`.

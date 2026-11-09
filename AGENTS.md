@@ -19,7 +19,7 @@ Baca bagian yang relevan saja, jangan seluruh berkas.
 | `docs/plan/implementation-plan.md` | Fase 0 sampai 12, prompt dan kriteria selesai tiap fase |
 | `docs/plan/DESIGN.md` | Sistem desain (warna, tipografi, komponen). Sumber kebenaran visual; menang atas mockup bila berbeda |
 | `docs/plan/mockup/` | Acuan tampilan. Satu folder per layar (`<nama-layar>/code.html` dan `screen.png`); buka hanya folder layar terkait. Peta fase ke layar: `implementation-plan.md` bagian 2.6. `mockup/prd.md` dan `mockup/kostra_rapi/DESIGN.md` adalah salinan lama dari Stitch dan tidak dipakai |
-| `docs/plan/ARCHITECTURE.md` | Bentuk sistem, lapisan, alur kritis, keputusan terbuka |
+| `ARCHITECTURE.md` | Bentuk sistem, lapisan, alur kritis, keputusan terbuka |
 
 Bila berkas-berkas ini bertentangan dengan kode atau dengan instruksi Anda saat ini, berhenti dan tanya. Jangan memilih diam-diam.
 

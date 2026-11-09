@@ -29,6 +29,8 @@ Beberapa tabel pada daftar "Data utama" PRD disederhanakan agar skema lebih ramp
 | facilities | Kolom json facilities di room_types dan rooms |
 | receipts | Kolom nomor dan waktu kuitansi di payments |
 | checkin_records | Kolom check-in dan check-out di leases |
+| roles, permissions | Kolom role (string) dan permissions (json) di users |
+| message_quotas | Kuota di plans.monthly_message_quota, pemakaian di usage_counters |
 | portal_sessions | Dihapus; portal memakai sesi Laravel setelah token divalidasi |
 | notification_preferences | Kolom opt-out di residents dan jam kirim di billing_settings |
 

@@ -186,7 +186,7 @@ Panggil dengan kalimat biasa, misalnya "Gunakan subagent tenant-auditor untuk me
 
 ### 2.6 Mockup UI
 
-Mockup Kostra (dari Stitch) adalah acuan tampilan semua fase. Sudah diekstrak ke `docs/plan/mockup/`, bersama `docs/plan/PRD.md`, `docs/plan/database.md`, dan `docs/plan/DESIGN.md`. `AGENTS.md` dan `ARCHITECTURE.md` juga ada di `docs/plan/`. Logo ada di `docs/plan/brand/Logo Kostra (Kost Rapi).png`.
+Mockup Kostra (dari Stitch) adalah acuan tampilan semua fase. Sudah diekstrak ke `docs/plan/mockup/`, bersama `docs/plan/PRD.md`, `docs/plan/database.md`, dan `docs/plan/DESIGN.md`. `AGENTS.md` dan `ARCHITECTURE.md` ada di akar repo. Logo ada di `docs/plan/brand/Logo Kostra (Kost Rapi).png`.
 
 ```text
 docs/plan/mockup/
