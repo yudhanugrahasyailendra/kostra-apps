@@ -269,3 +269,9 @@ Belum diputuskan (keputusan 6). Kebutuhan minimum: PHP-FPM atau setara, worker a
 | 2026-11 | Antarmuka memakai palet `DESIGN.md`, bukan warna logo | Mockup dan aturan UI sudah memakai palet itu; logo dipertahankan apa adanya |
 | 2026-11 | Frontend yang ada dikonversi ke TypeScript di Fase 0, tanpa memasang ulang starter kit | Struktur Inertia dan Vue sudah ada; konversi lebih kecil risikonya |
 | 2026-11 | Database memakai MySQL; server lokal 9.1.0 (WAMP) | Lebih umum di hosting murah; skema netral. Versi produksi belum ditentukan, jadi diuji ulang di Fase 12 |
+| 2026-11 | Fase 0: koneksi `mysql` memakai `engine => InnoDB` secara eksplisit | Server WAMP lokal berstandar MyISAM (tanpa transaksi dan foreign key; indeks unik email gagal pada utf8mb4). Kostra bergantung pada transaksi dan `lockForUpdate` |
+| 2026-11 | Fase 0: `phpunit.xml` mengunci `DB_DATABASE=kostra_apps_testing` dengan `force` | Server berisi database proyek lain; tes tidak boleh menyentuh `kostra_apps` |
+| 2026-11 | Fase 0: `typescript` dipasang `~5.9`, bukan 7.x | `vue-tsc` 3.x memakai API kompiler TypeScript 5.x; TS 7 (port native) belum didukung |
+| 2026-11 | Fase 0: token desain dari frontmatter `DESIGN.md` (primary `#00413f`, primary-container `#0f5a57`); radius `md` 8px (komponen dasar), `lg` 16px (kontainer), mengikuti teks DESIGN.md | Frontmatter menulis `md` 0.75rem, bertentangan dengan aturan "komponen dasar 8px" di teks; teks dipilih |
+| 2026-11 | Fase 0: font lewat Google Fonts (Plus Jakarta Sans dan Material Symbols), tanpa paket npm | Tidak menambah dependensi; Inter tidak dipakai karena DESIGN.md hanya memakai Plus Jakarta Sans |
+| 2026-11 | Fase 0: kuota pesan dan harga paket belum diisi di `config/kostra.php` | Tarif Meta Indonesia dan harga final belum diverifikasi |

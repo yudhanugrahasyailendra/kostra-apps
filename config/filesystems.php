@@ -38,6 +38,16 @@ return [
             'report' => false,
         ],
 
+        // Lampiran (KTP, bukti transfer, nota). Privat: tanpa URL publik dan tanpa
+        // `serve`; berkas disajikan lewat tautan bertanda tangan (Fase 3).
+        'attachments' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/attachments'),
+            'visibility' => 'private',
+            'throw' => false,
+            'report' => false,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

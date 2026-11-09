@@ -1,21 +1,29 @@
-<script setup>
+<script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
+import Button from '@/Components/Button.vue';
+import StatusBadge from '@/Components/StatusBadge.vue';
+import GuestLayout from '@/Layouts/GuestLayout.vue';
+import { formatRupiah } from '@/lib/formatRupiah';
 
-defineProps({
-    message: {
-        type: String,
-        default: 'Selamat datang di Kostra Apps dengan Laravel, Inertia, dan Vue.js!',
-    },
-});
+defineProps<{
+    message: string;
+}>();
 </script>
 
 <template>
-
-    <Head title="Welcome" />
-    <div class="min-h-screen flex items-center justify-center bg-gray-100 text-gray-800">
-        <div class="text-center p-8 bg-white rounded-xl shadow-md max-w-md">
-            <h1 class="text-2xl font-bold mb-4">Inertia.js + Vue 3</h1>
-            <p class="text-gray-600">{{ message }}</p>
+    <Head title="Selamat datang" />
+    <GuestLayout>
+        <h1 class="text-headline-md text-text-primary">Selamat datang di Kostra</h1>
+        <p class="mt-space-sm text-body-md text-text-secondary">{{ message }}</p>
+        <p class="mt-space-md text-currency-display text-text-primary">{{ formatRupiah(1850000) }}</p>
+        <div class="mt-space-md flex flex-wrap items-center gap-space-sm">
+            <StatusBadge tone="lunas" label="Lunas" />
+            <StatusBadge tone="menunggu" label="Menunggu" />
+            <StatusBadge tone="jatuh-tempo" label="Jatuh tempo" />
+            <StatusBadge tone="kosong" label="Kosong" />
         </div>
-    </div>
+        <div class="mt-space-lg">
+            <Button icon="login">Masuk</Button>
+        </div>
+    </GuestLayout>
 </template>

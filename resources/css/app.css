@@ -4,8 +4,176 @@
 @source '../../storage/framework/views/*.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
+@source '../**/*.ts';
+@source '../**/*.vue';
 
+/*
+ * Token desain Kostra. Sumber kebenaran: docs/plan/DESIGN.md (frontmatter).
+ * Jangan menambah warna di luar token ini. Amber (secondary) bukan warna teks
+ * di atas putih; untuk teks amber pakai --color-status-menunggu-text (#92400E).
+ */
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Warna */
+    --color-surface: #f9f9ff;
+    --color-surface-dim: #d3daea;
+    --color-surface-bright: #f9f9ff;
+    --color-surface-container-lowest: #ffffff;
+    --color-surface-container-low: #f0f3ff;
+    --color-surface-container: #e7eefe;
+    --color-surface-container-high: #e2e8f8;
+    --color-surface-container-highest: #dce2f3;
+    --color-on-surface: #151c27;
+    --color-on-surface-variant: #3f4948;
+    --color-inverse-surface: #2a313d;
+    --color-inverse-on-surface: #ebf1ff;
+    --color-outline: #6f7978;
+    --color-outline-variant: #bfc8c7;
+    --color-surface-tint: #246865;
+    --color-primary: #00413f;
+    --color-on-primary: #ffffff;
+    --color-primary-container: #0f5a57;
+    --color-on-primary-container: #8ecfcb;
+    --color-inverse-primary: #91d2ce;
+    --color-secondary: #7f5700;
+    --color-on-secondary: #ffffff;
+    --color-secondary-container: #fdba45;
+    --color-on-secondary-container: #6f4b00;
+    --color-tertiary: #2d3c44;
+    --color-on-tertiary: #ffffff;
+    --color-tertiary-container: #44535b;
+    --color-on-tertiary-container: #b6c6d0;
+    --color-error: #ba1a1a;
+    --color-on-error: #ffffff;
+    --color-error-container: #ffdad6;
+    --color-on-error-container: #93000a;
+    --color-primary-fixed: #adefea;
+    --color-primary-fixed-dim: #91d2ce;
+    --color-on-primary-fixed: #00201f;
+    --color-on-primary-fixed-variant: #00504d;
+    --color-secondary-fixed: #ffdeae;
+    --color-secondary-fixed-dim: #fdba45;
+    --color-on-secondary-fixed: #281900;
+    --color-on-secondary-fixed-variant: #604100;
+    --color-tertiary-fixed: #d5e5ef;
+    --color-tertiary-fixed-dim: #b9c9d3;
+    --color-on-tertiary-fixed: #0e1d25;
+    --color-on-tertiary-fixed-variant: #3a4951;
+    --color-background: #f9f9ff;
+    --color-on-background: #151c27;
+    --color-surface-variant: #dce2f3;
+    --color-bg-canvas: #fbfbfa;
+    --color-bg-surface: #ffffff;
+    --color-bg-subtle: #f4f5f6;
+    --color-border-subtle: #e5e7eb;
+    --color-border-strong: #d1d5db;
+    --color-text-primary: #111827;
+    --color-text-secondary: #4b5563;
+    --color-text-muted: #9ca3af;
+    --color-status-lunas-text: #065f46;
+    --color-status-lunas-bg: #ecfdf5;
+    --color-status-lunas-border: #a7f3d0;
+    --color-status-menunggu-text: #92400e;
+    --color-status-menunggu-bg: #fef3c7;
+    --color-status-menunggu-border: #fde68a;
+    --color-status-jatuh-tempo-text: #9f1239;
+    --color-status-jatuh-tempo-bg: #ffe4e6;
+    --color-status-jatuh-tempo-border: #fecdd3;
+    --color-status-kosong-text: #374151;
+    --color-status-kosong-bg: #f3f4f6;
+    --color-status-kosong-border: #e5e7eb;
+
+    /* Tipografi: ukuran + tinggi baris + bobot + tracking per peran */
+    --text-display-lg: 36px;
+    --text-display-lg--line-height: 44px;
+    --text-display-lg--letter-spacing: -0.02em;
+    --text-display-lg--font-weight: 700;
+    --text-display-lg-mobile: 28px;
+    --text-display-lg-mobile--line-height: 36px;
+    --text-display-lg-mobile--letter-spacing: -0.015em;
+    --text-display-lg-mobile--font-weight: 700;
+    --text-headline-lg: 28px;
+    --text-headline-lg--line-height: 36px;
+    --text-headline-lg--letter-spacing: -0.015em;
+    --text-headline-lg--font-weight: 700;
+    --text-headline-md: 22px;
+    --text-headline-md--line-height: 28px;
+    --text-headline-md--letter-spacing: -0.01em;
+    --text-headline-md--font-weight: 600;
+    --text-headline-sm: 18px;
+    --text-headline-sm--line-height: 24px;
+    --text-headline-sm--letter-spacing: -0.005em;
+    --text-headline-sm--font-weight: 600;
+    --text-title-lg: 16px;
+    --text-title-lg--line-height: 22px;
+    --text-title-lg--font-weight: 600;
+    --text-title-md: 14px;
+    --text-title-md--line-height: 20px;
+    --text-title-md--font-weight: 600;
+    --text-body-lg: 16px;
+    --text-body-lg--line-height: 24px;
+    --text-body-lg--font-weight: 400;
+    --text-body-md: 14px;
+    --text-body-md--line-height: 20px;
+    --text-body-md--font-weight: 400;
+    --text-body-sm: 12px;
+    --text-body-sm--line-height: 16px;
+    --text-body-sm--font-weight: 400;
+    --text-label-lg: 14px;
+    --text-label-lg--line-height: 20px;
+    --text-label-lg--font-weight: 500;
+    --text-label-md: 12px;
+    --text-label-md--line-height: 16px;
+    --text-label-md--letter-spacing: 0.02em;
+    --text-label-md--font-weight: 600;
+    --text-label-sm: 11px;
+    --text-label-sm--line-height: 14px;
+    --text-label-sm--letter-spacing: 0.03em;
+    --text-label-sm--font-weight: 600;
+    --text-currency-display: 24px;
+    --text-currency-display--line-height: 32px;
+    --text-currency-display--letter-spacing: -0.02em;
+    --text-currency-display--font-weight: 700;
+
+    /* Bentuk: komponen dasar 8px (md), kontainer 16px (lg), pil penuh */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+
+    /* Spasi (basis 4px) */
+    --spacing-gutter: 1rem;
+    --spacing-gutter-desktop: 1.5rem;
+    --spacing-margin: 1rem;
+    --spacing-margin-tablet: 1.5rem;
+    --spacing-margin-desktop: 2rem;
+    --spacing-space-xs: 0.25rem;
+    --spacing-space-sm: 0.5rem;
+    --spacing-space-md: 1rem;
+    --spacing-space-lg: 1.5rem;
+    --spacing-space-xl: 2rem;
+    --spacing-space-2xl: 3rem;
+
+    /* Elevasi (DESIGN.md: Shadow Architecture) */
+    --shadow-low: 0 1px 3px 0 rgb(17 24 39 / 0.05), 0 1px 2px -1px rgb(17 24 39 / 0.05);
+    --shadow-mid: 0 4px 6px -1px rgb(17 24 39 / 0.07), 0 2px 4px -2px rgb(17 24 39 / 0.05);
+    --shadow-high: 0 20px 25px -5px rgb(15 90 87 / 0.08), 0 8px 10px -6px rgb(17 24 39 / 0.04);
+}
+
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    direction: ltr;
+    font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
 }

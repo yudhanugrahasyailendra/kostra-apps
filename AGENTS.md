@@ -103,7 +103,7 @@ resources/views/app.blade.php                    satu-satunya view Blade (akar I
 ### UI
 - Teks antarmuka berbahasa Indonesia. Identifier kode berbahasa Inggris.
 - Ikuti `docs/plan/DESIGN.md` untuk warna, tipografi, dan komponen, lalu `docs/plan/mockup/` untuk tata letak, teks, dan kelas komponen. Perilaku dan data mengikuti PRD dan `docs/plan/database.md`; JavaScript di mockup hanya peraga.
-- Gaya lewat token di `resources/css/app.css` dan komponen Vue (`Button.vue`, `StatusBadge.vue`, `RoomPlate.vue`, `Panel.vue`, `Modal.vue`). Jangan menyalin deretan kelas utilitas panjang ke tiap halaman. Jangan menambah warna di luar token DESIGN.md (emerald `primary`, Slate Navy `secondary`, Amber `tertiary`, warna status). Amber bukan warna teks di atas putih; pakai `#92400E`. Semua animasi dibungkus `motion-safe`.
+- Gaya lewat token di `resources/css/app.css` dan komponen Vue (`Button.vue`, `StatusBadge.vue`, `RoomPlate.vue`, `Panel.vue`, `Modal.vue`). Jangan menyalin deretan kelas utilitas panjang ke tiap halaman. Jangan menambah warna di luar token DESIGN.md (teal `primary` `#00413f` dan `primary-container` `#0f5a57`, amber `secondary`, slate `tertiary`, warna status). Amber bukan warna teks di atas putih; pakai `#92400E`. Semua animasi dibungkus `motion-safe`.
 - Status selalu ditampilkan dengan teks dan warna, tidak warna saja.
 
 ### Pustaka

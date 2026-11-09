@@ -62,7 +62,7 @@ Kostra adalah SaaS berbasis web untuk pemilik kos kecil-menengah (5-50 kamar) ya
 | Dipakai di | Sidebar dan halaman masuk panel; tagihan dan kuitansi PDF (TGH-10) memakai logo milik pemilik kos (`tenants.logo_path`), bukan logo Kostra; pesan WhatsApp dan portal penghuni memakai nama tenant |
 | Berkas yang perlu disiapkan | Versi transparan (PNG/SVG), versi ikon saja (rumah dan K) untuk favicon dan avatar, versi satu warna dan versi putih untuk latar gelap |
 
-Catatan: teal dan emas pada logo berbeda dari palet antarmuka di `docs/plan/DESIGN.md` (primary `#005F49`). Diputuskan: antarmuka memakai palet `DESIGN.md` dan logo dipertahankan apa adanya (lihat Pertanyaan terbuka).
+Catatan: teal dan emas pada logo berbeda dari palet antarmuka di `docs/plan/DESIGN.md` (primary `#00413f`, primary-container `#0f5a57`). Diputuskan: antarmuka memakai palet `DESIGN.md` dan logo dipertahankan apa adanya (lihat Pertanyaan terbuka).
 
 ### Asumsi dan risiko
 
@@ -459,4 +459,4 @@ Lanjut mengembangkan tahap berikutnya bila setidaknya 4 dari 5 pemilik pilot mas
 - [x] Foto KTP penghuni: diputuskan opsional; nomor KTP tidak disimpan (lihat `database.md`).
 - [ ] Berapa harga final tiap paket setelah wawancara dengan 10 pemilik kos?
 - [ ] Apakah nama dan merek Kostra sudah lolos pemeriksaan domain dan DJKI?
-- [x] Warna antarmuka: diputuskan tetap memakai palet `docs/plan/DESIGN.md` (primary `#005F49`); logo teal dan emas dipertahankan apa adanya.
+- [x] Warna antarmuka: diputuskan tetap memakai palet `docs/plan/DESIGN.md` (primary `#00413f`, primary-container `#0f5a57`); logo teal dan emas dipertahankan apa adanya.
