@@ -22,7 +22,11 @@ class StaffController extends Controller
     {
         $this->authorize('viewAny', User::class);
 
-        $staff = User::query()->where('role', UserRole::Staff)->orderBy('name')->get();
+        // Pemilik ikut ditampilkan (hanya baca) sebagai kartu pertama, seperti mockup.
+        $staff = User::query()
+            ->orderByRaw('role = ? desc', [UserRole::Owner->value])
+            ->orderBy('name')
+            ->get();
         $invitations = Invitation::query()->whereNull('accepted_at')->where('expires_at', '>', now())->latest()->get();
 
         return Inertia::render('Owner/Staff/Index', [

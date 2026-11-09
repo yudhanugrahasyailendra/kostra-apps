@@ -8,6 +8,7 @@ export interface UserData {
     role: 'super_admin' | 'owner' | 'staff';
     role_label: string;
     is_active: boolean;
+    last_login_at: string | null;
     permissions: string[];
 }
 

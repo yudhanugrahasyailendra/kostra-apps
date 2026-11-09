@@ -100,8 +100,9 @@ class TenantIsolationTest extends TestCase
             ->get(route('owner.staff.index'))
             ->assertInertia(fn ($page) => $page
                 ->component('Owner/Staff/Index')
-                ->has('staff', 1)
-                ->where('staff.0.id', $staffA->id));
+                ->has('staff', 2) // pemilik + satu staf, tanpa pengguna tenant B
+                ->where('staff.0.id', $this->ownerA->id)
+                ->where('staff.1.id', $staffA->id));
     }
 
     public function test_log_audit_tenant_lain_tidak_terlihat(): void
@@ -112,6 +113,14 @@ class TenantIsolationTest extends TestCase
                 ->component('Owner/AuditLog/Index')
                 ->where('logs', fn ($logs) => collect($logs)->every(
                     fn ($log) => ! str_contains((string) json_encode($log), $this->staffB->email)
-                )));
+                ))
+                ->where('users', fn ($users) => collect($users)->pluck('id')->doesntContain($this->staffB->id)));
+    }
+
+    public function test_filter_log_audit_dengan_pengguna_tenant_lain_tidak_membocorkan(): void
+    {
+        $this->actingAs($this->ownerA)
+            ->get(route('owner.audit.index', ['user_id' => $this->staffB->id]))
+            ->assertInertia(fn ($page) => $page->has('logs', 0)->where('pagination.total', 0));
     }
 }
