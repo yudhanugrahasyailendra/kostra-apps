@@ -1,6 +1,6 @@
 # ARCHITECTURE.md
 
-Arsitektur Kostra: SaaS manajemen kos multi-tenant di atas Laravel 12. Dokumen ini menjelaskan bentuk sistem dan alasan di baliknya. Kebutuhan ada di `docs/prd.md`, skema di `docs/database.md`, aturan kerja agen di `AGENTS.md`.
+Arsitektur Kostra: SaaS manajemen kos multi-tenant di atas Laravel 12. Dokumen ini menjelaskan bentuk sistem dan alasan di baliknya. Kebutuhan ada di `docs/plan/PRD.md`, skema di `docs/plan/database.md`, aturan kerja agen di `AGENTS.md`.
 
 Status: rancangan awal sebelum implementasi. Bagian bertanda **Terbuka** belum diputuskan (lihat bagian 15).
 
@@ -70,7 +70,7 @@ routes/
 resources/js/        Pages (Auth, Owner, Portal, Admin), Components, Layouts, lib
 resources/views/app.blade.php   akar Inertia, satu-satunya view Blade
 database/           migrasi, seeder (PlanSeeder, template pesan, kategori pengeluaran)
-docs/               prd.md, database.md, implementation-plan.md, DESIGN.md, mockup/
+docs/               plan/PRD.md, database.md, implementation-plan.md, DESIGN.md, mockup/
 ```
 
 `bootstrap/app.php` memuat `owner`, `portal`, dan `admin` lewat `withRouting(... then: ...)` dengan prefix dan middleware group masing-masing. Penjadwal didaftarkan di `routes/console.php`.
@@ -115,7 +115,7 @@ Model: satu database, kolom `tenant_id` di semua tabel milik pemilik kos.
 
 ## 8. Model domain
 
-Skema lengkap di `docs/database.md`. Kelompok dan hubungan intinya:
+Skema lengkap di `docs/plan/database.md`. Kelompok dan hubungan intinya:
 
 ```
 plans -- tenants -- users -- invitations
@@ -147,7 +147,7 @@ attachments (polimorfik), number_sequences, payment_accounts, billing_settings (
 | Satu deposit per kontrak | unique `lease_id` |
 | Kuota pesan tidak dilewati paralel | unique `(tenant_id, metric, period)` dan kenaikan atomik |
 
-Uang selalu integer rupiah: total dan saldo `bigInteger`, harga katalog (mis. `plans`, tarif kamar) `unsignedInteger` sesuai `docs/database.md`; tidak pernah float atau decimal. Tanggal bisnis memakai `date`, kejadian memakai timestamp UTC, tampilan memakai zona waktu tenant (bawaan Asia/Makassar).
+Uang selalu integer rupiah: total dan saldo `bigInteger`, harga katalog (mis. `plans`, tarif kamar) `unsignedInteger` sesuai `docs/plan/database.md`; tidak pernah float atau decimal. Tanggal bisnis memakai `date`, kejadian memakai timestamp UTC, tampilan memakai zona waktu tenant (bawaan Asia/Makassar).
 
 ## 9. Alur kritis
 
@@ -208,11 +208,11 @@ Satu tabel polimorfik `attachments`, disk privat, tanpa URL publik. Penyajian le
 ## 13. Frontend
 
 - **Layout:** `layouts/owner` (sidebar dan header), `layouts/portal` (mobile-first, tabbar bawah); panel pemilik memakai navigasi bawah di ponsel, `layouts/guest` (autentikasi), `layouts/admin`.
-- **Gaya:** `DESIGN.md` dan `docs/mockup/` (dari Stitch) adalah sumber desain; palet masih ditentukan (lihat keputusan terbuka). Tailwind v4: token di `resources/css/app.css` (berasal dari `docs/mockup/app.css`). Komponen Vue membungkus kelas supaya halaman bersih.
+- **Gaya:** `docs/plan/DESIGN.md` dan `docs/plan/mockup/` (dari Stitch) adalah sumber desain; palet masih ditentukan (lihat keputusan terbuka). Tailwind v4: token di `resources/css/app.css` (ditulis dari `docs/plan/DESIGN.md`). Komponen Vue membungkus kelas supaya halaman bersih.
 - **Halaman dan komponen:** satu halaman Vue per layar mockup; komponen bersama `Button`, `StatusBadge`, `KpiCard`, `RoomPlate`, `Panel`, `Modal`, `Drawer`, `DataTable`. Pemetaan warna status dari Enum ke kelas ada di satu tempat.
 - **Interaksi:** modal, drawer, tab, dan filter dikelola Vue di sisi klien; data dan aksi lewat Inertia (props, form, partial reload). Tanpa Livewire dan tanpa Alpine.
 - **Data ke klien:** hanya lewat Resource. Uang dikirim sebagai integer dan diformat di `resources/js/lib`. Izin dikirim sebagai props dari Policy; server tetap memeriksa ulang.
-- **Mockup:** `docs/mockup/` adalah acuan tata letak dan teks. Peta layar ke view dan route ada di `docs/mockup/README.md`.
+- **Mockup:** `docs/plan/mockup/` adalah acuan tata letak dan teks, satu folder per layar. Peta fase ke layar ada di `docs/plan/implementation-plan.md` bagian 2.6.
 - **Aksesibilitas:** status selalu teks dan warna; kontras diuji; portal nyaman di layar 360 px.
 
 ## 14. Keamanan dan privasi

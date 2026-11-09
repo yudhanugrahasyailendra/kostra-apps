@@ -1,12 +1,12 @@
 # PRD Kostra - Manajemen Kos
 
-<p align="center"><img src="brand/kostra-logo.png" alt="Logo Kostra, Kost Rapi" width="220"></p>
+<p align="center"><img src="brand/Logo%20Kostra%20(Kost%20Rapi).png" alt="Logo Kostra, Kost Rapi" width="220"></p>
 
 Diperbarui 20 Oktober 2026
 
 ## 1. PRD induk
 
-Kostra adalah SaaS berbasis web untuk pemilik kos kecil-menengah (5-50 kamar) yang mengganti catatan manual dan chat WhatsApp dengan tagihan otomatis, pencatatan pembayaran, dan laporan keuangan. Dibangun dengan Laravel 12, multi-tenant, dijual dengan langganan bulanan. Semua angka target dan harga di dokumen ini adalah usulan awal yang perlu divalidasi dengan pilot.
+Kostra adalah SaaS berbasis web untuk pemilik kos kecil-menengah (5-50 kamar) yang mengganti catatan manual dan chat WhatsApp dengan tagihan otomatis, pencatatan pembayaran, dan laporan keuangan. Dibangun dengan Laravel 12 (Inertia + Vue 3), multi-tenant, dijual dengan langganan bulanan. Semua angka target dan harga di dokumen ini adalah usulan awal yang perlu divalidasi dengan pilot.
 
 ### Masalah
 
@@ -57,7 +57,7 @@ Kostra adalah SaaS berbasis web untuk pemilik kos kecil-menengah (5-50 kamar) ya
 | --- | --- |
 | Nama | Kostra |
 | Tagline | Kost Rapi |
-| Logo | `brand/kostra-logo.png`: rumah beratap dengan huruf K di dalamnya, jendela dan sudut kanan berwarna emas, kata "Kostra" di bawahnya. Berkas sumber 2000 x 2000 px, latar krem |
+| Logo | `docs/plan/brand/Logo Kostra (Kost Rapi).png`: rumah beratap dengan huruf K di dalamnya, jendela dan sudut kanan berwarna emas, kata "Kostra" di bawahnya. Berkas sumber 2000 x 2000 px, latar krem |
 | Warna logo (diambil dari berkas) | Teal `#105F62`, emas `#DBA63B`, krem `#FBF5E8` |
 | Dipakai di | Sidebar dan halaman masuk panel; tagihan dan kuitansi PDF (TGH-10) memakai logo milik pemilik kos (`tenants.logo_path`), bukan logo Kostra; pesan WhatsApp dan portal penghuni memakai nama tenant |
 | Berkas yang perlu disiapkan | Versi transparan (PNG/SVG), versi ikon saja (rumah dan K) untuk favicon dan avatar, versi satu warna dan versi putih untuk latar gelap |
@@ -455,7 +455,7 @@ Lanjut mengembangkan tahap berikutnya bila setidaknya 4 dari 5 pemilik pilot mas
 ### Pertanyaan terbuka
 
 - [ ] Penyedia WhatsApp resmi mana yang dipakai, dan berapa tarif template utility untuk Indonesia?
-- [ ] Antarmuka panel memakai Filament atau starter kit Laravel 12 dengan Livewire?
+- [x] Antarmuka panel: diputuskan Laravel 12 dengan Inertia + Vue 3 (TypeScript). Filament dan Livewire tidak dipakai (lihat `ARCHITECTURE.md`).
 - [ ] Apakah foto KTP penghuni wajib atau opsional pada pilot?
 - [ ] Berapa harga final tiap paket setelah wawancara dengan 10 pemilik kos?
 - [ ] Apakah nama dan merek Kostra sudah lolos pemeriksaan domain dan DJKI?

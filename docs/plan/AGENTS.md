@@ -14,12 +14,12 @@ Baca bagian yang relevan saja, jangan seluruh berkas.
 
 | Berkas | Isi |
 | --- | --- |
-| `docs/prd.md` | Kebutuhan per modul, ID kebutuhan (FND-01, TGH-02, dan seterusnya), aturan bisnis |
-| `docs/database.md` | Skema 33 tabel, indeks, constraint, aturan transaksi |
-| `docs/implementation-plan.md` | Fase 0 sampai 12, prompt dan kriteria selesai tiap fase |
-| `DESIGN.md` | Sistem desain (warna, tipografi, komponen). Sumber kebenaran visual; menang atas mockup bila berbeda |
-| `docs/mockup/` | Acuan tampilan. Mulai dari `docs/mockup/README.md`, lalu hanya bagian layar terkait |
-| `ARCHITECTURE.md` | Bentuk sistem, lapisan, alur kritis, keputusan terbuka |
+| `docs/plan/PRD.md` | Kebutuhan per modul, ID kebutuhan (FND-01, TGH-02, dan seterusnya), aturan bisnis |
+| `docs/plan/database.md` | Skema 33 tabel, indeks, constraint, aturan transaksi |
+| `docs/plan/implementation-plan.md` | Fase 0 sampai 12, prompt dan kriteria selesai tiap fase |
+| `docs/plan/DESIGN.md` | Sistem desain (warna, tipografi, komponen). Sumber kebenaran visual; menang atas mockup bila berbeda |
+| `docs/plan/mockup/` | Acuan tampilan. Satu folder per layar (`<nama-layar>/code.html` dan `screen.png`); buka hanya folder layar terkait. Peta fase ke layar: `implementation-plan.md` bagian 2.6. `mockup/prd.md` dan `mockup/kostra_rapi/DESIGN.md` adalah salinan lama dari Stitch dan tidak dipakai |
+| `docs/plan/ARCHITECTURE.md` | Bentuk sistem, lapisan, alur kritis, keputusan terbuka |
 
 Bila berkas-berkas ini bertentangan dengan kode atau dengan instruksi Anda saat ini, berhenti dan tanya. Jangan memilih diam-diam.
 
@@ -58,7 +58,7 @@ resources/views/app.blade.php                    satu-satunya view Blade (akar I
 ## Aturan wajib
 
 ### Uang
-- Simpan dan hitung sebagai integer rupiah (`unsignedInteger` untuk harga katalog, `unsignedBigInteger` atau `bigInteger` untuk total dan saldo, sesuai `docs/database.md`). Dilarang `float` dan `decimal` untuk uang.
+- Simpan dan hitung sebagai integer rupiah (`unsignedInteger` untuk harga katalog, `unsignedBigInteger` atau `bigInteger` untuk total dan saldo, sesuai `docs/plan/database.md`). Dilarang `float` dan `decimal` untuk uang.
 - Kirim ke halaman sebagai angka bulat. Format `Rp 1.850.000` hanya di lapisan tampilan, lewat satu helper `formatRupiah` di `resources/js/lib`.
 
 ### Tenant
@@ -94,12 +94,12 @@ resources/views/app.blade.php                    satu-satunya view Blade (akar I
 - Jangan pernah mengirim `token_hash`, token portal, path berkas sensitif (foto KTP), kolom tenant lain, atau data pribadi yang tidak dipakai layar itu.
 - Menyembunyikan tombol di Vue bukan otorisasi. Kirim izin dari Policy (mis. `can`) sebagai props, dan tetap periksa lagi di server.
 - Form memakai Form Request di server; pesan galat validasi ditampilkan dari `errors` Inertia, dalam bahasa Indonesia.
-- TypeScript: definisikan tipe props per halaman. Satu halaman Vue satu layar di `docs/mockup/screens/`.
+- TypeScript: definisikan tipe props per halaman. Satu halaman Vue satu layar di `docs/plan/mockup/<nama-layar>/`.
 - Tes fitur memakai asersi Inertia (komponen dan props), termasuk tes bahwa props tidak memuat kolom terlarang.
 
 ### UI
 - Teks antarmuka berbahasa Indonesia. Identifier kode berbahasa Inggris.
-- Ikuti `DESIGN.md` untuk warna, tipografi, dan komponen, lalu `docs/mockup/` untuk tata letak, teks, dan kelas komponen. Perilaku dan data mengikuti PRD dan `docs/database.md`; JavaScript di mockup hanya peraga.
+- Ikuti `docs/plan/DESIGN.md` untuk warna, tipografi, dan komponen, lalu `docs/plan/mockup/` untuk tata letak, teks, dan kelas komponen. Perilaku dan data mengikuti PRD dan `docs/plan/database.md`; JavaScript di mockup hanya peraga.
 - Gaya lewat token di `resources/css/app.css` dan komponen Vue (`Button.vue`, `StatusBadge.vue`, `RoomPlate.vue`, `Panel.vue`, `Modal.vue`). Jangan menyalin deretan kelas utilitas panjang ke tiap halaman. Jangan menambah warna di luar token DESIGN.md (emerald `primary`, Slate Navy `secondary`, Amber `tertiary`, warna status). Amber bukan warna teks di atas putih; pakai `#92400E`. Semua animasi dibungkus `motion-safe`.
 - Status selalu ditampilkan dengan teks dan warna, tidak warna saja.
 
@@ -113,7 +113,7 @@ resources/views/app.blade.php                    satu-satunya view Blade (akar I
 2. Tulis tes untuk aturan uang dan isolasi tenant lebih dulu, lalu implementasi.
 3. Kerjakan satu fase atau satu fitur kecil per sesi. Jangan melompati prasyarat fase.
 4. Sebelum selesai: jalankan `./vendor/bin/pint` dan seluruh tes. Ringkas berkas yang berubah dan setiap penyimpangan dari dokumen.
-5. Nama tabel dan kolom mengikuti `docs/database.md` persis. Bila perlu menyimpang, berhenti dan tanya.
+5. Nama tabel dan kolom mengikuti `docs/plan/database.md` persis. Bila perlu menyimpang, berhenti dan tanya.
 
 ## Batas yang tidak boleh dilanggar
 
@@ -130,7 +130,7 @@ resources/views/app.blade.php                    satu-satunya view Blade (akar I
 - Pint bersih.
 - Tes isolasi tenant ada untuk fitur yang menyentuh data pemilik.
 - Tidak ada query tanpa scope tenant, tidak ada float untuk uang.
-- Teks UI Indonesia dan tampilan sesuai DESIGN.md dan mockup di lebar desktop dan ponsel (360 px ke atas).
+- Teks UI Indonesia dan tampilan sesuai `docs/plan/DESIGN.md` dan mockup di lebar desktop dan ponsel (360 px ke atas).
 - Penyimpangan dari PRD atau skema dicatat di ringkasan akhir.
 
 ## Commit

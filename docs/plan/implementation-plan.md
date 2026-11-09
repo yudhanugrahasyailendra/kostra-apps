@@ -32,7 +32,7 @@ Siapkan lima hal sebelum Fase 0: dokumen rujukan di `docs/`, `CLAUDE.md`, izin p
 
 ### 2.1 Dokumen rujukan
 
-Ekspor PRD, Desain Database, dan dokumen ini sebagai Markdown, lalu simpan di repo sebagai `docs/prd.md`, `docs/database.md`, dan `docs/implementation-plan.md`. Claude Code membaca berkas ini saat fase membutuhkannya; jangan di-import dari CLAUDE.md karena akan memenuhi konteks di setiap sesi.
+Ekspor PRD, Desain Database, dan dokumen ini sebagai Markdown, lalu simpan di repo sebagai `docs/plan/PRD.md`, `docs/plan/database.md`, dan `docs/plan/implementation-plan.md`. Claude Code membaca berkas ini saat fase membutuhkannya; jangan di-import dari CLAUDE.md karena akan memenuhi konteks di setiap sesi.
 
 ### 2.2 CLAUDE.md
 
@@ -42,7 +42,7 @@ Simpan di `./CLAUDE.md`. Dokumentasi menyarankan di bawah 200 baris dan aturan y
 # Kostra: SaaS manajemen kos (Laravel 12)
 
 Produk langganan untuk pemilik kos. Multi-tenant satu database (kolom tenant_id).
-Sumber kebenaran: docs/prd.md (kebutuhan), docs/database.md (skema), docs/mockup/ (tampilan). Baca bagian yang relevan saja.
+Sumber kebenaran: docs/plan/PRD.md (kebutuhan), docs/plan/database.md (skema), docs/plan/mockup/ (tampilan). Baca bagian yang relevan saja.
 
 ## Perintah
 - Tes: `php artisan test` (atau `composer test`)
@@ -60,9 +60,9 @@ Sumber kebenaran: docs/prd.md (kebutuhan), docs/database.md (skema), docs/mockup
 - Penerbitan tagihan idempoten: unique (lease_id, period); nomor lewat number_sequences dengan lockForUpdate.
 - Lampiran lewat tabel attachments, disk privat; foto KTP dienkripsi. Nomor KTP tidak disimpan.
 - Kostra tidak menahan atau menyalurkan uang pemilik.
-- Nama kolom dan tabel mengikuti docs/database.md persis. Bila perlu menyimpang, berhenti dan tanya.
+- Nama kolom dan tabel mengikuti docs/plan/database.md persis. Bila perlu menyimpang, berhenti dan tanya.
 - UI berbahasa Indonesia; identifier kode berbahasa Inggris.
-- Tampilan mengikuti docs/mockup/. Baca docs/mockup/README.md, lalu hanya berkas layar terkait di docs/mockup/screens/. Jangan membaca semua layar sekaligus.
+- Tampilan mengikuti docs/plan/mockup/ (satu folder per layar, berisi code.html dan screen.png). Baca hanya folder layar terkait. Jangan membaca semua layar sekaligus.
 - Frontend: Inertia + Vue 3 + TypeScript. Satu halaman Vue per layar di resources/js/Pages; komponen bersama di resources/js/Components (Button, StatusBadge, RoomPlate, Panel, Modal, Drawer, DataTable). Gaya lewat token di resources/css/app.css; jangan menambah warna baru.
 - Data ke halaman hanya lewat API Resource, tidak pernah model mentah. Jangan kirim token_hash, path berkas sensitif, atau kolom tenant lain. Uang dikirim integer, diformat di resources/js/lib. Izin dari Policy dikirim sebagai props, dan server tetap memeriksa.
 - Tes fitur memakai asersi Inertia, termasuk tes bahwa props tidak memuat kolom terlarang.
@@ -117,7 +117,7 @@ Berkas `.claude/skills/fase/SKILL.md`:
 
 ```markdown
 ---
-description: Kerjakan satu fase implementation plan Kostra dari docs/implementation-plan.md
+description: Kerjakan satu fase implementation plan Kostra dari docs/plan/implementation-plan.md
 argument-hint: [nomor fase, misalnya 5]
 disable-model-invocation: true
 allowed-tools: Bash(git status *) Bash(git log *)
@@ -130,7 +130,7 @@ allowed-tools: Bash(git status *) Bash(git log *)
 ## Tugas
 Kerjakan Fase $ARGUMENTS.
 
-1. Baca bagian "Fase $ARGUMENTS" di docs/implementation-plan.md, modul terkait di docs/prd.md, dan tabel terkait di docs/database.md.
+1. Baca bagian "Fase $ARGUMENTS" di docs/plan/implementation-plan.md, modul terkait di docs/plan/PRD.md, dan tabel terkait di docs/plan/database.md.
 2. Tulis rencana: urutan langkah, daftar file, dan tes yang akan dibuat. Tunggu persetujuan saya.
 3. Tulis tes lebih dulu untuk aturan uang dan isolasi tenant, lalu implementasi.
 4. Jalankan `php artisan test` dan `./vendor/bin/pint`.
@@ -148,11 +148,11 @@ disable-model-invocation: true
 allowed-tools: Bash(php artisan test *) Bash(./vendor/bin/pint *) Bash(git diff *) Bash(git status *)
 ---
 
-Periksa Fase $ARGUMENTS terhadap bagian "Selesai bila" di docs/implementation-plan.md.
+Periksa Fase $ARGUMENTS terhadap bagian "Selesai bila" di docs/plan/implementation-plan.md.
 
 1. Jalankan `php artisan test` dan `./vendor/bin/pint --test`.
 2. Pastikan setiap model tabel milik pemilik memakai BelongsToTenant.
-3. Bandingkan migrasi dengan docs/database.md: nama kolom, tipe, indeks unik, foreign key.
+3. Bandingkan migrasi dengan docs/plan/database.md: nama kolom, tipe, indeks unik, foreign key.
 4. Cari float atau decimal untuk uang, dan route tanpa middleware atau Policy.
 5. Tampilkan tabel lulus atau gagal per kriteria. Jangan memperbaiki apa pun kecuali saya minta.
 ```
@@ -186,52 +186,45 @@ Panggil dengan kalimat biasa, misalnya "Gunakan subagent tenant-auditor untuk me
 
 ### 2.6 Mockup UI
 
-Mockup Kostra (`kostra-mockup.zip`, dari Stitch) adalah acuan tampilan semua fase. Ekstrak ke `docs/mockup/` di repo, sejajar dengan `docs/prd.md` dan `docs/database.md`, lalu commit bersama dokumen lain. Letakkan `DESIGN.md` di akar repo, di samping `AGENTS.md` dan `ARCHITECTURE.md`. Logo ada di `brand/kostra-logo.png`.
+Mockup Kostra (dari Stitch) adalah acuan tampilan semua fase. Sudah diekstrak ke `docs/plan/mockup/`, bersama `docs/plan/PRD.md`, `docs/plan/database.md`, dan `docs/plan/DESIGN.md`. `AGENTS.md` dan `ARCHITECTURE.md` juga ada di `docs/plan/`. Logo ada di `docs/plan/brand/Logo Kostra (Kost Rapi).png`.
 
 ```text
-docs/mockup/
-├── README.md     peta layar ke halaman Vue dan route, daftar konflik dengan PRD
-├── app.css       token Tailwind v4, siap digabung ke resources/css/app.css
-└── screens/
-    ├── 00-login.html
-    ├── 01-dashboard.html
-    ├── 02-properti-kamar.html
-    ├── 03-penghuni-kontrak.html
-    ├── 04-tagihan-pembayaran.html
-    ├── 05-komplain-perawatan.html
-    ├── 06-laporan-keuangan.html
-    ├── 07-pengaturan-whatsapp.html
-    ├── 08-pengaturan-kos.html
-    └── 09-paket-langganan.html
+docs/plan/mockup/
+├── <nama-layar>/
+│   ├── code.html     markup dan kelas Tailwind (memakai CDN dan tailwind.config sendiri)
+│   └── screen.png    tangkapan layar
+├── kostra_rapi/DESIGN.md   salinan lama dari Stitch; sumber desain tetap docs/plan/DESIGN.md
+├── prd.md                  salinan lama dari Stitch; sumber kebutuhan tetap docs/plan/PRD.md
+└── logo_kostra_kost_rapi.png/screen.png   gambar logo versi Stitch
 ```
 
 Aturan memakainya:
 
-1. Baca `docs/mockup/README.md` lebih dulu, lalu hanya satu berkas layar yang dikerjakan. Berkas layar besar (45 sampai 70 KB); jangan membaca semuanya sekaligus.
-2. Tampilan mengikuti mockup (tata letak, kelas, teks Indonesia). Data, nama route, dan perilaku mengikuti PRD dan `docs/database.md`; JavaScript di mockup hanya peraga. Bagian README "Yang perlu diputuskan" menandai isi mockup yang tidak boleh dipakai apa adanya (escrow, QRIS otomatis, Dukcapil, meteran, dan lain-lain).
-3. Hapus skrip Tailwind CDN dan blok `tailwind.config` dari markup; token ada di `app.css`.
+1. Buka `screen.png` dan `code.html` hanya untuk satu folder layar yang dikerjakan. Berkas layar besar (30 sampai 70 KB); jangan membaca semuanya sekaligus.
+2. Tampilan mengikuti mockup (tata letak, kelas, teks Indonesia). Data, nama route, dan perilaku mengikuti PRD dan `docs/plan/database.md`; JavaScript di mockup hanya peraga. Isi mockup yang tidak boleh dipakai apa adanya (escrow, QRIS otomatis, Dukcapil, meteran, dan lain-lain) disebut pada baris **Mockup** di tiap fase.
+3. Hapus skrip Tailwind CDN dan blok `tailwind.config` dari markup; token warna dan tipografi diambil dari `docs/plan/DESIGN.md` dan ditulis ke `resources/css/app.css` pada Fase 0.
 4. Pola yang berulang (badge status, kartu KPI, sel kamar, tombol, input, tabel, modal, drawer) dijadikan komponen Vue; jangan menyalin deretan kelas utilitas ke tiap halaman. Kerangka sidebar dan header dijadikan `OwnerLayout.vue` dengan lebar sidebar `w-72`.
 5. Icon memakai Material Symbols dari mockup (font), atau ikon Vue yang disetujui; sebut nama paketnya dulu sebelum memasang.
 
-Peta fase ke layar mockup:
+Peta fase ke layar mockup (dipetakan dari nama folder; isi tiap layar belum diperiksa satu per satu):
 
-| Fase | Layar mockup | Berkas |
+| Fase | Layar mockup | Folder di `docs/plan/mockup/` |
 | --- | --- | --- |
-| 0 | Token, font, kerangka layout (sidebar, header) | `app.css`, bagian shell `01-dashboard.html` |
-| 1 | Masuk; tab staf di pengaturan | `00-login.html`, `08-pengaturan-kos.html` |
-| 2 | Properti dan kamar, drawer kamar; denah kamar di dashboard | `02-properti-kamar.html`, `01-dashboard.html` |
-| 3 | Daftar penghuni, modal tambah penghuni | `03-penghuni-kontrak.html` |
-| 4 | Kontrak, wizard check-out | `03-penghuni-kontrak.html` |
-| 5 | Tagihan; tab penagihan di pengaturan | `04-tagihan-pembayaran.html`, `08-pengaturan-kos.html` |
-| 6 | Verifikasi bukti, catat pembayaran | `04-tagihan-pembayaran.html` |
-| 7 | Laporan, pengeluaran, statistik dashboard | `06-laporan-keuangan.html`, `01-dashboard.html` |
-| 8 | Komplain dan perawatan (pemilik) | `05-komplain-perawatan.html` |
-| 9 | Log, template, jadwal WhatsApp, beli kuota | `07-pengaturan-whatsapp.html` |
-| 10 | Portal penghuni | Belum ada mockup |
-| 11 | Paket langganan | `09-paket-langganan.html` |
+| 0 | Token, font, kerangka layout (sidebar, header) | `dashboard_ringkasan_pemilik` (shell), token dari `docs/plan/DESIGN.md` |
+| 1 | Masuk dan reset kata sandi; onboarding; tab staf di pengaturan; panel staf; log audit | `autentikasi_reset_password_kostra`, `onboarding_wizard_setup_kos_perdana`, `pengaturan_gateway_whatsapp` (tab Staf), `panel_staf_penjaga_kos_operasional_1`, `panel_staf_penjaga_kos_operasional_2`, `log_audit_keamanan_kepatuhan_pdp` |
+| 2 | Properti dan kamar, detail kamar; denah kamar di dashboard | `kamar_properti`, `detail_kamar_104_histori_pemeliharaan`, `dashboard_ringkasan_pemilik`. `kalender_okupansi_timeline_kamar` untuk PRP-08 (tahap berikutnya) |
+| 3 | Daftar penghuni, modal tambah penghuni | `penghuni_kontrak_sewa` |
+| 4 | Kontrak, wizard check-out | `penghuni_kontrak_sewa`, `inspeksi_check_out_rekonsiliasi_deposit_1` sampai `_3`. `kontrak_sewa_digital` untuk KTR-09 (tahap berikutnya) |
+| 5 | Tagihan; tab penagihan di pengaturan | `tagihan_pembayaran`, `pengaturan_gateway_whatsapp` (tab Penagihan). `input_tagihan_insidental_meteran_utilitas_1` dan `_2` hanya untuk tagihan insidental (TGH-04); meteran tahap berikutnya. `dokumen_resmi_cetak_kuitansi_invoice` untuk PDF (TGH-10, tahap berikutnya) |
+| 6 | Verifikasi bukti, catat pembayaran, kuitansi | `tagihan_pembayaran`, `verifikasi_bukti_transfer_rekonsiliasi_1`, `verifikasi_bukti_transfer_rekonsiliasi_2`, `dokumen_resmi_cetak_kuitansi_invoice` |
+| 7 | Laporan, pengeluaran, statistik dashboard | `laporan_keuangan_pengeluaran`, `dashboard_ringkasan_pemilik` |
+| 8 | Komplain dan perawatan (pemilik) | `komplain_servis` |
+| 9 | Log, template, jadwal WhatsApp, beli kuota | `pengaturan_gateway_whatsapp` |
+| 10 | Portal penghuni | `portal_penghuni_mobile`, `portal_penghuni_komplain_kuitansi_mobile` |
+| 11 | Paket langganan; panel Super Admin | `paket_langganan_kostra`, `panel_super_admin_kostra` |
 | 12 | Tidak ada. Periksa tampilan di lebar ponsel dan desktop | semua |
 
-Belum ada mockup: daftar akun, lupa kata sandi, detail penghuni, detail tagihan, check-in, portal penghuni, dan Super Admin. Minta Claude Code memakai kerangka, komponen, dan token yang sama, atau buat dulu di Stitch.
+Belum ada mockup: daftar akun, detail penghuni, detail tagihan, dan check-in. Minta Claude Code memakai kerangka, komponen, dan token yang sama, atau buat dulu di Stitch.
 
 ## 3. Peta fase
 
@@ -261,7 +254,7 @@ Fase 0 menyiapkan proyek Laravel 12 yang bisa diuji, dengan keputusan teknis yan
 
 **Prasyarat**: PHP dan Composer sesuai syarat Laravel 12 (lihat `composer.json`), Node.js untuk Vite, MySQL 8 atau PostgreSQL yang berjalan, repo git, dan persiapan di bagian 2 selesai.
 
-**Mockup**: ekstrak `kostra-mockup.zip` ke `docs/mockup/` (bagian 2.6). Gabungkan `docs/mockup/app.css` ke `resources/css/app.css`, pasang font Inter, Plus Jakarta Sans, dan Material Symbols, lalu bangun `OwnerLayout.vue`, `GuestLayout.vue`, dan komponen dasar (`Button`, `StatusBadge`, `Panel`, `Modal`, `Drawer`) dari kerangka mockup.
+**Mockup**: `dashboard_ringkasan_pemilik` untuk kerangka (bagian 2.6). Tulis token dari `docs/plan/DESIGN.md` ke `resources/css/app.css`, pasang font Inter, Plus Jakarta Sans, dan Material Symbols, lalu bangun `OwnerLayout.vue`, `GuestLayout.vue`, dan komponen dasar (`Button`, `StatusBadge`, `Panel`, `Modal`, `Drawer`) dari kerangka mockup.
 
 **Keputusan yang dikunci sekarang**
 
@@ -279,7 +272,7 @@ Fase 0 menyiapkan proyek Laravel 12 yang bisa diuji, dengan keputusan teknis yan
 **Prompt untuk Claude Code**
 
 ```text
-Kita memulai Fase 0 proyek Kostra (lihat CLAUDE.md dan docs/implementation-plan.md, bagian "Fase 0").
+Kita memulai Fase 0 proyek Kostra (lihat CLAUDE.md dan docs/plan/implementation-plan.md, bagian "Fase 0").
 Jangan memasang paket apa pun sebelum saya menyetujui rencananya.
 
 1. Periksa proyek ini: versi PHP dan Laravel, kerangka tes, isi composer.json dan package.json, dan .env.example.
@@ -316,15 +309,15 @@ Fase 1 membuat setiap pemilik kos terisolasi, peran dan izin berfungsi, dan aksi
 
 **Prasyarat**: Fase 0. **Rujukan**: PRD modul Fondasi (FND-01 sampai FND-06); Desain Database bagian Platform dan tenant, ditambah tabel `audit_logs`. **Tabel baru**: plans, tenants, users (menyesuaikan tabel bawaan), invitations, audit_logs.
 
-**Mockup**: `00-login.html` (masuk) dan tab staf di `08-pengaturan-kos.html`. Daftar akun dan lupa kata sandi belum punya mockup; pakai komponen yang sama.
+**Mockup**: `autentikasi_reset_password_kostra` (masuk dan reset kata sandi), `onboarding_wizard_setup_kos_perdana`, dan tab Staf di `pengaturan_gateway_whatsapp`. Daftar akun belum punya mockup; pakai komponen yang sama.
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 1 Kostra: fondasi multi-tenant. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Fondasi" (FND-01 sampai FND-06), dan docs/database.md bagian "Platform dan tenant" serta tabel audit_logs.
+Fase 1 Kostra: fondasi multi-tenant. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Fondasi" (FND-01 sampai FND-06), dan docs/plan/database.md bagian "Platform dan tenant" serta tabel audit_logs.
 
 Rencanakan dulu, lalu kerjakan dengan tes lebih dulu:
-1. Migrasi plans, tenants, users (sesuaikan tabel users bawaan Laravel: tenant_id nullable, phone, role, permissions json, is_active, last_login_at, softDeletes), invitations, audit_logs. Ikuti docs/database.md persis.
+1. Migrasi plans, tenants, users (sesuaikan tabel users bawaan Laravel: tenant_id nullable, phone, role, permissions json, is_active, last_login_at, softDeletes), invitations, audit_logs. Ikuti docs/plan/database.md persis.
 2. Enum UserRole (super_admin, owner, staff) dan TenantStatus.
 3. Trait BelongsToTenant dengan global scope tenant_id dan pengisian tenant_id otomatis saat create. Sediakan cara eksplisit untuk konteks tanpa tenant (queue, seeder) lewat TenantContext.
 4. Middleware SetCurrentTenant dan EnsureTenantIsActive (tenant yang ditangguhkan hanya boleh membaca dan mengekspor).
@@ -337,7 +330,7 @@ Mulai dari tes isolasi tenant: pengguna tenant A tidak bisa membaca atau menguba
 
 **Hasil yang diharapkan**
 
-- Migrasi lima tabel sesuai `docs/database.md`.
+- Migrasi lima tabel sesuai `docs/plan/database.md`.
 - Model Tenant, User, Plan, Invitation, AuditLog; trait `BelongsToTenant` dan `TenantScope`; `TenantContext`.
 - Middleware `SetCurrentTenant` dan `EnsureTenantIsActive`.
 - Action `RegisterOwner`, `InviteStaff`, `AcceptInvitation`, dan pencatat audit.
@@ -354,7 +347,7 @@ Mulai dari tes isolasi tenant: pengguna tenant A tidak bisa membaca atau menguba
 - Perubahan data penting tercatat di audit dengan nilai lama dan baru.
 - Tautan reset kata sandi kedaluwarsa setelah 60 menit.
 
-**Selesai bila**: semua tes lulus; `tenant-auditor` tidak melaporkan temuan tinggi; tidak ada query tanpa scope pada tabel tenant; skema cocok dengan `docs/database.md`.
+**Selesai bila**: semua tes lulus; `tenant-auditor` tidak melaporkan temuan tinggi; tidak ada query tanpa scope pada tabel tenant; skema cocok dengan `docs/plan/database.md`.
 
 **Commit**: `feat(fondasi): tenant, peran, undangan, audit (fase 1)`
 
@@ -364,15 +357,15 @@ Fase 2 membuat pemilik bisa memasukkan seluruh kamarnya dalam beberapa menit, de
 
 **Prasyarat**: Fase 1. **Rujukan**: PRD modul Properti dan Kamar (PRP-01 sampai PRP-07); Desain Database bagian Properti dan kamar. **Tabel baru**: properties, room_types, rooms.
 
-**Mockup**: `02-properti-kamar.html` (daftar, denah, drawer kamar). Sembunyikan bagian meteran listrik (TGH-09, tahap berikutnya). Denah kamar di `01-dashboard.html` dibuat sebagai komponen `RoomPlate.vue` di fase ini.
+**Mockup**: `kamar_properti` dan `detail_kamar_104_histori_pemeliharaan` (daftar, denah, detail kamar). Sembunyikan bagian meteran listrik (TGH-09, tahap berikutnya). Denah kamar di `dashboard_ringkasan_pemilik` dibuat sebagai komponen `RoomPlate.vue` di fase ini.
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 2 Kostra: properti, tipe kamar, kamar. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Properti dan Kamar" (kerjakan PRP-01 sampai PRP-07), dan docs/database.md bagian "Properti dan kamar".
+Fase 2 Kostra: properti, tipe kamar, kamar. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Properti dan Kamar" (kerjakan PRP-01 sampai PRP-07), dan docs/plan/database.md bagian "Properti dan kamar".
 
 Rencanakan, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi properties, room_types, rooms persis sesuai docs/database.md. Model memakai BelongsToTenant; enum RoomStatus (vacant, occupied, maintenance); softDeletes pada properties dan rooms.
+1. Migrasi properties, room_types, rooms persis sesuai docs/plan/database.md. Model memakai BelongsToTenant; enum RoomStatus (vacant, occupied, maintenance); softDeletes pada properties dan rooms.
 2. Validasi nomor kamar unik per properti dengan Rule::unique yang mengabaikan baris terhapus (indeks unik database tidak membedakan soft delete).
 3. Action CreateRoomsInBulk (misalnya kamar 101 sampai 110 sekaligus) dan ImportRooms dari CSV atau Excel: baris gagal dilaporkan beserta alasannya, baris valid tetap masuk. Tanyakan paket impor yang akan dipakai sebelum memasangnya.
 4. Service PlanLimits yang memeriksa batas properti dan kamar sesuai paket tenant di sisi server; penambahan di atas batas ditolak dengan tawaran naik paket.
@@ -407,15 +400,15 @@ Fase 3 menyimpan data penghuni seminimal mungkin dan membuat lampiran (terutama 
 
 **Prasyarat**: Fase 2. **Rujukan**: PRD modul Penghuni (PNG-01 sampai PNG-06); Desain Database bagian Penghuni dan lampiran. **Tabel baru**: residents, attachments.
 
-**Mockup**: `03-penghuni-kontrak.html` (daftar penghuni, modal tambah). Detail penghuni belum punya mockup. Jangan tampilkan nomor KTP atau "Sinkron Dukcapil".
+**Mockup**: `penghuni_kontrak_sewa` (daftar penghuni, modal tambah). Detail penghuni belum punya mockup. Jangan tampilkan nomor KTP atau "Sinkron Dukcapil".
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 3 Kostra: penghuni dan lampiran. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Penghuni" (PNG-01 sampai PNG-06), dan docs/database.md bagian "Penghuni dan lampiran".
+Fase 3 Kostra: penghuni dan lampiran. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Penghuni" (PNG-01 sampai PNG-06), dan docs/plan/database.md bagian "Penghuni dan lampiran".
 
 Rencanakan, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi residents dan attachments persis sesuai docs/database.md. Nomor KTP tidak boleh disimpan sebagai kolom.
+1. Migrasi residents dan attachments persis sesuai docs/plan/database.md. Nomor KTP tidak boleh disimpan sebagai kolom.
 2. Normalisasi nomor WhatsApp ke format internasional (bawaan +62) lewat satu helper yang dipakai di semua input dan impor.
 3. Tabel attachments polimorfik di disk privat, validasi JPG, PNG, PDF maksimum 5 MB, dan Relation::enforceMorphMap agar nama kelas tidak tersimpan di database. Berkas is_sensitive (foto KTP) dienkripsi saat disimpan dan hanya dilayani lewat tautan bertanda tangan setelah Policy memeriksa tenant dan izin; setiap akses tercatat di audit_logs.
 4. CRUD penghuni dengan pencarian dan filter (nama, nomor kamar, status), riwayat penghuni yang sudah check-out, dan kontak darurat sebagai kolom.
@@ -450,15 +443,15 @@ Fase 4 menghubungkan penghuni, kamar, harga, dan masa sewa, dan menjamin satu ka
 
 **Prasyarat**: Fase 2 dan 3. **Rujukan**: PRD modul Kontrak Sewa (KTR-01 sampai KTR-07); Desain Database bagian Kontrak sewa. **Tabel baru**: leases, lease_residents, lease_deposits, room_transfers.
 
-**Mockup**: `03-penghuni-kontrak.html` (kontrak dan wizard check-out). Check-in belum punya mockup. Ganti "Deposit Escrow" menjadi "Deposit Tercatat"; sembunyikan Template Kontrak (KTR-09).
+**Mockup**: `penghuni_kontrak_sewa` (kontrak) dan `inspeksi_check_out_rekonsiliasi_deposit_1` sampai `_3` (wizard check-out). Check-in belum punya mockup. Ganti "Deposit Escrow" menjadi "Deposit Tercatat"; sembunyikan Template Kontrak (KTR-09).
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 4 Kostra: kontrak sewa, check-in, dan check-out. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Kontrak Sewa" (KTR-01 sampai KTR-07) dan docs/database.md bagian "Kontrak sewa".
+Fase 4 Kostra: kontrak sewa, check-in, dan check-out. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Kontrak Sewa" (KTR-01 sampai KTR-07) dan docs/plan/database.md bagian "Kontrak sewa".
 
 Rencanakan, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi leases, lease_residents, lease_deposits, room_transfers persis sesuai docs/database.md. Enum LeaseStatus dan DepositStatus.
+1. Migrasi leases, lease_residents, lease_deposits, room_transfers persis sesuai docs/plan/database.md. Enum LeaseStatus dan DepositStatus.
 2. leases.active_room_id diisi room_id selama kontrak aktif dan null bila tidak; unique di database. Inilah mekanisme satu kontrak aktif per kamar.
 3. Action CheckInResident: dalam satu DB::transaction membuat kontrak, lease_residents (penanggung jawab is_primary), deposit, mengisi active_room_id, dan mengubah rooms.status menjadi occupied. Pelanggaran unique berarti kamar sudah terisi dan harus menghasilkan pesan yang jelas.
 4. CheckOutResident (hitung sisa tagihan dan potongan deposit, tutup kontrak, kosongkan active_room_id, kamar menjadi vacant), RenewLease (kontrak baru menyambung dan mengisi renewed_from_lease_id), TransferRoom (catat room_transfers, perbarui room_id dan active_room_id; harga baru berlaku untuk tagihan berikutnya).
@@ -495,15 +488,15 @@ Fase 5 membuat tagihan bulanan terbit sendiri dari kontrak aktif, tanpa ganda da
 
 **Prasyarat**: Fase 4. **Rujukan**: PRD modul Tagihan (TGH-01 sampai TGH-07); Desain Database bagian Tagihan. **Tabel baru**: billing_settings, number_sequences, invoices, invoice_items, invoice_adjustments.
 
-**Mockup**: `04-tagihan-pembayaran.html` dan tab penagihan di `08-pengaturan-kos.html`. Detail tagihan belum punya mockup. Sembunyikan denda otomatis dan item kWh.
+**Mockup**: `tagihan_pembayaran` dan tab Penagihan di `pengaturan_gateway_whatsapp`. Detail tagihan belum punya mockup. Sembunyikan denda otomatis dan item kWh.
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 5 Kostra: tagihan dan penjadwal. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Tagihan" (TGH-01 sampai TGH-07) dan docs/database.md bagian "Tagihan".
+Fase 5 Kostra: tagihan dan penjadwal. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Tagihan" (TGH-01 sampai TGH-07) dan docs/plan/database.md bagian "Tagihan".
 
 Fase ini inti produk dan menyangkut uang. Rencanakan dengan teliti, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi billing_settings, number_sequences, invoices, invoice_items, invoice_adjustments persis sesuai docs/database.md, termasuk unique (lease_id, period) dan unique (tenant_id, number). Enum InvoiceStatus (draft, issued, partial, paid, overdue, void) dan InvoiceType.
+1. Migrasi billing_settings, number_sequences, invoices, invoice_items, invoice_adjustments persis sesuai docs/plan/database.md, termasuk unique (lease_id, period) dan unique (tenant_id, number). Enum InvoiceStatus (draft, issued, partial, paid, overdue, void) dan InvoiceType.
 2. Action GenerateInvoiceNumber: baca dan naikkan number_sequences dengan lockForUpdate di dalam transaksi; format INV-YYYY-MM-0001 mengikuti invoice_prefix tenant.
 3. Action GenerateMonthlyInvoices (per tenant dan per kontrak aktif) yang idempoten: bila unique (lease_id, period) bentrok, lewati kontrak itu tanpa galat. Dukung pro rata bulan pertama dan terakhir sesuai billing_settings.
 4. RecalculateInvoice (subtotal dari item, adjustment_total dari invoice_adjustments, total, paid_total, status), AddInvoiceAdjustment (alasan wajib, tercatat di audit), VoidInvoice (tagihan lunas tidak boleh dibatalkan), dan tagihan manual.
@@ -540,15 +533,15 @@ Fase 6 mencatat uang yang diterima pemilik di luar sistem dan menutup tagihan se
 
 **Prasyarat**: Fase 5. **Rujukan**: PRD modul Pembayaran (PBY-01 sampai PBY-07); Desain Database bagian Pembayaran. **Tabel baru**: payment_accounts, payments, payment_allocations, payment_proofs.
 
-**Mockup**: `04-tagihan-pembayaran.html` (modal audit bukti, catat pembayaran). Hapus label "Auto-QRIS", "Auto Reconcile", dan VA otomatis.
+**Mockup**: `tagihan_pembayaran`, `verifikasi_bukti_transfer_rekonsiliasi_1` dan `_2` (audit bukti, catat pembayaran). Hapus label "Auto-QRIS", "Auto Reconcile", dan VA otomatis.
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 6 Kostra: pembayaran, bukti transfer, dan kuitansi. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Pembayaran" (PBY-01 sampai PBY-07) dan docs/database.md bagian "Pembayaran".
+Fase 6 Kostra: pembayaran, bukti transfer, dan kuitansi. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Pembayaran" (PBY-01 sampai PBY-07) dan docs/plan/database.md bagian "Pembayaran".
 
 Kostra tidak menerima atau menahan dana; hanya mencatat. Rencanakan, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi payment_accounts, payments, payment_allocations, payment_proofs persis sesuai docs/database.md (kuitansi berupa kolom di payments). Enum PaymentMethod, PaymentStatus, ProofStatus.
+1. Migrasi payment_accounts, payments, payment_allocations, payment_proofs persis sesuai docs/plan/database.md (kuitansi berupa kolom di payments). Enum PaymentMethod, PaymentStatus, ProofStatus.
 2. Action RecordPayment: dalam satu DB::transaction, kunci baris invoices yang terlibat (lockForUpdate), buat payment dan payment_allocations, pastikan jumlah alokasi tidak melebihi payments.amount maupun sisa tagihan (kelebihan bayar ditolak), lalu panggil RecalculateInvoice untuk paid_total dan status. Dukung pembayaran sebagian dan beberapa tagihan sekaligus.
 3. VoidPayment: status voided dengan alasan wajib, hitung ulang tagihan terkait, catat audit. Pembayaran tidak pernah dihapus.
 4. payment_proofs: SubmitPaymentProof (di fase ini lewat staf; portal menyusul di Fase 10), ApprovePaymentProof (membuat payment) dan RejectPaymentProof (alasan wajib). Berkas disimpan di attachments dengan kategori transfer_proof.
@@ -584,15 +577,15 @@ Fase 7 menjawab tiga pertanyaan pemilik: berapa pemasukan bulan ini, siapa yang 
 
 **Prasyarat**: Fase 6. **Rujukan**: PRD modul Keuangan dan Laporan (KEU-01 sampai KEU-07); Desain Database tabel expense_categories dan expenses. **Tabel baru**: expense_categories, expenses.
 
-**Mockup**: `06-laporan-keuangan.html` (laporan, modal pengeluaran) dan statistik di `01-dashboard.html`. Pertahankan tabel "Lihat sebagai tabel" di tiap grafik untuk aksesibilitas.
+**Mockup**: `laporan_keuangan_pengeluaran` (laporan, modal pengeluaran) dan statistik di `dashboard_ringkasan_pemilik`. Pertahankan tabel "Lihat sebagai tabel" di tiap grafik untuk aksesibilitas.
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 7 Kostra: pengeluaran, laporan, dashboard. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Keuangan dan Laporan" (KEU-01 sampai KEU-07) dan docs/database.md bagian "Pengeluaran dan komplain" (hanya expense_categories dan expenses).
+Fase 7 Kostra: pengeluaran, laporan, dashboard. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Keuangan dan Laporan" (KEU-01 sampai KEU-07) dan docs/plan/database.md bagian "Pengeluaran dan komplain" (hanya expense_categories dan expenses).
 
 Rencanakan, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi expense_categories dan expenses persis sesuai docs/database.md; softDeletes pada expenses. Kategori bawaan (listrik, air, gaji penjaga, perbaikan, kebersihan, lainnya) dibuat per tenant saat pendaftaran.
+1. Migrasi expense_categories dan expenses persis sesuai docs/plan/database.md; softDeletes pada expenses. Kategori bawaan (listrik, air, gaji penjaga, perbaikan, kebersihan, lainnya) dibuat per tenant saat pendaftaran.
 2. CRUD pengeluaran dengan lampiran nota (attachments, kategori expense_receipt) dan filter per properti dan kategori.
 3. Kelas query laporan di app/Services/Reports: pemasukan per periode dan per properti (dasar: payments.paid_on dengan status active, lewat payment_allocations dan invoices.property_id), tunggakan dengan umur (1-7, 8-30, lebih dari 30 hari), okupansi per tanggal, dan rekap bulanan pemasukan dan pengeluaran dengan saldo bersih. Semua memakai zona waktu tenant.
 4. Dashboard: okupansi, pemasukan bulan berjalan, total tunggakan, dan kontrak segera habis. Angkanya harus berasal dari kelas query yang sama dengan laporan.
@@ -627,15 +620,15 @@ Fase 8 membuat keluhan penghuni terlacak sampai selesai, bukan tenggelam di chat
 
 **Prasyarat**: Fase 3 dan 4. **Rujukan**: PRD modul Komplain dan Perawatan (KMP-01 sampai KMP-05); Desain Database tabel complaints dan complaint_comments. **Tabel baru**: complaints, complaint_comments.
 
-**Mockup**: `05-komplain-perawatan.html`. Sembunyikan SLA, rating, dan jadwal servis (tahap berikutnya); vendor berupa isian teks. Layar komplain di portal belum punya mockup.
+**Mockup**: `komplain_servis`. Sembunyikan SLA, rating, dan jadwal servis (tahap berikutnya); vendor berupa isian teks. Layar komplain di portal: `portal_penghuni_komplain_kuitansi_mobile`.
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 8 Kostra: komplain. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Komplain dan Perawatan" (KMP-01 sampai KMP-05) dan docs/database.md tabel complaints dan complaint_comments.
+Fase 8 Kostra: komplain. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Komplain dan Perawatan" (KMP-01 sampai KMP-05) dan docs/plan/database.md tabel complaints dan complaint_comments.
 
 Rencanakan, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi complaints dan complaint_comments persis sesuai docs/database.md. Enum ComplaintStatus (new, in_progress, done, rejected) dan ComplaintCategory.
+1. Migrasi complaints dan complaint_comments persis sesuai docs/plan/database.md. Enum ComplaintStatus (new, in_progress, done, rejected) dan ComplaintCategory.
 2. Action CreateComplaint (di fase ini oleh staf atas nama penghuni; portal menyusul), ChangeComplaintStatus (done atau rejected mengisi resolved_at dan closed_at), AssignComplaint (hanya ke pengguna dari tenant yang sama), dan AddComplaintComment (tepat satu dari user_id atau resident_id terisi).
 3. Setiap perubahan status memicu event ComplaintStatusChanged. Jangan mengirim pesan di fase ini; Fase 9 yang akan mendengarkan event tersebut.
 4. Foto lewat attachments (kategori complaint_photo).
@@ -669,21 +662,21 @@ Fase 9 mengirim pengingat tagihan dan kuitansi lewat WhatsApp dengan biaya terke
 
 **Prasyarat**: Fase 5 dan 6 (Fase 8 untuk event komplain). **Rujukan**: PRD modul Notifikasi WhatsApp (NTF-01 sampai NTF-08); Desain Database tabel message_templates, message_logs, dan usage_counters. **Tabel baru**: message_templates, message_logs, usage_counters.
 
-**Mockup**: `07-pengaturan-whatsapp.html`. Penyedia WhatsApp belum diputuskan; jangan menampilkan "Meta Cloud API Tier 2". Uji hanya dengan `FakeProvider`.
+**Mockup**: `pengaturan_gateway_whatsapp`. Penyedia WhatsApp belum diputuskan; jangan menampilkan "Meta Cloud API Tier 2". Uji hanya dengan `FakeProvider`.
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 9 Kostra: notifikasi WhatsApp dan kuota. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Notifikasi WhatsApp" (NTF-01 sampai NTF-08) dan docs/database.md bagian "Notifikasi, portal, dan audit" (message_templates, message_logs) serta tabel usage_counters.
+Fase 9 Kostra: notifikasi WhatsApp dan kuota. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Notifikasi WhatsApp" (NTF-01 sampai NTF-08) dan docs/plan/database.md bagian "Notifikasi, portal, dan audit" (message_templates, message_logs) serta tabel usage_counters.
 
 Jangan mengintegrasikan penyedia WhatsApp sungguhan di fase ini; bangun lapisan abstraksi dan penyedia palsu. Rencanakan, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi message_templates, message_logs, usage_counters persis sesuai docs/database.md.
+1. Migrasi message_templates, message_logs, usage_counters persis sesuai docs/plan/database.md.
 2. Interface WhatsAppProvider (kirim pesan, baca status webhook) dengan FakeWhatsAppProvider untuk tes dan lokal; penyedia dipilih lewat config/kostra.php.
 3. MessageTemplateRenderer dengan variabel {{nama}}, {{jumlah}}, {{jatuh_tempo}}, {{link}} (variabel tak dikenal ditolak); seeder template sistem (invoice_issued, reminder_before_due, reminder_due_today, reminder_overdue, receipt, lease_expiring). Pemilik boleh mengedit isi dalam batas variabel itu, dengan category selalu utility.
 4. Job SendWhatsAppMessage lewat antrean dengan percobaan ulang terbatas; setiap pesan dicatat di message_logs dengan status queued, sent, delivered, failed, atau skipped (skip_reason: opted_out, quota_exceeded, outside_window).
 5. Kuota atomik: usage_counters dinaikkan dengan pembaruan bersyarat (used = used + 1 hanya bila used di bawah batas paket) supaya pengiriman paralel tidak melewati kuota.
 6. Jam kirim: pesan di luar send_window di billing_settings ditunda ke jam kirim berikutnya, bukan dibuang. Penghuni dengan whatsapp_opt_out_at tidak menerima pesan otomatis.
-7. Penjadwal pengingat memakai reminder_offsets di billing_settings (misalnya -3, 0, 3), hanya untuk tagihan yang belum lunas, dan tidak mengirim dua kali untuk kombinasi tagihan, template, dan offset yang sama (periksa lewat message_logs; bila butuh indeks tambahan, tanyakan dulu karena menyimpang dari docs/database.md).
+7. Penjadwal pengingat memakai reminder_offsets di billing_settings (misalnya -3, 0, 3), hanya untuk tagihan yang belum lunas, dan tidak mengirim dua kali untuk kombinasi tagihan, template, dan offset yang sama (periksa lewat message_logs; bila butuh indeks tambahan, tanyakan dulu karena menyimpang dari docs/plan/database.md).
 8. Listener untuk penerbitan tagihan (Fase 5), pembayaran disetujui (Fase 6), dan ComplaintStatusChanged (Fase 8) yang mengantrekan pesan.
 9. UI: template, log pengiriman dengan kirim ulang pesan gagal, dan sisa kuota bulan berjalan.
 ```
@@ -717,15 +710,15 @@ Fase 10 memberi penghuni halaman tagihan lewat tautan di WhatsApp, tanpa akun da
 
 **Prasyarat**: Fase 5, 6, 8, dan 9. **Rujukan**: PRD modul Portal Penghuni (PRT-01 sampai PRT-08); Desain Database tabel portal_tokens. **Tabel baru**: portal_tokens.
 
-**Mockup**: belum ada. Buat dulu di Stitch (beranda tagihan, bayar dengan tombol salin rekening dan unggah bukti, terkirim, riwayat, komplain), atau pakai komponen yang sama dengan layout mobile-first dan tabbar bawah.
+**Mockup**: `portal_penghuni_mobile` (beranda, bayar, riwayat) dan `portal_penghuni_komplain_kuitansi_mobile` (komplain, kuitansi). Layout mobile-first dengan tabbar bawah.
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 10 Kostra: portal penghuni tanpa akun. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Portal Penghuni" (PRT-01 sampai PRT-08) dan docs/database.md tabel portal_tokens.
+Fase 10 Kostra: portal penghuni tanpa akun. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Portal Penghuni" (PRT-01 sampai PRT-08) dan docs/plan/database.md tabel portal_tokens.
 
 Portal adalah permukaan publik, jadi keamanan adalah prioritas. Rencanakan, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi portal_tokens persis sesuai docs/database.md. Token acak panjang; hanya hash SHA-256 yang disimpan, token asli hanya ada di tautan.
+1. Migrasi portal_tokens persis sesuai docs/plan/database.md. Token acak panjang; hanya hash SHA-256 yang disimpan, token asli hanya ada di tautan.
 2. Middleware ResolvePortalToken: memvalidasi token (ada, belum dicabut, belum kedaluwarsa), mengisi last_used_at, menaruh resident di request, dan memulai sesi terbatas. Satu token = satu penghuni = satu tenant. Semua kegagalan memakai pesan yang sama agar token tidak bisa ditebak.
 3. routes/portal.php di bawah /p/{token}: beranda (tagihan aktif dan status kontrak), riwayat tagihan dan pembayaran, rekening pembayaran dengan tombol salin, unggah bukti transfer, kuitansi, ringkasan kontrak, serta pengajuan dan pemantauan komplain.
 4. Semua akses data lewat resident dari token, tidak pernah lewat id mentah dari URL tanpa pemeriksaan kepemilikan (cegah IDOR). Portal hanya menampilkan ringkasan kontrak, bukan data internal pemilik.
@@ -761,15 +754,15 @@ Fase 11 membuat Kostra sendiri bisa dijual: paket, batas pemakaian, masa percoba
 
 **Prasyarat**: Fase 1 dan 9. **Rujukan**: PRD modul Langganan Kostra dan Super Admin (LGN-01 sampai LGN-07); Desain Database tabel subscriptions dan subscription_invoices. **Tabel baru**: subscriptions, subscription_invoices.
 
-**Mockup**: `09-paket-langganan.html`. Samakan paket dan harga dengan PRD; sembunyikan auto-debit, QRIS dinamis, paket Business, dan faktur pajak sampai diputuskan. Panel Super Admin belum punya mockup; pakai kerangka dan komponen yang sama.
+**Mockup**: `paket_langganan_kostra`. Samakan paket dan harga dengan PRD; sembunyikan auto-debit, QRIS dinamis, paket Business, dan faktur pajak sampai diputuskan. Panel Super Admin: `panel_super_admin_kostra`.
 
 **Prompt untuk Claude Code**
 
 ```text
-Fase 11 Kostra: langganan dan panel Super Admin. Baca CLAUDE.md, docs/prd.md bagian "PRD modul Langganan Kostra dan Super Admin" (LGN-01 sampai LGN-07) dan docs/database.md tabel subscriptions dan subscription_invoices.
+Fase 11 Kostra: langganan dan panel Super Admin. Baca CLAUDE.md, docs/plan/PRD.md bagian "PRD modul Langganan Kostra dan Super Admin" (LGN-01 sampai LGN-07) dan docs/plan/database.md tabel subscriptions dan subscription_invoices.
 
 Pembayaran langganan Kostra semi-manual di MVP (transfer, dicatat Super Admin). Rencanakan, tulis tes lebih dulu, lalu implementasikan:
-1. Migrasi subscriptions dan subscription_invoices persis sesuai docs/database.md. Enum SubscriptionStatus.
+1. Migrasi subscriptions dan subscription_invoices persis sesuai docs/plan/database.md. Enum SubscriptionStatus.
 2. Pendaftaran tenant (Fase 1) membuat subscription paket Gratis; tenants.plan_id disinkronkan dengan subscription aktif.
 3. Masa percobaan 14 hari untuk paket berbayar. Penjadwal harian mengembalikan tenant ke paket Gratis bila tidak berlangganan setelah masa percobaan, dan memberi masa tenggang 7 hari sebelum penangguhan karena tunggakan langganan.
 4. Penegakan batas paket di semua titik pembuatan data lewat PlanLimits (properti, kamar, staf, kuota pesan) dan pembatasan fitur lewat plans.features; pelanggaran menampilkan tawaran naik paket, bukan galat teknis.
@@ -810,10 +803,10 @@ Fase 12 memastikan MVP aman dan stabil sebelum pemilik kos sungguhan memakainya.
 **Prompt untuk Claude Code**
 
 ```text
-Fase 12 Kostra: hardening sebelum pilot. Jangan menambah fitur. Baca CLAUDE.md, docs/prd.md bagian "Kebutuhan non-fungsional" dan docs/database.md bagian "Indeks, constraint, dan aturan integritas". Rencanakan dulu.
+Fase 12 Kostra: hardening sebelum pilot. Jangan menambah fitur. Baca CLAUDE.md, docs/plan/PRD.md bagian "Kebutuhan non-fungsional" dan docs/plan/database.md bagian "Indeks, constraint, dan aturan integritas". Rencanakan dulu.
 
 1. Jalankan subagent tenant-auditor pada seluruh app/ dan routes/, laporkan temuan berurut tingkat keparahan, dan simpan di docs/audit-fase-12.md. Perbaiki temuan tinggi dengan tes yang membuktikannya.
-2. Audit performa dengan data uji 100 kamar serta 12 bulan tagihan dan pembayaran: periksa N+1 pada daftar utama dan dashboard, lalu tambahkan eager loading atau indeks sesuai docs/database.md.
+2. Audit performa dengan data uji 100 kamar serta 12 bulan tagihan dan pembayaran: periksa N+1 pada daftar utama dan dashboard, lalu tambahkan eager loading atau indeks sesuai docs/plan/database.md.
 3. Periksa penjadwal dan antrean: semua pekerjaan idempoten, percobaan ulang terbatas, dan pekerjaan gagal terlihat.
 4. Periksa konfigurasi produksi: APP_DEBUG=false, cookie aman, HTTPS, rate limit login dan portal, dan log yang tidak memuat data pribadi (isi KTP, token portal, nomor telepon utuh).
 5. Buat perintah artisan demo:seed yang membuat tenant demo dengan data realistis untuk mendemokan ke calon pelanggan.
@@ -853,7 +846,7 @@ Masalah yang paling mungkin muncul adalah Claude menyimpang dari skema, tes yang
 
 | Masalah | Tindakan | Prompt atau perintah |
 | --- | --- | --- |
-| Kode menyimpang dari skema | Berhenti dan minta perbandingan, jangan dilanjutkan | "Bandingkan migrasi yang baru dibuat dengan docs/database.md tabel demi tabel. Daftarkan semua perbedaan nama kolom, tipe, dan indeks. Jangan mengubah apa pun." |
+| Kode menyimpang dari skema | Berhenti dan minta perbandingan, jangan dilanjutkan | "Bandingkan migrasi yang baru dibuat dengan docs/plan/database.md tabel demi tabel. Daftarkan semua perbedaan nama kolom, tipe, dan indeks. Jangan mengubah apa pun." |
 | Tes gagal berulang | Batasi ke satu tes dan minta penyebab sebelum perbaikan | "Jalankan hanya tes \<nama>. Jelaskan penyebabnya sebelum mengubah kode. Jangan mengubah tes agar lulus kecuali tesnya yang salah, dan sebutkan alasannya." |
 | Rencana tidak sesuai | Pilih "No, keep planning" dan beri koreksi, atau tekan `Ctrl+G` untuk menyunting rencana | Sebutkan bagian yang salah dan acuannya di docs |
 | Konteks penuh atau jawaban melantur | `/compact` di tengah fase, `/clear` di antara fase; periksa dengan `/context` bahwa CLAUDE.md termuat | Lanjutkan dengan "Lanjutkan Fase N dari langkah \<nomor>" |
