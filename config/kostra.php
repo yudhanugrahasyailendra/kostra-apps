@@ -36,6 +36,12 @@ return [
         'send_window_end' => '20:00',
     ],
 
+    // Super Admin awal untuk SuperAdminSeeder. Dibaca lewat config agar tetap jalan saat config:cache.
+    'admin' => [
+        'email' => env('KOSTRA_ADMIN_EMAIL'),
+        'password' => env('KOSTRA_ADMIN_PASSWORD'),
+    ],
+
     // Masa percobaan dan tenggang langganan (PRD LGN-03).
     'subscription' => [
         'trial_days' => 14,

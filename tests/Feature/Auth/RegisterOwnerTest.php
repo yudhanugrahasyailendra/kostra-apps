@@ -63,7 +63,7 @@ class RegisterOwnerTest extends TestCase
 
     public function test_email_ganda_ditolak_dengan_pesan_indonesia(): void
     {
-        User::factory()->create(['email' => 'ada@contoh.id']);
+        User::factory()->superAdmin()->create(['email' => 'ada@contoh.id']);
 
         $this->post(route('register'), [
             'kos_name' => 'Kos X', 'name' => 'X', 'email' => 'ada@contoh.id',
@@ -91,7 +91,7 @@ class RegisterOwnerTest extends TestCase
     public function test_kegagalan_di_tengah_transaksi_membatalkan_tenant(): void
     {
         // Pengguna dengan email yang sama sudah ada: insert pengguna gagal setelah tenant dibuat.
-        User::factory()->create(['email' => 'sama@contoh.id']);
+        User::factory()->superAdmin()->create(['email' => 'sama@contoh.id']);
 
         try {
             app(RegisterOwner::class)->handle([

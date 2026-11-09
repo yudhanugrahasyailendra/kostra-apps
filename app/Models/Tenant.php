@@ -37,4 +37,16 @@ class Tenant extends Model
     {
         return $this->status === TenantStatus::Suspended;
     }
+
+    /** Tenant ditangguhkan atau ditutup hanya boleh membaca dan mengekspor (LGN-07). */
+    public function isReadOnly(): bool
+    {
+        return in_array($this->status, [TenantStatus::Suspended, TenantStatus::Closed], true);
+    }
+
+    /** Hanya tenant berstatus trial atau aktif yang boleh menambah pengguna baru. */
+    public function canAddUsers(): bool
+    {
+        return in_array($this->status, [TenantStatus::Trial, TenantStatus::Active], true);
+    }
 }

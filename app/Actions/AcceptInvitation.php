@@ -23,6 +23,16 @@ class AcceptInvitation
         );
     }
 
+    /** Undangan hanya berlaku bila belum dipakai, belum kedaluwarsa, dan tenant boleh menambah pengguna. */
+    public function isAcceptable(Invitation $invitation): bool
+    {
+        if (! $invitation->isUsable()) {
+            return false;
+        }
+
+        return Tenant::query()->find($invitation->tenant_id)?->canAddUsers() ?? false;
+    }
+
     /**
      * @param  array{name: string, email?: string|null, phone?: string|null, password: string}  $data
      */
@@ -30,7 +40,7 @@ class AcceptInvitation
     {
         $invitation = $this->find($token);
 
-        if ($invitation === null || ! $invitation->isUsable()) {
+        if ($invitation === null || ! $this->isAcceptable($invitation)) {
             throw ValidationException::withMessages(['token' => 'Undangan tidak berlaku, sudah dipakai, atau kedaluwarsa.']);
         }
 
@@ -47,8 +57,9 @@ class AcceptInvitation
 
                 $user = new User([
                     'name' => $data['name'],
-                    'email' => $data['email'] ?? $locked->email,
-                    'phone' => $data['phone'] ?? $locked->phone,
+                    // Tujuan yang disebut undangan tidak boleh diganti penerima.
+                    'email' => $locked->email ?? $data['email'] ?? null,
+                    'phone' => $locked->phone ?? $data['phone'] ?? null,
                     'password' => $data['password'],
                     'permissions' => $locked->permissions,
                 ]);

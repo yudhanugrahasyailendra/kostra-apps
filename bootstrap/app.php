@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureSuperAdmin;
 use App\Http\Middleware\EnsureTenantIsActive;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SetCurrentTenant;
@@ -19,7 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->group(base_path('routes/owner.php'));
             Route::middleware('web')->prefix('portal')->name('portal.')
                 ->group(base_path('routes/portal.php'));
-            Route::middleware('web')->prefix('admin')->name('admin.')
+            Route::middleware(['web', 'auth', 'super_admin'])->prefix('admin')->name('admin.')
                 ->group(base_path('routes/admin.php'));
         },
     )
@@ -31,6 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'tenant' => SetCurrentTenant::class,
             'tenant.active' => EnsureTenantIsActive::class,
+            'super_admin' => EnsureSuperAdmin::class,
         ]);
 
         // Tenant harus sudah ditetapkan sebelum route model binding, supaya binding terscope tenant.

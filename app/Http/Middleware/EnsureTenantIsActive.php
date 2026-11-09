@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Tenant yang ditangguhkan hanya boleh membaca dan mengekspor (LGN-07):
- * semua metode selain GET/HEAD ditolak, kecuali keluar dari akun.
+ * Tenant yang ditangguhkan atau ditutup hanya boleh membaca dan mengekspor
+ * (LGN-07): semua metode selain GET/HEAD ditolak, kecuali keluar dari akun.
+ * Tanpa tenant aktif, request ditolak (gagal tertutup).
  */
 class EnsureTenantIsActive
 {
@@ -17,8 +18,10 @@ class EnsureTenantIsActive
     {
         $tenant = app(TenantContext::class)->tenant();
 
-        if ($tenant?->isSuspended() && ! $request->isMethodSafe() && ! $request->routeIs('logout')) {
-            abort(403, 'Akun kos Anda sedang ditangguhkan. Anda masih dapat melihat dan mengekspor data.');
+        abort_if($tenant === null, 403, 'Tenant tidak ditetapkan.');
+
+        if ($tenant->isReadOnly() && ! $request->isMethodSafe() && ! $request->routeIs('logout')) {
+            abort(403, 'Akun kos Anda sedang ditangguhkan atau ditutup. Anda masih dapat melihat dan mengekspor data.');
         }
 
         return $next($request);

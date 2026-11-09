@@ -15,7 +15,7 @@ class AcceptInvitationController extends Controller
     public function show(string $token, AcceptInvitation $accept): Response
     {
         $invitation = $accept->find($token);
-        $usable = $invitation?->isUsable() ?? false;
+        $usable = $invitation !== null && $accept->isAcceptable($invitation);
 
         // Hanya kirim yang dipakai layar: tidak ada token_hash, id, atau data tenant.
         return Inertia::render('Auth/AcceptInvitation', [

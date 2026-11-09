@@ -40,7 +40,9 @@ trait Auditable
     public function auditValues(array $values): array
     {
         $exclude = array_merge(
-            ['password', 'remember_token', 'token_hash', 'updated_at'],
+            // Kolom teknis dan rahasia tidak masuk audit karena nilainya tampil di halaman log.
+            // Model baru yang punya kolom rahasia (path KTP, kunci) wajib menambahkannya di $auditExclude.
+            ['password', 'remember_token', 'token_hash', 'updated_at', 'tenant_id'],
             property_exists($this, 'auditExclude') ? $this->auditExclude : [],
         );
 

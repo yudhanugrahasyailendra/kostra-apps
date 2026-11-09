@@ -38,6 +38,12 @@ class User extends Authenticatable implements TenantExportable
         ];
     }
 
+    /** Hanya Super Admin yang boleh tanpa tenant. */
+    public function allowsNullTenant(): bool
+    {
+        return $this->role === UserRole::SuperAdmin;
+    }
+
     public function isSuperAdmin(): bool
     {
         return $this->role === UserRole::SuperAdmin;

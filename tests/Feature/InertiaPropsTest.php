@@ -25,7 +25,7 @@ class InertiaPropsTest extends TestCase
 
     public function test_props_dari_api_resource_tidak_memuat_kolom_terlarang(): void
     {
-        $user = User::factory()->create();
+        $user = User::factory()->superAdmin()->create();
 
         Route::middleware('web')->get('/_uji/props', fn () => Inertia::render('Welcome', [
             'message' => 'uji',

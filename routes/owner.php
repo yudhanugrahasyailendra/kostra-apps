@@ -18,4 +18,4 @@ Route::patch('/staf/{staff}', [StaffController::class, 'update'])->name('staff.u
 Route::delete('/staf/{staff}', [StaffController::class, 'destroy'])->name('staff.destroy');
 
 Route::get('/log-audit', [AuditLogController::class, 'index'])->name('audit.index');
-Route::get('/ekspor', DataExportController::class)->name('export');
+Route::get('/ekspor', DataExportController::class)->middleware('throttle:6,1')->name('export');

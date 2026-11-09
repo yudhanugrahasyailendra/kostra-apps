@@ -8,6 +8,7 @@ use App\Tenancy\TenantContext;
 use BackedEnum;
 use DateTimeInterface;
 use RuntimeException;
+use Throwable;
 use ZipArchive;
 
 class ExportTenantData
@@ -35,32 +36,39 @@ class ExportTenantData
 
         $csvFiles = [];
 
-        foreach ($this->registry->all() as $model) {
-            $csvPath = tempnam(sys_get_temp_dir(), 'kostra-csv-');
-            $csvFiles[] = $csvPath;
-            $handle = fopen($csvPath, 'w');
+        try {
+            foreach ($this->registry->all() as $model) {
+                $csvPath = tempnam(sys_get_temp_dir(), 'kostra-csv-');
+                $csvFiles[] = $csvPath;
+                $handle = fopen($csvPath, 'w');
 
-            // BOM agar Excel membaca UTF-8 dengan benar.
-            fwrite($handle, "\xEF\xBB\xBF");
+                // BOM agar Excel membaca UTF-8 dengan benar.
+                fwrite($handle, "\xEF\xBB\xBF");
 
-            $columns = $model::exportColumns();
-            fputcsv($handle, $columns);
+                $columns = $model::exportColumns();
+                fputcsv($handle, $columns);
 
-            // Query model memakai TenantScope sehingga hanya baris tenant ini yang terbaca.
-            $model::query()->orderBy('id')->chunkById(500, function ($rows) use ($handle, $columns): void {
-                foreach ($rows as $row) {
-                    fputcsv($handle, array_map(fn (string $column) => $this->cell($row->getAttribute($column)), $columns));
-                }
-            });
+                // Query model memakai TenantScope sehingga hanya baris tenant ini yang terbaca.
+                $model::query()->orderBy('id')->chunkById(500, function ($rows) use ($handle, $columns): void {
+                    foreach ($rows as $row) {
+                        fputcsv($handle, array_map(fn (string $column) => $this->cell($row->getAttribute($column)), $columns));
+                    }
+                });
 
-            fclose($handle);
-            $zip->addFile($csvPath, $model::exportName().'.csv');
-        }
+                fclose($handle);
+                $zip->addFile($csvPath, $model::exportName().'.csv');
+            }
 
-        $zip->close();
+            $zip->close();
+        } catch (Throwable $e) {
+            // Jangan meninggalkan berkas sementara (berisi data tenant) bila ekspor gagal.
+            @unlink($zipPath);
 
-        foreach ($csvFiles as $file) {
-            @unlink($file);
+            throw $e;
+        } finally {
+            foreach ($csvFiles as $file) {
+                @unlink($file);
+            }
         }
 
         $this->audit->record('exported_data', $tenant, null, ['tables' => count($this->registry->all())]);
@@ -70,7 +78,7 @@ class ExportTenantData
 
     private function cell(mixed $value): string
     {
-        return match (true) {
+        $text = match (true) {
             $value === null => '',
             $value instanceof BackedEnum => (string) $value->value,
             $value instanceof DateTimeInterface => $value->format(DATE_ATOM),
@@ -78,5 +86,13 @@ class ExportTenantData
             is_bool($value) => $value ? '1' : '0',
             default => (string) $value,
         };
+
+        // Cegah injeksi formula saat CSV dibuka di Excel: teks yang diawali = + - @ diberi awalan '.
+        // Angka dan nomor telepon (mis. +62812...) dibiarkan apa adanya.
+        if ($text !== '' && preg_match('/^[=+\-@\t\r]/', $text) && ! preg_match('/^[+-]?\d[\d.,\s-]*$/', $text)) {
+            return "'".$text;
+        }
+
+        return $text;
     }
 }
