@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const model = defineModel<string>({ default: '' });
+const model = defineModel<string | number>({ default: '' });
 
 withDefaults(
     defineProps<{

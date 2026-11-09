@@ -25,6 +25,7 @@ interface NavItem {
 
 const navItems = computed<NavItem[]>(() => [
     { key: 'dashboard', label: 'Dashboard', icon: 'dashboard', href: '/app', visible: true },
+    { key: 'kamar', label: 'Kamar & Properti', icon: 'meeting_room', href: '/app/kamar', visible: true },
     { key: 'laporan', label: 'Laporan Keuangan', icon: 'query_stats', href: '#', visible: !!can.value?.viewFinance },
     { key: 'staf', label: 'Staf', icon: 'badge', href: '/app/staf', visible: !!can.value?.manageStaff },
     { key: 'audit', label: 'Log Audit', icon: 'policy', href: '/app/log-audit', visible: !!can.value?.viewAudit },

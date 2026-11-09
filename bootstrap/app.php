@@ -4,6 +4,7 @@ use App\Http\Middleware\EnsureSuperAdmin;
 use App\Http\Middleware\EnsureTenantIsActive;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SetCurrentTenant;
+use App\Services\Plans\PlanLimitExceededException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -42,5 +43,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(fn () => route('owner.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Melewati batas paket bukan galat server: tampilkan sebagai galat formulir dengan tawaran naik paket.
+        $exceptions->render(function (PlanLimitExceededException $e) {
+            return back()->withErrors(['limit' => $e->getMessage()]);
+        });
     })->create();

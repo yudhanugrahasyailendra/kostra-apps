@@ -5,6 +5,9 @@ namespace App\Providers;
 use App\Enums\Permission;
 use App\Exports\TenantExportRegistry;
 use App\Models\Invitation;
+use App\Models\Property;
+use App\Models\Room;
+use App\Models\RoomType;
 use App\Models\User;
 use App\Tenancy\TenantContext;
 use App\Tenancy\TenantUserProvider;
@@ -32,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
         $registry = $this->app->make(TenantExportRegistry::class);
         $registry->register(User::class);
         $registry->register(Invitation::class);
+        $registry->register(Property::class);
+        $registry->register(RoomType::class);
+        $registry->register(Room::class);
 
         Gate::define('export-data', fn (User $user) => $user->hasPermission(Permission::DataExport));
         Gate::define('view-finance', fn (User $user) => $user->hasPermission(Permission::FinanceView));
