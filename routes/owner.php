@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Owner\AttachmentController;
 use App\Http\Controllers\Owner\AuditLogController;
+use App\Http\Controllers\Owner\BillingSettingsController;
 use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\DataExportController;
+use App\Http\Controllers\Owner\InvoiceController;
 use App\Http\Controllers\Owner\LeaseCheckOutController;
 use App\Http\Controllers\Owner\LeaseController;
 use App\Http\Controllers\Owner\LeaseRenewController;
@@ -71,3 +73,13 @@ Route::get('/kontrak/{lease}/check-out', [LeaseCheckOutController::class, 'creat
 Route::post('/kontrak/{lease}/check-out', [LeaseCheckOutController::class, 'store'])->name('leases.checkout.store');
 Route::post('/kontrak/{lease}/perpanjang', [LeaseRenewController::class, 'store'])->name('leases.renew');
 Route::post('/kontrak/{lease}/pindah-kamar', [LeaseTransferController::class, 'store'])->name('leases.transfer');
+
+Route::get('/tagihan', [InvoiceController::class, 'index'])->name('invoices.index');
+Route::get('/tagihan/baru', [InvoiceController::class, 'create'])->name('invoices.create');
+Route::post('/tagihan', [InvoiceController::class, 'store'])->name('invoices.store');
+Route::get('/tagihan/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+Route::post('/tagihan/{invoice}/penyesuaian', [InvoiceController::class, 'adjust'])->name('invoices.adjust');
+Route::post('/tagihan/{invoice}/batal', [InvoiceController::class, 'void'])->name('invoices.void');
+
+Route::get('/pengaturan/penagihan', [BillingSettingsController::class, 'show'])->name('settings.billing');
+Route::patch('/pengaturan/penagihan', [BillingSettingsController::class, 'update'])->name('settings.billing.update');

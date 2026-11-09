@@ -7,10 +7,15 @@ use App\Enums\Permission;
 use App\Exports\TenantExportRegistry;
 use App\Models\Attachment;
 use App\Models\AuditLog;
+use App\Models\BillingSetting;
 use App\Models\Invitation;
+use App\Models\Invoice;
+use App\Models\InvoiceAdjustment;
+use App\Models\InvoiceItem;
 use App\Models\Lease;
 use App\Models\LeaseDeposit;
 use App\Models\LeaseResident;
+use App\Models\NumberSequence;
 use App\Models\Plan;
 use App\Models\Property;
 use App\Models\Resident;
@@ -19,7 +24,7 @@ use App\Models\RoomTransfer;
 use App\Models\RoomType;
 use App\Models\Tenant;
 use App\Models\User;
-use App\Services\Billing\ZeroOutstandingBalance;
+use App\Services\Billing\InvoiceOutstandingBalance;
 use App\Tenancy\TenantContext;
 use App\Tenancy\TenantUserProvider;
 use Illuminate\Contracts\Foundation\Application;
@@ -36,8 +41,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->scoped(TenantContext::class);
         $this->app->singleton(TenantExportRegistry::class);
 
-        // Sementara 0 sampai tagihan ada; diganti implementasi dari invoices di Fase 5.
-        $this->app->bind(OutstandingBalance::class, ZeroOutstandingBalance::class);
+        $this->app->bind(OutstandingBalance::class, InvoiceOutstandingBalance::class);
     }
 
     public function boot(): void
@@ -63,6 +67,11 @@ class AppServiceProvider extends ServiceProvider
             'lease_resident' => LeaseResident::class,
             'lease_deposit' => LeaseDeposit::class,
             'room_transfer' => RoomTransfer::class,
+            'billing_setting' => BillingSetting::class,
+            'number_sequence' => NumberSequence::class,
+            'invoice' => Invoice::class,
+            'invoice_item' => InvoiceItem::class,
+            'invoice_adjustment' => InvoiceAdjustment::class,
         ]);
 
         // Daftar model yang boleh diekspor (NFR-12). Fase berikutnya menambah modelnya di sini.
@@ -78,6 +87,11 @@ class AppServiceProvider extends ServiceProvider
         $registry->register(LeaseResident::class);
         $registry->register(LeaseDeposit::class);
         $registry->register(RoomTransfer::class);
+        $registry->register(BillingSetting::class);
+        $registry->register(NumberSequence::class);
+        $registry->register(Invoice::class);
+        $registry->register(InvoiceItem::class);
+        $registry->register(InvoiceAdjustment::class);
 
         Gate::define('export-data', fn (User $user) => $user->hasPermission(Permission::DataExport));
         Gate::define('view-finance', fn (User $user) => $user->hasPermission(Permission::FinanceView));

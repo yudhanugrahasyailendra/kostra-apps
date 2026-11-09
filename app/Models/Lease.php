@@ -81,6 +81,12 @@ class Lease extends Model implements TenantExportable
         return $this->hasOne(LeaseDeposit::class);
     }
 
+    /** @return HasMany<Invoice, $this> */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
     /** @return HasMany<RoomTransfer, $this> */
     public function transfers(): HasMany
     {

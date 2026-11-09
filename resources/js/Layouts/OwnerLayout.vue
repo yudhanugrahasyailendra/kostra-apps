@@ -28,10 +28,11 @@ const navItems = computed<NavItem[]>(() => [
     { key: 'kamar', label: 'Kamar & Properti', icon: 'meeting_room', href: '/app/kamar', visible: true },
     { key: 'penghuni', label: 'Penghuni', icon: 'groups', href: '/app/penghuni', visible: true },
     { key: 'kontrak', label: 'Kontrak Sewa', icon: 'assignment', href: '/app/kontrak', visible: true },
+    { key: 'tagihan', label: 'Tagihan', icon: 'receipt_long', href: '/app/tagihan', visible: !!can.value?.viewFinance },
     { key: 'laporan', label: 'Laporan Keuangan', icon: 'query_stats', href: '#', visible: !!can.value?.viewFinance },
     { key: 'staf', label: 'Staf', icon: 'badge', href: '/app/staf', visible: !!can.value?.manageStaff },
     { key: 'audit', label: 'Log Audit', icon: 'policy', href: '/app/log-audit', visible: !!can.value?.viewAudit },
-    { key: 'pengaturan', label: 'Pengaturan', icon: 'settings', href: '#', visible: !!can.value?.manageSettings },
+    { key: 'pengaturan', label: 'Pengaturan', icon: 'settings', href: '/app/pengaturan/penagihan', visible: !!can.value?.manageSettings },
     { key: 'ekspor', label: 'Ekspor Data', icon: 'download', href: '/app/ekspor', visible: !!can.value?.exportData, download: true },
 ].filter((item) => item.visible));
 

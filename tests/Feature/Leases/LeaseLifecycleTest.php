@@ -20,7 +20,7 @@ use App\Models\Room;
 use App\Models\RoomTransfer;
 use App\Models\Tenant;
 use App\Models\User;
-use App\Services\Billing\ZeroOutstandingBalance;
+use App\Services\Billing\InvoiceOutstandingBalance;
 use App\Tenancy\TenantContext;
 use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Database\UniqueConstraintViolationException;
@@ -360,9 +360,9 @@ class LeaseLifecycleTest extends TestCase
         });
     }
 
-    public function test_implementasi_sementara_outstanding_balance_mengembalikan_nol(): void
+    public function test_outstanding_balance_memakai_tagihan_dan_nol_tanpa_tagihan(): void
     {
-        $this->assertInstanceOf(ZeroOutstandingBalance::class, app(OutstandingBalance::class));
+        $this->assertInstanceOf(InvoiceOutstandingBalance::class, app(OutstandingBalance::class));
 
         $lease = $this->checkIn($this->room(), $this->resident());
 

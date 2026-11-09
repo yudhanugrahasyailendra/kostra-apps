@@ -177,3 +177,42 @@ export interface SharedProps {
     };
     [key: string]: unknown;
 }
+
+export interface InvoiceData {
+    id: number;
+    number: string;
+    type: 'recurring' | 'manual';
+    type_label: string;
+    status: 'draft' | 'issued' | 'partial' | 'paid' | 'overdue' | 'void';
+    status_label: string;
+    status_tone: StatusTone;
+    property_name: string;
+    room_number: string | null;
+    lease_id: number;
+    resident_id: number;
+    resident_name: string;
+    /** Format YYYY-MM; null untuk tagihan manual. */
+    period: string | null;
+    issue_date: string;
+    due_date: string;
+    total: number;
+    paid_total: number;
+    outstanding: number;
+    can: { adjust: boolean; void: boolean };
+}
+
+export interface InvoiceDetailData extends InvoiceData {
+    period_start: string | null;
+    period_end: string | null;
+    subtotal: number;
+    adjustment_total: number;
+    notes: string | null;
+    issued_at: string | null;
+    paid_at: string | null;
+    voided_at: string | null;
+    void_reason: string | null;
+    items: { id: number; type_label: string; description: string; quantity: number; unit_price: number; amount: number }[];
+    adjustments: { id: number; amount: number; reason: string; created_by_name: string | null; created_at: string | null }[];
+    can_void_now: boolean;
+    can_adjust_now: boolean;
+}
