@@ -216,3 +216,89 @@ export interface InvoiceDetailData extends InvoiceData {
     can_void_now: boolean;
     can_adjust_now: boolean;
 }
+
+export interface PaymentAccountData {
+    id: number;
+    type: 'bank' | 'qris' | 'ewallet';
+    type_label: string;
+    property_id: number | null;
+    property_name?: string | null;
+    bank_name: string | null;
+    account_number: string | null;
+    account_name: string | null;
+    instructions: string | null;
+    is_default: boolean;
+    is_active: boolean;
+    label: string;
+}
+
+export interface PaymentData {
+    id: number;
+    receipt_number: string | null;
+    resident_id: number;
+    resident_name?: string;
+    amount: number;
+    paid_on: string;
+    method: 'cash' | 'transfer' | 'qris' | 'ewallet' | 'other';
+    method_label: string;
+    reference: string | null;
+    notes: string | null;
+    account_label?: string | null;
+    status: 'active' | 'voided';
+    status_label: string;
+    status_tone: StatusTone;
+    void_reason: string | null;
+    voided_at: string | null;
+    recorded_by_name?: string | null;
+    invoices?: { id: number; number: string | null; amount: number }[];
+    can: { void: boolean };
+}
+
+export interface AttachmentFileData {
+    id: number;
+    category: string;
+    category_label: string;
+    original_name: string;
+    mime: string;
+    size: number;
+    is_sensitive: boolean;
+    created_at: string | null;
+    /** Tautan bertanda tangan berumur pendek. */
+    url: string;
+}
+
+export interface PaymentProofData {
+    id: number;
+    invoice_id: number;
+    invoice_number?: string;
+    invoice_outstanding?: number;
+    room_number?: string | null;
+    resident_name?: string;
+    amount: number;
+    paid_on: string | null;
+    sender_note: string | null;
+    status: 'pending' | 'approved' | 'rejected';
+    status_label: string;
+    status_tone: StatusTone;
+    created_at: string;
+    age_days: number;
+    is_stale: boolean;
+    reject_reason: string | null;
+    reviewed_at: string | null;
+    payment_id: number | null;
+    file?: AttachmentFileData | null;
+    can: { review: boolean };
+}
+
+export interface PaymentMethodOption {
+    value: string;
+    label: string;
+}
+
+export interface PaginationData {
+    current_page: number;
+    last_page: number;
+    total: number;
+    prev_url: string | null;
+    next_url: string | null;
+}

@@ -29,7 +29,10 @@ const navItems = computed<NavItem[]>(() => [
     { key: 'penghuni', label: 'Penghuni', icon: 'groups', href: '/app/penghuni', visible: true },
     { key: 'kontrak', label: 'Kontrak Sewa', icon: 'assignment', href: '/app/kontrak', visible: true },
     { key: 'tagihan', label: 'Tagihan', icon: 'receipt_long', href: '/app/tagihan', visible: !!can.value?.viewFinance },
+    { key: 'pembayaran', label: 'Pembayaran', icon: 'payments', href: '/app/pembayaran', visible: !!can.value?.viewFinance },
+    { key: 'bukti', label: 'Bukti Transfer', icon: 'fact_check', href: '/app/bukti-transfer', visible: !!can.value?.viewFinance },
     { key: 'laporan', label: 'Laporan Keuangan', icon: 'query_stats', href: '#', visible: !!can.value?.viewFinance },
+    { key: 'rekening', label: 'Rekening Bayar', icon: 'account_balance', href: '/app/pengaturan/rekening', visible: !!can.value?.manageSettings },
     { key: 'staf', label: 'Staf', icon: 'badge', href: '/app/staf', visible: !!can.value?.manageStaff },
     { key: 'audit', label: 'Log Audit', icon: 'policy', href: '/app/log-audit', visible: !!can.value?.viewAudit },
     { key: 'pengaturan', label: 'Pengaturan', icon: 'settings', href: '/app/pengaturan/penagihan', visible: !!can.value?.manageSettings },
@@ -48,7 +51,7 @@ function linkClass(key: string) {
 <template>
     <div class="min-h-screen bg-bg-canvas">
         <!-- Sidebar desktop -->
-        <aside class="fixed inset-y-0 left-0 z-50 hidden w-64 flex-col justify-between bg-bg-surface shadow-low lg:flex">
+        <aside class="fixed inset-y-0 left-0 z-50 hidden w-64 print:!hidden flex-col justify-between bg-bg-surface shadow-low lg:flex">
             <div>
                 <div class="flex h-16 items-center px-space-md">
                     <div class="flex flex-col leading-tight">
@@ -101,9 +104,9 @@ function linkClass(key: string) {
             </nav>
         </Drawer>
 
-        <div class="lg:pl-64">
+        <div class="lg:pl-64 print:!pl-0">
             <header
-                class="fixed inset-x-0 top-0 z-40 flex h-16 items-center justify-between bg-bg-surface/90 px-margin shadow-low backdrop-blur-xl lg:left-64 lg:px-space-xl"
+                class="fixed inset-x-0 top-0 z-40 flex h-16 print:!hidden items-center justify-between bg-bg-surface/90 px-margin shadow-low backdrop-blur-xl lg:left-64 lg:px-space-xl"
             >
                 <div class="flex items-center gap-space-sm">
                     <button
@@ -130,7 +133,7 @@ function linkClass(key: string) {
                 </div>
             </header>
 
-            <main class="min-h-screen px-margin pb-space-lg pt-24 lg:px-space-xl">
+            <main class="min-h-screen px-margin pb-space-lg pt-24 lg:px-space-xl print:!min-h-0 print:!p-0">
                 <p
                     v-if="tenant?.suspended"
                     class="mb-space-md rounded-md border border-status-menunggu-border bg-status-menunggu-bg p-space-sm text-body-md text-status-menunggu-text"
@@ -140,12 +143,12 @@ function linkClass(key: string) {
                 </p>
                 <p
                     v-if="flash.success"
-                    class="mb-space-md rounded-md border border-status-lunas-border bg-status-lunas-bg p-space-sm text-body-md text-status-lunas-text"
+                    class="mb-space-md rounded-md border border-status-lunas-border bg-status-lunas-bg p-space-sm text-body-md text-status-lunas-text print:hidden"
                     role="status"
                 >
                     {{ flash.success }}
                 </p>
-                <h1 class="mb-space-lg text-display-lg-mobile text-text-primary lg:text-headline-lg">{{ title }}</h1>
+                <h1 class="mb-space-lg print:hidden text-display-lg-mobile text-text-primary lg:text-headline-lg">{{ title }}</h1>
                 <slot />
             </main>
         </div>

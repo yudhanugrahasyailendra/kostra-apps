@@ -3,9 +3,11 @@
 namespace App\Actions;
 
 use App\Enums\InvoiceStatus;
+use App\Enums\PaymentStatus;
 use App\Models\Invoice;
 use App\Models\InvoiceAdjustment;
 use App\Models\InvoiceItem;
+use App\Models\PaymentAllocation;
 use App\Services\Billing\BillingClock;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\DB;
@@ -69,12 +71,12 @@ class RecalculateInvoice
         };
     }
 
-    /**
-     * Jumlah alokasi dari pembayaran berstatus active. Tabel pembayaran baru ada di Fase 6, jadi
-     * sampai saat itu tidak ada uang yang teralokasi dan hasilnya 0. Fase 6 mengganti isi method ini.
-     */
+    /** Jumlah alokasi dari pembayaran berstatus active; pembayaran yang dibatalkan tidak dihitung. */
     private function paidTotal(Invoice $invoice): int
     {
-        return 0;
+        return (int) PaymentAllocation::query()
+            ->where('invoice_id', $invoice->id)
+            ->whereHas('payment', fn ($payment) => $payment->where('status', PaymentStatus::Active->value))
+            ->sum('amount');
     }
 }

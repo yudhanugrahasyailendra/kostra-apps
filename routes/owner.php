@@ -10,6 +10,9 @@ use App\Http\Controllers\Owner\LeaseCheckOutController;
 use App\Http\Controllers\Owner\LeaseController;
 use App\Http\Controllers\Owner\LeaseRenewController;
 use App\Http\Controllers\Owner\LeaseTransferController;
+use App\Http\Controllers\Owner\PaymentAccountController;
+use App\Http\Controllers\Owner\PaymentController;
+use App\Http\Controllers\Owner\PaymentProofController;
 use App\Http\Controllers\Owner\PropertyController;
 use App\Http\Controllers\Owner\ResidentController;
 use App\Http\Controllers\Owner\RoomController;
@@ -80,6 +83,22 @@ Route::post('/tagihan', [InvoiceController::class, 'store'])->name('invoices.sto
 Route::get('/tagihan/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
 Route::post('/tagihan/{invoice}/penyesuaian', [InvoiceController::class, 'adjust'])->name('invoices.adjust');
 Route::post('/tagihan/{invoice}/batal', [InvoiceController::class, 'void'])->name('invoices.void');
+
+Route::get('/pembayaran', [PaymentController::class, 'index'])->name('payments.index');
+Route::get('/pembayaran/baru', [PaymentController::class, 'create'])->name('payments.create');
+Route::post('/pembayaran', [PaymentController::class, 'store'])->name('payments.store');
+Route::get('/pembayaran/{payment}/kuitansi', [PaymentController::class, 'receipt'])->name('payments.receipt');
+Route::post('/pembayaran/{payment}/batal', [PaymentController::class, 'void'])->name('payments.void');
+
+Route::get('/bukti-transfer', [PaymentProofController::class, 'index'])->name('proofs.index');
+Route::post('/tagihan/{invoice}/bukti', [PaymentProofController::class, 'store'])
+    ->middleware('throttle:30,1')->name('invoices.proofs.store');
+Route::post('/bukti-transfer/{proof}/setujui', [PaymentProofController::class, 'approve'])->name('proofs.approve');
+Route::post('/bukti-transfer/{proof}/tolak', [PaymentProofController::class, 'reject'])->name('proofs.reject');
+
+Route::get('/pengaturan/rekening', [PaymentAccountController::class, 'index'])->name('payment-accounts.index');
+Route::post('/pengaturan/rekening', [PaymentAccountController::class, 'store'])->name('payment-accounts.store');
+Route::patch('/pengaturan/rekening/{paymentAccount}', [PaymentAccountController::class, 'update'])->name('payment-accounts.update');
 
 Route::get('/pengaturan/penagihan', [BillingSettingsController::class, 'show'])->name('settings.billing');
 Route::patch('/pengaturan/penagihan', [BillingSettingsController::class, 'update'])->name('settings.billing.update');

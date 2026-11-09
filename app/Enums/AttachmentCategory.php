@@ -10,6 +10,7 @@ enum AttachmentCategory: string
     case ComplaintPhoto = 'complaint_photo';
     case ExpenseReceipt = 'expense_receipt';
     case RoomCondition = 'room_condition';
+    case QrisImage = 'qris_image';
 
     public function label(): string
     {
@@ -20,6 +21,7 @@ enum AttachmentCategory: string
             self::ComplaintPhoto => 'Foto komplain',
             self::ExpenseReceipt => 'Nota pengeluaran',
             self::RoomCondition => 'Kondisi kamar',
+            self::QrisImage => 'Gambar QRIS',
         };
     }
 

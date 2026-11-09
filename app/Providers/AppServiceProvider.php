@@ -16,6 +16,10 @@ use App\Models\Lease;
 use App\Models\LeaseDeposit;
 use App\Models\LeaseResident;
 use App\Models\NumberSequence;
+use App\Models\Payment;
+use App\Models\PaymentAccount;
+use App\Models\PaymentAllocation;
+use App\Models\PaymentProof;
 use App\Models\Plan;
 use App\Models\Property;
 use App\Models\Resident;
@@ -72,6 +76,10 @@ class AppServiceProvider extends ServiceProvider
             'invoice' => Invoice::class,
             'invoice_item' => InvoiceItem::class,
             'invoice_adjustment' => InvoiceAdjustment::class,
+            'payment_account' => PaymentAccount::class,
+            'payment' => Payment::class,
+            'payment_allocation' => PaymentAllocation::class,
+            'payment_proof' => PaymentProof::class,
         ]);
 
         // Daftar model yang boleh diekspor (NFR-12). Fase berikutnya menambah modelnya di sini.
@@ -92,6 +100,10 @@ class AppServiceProvider extends ServiceProvider
         $registry->register(Invoice::class);
         $registry->register(InvoiceItem::class);
         $registry->register(InvoiceAdjustment::class);
+        $registry->register(PaymentAccount::class);
+        $registry->register(Payment::class);
+        $registry->register(PaymentAllocation::class);
+        $registry->register(PaymentProof::class);
 
         Gate::define('export-data', fn (User $user) => $user->hasPermission(Permission::DataExport));
         Gate::define('view-finance', fn (User $user) => $user->hasPermission(Permission::FinanceView));

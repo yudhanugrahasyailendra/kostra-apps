@@ -33,10 +33,16 @@ class GenerateInvoiceNumber
         return sprintf('%s-%s-%04d', $prefix, $period, $sequence->last_number);
     }
 
+    /** Kunci urutan di number_sequences; subkelas untuk dokumen lain menggantinya. */
+    protected function key(): string
+    {
+        return self::KEY;
+    }
+
     private function lockedSequence(string $period): NumberSequence
     {
         $find = fn () => NumberSequence::query()
-            ->where('key', self::KEY)->where('period', $period)
+            ->where('key', $this->key())->where('period', $period)
             ->lockForUpdate()->first();
 
         if ($sequence = $find()) {
@@ -45,7 +51,7 @@ class GenerateInvoiceNumber
 
         try {
             // Savepoint: bentrok unique tidak boleh merusak transaksi pemanggil.
-            return DB::transaction(fn () => NumberSequence::create(['key' => self::KEY, 'period' => $period, 'last_number' => 0]));
+            return DB::transaction(fn () => NumberSequence::create(['key' => $this->key(), 'period' => $period, 'last_number' => 0]));
         } catch (UniqueConstraintViolationException) {
             // Proses lain membuat barisnya lebih dulu; kunci baris miliknya.
             return $find() ?? throw new RuntimeException('Urutan nomor tidak dapat dikunci.');

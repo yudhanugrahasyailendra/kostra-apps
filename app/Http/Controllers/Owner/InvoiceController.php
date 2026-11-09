@@ -13,8 +13,12 @@ use App\Http\Requests\Owner\ManualInvoiceRequest;
 use App\Http\Requests\Owner\VoidInvoiceRequest;
 use App\Http\Resources\InvoiceDetailResource;
 use App\Http\Resources\InvoiceResource;
+use App\Http\Resources\PaymentProofResource;
+use App\Http\Resources\PaymentResource;
 use App\Models\Invoice;
 use App\Models\Lease;
+use App\Models\Payment;
+use App\Models\PaymentProof;
 use App\Models\Property;
 use App\Services\Billing\BillingClock;
 use Illuminate\Database\Eloquent\Builder;
@@ -129,8 +133,21 @@ class InvoiceController extends Controller
 
         $invoice->load(['property', 'lease.room', 'resident', 'items', 'adjustments.creator']);
 
+        // Riwayat pembayaran tagihan ini (termasuk yang dibatalkan) lewat alokasinya.
+        $payments = Payment::query()
+            ->whereHas('allocations', fn ($allocation) => $allocation->where('invoice_id', $invoice->id))
+            ->with(['resident', 'account', 'recorder', 'allocations.invoice'])
+            ->orderByDesc('paid_on')->orderByDesc('id')->get();
+
+        $proofs = PaymentProof::query()->where('invoice_id', $invoice->id)
+            ->with(['invoice.lease.room', 'resident', 'attachments'])->orderByDesc('id')->get();
+
         return Inertia::render('Owner/Invoices/Show', [
             'invoice' => (new InvoiceDetailResource($invoice))->resolve(),
+            'payments' => PaymentResource::collection($payments)->resolve(),
+            'proofs' => PaymentProofResource::collection($proofs)->resolve(),
+            'can_pay' => $invoice->status->isOpen() && $request->user()->can('create', Payment::class),
+            'can_submit_proof' => $invoice->status->isOpen() && $request->user()->can('create', PaymentProof::class),
         ]);
     }
 

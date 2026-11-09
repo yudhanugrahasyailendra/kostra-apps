@@ -17,7 +17,8 @@ class AttachmentPolicy
     {
         return $user->tenant_id !== null
             && $attachment->tenant_id === $user->tenant_id
-            && $this->mayHandle($user, $attachment->is_sensitive);
+            && $this->mayHandle($user, $attachment->is_sensitive)
+            && $this->mayHandleFinance($user, $attachment->category);
     }
 
     public function create(User $user, AttachmentCategory $category): bool
@@ -28,6 +29,12 @@ class AttachmentPolicy
     public function delete(User $user, Attachment $attachment): bool
     {
         return $this->view($user, $attachment);
+    }
+
+    /** Bukti transfer adalah data keuangan: butuh izin keuangan seperti halaman pembayaran. */
+    private function mayHandleFinance(User $user, AttachmentCategory $category): bool
+    {
+        return $category !== AttachmentCategory::TransferProof || $user->hasPermission(Permission::FinanceView);
     }
 
     private function mayHandle(User $user, bool $sensitive): bool
