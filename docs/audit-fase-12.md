@@ -48,7 +48,7 @@ Yang diperiksa dan lolos:
 
 ## 2. Performa (NFR-05)
 
-Tes `tests/Feature/Hardening/PerformanceTest.php` (grup `performance`) membuat tenant 100 kamar, 12 bulan tagihan, 90% hunian (lebih dari 900 tagihan dan ratusan pembayaran) lewat `DemoTenantBuilder`, lalu mengukur setiap halaman utama sebagai pemilik. Batas: kurang dari 60 query dan kurang dari 2000 ms per halaman.
+Tes `tests/Feature/Hardening/PerformanceTest.php` (grup `performance`, dikecualikan dari default karena ±100 detik; jalankan `php artisan test --group=performance` sebelum rilis) membuat tenant 100 kamar, 12 bulan tagihan, 90% hunian (lebih dari 900 tagihan dan ratusan pembayaran) lewat `DemoTenantBuilder`, lalu mengukur setiap halaman utama sebagai pemilik. Batas: kurang dari 60 query dan kurang dari 2000 ms per halaman.
 
 | Halaman | Query | Waktu (ms) |
 | --- | --- | --- |
