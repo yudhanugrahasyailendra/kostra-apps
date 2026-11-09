@@ -10,12 +10,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\ImportResidentsRequest;
 use App\Http\Requests\Owner\ResidentRequest;
 use App\Http\Resources\AttachmentResource;
+use App\Http\Resources\LeaseResource;
 use App\Http\Resources\ResidentDetailResource;
 use App\Http\Resources\ResidentResource;
 use App\Models\Attachment;
+use App\Models\Lease;
+use App\Models\LeaseResident;
 use App\Models\Resident;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -86,9 +90,17 @@ class ResidentController extends Controller
             ->filter(fn (Attachment $attachment) => $user->can('view', $attachment))
             ->values();
 
+        // Riwayat kontrak (aktif lebih dulu, lalu yang terbaru).
+        $leases = Lease::query()
+            ->whereHas('leaseResidents', fn ($q) => $q->where('resident_id', $resident->id))
+            ->with(['room', 'property', 'primaryResident', 'deposit'])
+            ->orderByRaw("status = 'active' desc")->orderByDesc('start_date')->orderByDesc('id')
+            ->get();
+
         return Inertia::render('Owner/Residents/Show', [
             'resident' => (new ResidentDetailResource($resident))->resolve(),
             'attachments' => AttachmentResource::collection($attachments)->resolve(),
+            'leases' => LeaseResource::collection($leases)->resolve(),
             'categories' => array_map(fn (AttachmentCategory $c) => ['value' => $c->value, 'label' => $c->label()], AttachmentCategory::forResident()),
             'can' => [
                 'update' => $user->can('update', $resident),
@@ -116,7 +128,10 @@ class ResidentController extends Controller
     {
         $this->authorize('delete', $resident);
 
-        // Penghuni dengan kontrak aktif tidak boleh dihapus; pemeriksaannya ditambahkan di Fase 4.
+        if (LeaseResident::query()->where('resident_id', $resident->id)->whereHas('lease', fn ($q) => $q->active())->exists()) {
+            throw ValidationException::withMessages(['resident' => 'Penghuni masih punya kontrak aktif. Check-out lebih dulu.']);
+        }
+
         $delete->handle($resident);
 
         return redirect()->route('owner.residents.index')->with('success', 'Penghuni dihapus.');

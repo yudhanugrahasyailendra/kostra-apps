@@ -4,6 +4,10 @@ use App\Http\Controllers\Owner\AttachmentController;
 use App\Http\Controllers\Owner\AuditLogController;
 use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\DataExportController;
+use App\Http\Controllers\Owner\LeaseCheckOutController;
+use App\Http\Controllers\Owner\LeaseController;
+use App\Http\Controllers\Owner\LeaseRenewController;
+use App\Http\Controllers\Owner\LeaseTransferController;
 use App\Http\Controllers\Owner\PropertyController;
 use App\Http\Controllers\Owner\ResidentController;
 use App\Http\Controllers\Owner\RoomController;
@@ -58,3 +62,12 @@ Route::get('/tipe-kamar', [RoomTypeController::class, 'index'])->name('room-type
 Route::post('/tipe-kamar', [RoomTypeController::class, 'store'])->name('room-types.store');
 Route::patch('/tipe-kamar/{roomType}', [RoomTypeController::class, 'update'])->name('room-types.update');
 Route::delete('/tipe-kamar/{roomType}', [RoomTypeController::class, 'destroy'])->name('room-types.destroy');
+
+Route::get('/kontrak', [LeaseController::class, 'index'])->name('leases.index');
+Route::get('/kontrak/baru', [LeaseController::class, 'create'])->name('leases.create');
+Route::post('/kontrak', [LeaseController::class, 'store'])->name('leases.store');
+Route::get('/kontrak/{lease}', [LeaseController::class, 'show'])->name('leases.show');
+Route::get('/kontrak/{lease}/check-out', [LeaseCheckOutController::class, 'create'])->name('leases.checkout.create');
+Route::post('/kontrak/{lease}/check-out', [LeaseCheckOutController::class, 'store'])->name('leases.checkout.store');
+Route::post('/kontrak/{lease}/perpanjang', [LeaseRenewController::class, 'store'])->name('leases.renew');
+Route::post('/kontrak/{lease}/pindah-kamar', [LeaseTransferController::class, 'store'])->name('leases.transfer');

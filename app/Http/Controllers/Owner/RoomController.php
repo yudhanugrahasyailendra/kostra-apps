@@ -13,12 +13,14 @@ use App\Http\Requests\Owner\RoomRequest;
 use App\Http\Resources\PropertyResource;
 use App\Http\Resources\RoomResource;
 use App\Http\Resources\RoomTypeResource;
+use App\Models\Lease;
 use App\Models\Property;
 use App\Models\Room;
 use App\Models\RoomType;
 use App\Services\Plans\PlanLimits;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -107,7 +109,14 @@ class RoomController extends Controller
 
     public function update(RoomRequest $request, Room $room): RedirectResponse
     {
-        $room->update($request->validated());
+        $data = $request->validated();
+
+        // Status kamar terisi ditentukan kontrak aktif (check-out/pindah kamar), bukan form ini.
+        if ($room->status === RoomStatus::Occupied) {
+            unset($data['status']);
+        }
+
+        $room->update($data);
 
         return back()->with('success', 'Kamar diperbarui.');
     }
@@ -116,7 +125,10 @@ class RoomController extends Controller
     {
         $this->authorize('delete', $room);
 
-        // Kamar dengan kontrak aktif tidak boleh dihapus; pemeriksaannya ditambahkan di Fase 4.
+        if (Lease::query()->active()->where('room_id', $room->id)->exists()) {
+            throw ValidationException::withMessages(['room' => 'Kamar masih punya kontrak aktif. Check-out penghuni lebih dulu.']);
+        }
+
         $room->delete();
 
         return back()->with('success', 'Kamar dihapus.');

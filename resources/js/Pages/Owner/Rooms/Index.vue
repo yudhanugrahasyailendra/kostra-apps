@@ -61,6 +61,7 @@ const counts = computed(() => ({
 // Tambah dan ubah satu kamar
 const roomModal = ref(false);
 const editingId = ref<number | null>(null);
+const editingOccupied = computed(() => props.rooms.some((room) => room.id === editingId.value && room.status === 'occupied'));
 const roomForm = useForm({ property_id: '' as string | number, room_type_id: '' as string | number, number: '', floor: '' as string | number, price: '' as string | number, status: 'vacant', notes: '' });
 
 function openCreate() {
@@ -216,7 +217,10 @@ function saveImport() {
                 <SelectField v-model="roomForm.room_type_id" label="Tipe" placeholder="Tanpa tipe" :options="typeOptions" :error="roomForm.errors.room_type_id" />
                 <TextField v-model="roomForm.floor" label="Lantai" type="number" :error="roomForm.errors.floor" />
                 <TextField v-model="roomForm.price" label="Harga per bulan (Rp)" type="number" :error="roomForm.errors.price" hint="Kosong = ikut harga dasar tipe." />
-                <SelectField v-model="roomForm.status" label="Status" :options="manualStatusOptions" :error="roomForm.errors.status" />
+                <p v-if="editingOccupied" class="rounded-md border border-border-subtle bg-bg-subtle p-space-sm text-body-sm text-text-secondary">
+                    Kamar ini terisi oleh kontrak aktif. Status berubah lewat check-out atau pindah kamar.
+                </p>
+                <SelectField v-else v-model="roomForm.status" label="Status" :options="manualStatusOptions" :error="roomForm.errors.status" />
                 <div class="sm:col-span-2"><TextField v-model="roomForm.notes" label="Catatan" :error="roomForm.errors.notes" /></div>
             </form>
             <template #footer>

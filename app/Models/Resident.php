@@ -8,6 +8,7 @@ use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\ResidentFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -38,6 +39,12 @@ class Resident extends Model implements TenantExportable
     public function attachments(): MorphMany
     {
         return $this->morphMany(Attachment::class, 'attachable');
+    }
+
+    /** @return HasMany<LeaseResident, $this> */
+    public function leaseResidents(): HasMany
+    {
+        return $this->hasMany(LeaseResident::class);
     }
 
     public static function exportName(): string

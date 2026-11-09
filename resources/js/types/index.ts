@@ -92,6 +92,62 @@ export interface AttachmentData {
     url: string;
 }
 
+export interface LeaseDepositSummary {
+    amount: number;
+    status: 'pending' | 'held' | 'refunded' | 'partially_refunded' | 'forfeited';
+    status_label: string;
+    status_tone: StatusTone;
+}
+
+export interface LeaseData {
+    id: number;
+    status: 'active' | 'ended' | 'canceled';
+    status_label: string;
+    status_tone: StatusTone;
+    room_id: number;
+    room_number: string;
+    property_name: string;
+    primary_resident_id: number;
+    primary_resident_name: string;
+    start_date: string;
+    end_date: string | null;
+    days_remaining: number | null;
+    is_overdue: boolean;
+    expires_soon: boolean;
+    rent_amount: number;
+    due_day: number | null;
+    ended_reason_label: string | null;
+    deposit: LeaseDepositSummary | null;
+    can: { check_out: boolean; renew: boolean; transfer: boolean };
+}
+
+export interface LeaseDetailData extends LeaseData {
+    billing_cycle_label: string;
+    checked_in_at: string | null;
+    checkin_notes: string | null;
+    checked_out_at: string | null;
+    checkout_notes: string | null;
+    notes: string | null;
+    renewed_from_lease_id: number | null;
+    residents: { id: number; name: string; phone: string; is_primary: boolean }[];
+    deposit_detail: {
+        amount: number;
+        received_at: string | null;
+        deduction_amount: number;
+        deduction_note: string | null;
+        refund_amount: number;
+        refunded_at: string | null;
+    } | null;
+    transfers: {
+        id: number;
+        from_room_number: string;
+        to_room_number: string;
+        transferred_on: string;
+        new_rent_amount: number | null;
+        reason: string | null;
+    }[];
+}
+
 export interface ResidentImportResult {
     created: number;
     failures: { row: number; name: string; reason: string }[];

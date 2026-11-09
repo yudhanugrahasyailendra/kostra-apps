@@ -8,12 +8,15 @@ import ResidentForm, { type ResidentFormData } from '@/Components/ResidentForm.v
 import SelectField from '@/Components/SelectField.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import OwnerLayout from '@/Layouts/OwnerLayout.vue';
+import { formatDate as formatDay } from '@/lib/formatDate';
 import { formatPhone, whatsappLink } from '@/lib/formatPhone';
-import type { AttachmentData, ResidentDetailData } from '@/types';
+import { formatRupiah } from '@/lib/formatRupiah';
+import type { AttachmentData, LeaseData, ResidentDetailData } from '@/types';
 
 const props = defineProps<{
     resident: ResidentDetailData;
     attachments: AttachmentData[];
+    leases: LeaseData[];
     categories: { value: string; label: string }[];
     can: { update: boolean; delete: boolean; upload_sensitive: boolean };
 }>();
@@ -166,6 +169,32 @@ function removeAttachment(attachment: AttachmentData) {
                 </form>
             </Panel>
         </div>
+
+        <Panel title="Riwayat kontrak" class="mt-space-lg">
+            <p v-if="leases.length === 0" class="text-body-md text-text-secondary">
+                Belum ada kontrak.
+                <Link v-if="resident.is_active" :href="`/app/kontrak/baru?resident_id=${resident.id}`" class="text-primary-container underline">Check-in ke kamar kosong</Link>
+            </p>
+            <ul v-else class="divide-y divide-border-subtle">
+                <li v-for="lease in leases" :key="lease.id" class="flex flex-wrap items-center justify-between gap-space-sm py-space-sm">
+                    <div class="min-w-0">
+                        <p class="text-title-md text-text-primary">
+                            <Link :href="`/app/kontrak/${lease.id}`" class="text-primary-container hover:underline">Kamar {{ lease.room_number }}</Link>
+                            <span class="text-body-sm text-text-secondary"> &middot; {{ lease.property_name }}</span>
+                        </p>
+                        <p class="text-body-sm text-text-secondary">
+                            {{ formatDay(lease.start_date, 'short') }} &ndash; {{ lease.end_date ? formatDay(lease.end_date, 'short') : 'tanpa akhir' }}
+                            &middot; {{ formatRupiah(lease.rent_amount) }} / bln
+                            <template v-if="lease.primary_resident_id !== resident.id"> &middot; ikut kontrak {{ lease.primary_resident_name }}</template>
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-space-xs">
+                        <StatusBadge :tone="lease.status_tone" :label="lease.status_label" />
+                        <StatusBadge v-if="lease.is_overdue" tone="jatuh-tempo" label="Lewat masa sewa" />
+                    </div>
+                </li>
+            </ul>
+        </Panel>
 
         <Modal :show="editOpen" title="Ubah data penghuni" @close="editOpen = false">
             <ResidentForm id="resident-edit-form" :form="editForm" :consent-recorded="resident.consented_at !== null" @submit="saveEdit" />
