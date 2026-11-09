@@ -619,7 +619,7 @@ Seeder yang dibutuhkan sejak awal: PlanSeeder (empat paket), template pesan sist
 
 ### Pertanyaan terbuka
 
-- [ ] MySQL 8 atau PostgreSQL? Desain ini berjalan di keduanya; PostgreSQL unggul untuk json dan laporan, MySQL lebih umum di hosting murah.
+- [x] MySQL 8 (diputuskan 2026-11). Sebelumnya: MySQL 8 atau PostgreSQL? Desain ini berjalan di keduanya; PostgreSQL unggul untuk json dan laporan, MySQL lebih umum di hosting murah.
 - [ ] Kelebihan bayar ditolak (seperti sekarang) atau dicatat sebagai saldo penghuni?
 - [ ] Boleh satu penghuni memiliki dua kontrak aktif di kamar berbeda? Desain sekarang mengizinkan, karena batasan hanya per kamar.
 - [ ] Tipe kamar dikelola per properti atau satu daftar untuk seluruh tenant? Sekarang opsional per properti.

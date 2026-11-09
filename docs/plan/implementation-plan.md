@@ -260,7 +260,7 @@ Fase 7 dan 11 tidak menjadi prasyarat fase lain, jadi boleh digeser ke akhir bil
 
 Fase 0 menyiapkan proyek Laravel 12 yang bisa diuji, dengan keputusan teknis yang tidak boleh berubah di tengah jalan: database, UI, kerangka tes, antrean, dan penyimpanan berkas.
 
-**Prasyarat**: PHP dan Composer sesuai syarat Laravel 12 (lihat `composer.json`), Node.js untuk Vite, MySQL 8 atau PostgreSQL yang berjalan, repo git, dan persiapan di bagian 2 selesai.
+**Prasyarat**: PHP dan Composer sesuai syarat Laravel 12 (lihat `composer.json`), Node.js untuk Vite, MySQL 8 yang berjalan, repo git, dan persiapan di bagian 2 selesai.
 
 **Mockup**: `dashboard_ringkasan_pemilik` untuk kerangka (bagian 2.6). Tulis token dari `docs/plan/DESIGN.md` ke `resources/css/app.css`, pasang font Inter, Plus Jakarta Sans, dan Material Symbols, lalu bangun `OwnerLayout.vue`, `GuestLayout.vue`, dan komponen dasar (`Button`, `StatusBadge`, `Panel`, `Modal`, `Drawer`) dari kerangka mockup.
 
@@ -268,7 +268,7 @@ Fase 0 menyiapkan proyek Laravel 12 yang bisa diuji, dengan keputusan teknis yan
 
 | Keputusan | Rekomendasi | Alasan |
 | --- | --- | --- |
-| Database | Pilih satu (MySQL 8 atau PostgreSQL) dan samakan dengan produksi | Desain berjalan di keduanya; jangan campur |
+| Database | **MySQL 8** (diputuskan), sama dengan produksi dan dipakai juga untuk tes | Tes memakai mesin yang sama dengan produksi; jangan campur |
 | Frontend | Inertia, Vue 3, TypeScript, Tailwind v4. Proyek yang ada dikonversi ke TypeScript di Fase 0 (bukan memasang ulang starter kit). Periksa versi saat dipasang | Satu kerangka untuk panel, portal, dan admin. Keputusan sudah diambil (`ARCHITECTURE.md`) |
 | Autentikasi | Pakai yang dibawa starter kit untuk masuk, daftar, dan reset sandi; masuk dengan OTP WhatsApp dibuat sendiri di Fase 1 | Jangan menulis ulang yang sudah ada |
 | Komponen UI | Komponen sendiri yang mengikuti `app.css`; bila starter kit membawa shadcn-vue, selaraskan tokennya, jangan dua sistem warna | Satu sistem desain |
@@ -284,7 +284,7 @@ Kita memulai Fase 0 proyek Kostra (lihat CLAUDE.md dan docs/plan/implementation-
 Jangan memasang paket apa pun sebelum saya menyetujui rencananya.
 
 1. Periksa proyek ini: versi PHP dan Laravel, kerangka tes, isi composer.json dan package.json, dan .env.example.
-2. Usulkan rencana untuk: koneksi database (saya memakai <MySQL atau PostgreSQL>), antrean dan sesi berbasis database, disk privat untuk lampiran, zona waktu aplikasi UTC dengan tampilan Asia/Makassar, Pint, dan CI sederhana yang menjalankan tes.
+2. Usulkan rencana untuk: koneksi database (saya memakai MySQL 8), antrean dan sesi berbasis database, disk privat untuk lampiran, zona waktu aplikasi UTC dengan tampilan Asia/Makassar, Pint, dan CI sederhana yang menjalankan tes.
 3. Usulkan folder app/Actions, app/Enums, app/Services, app/Models/Concerns, serta routes/owner.php, routes/portal.php, routes/admin.php yang didaftarkan di bootstrap/app.php lewat parameter `then` pada withRouting.
 4. Buat config/kostra.php berisi batas paket bawaan dan nilai bawaan penagihan (hari terbit, hari jatuh tempo, jam kirim pesan).
 5. Pastikan `php artisan test` hijau pada proyek kosong.

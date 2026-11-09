@@ -42,7 +42,7 @@ Empat permukaan, satu basis kode. Pemisahannya lewat file route, middleware, dan
 | Bahasa dan kerangka | PHP, Laravel 12 | |
 | Tampilan | Inertia.js, Vue 3, TypeScript, Tailwind CSS v4, Vite | Starter kit Laravel 12 Vue. Token di `resources/css/app.css`. **Diputuskan** (menggantikan Blade, Livewire, dan Filament) |
 | Komponen UI | Komponen Vue sendiri; shadcn-vue bila ikut starter kit | Dibungkus supaya mengikuti token `app.css` |
-| Database | MySQL 8 atau PostgreSQL | **Terbuka**. Skema ditulis netral |
+| Database | MySQL 8 | **Diputuskan** (2026-11). Skema ditulis netral dan tetap berjalan di PostgreSQL |
 | Antrean dan cache | Database atau Redis | **Terbuka**. Mulai dengan database queue |
 | Berkas | Disk privat lokal, bisa pindah ke S3 kompatibel | Lewat `Storage` |
 | Tes | Pest atau PHPUnit | **Terbuka**, ikuti yang dipasang skeleton |
@@ -231,7 +231,7 @@ Satu tabel polimorfik `attachments`, disk privat, tanpa URL publik. Penyajian le
 
 | # | Keputusan | Pilihan | Kapan diputuskan |
 | --- | --- | --- | --- |
-| 1 | Mesin database | MySQL 8 atau PostgreSQL | Fase 0 |
+| 1 | Mesin database | **Diputuskan:** MySQL 8 | Selesai |
 | 2 | Panel pemilik | **Diputuskan:** Laravel + Inertia + Vue 3 (TypeScript) | Selesai |
 | 3 | Penyedia WhatsApp dan tarif | Resmi (Cloud API) atau lewat penyedia pihak ketiga | Sebelum fase 9 |
 | 4 | Foto KTP wajib atau opsional pada pilot | Opsional per kebijakan pemilik | Sebelum fase 3 |
@@ -268,3 +268,4 @@ Belum diputuskan (keputusan 6). Kebutuhan minimum: PHP-FPM atau setara, worker a
 | 2026-10 | DESIGN.md (Stitch) menjadi sumber desain, menggantikan palet navy dan kuningan di mockup awal | Satu sumber visual yang konsisten |
 | 2026-11 | Antarmuka memakai palet `DESIGN.md`, bukan warna logo | Mockup dan aturan UI sudah memakai palet itu; logo dipertahankan apa adanya |
 | 2026-11 | Frontend yang ada dikonversi ke TypeScript di Fase 0, tanpa memasang ulang starter kit | Struktur Inertia dan Vue sudah ada; konversi lebih kecil risikonya |
+| 2026-11 | Database memakai MySQL 8 | Lebih umum di hosting murah; skema netral dan tes memakai MySQL yang sama dengan produksi |
