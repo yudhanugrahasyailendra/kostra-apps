@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#d3daea","error-container":"#ffdad6","on-primary":"#ffffff","on-primary-fixed":"#00201f","on-secondary-container":"#6f4b00","bg-subtle":"#F4F5F6","on-tertiary-container":"#b6c6d0","surface-container-low":"#f0f3ff","status-kosong-border":"#E5E7EB","primary-fixed-dim":"#91d2ce","error":"#ba1a1a","status-kosong-text":"#374151","secondary-fixed-dim":"#fdba45","surface-bright":"#f9f9ff","status-jatuh-tempo-text":"#9F1239","secondary-fixed":"#ffdeae","status-lunas-border":"#A7F3D0","border-subtle":"#E5E7EB","bg-surface":"#FFFFFF","inverse-primary":"#91d2ce","status-kosong-bg":"#F3F4F6","surface-container-highest":"#dce2f3","on-error-container":"#93000a","on-background":"#151c27","surface-container-high":"#e2e8f8","on-surface":"#151c27","status-jatuh-tempo-bg":"#FFE4E6","surface-tint":"#246865","tertiary-container":"#44535b","status-menunggu-text":"#92400E","on-tertiary-fixed-variant":"#3a4951","tertiary-fixed":"#d5e5ef","primary-fixed":"#adefea","primary":"#00413f","background":"#f9f9ff","bg-canvas":"#FBFBFA","text-primary":"#111827","surface":"#f9f9ff","status-lunas-text":"#065F46","secondary":"#7f5700","status-menunggu-border":"#FDE68A","on-tertiary-fixed":"#0e1d25","text-muted":"#9CA3AF","tertiary-fixed-dim":"#b9c9d3","on-secondary":"#ffffff","on-secondary-fixed":"#281900","surface-container":"#e7eefe","on-surface-variant":"#3f4948","status-menunggu-bg":"#FEF3C7","inverse-surface":"#2a313d","on-tertiary":"#ffffff","outline-variant":"#bfc8c7","tertiary":"#2d3c44","on-primary-container":"#8ecfcb","text-secondary":"#4B5563","outline":"#6f7978","surface-variant":"#dce2f3","primary-container":"#0f5a57","surface-container-lowest":"#ffffff","secondary-container":"#fdba45","on-primary-fixed-variant":"#00504d","border-strong":"#D1D5DB","status-jatuh-tempo-border":"#FECDD3","on-secondary-fixed-variant":"#604100","status-lunas-bg":"#ECFDF5","inverse-on-surface":"#ebf1ff","on-error":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem","space-sm":"0.5rem","margin-desktop":"2rem","space-xl":"2rem",gutter:"1rem","margin-tablet":"1.5rem",margin:"1rem","gutter-desktop":"1.5rem","space-xs":"0.25rem","space-2xl":"3rem","space-md":"1rem"},fontFamily:{"label-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"currency-display":["Plus Jakarta Sans"],"title-lg":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"]},fontSize:{"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["18px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"600"}],"headline-md":["22px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"currency-display":["24px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"700"}],"title-lg":["16px",{lineHeight:"22px",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.03em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"label-lg":["14px",{lineHeight:"20px",fontWeight:"500"}],"display-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"title-md":["14px",{lineHeight:"20px",fontWeight:"600"}]}}}};</script></head><body class="bg-bg-canvas font-body-md text-on-surface min-h-screen"><aside class="fixed left-0 top-0 h-full w-64 bg-bg-surface shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col flex-1"><div class="h-16 flex items-center gap-space-sm px-space-lg"><img alt="Logo Kostra (Kost Rapi).png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WlJH1me34_SrxIFcCEQ0-WUDGMbqvnP81oELSrlla7KjucDYKhED42IM9RIYvplM7RsEHNxf_anGCfLZM0o_WujGeHmYWJpx5NoO_boiSUR6Qw7JNul2Fm23TU7CRWRt-z7fbh7ecPuRmhB6-RaHCVJ3d0OLZeuVWWoUS36agPGgS8_caV2GS1MiQJ0KQ-INKhfFkYif_Y0oJsH5-dR7CEPiG2yM_F3kS3hK_rmUJhO7_pXGHgbXhGGSZo"/><div class="flex flex-col"><span class="font-title-lg text-title-lg text-primary tracking-tight leading-none">Kostra</span><span class="font-label-sm text-label-sm text-text-muted leading-tight">Kost Rapi SaaS</span></div></div><div class="px-space-md py-space-sm"><div class="bg-bg-subtle rounded-lg p-space-sm flex items-center justify-between"><div class="flex items-center gap-space-sm overflow-hidden"><span class="material-symbols-outlined text-primary text-[20px]">apartment</span><div class="flex flex-col min-w-0"><span class="font-label-md text-label-md text-on-surface truncate">Kost Griya Utama</span><span class="font-body-sm text-body-sm text-text-muted truncate">Jakarta Selatan</span></div></div><span class="material-symbols-outlined text-text-muted text-[18px]">unfold_more</span></div></div><div class="px-space-md mt-space-sm mb-space-xs"><span class="font-label-sm text-label-sm text-text-muted uppercase px-space-sm">Manajemen Kost</span></div><nav class="flex-1 px-space-md flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="ringkasan" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span class="font-label-lg text-label-lg">Ringkasan</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="kamar-dan-unit" href="#"><span class="material-symbols-outlined text-[20px]">meeting_room</span><span class="font-label-lg text-label-lg">Kamar &amp; Unit</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="penghuni" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-lg text-label-lg">Penghuni</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="tagihan-dan-pembayaran" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-label-lg text-label-lg">Tagihan &amp; Invoice</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="siaran-whatsapp" href="#"><span class="material-symbols-outlined text-[20px]">chat</span><span class="font-label-lg text-label-lg">WhatsApp Tagihan</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="laporan-keuangan" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span class="font-label-lg text-label-lg">Laporan Arus Kas</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg transition-all bg-primary-container text-on-primary font-title-md" data-path="pengaturan-kost" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-label-lg text-label-lg">Pengaturan Kost</span></a></nav></div><div class="p-space-md m-space-md rounded-xl bg-status-menunggu-bg flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-md text-label-md text-status-menunggu-text">Paket Juragan</span><span class="font-label-sm text-label-sm text-status-menunggu-text uppercase font-bold">Aktif</span></div><p class="font-body-sm text-body-sm text-status-menunggu-text">18/24 Kamar Terisi</p></div></aside><div class="pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-64 right-0 h-16 bg-bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><img alt="Logo Kostra (Kost Rapi).png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WlJH1me34_SrxIFcCEQ0-WUDGMbqvnP81oELSrlla7KjucDYKhED42IM9RIYvplM7RsEHNxf_anGCfLZM0o_WujGeHmYWJpx5NoO_boiSUR6Qw7JNul2Fm23TU7CRWRt-z7fbh7ecPuRmhB6-RaHCVJ3d0OLZeuVWWoUS36agPGgS8_caV2GS1MiQJ0KQ-INKhfFkYif_Y0oJsH5-dR7CEPiG2yM_F3kS3hK_rmUJhO7_pXGHgbXhGGSZo"/><span class="font-title-lg text-title-lg text-primary hidden sm:inline-block">Kostra</span><div class="hidden md:flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>Online Sync</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-bg-subtle text-text-secondary"><span class="material-symbols-outlined text-[18px] text-primary">sms</span><span class="font-label-sm text-label-sm text-text-primary">142 / 200 WA Quota</span></div><button class="relative p-space-xs rounded-full text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span></button><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden lg:flex flex-col"><span class="font-label-md text-label-md text-on-surface leading-tight">Pak Budi Santoso</span><span class="font-body-sm text-body-sm text-text-muted leading-tight">Pemilik Kost</span></div></div></div></header><main class="relative pt-16 w-full px-space-lg bg-bg-canvas flex-1"><div class="flex flex-col w-full pb-space-2xl">
+<!-- Top Section: Header & Quick Actions -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-md mb-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm tracking-wide uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          MODUL FONDASI &amp; KEAMANAN • FND-06 • KEPATUHAN PDP
+        </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+          ISO 27001 • NFR-02
+        </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">
+        Log Audit Aktivitas &amp; Kepatuhan Keamanan
+      </h1>
+<p class="font-body-md text-body-md text-text-secondary max-w-3xl">
+        Catatan digital permanen anti-manipulasi terhadap perubahan harga sewa, penghapusan data, akses KTP berenkripsi, mutasi pembayaran, dan aktivitas staf kos.
+      </p>
+</div>
+<!-- Actions -->
+<div class="flex flex-wrap items-center gap-space-sm self-start lg:self-center">
+<button class="flex items-center gap-space-xs px-3.5 py-2 rounded-lg bg-bg-surface text-primary shadow-sm hover:bg-surface-container-low transition-all active:scale-95 font-label-lg text-label-lg" id="btn-integrity-check">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span>Verifikasi Log Hash</span>
+</button>
+<button class="flex items-center gap-space-xs px-3.5 py-2 rounded-lg bg-bg-surface text-text-primary shadow-sm hover:bg-surface-container-low transition-all active:scale-95 font-label-lg text-label-lg" id="btn-export-log">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Unduh Berkas Audit</span>
+</button>
+<button class="flex items-center gap-space-xs px-4 py-2 rounded-lg bg-primary text-on-primary shadow-md hover:bg-primary-container transition-all active:scale-95 font-label-lg text-label-lg">
+<span class="material-symbols-outlined text-[18px]">add_alert</span>
+<span>Atur Notifikasi Insiden</span>
+</button>
+</div>
+</div>
+<!-- PDP Protection Banner (UU No. 27/2022) -->
+<div class="relative overflow-hidden rounded-xl bg-gradient-to-r from-primary via-primary-container to-tertiary p-space-lg text-on-primary shadow-lg mb-space-lg">
+<div class="absolute -right-12 -top-12 w-64 h-64 rounded-full bg-white/5 pointer-events-none blur-2xl"></div>
+<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary-fixed text-[28px]" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-title-lg text-title-lg text-on-primary">Status Perlindungan Data Pribadi (UU No. 27/2022) Aktif</span>
+<span class="px-2 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm uppercase">Kepatuhan Penuh</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-primary/90 max-w-2xl mt-1">
+            Enkripsi AES-256 pada seluruh arsip KTP penyewa, isolasi tenant <em>strict multi-tenancy</em> (NFR-03), siklus auto-purge log otomatis 365 hari, dan proteksi anti kebocoran data terverifikasi.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm shrink-0">
+<div class="bg-black/20 backdrop-blur-sm px-3.5 py-2 rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary-fixed text-[18px]">lock</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-primary/70 uppercase leading-none">Kunci Master KMS</span>
+<span class="font-label-md text-label-md text-on-primary leading-tight font-mono">ID-JKT-HSM#4092</span>
+</div>
+</div>
+<div class="bg-black/20 backdrop-blur-sm px-3.5 py-2 rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary-fixed text-[18px]">history</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-primary/70 uppercase leading-none">Auto-Purge Log</span>
+<span class="font-label-md text-label-md text-on-primary leading-tight">365 Hari (Aktif)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Metric Cards Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Card 1: Total Activity -->
+<div class="relative overflow-hidden bg-bg-surface rounded-xl p-space-md shadow-sm hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-text-secondary uppercase">Aktivitas Tercatat</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-xs mb-1">
+<span class="font-currency-display text-currency-display text-text-primary">1.428</span>
+<span class="font-label-sm text-label-sm text-text-muted">Kejadian</span>
+</div>
+<div class="flex items-center justify-between mt-2 pt-2 border-t-0 bg-bg-subtle -mx-space-md -mb-space-md px-space-md py-2">
+<div class="flex items-center gap-1 text-status-lunas-text font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span>+12.4% bln Oktober</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted">100% Tercatat</span>
+</div>
+</div>
+<!-- Card 2: Crucial Modifications -->
+<div class="relative overflow-hidden bg-bg-surface rounded-xl p-space-md shadow-sm hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-text-secondary uppercase">Modifikasi Krusial</span>
+<div class="w-8 h-8 rounded-lg bg-status-menunggu-bg flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">edit_note</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-xs mb-1">
+<span class="font-currency-display text-currency-display text-text-primary">18</span>
+<span class="font-label-sm text-label-sm text-text-muted">Perubahan Kunci</span>
+</div>
+<div class="flex items-center justify-between mt-2 pt-2 bg-bg-subtle -mx-space-md -mb-space-md px-space-md py-2">
+<span class="font-body-sm text-body-sm text-text-secondary truncate">
+          4 Sewa • 6 Batal • 8 Kontrak
+        </span>
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+</div>
+</div>
+<!-- Card 3: Sensitive KTP Access -->
+<div class="relative overflow-hidden bg-bg-surface rounded-xl p-space-md shadow-sm hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-text-secondary uppercase">Akses Dokumen KTP</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">badge</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-xs mb-1">
+<span class="font-currency-display text-currency-display text-text-primary">12</span>
+<span class="font-label-sm text-label-sm text-text-muted">Kali Dibuka</span>
+</div>
+<div class="flex items-center justify-between mt-2 pt-2 bg-bg-subtle -mx-space-md -mb-space-md px-space-md py-2">
+<span class="font-label-sm text-label-sm text-status-lunas-text flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">shield</span>
+          0 Akses Tak Berizin
+        </span>
+<span class="font-body-sm text-body-sm text-text-muted">100% Pemilik</span>
+</div>
+</div>
+<!-- Card 4: Active Sessions & Devices -->
+<div class="relative overflow-hidden bg-bg-surface rounded-xl p-space-md shadow-sm hover:shadow-md transition-all">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-md text-label-md text-text-secondary uppercase">Sesi &amp; Perangkat Aktif</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">devices</span>
+</div>
+</div>
+<div class="flex items-baseline gap-space-xs mb-1">
+<span class="font-currency-display text-currency-display text-text-primary">3</span>
+<span class="font-label-sm text-label-sm text-text-muted">Sesi Terotorisasi</span>
+</div>
+<div class="flex items-center justify-between mt-2 pt-2 bg-bg-subtle -mx-space-md -mb-space-md px-space-md py-2">
+<span class="font-body-sm text-body-sm text-text-secondary truncate">
+          Hendra (Mac) • Joko (App)
+        </span>
+<span class="font-label-sm text-label-sm text-primary font-bold">Aman</span>
+</div>
+</div>
+</div>
+<!-- Interactive Search & Multi-Filters Bar -->
+<div class="bg-bg-surface rounded-xl p-space-md shadow-sm mb-space-md">
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-space-md">
+<!-- Search Input -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 rounded-lg bg-bg-subtle text-text-primary font-body-md text-body-md placeholder:text-text-muted outline-none focus:bg-bg-surface focus:shadow-[0_0_0_2px_rgba(15,90,87,0.2)] transition-all" id="search-input" placeholder="Cari ID Log (#LOG-...), nama staf, IP address, atau target unit..." type="text"/>
+</div>
+<!-- Quick Dropdown Filters -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Pengguna -->
+<div class="flex items-center bg-bg-subtle rounded-lg px-3 py-1.5 text-text-secondary">
+<span class="material-symbols-outlined text-[18px] mr-1.5 text-primary">person</span>
+<select class="bg-transparent font-label-md text-label-md text-text-primary outline-none cursor-pointer" id="filter-user">
+<option value="all">Semua Pengguna</option>
+<option value="hendra">Pak Hendra (Pemilik)</option>
+<option value="joko">Mas Joko (Staf)</option>
+<option value="system">Sistem Automasi</option>
+<option value="support">Super Admin Support</option>
+</select>
+</div>
+<!-- Kategori -->
+<div class="flex items-center bg-bg-subtle rounded-lg px-3 py-1.5 text-text-secondary">
+<span class="material-symbols-outlined text-[18px] mr-1.5 text-primary">category</span>
+<select class="bg-transparent font-label-md text-label-md text-text-primary outline-none cursor-pointer" id="filter-category">
+<option value="all">Semua Kategori Aksi</option>
+<option value="finance">Perubahan Keuangan</option>
+<option value="pdp">Dokumen &amp; KTP (PDP)</option>
+<option value="contract">Kontrak &amp; Kamar</option>
+<option value="auth">Autentikasi &amp; Sesi</option>
+</select>
+</div>
+<!-- Rentang Waktu -->
+<div class="flex items-center bg-bg-subtle rounded-lg px-3 py-1.5 text-text-secondary">
+<span class="material-symbols-outlined text-[18px] mr-1.5 text-primary">calendar_today</span>
+<select class="bg-transparent font-label-md text-label-md text-text-primary outline-none cursor-pointer">
+<option>Oktober 2026 (Bulan Ini)</option>
+<option>7 Hari Terakhir</option>
+<option>30 Hari Terakhir</option>
+<option>Kustom Tanggal...</option>
+</select>
+</div>
+<button class="p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-bg-subtle transition-colors" id="reset-filters" title="Reset Filter">
+<span class="material-symbols-outlined text-[20px]">restart_alt</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Audit Table Container -->
+<div class="bg-bg-surface rounded-xl shadow-sm overflow-hidden flex flex-col mb-space-lg">
+<div class="px-space-md py-3 bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-text-primary">Buku Besar Audit Permanen</span>
+<span class="px-2 py-0.5 rounded-full bg-bg-surface text-text-secondary font-label-sm text-label-sm shadow-xs">
+          5 Catatan Ditampilkan
+        </span>
+</div>
+<div class="flex items-center gap-space-xs text-text-muted font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">verified</span>
+<span>SHA-256 Tamper-Proof Chain</span>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-bg-subtle text-text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-md">ID Log &amp; Waktu</th>
+<th class="py-3 px-space-md">Pelaksana (Aktor)</th>
+<th class="py-3 px-space-md">Kategori &amp; Aksi</th>
+<th class="py-3 px-space-md">Sasaran Target</th>
+<th class="py-3 px-space-md">Keterangan / Nilai Perubahan</th>
+<th class="py-3 px-space-md text-right">Inspeksi Diff</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-text-primary" id="log-table-body">
+<!-- Row 1: Keuangan -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group cursor-pointer" data-cat="finance" data-id="LOG-8831" data-user="hendra">
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-mono font-bold">#LOG-8831</span>
+<span class="font-body-sm text-body-sm text-text-secondary">15 Okt 2026 • 14:22 WIB</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-label-sm text-label-sm font-bold">
+                  H
+                </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">Pak Hendra</span>
+<span class="font-body-sm text-body-sm text-text-muted">180.252.12.8 (Jakarta)</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm">
+                  Keuangan
+                </span>
+<span class="font-label-md text-label-md text-text-primary">Terima Kas Tunai &amp; Kuitansi</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">#INV-2026-10-004</span>
+<span class="font-body-sm text-body-sm text-text-muted">Farhan M. (Kamar 204)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-status-menunggu-bg text-status-menunggu-text font-label-sm text-label-sm line-through">Belum Bayar</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">arrow_forward</span>
+<span class="px-2 py-0.5 rounded bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm font-bold">Lunas (Rp 1.850.000)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="diff-btn inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-bg-subtle text-primary hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-all" data-target="LOG-8831">
+<span class="material-symbols-outlined text-[16px]">difference</span>
+<span>Lihat Diff</span>
+</button>
+</td>
+</tr>
+<!-- Row 2: Staf Complaint Servis -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group cursor-pointer" data-cat="contract" data-id="LOG-8829" data-user="joko">
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-mono font-bold">#LOG-8829</span>
+<span class="font-body-sm text-body-sm text-text-secondary">14 Okt 2026 • 09:15 WIB</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-secondary/10 text-secondary flex items-center justify-center font-label-sm text-label-sm font-bold">
+                  J
+                </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">Mas Joko (Staf)</span>
+<span class="font-body-sm text-body-sm text-text-muted">114.124.89.44 (Depok)</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+                  Operasional
+                </span>
+<span class="font-label-md text-label-md text-text-primary">Update Tiket Komplain &amp; Servis</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">#TKT-2026-104</span>
+<span class="font-body-sm text-body-sm text-text-muted">Servis AC Unit 104</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm">Diproses</span>
+<span class="material-symbols-outlined text-[14px] text-text-muted">arrow_forward</span>
+<span class="px-2 py-0.5 rounded bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm font-bold">Selesai (Rp 150.000)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="diff-btn inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-bg-subtle text-primary hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-all" data-target="LOG-8829">
+<span class="material-symbols-outlined text-[16px]">difference</span>
+<span>Lihat Diff</span>
+</button>
+</td>
+</tr>
+<!-- Row 3: PDP Sensitive Document -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group cursor-pointer" data-cat="pdp" data-id="LOG-8824" data-user="hendra">
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-mono font-bold">#LOG-8824</span>
+<span class="font-body-sm text-body-sm text-text-secondary">12 Okt 2026 • 20:04 WIB</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center font-label-sm text-label-sm font-bold">
+                  H
+                </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">Pak Hendra (Owner)</span>
+<span class="font-body-sm text-body-sm text-text-muted">180.252.12.8 (MacOS)</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-primary font-label-sm text-label-sm">
+                  PDP Sensitif
+                </span>
+<span class="font-label-md text-label-md text-text-primary">Dekripsi KTP (AES-256)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">KTP-Kevin-J.enc</span>
+<span class="font-body-sm text-body-sm text-text-muted">Penyewa Kamar 102</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="font-body-sm text-body-sm text-text-secondary">
+                Verifikasi ID penyewa baru. Log audit UU PDP tercatat permanen.
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="diff-btn inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-bg-subtle text-primary hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-all" data-target="LOG-8824">
+<span class="material-symbols-outlined text-[16px]">difference</span>
+<span>Lihat Diff</span>
+</button>
+</td>
+</tr>
+<!-- Row 4: Automation System -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group cursor-pointer" data-cat="finance" data-id="LOG-8815" data-user="system">
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-mono font-bold">#LOG-8815</span>
+<span class="font-body-sm text-body-sm text-text-secondary">10 Okt 2026 • 11:30 WIB</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-surface-container-high text-tertiary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">smart_toy</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">Cron Kostra (NTF-03)</span>
+<span class="font-body-sm text-body-sm text-text-muted">System Worker Internal</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-bg-subtle text-text-secondary font-label-sm text-label-sm">
+                  Automasi
+                </span>
+<span class="font-label-md text-label-md text-text-primary">Broadcast WA Tagihan Bulanan</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">21 Penghuni Aktif</span>
+<span class="font-body-sm text-body-sm text-text-muted">Kost Griya Utama</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[14px]">done_all</span>
+                21 Terkirim • 0 Gagal
+              </span>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="diff-btn inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-bg-subtle text-primary hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-all" data-target="LOG-8815">
+<span class="material-symbols-outlined text-[16px]">difference</span>
+<span>Lihat Diff</span>
+</button>
+</td>
+</tr>
+<!-- Row 5: Super Admin Support Impersonation -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group cursor-pointer" data-cat="auth" data-id="LOG-8790" data-user="support">
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-mono font-bold">#LOG-8790</span>
+<span class="font-body-sm text-body-sm text-text-secondary">08 Okt 2026 • 16:45 WIB</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-status-menunggu-bg text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">support_agent</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">Super Admin Support</span>
+<span class="font-body-sm text-body-sm text-text-muted">FND-08 / Tiket #CS-9921</span>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col gap-1 items-start">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-status-menunggu-bg text-status-menunggu-text font-label-sm text-label-sm">
+                  Akses Dukungan
+                </span>
+<span class="font-label-md text-label-md text-text-primary">Impersonasi Akun Terpandu</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">Konfigurasi Rekening QRIS</span>
+<span class="font-body-sm text-body-sm text-text-muted">Penyelesaian Kendala Pembayaran</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md">
+<div class="flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-body-sm text-body-sm text-text-secondary">Sesi Ditutup (Durasi: 12 menit)</span>
+</div>
+</td>
+<td class="py-3.5 px-space-md text-right">
+<button class="diff-btn inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-bg-subtle text-primary hover:bg-primary hover:text-on-primary font-label-sm text-label-sm transition-all" data-target="LOG-8790">
+<span class="material-symbols-outlined text-[16px]">difference</span>
+<span>Lihat Diff</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="px-space-md py-3 bg-bg-surface flex flex-col sm:flex-row items-center justify-between gap-space-sm border-t-0">
+<span class="font-body-sm text-body-sm text-text-secondary">
+        Menampilkan <strong>1-5</strong> dari <strong>1.428</strong> total riwayat audit
+      </span>
+<div class="flex items-center gap-1">
+<button class="px-3 py-1.5 rounded-lg bg-bg-subtle text-text-muted font-label-md text-label-md cursor-not-allowed">Sebelumnya</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center">1</button>
+<button class="w-8 h-8 rounded-lg bg-bg-subtle text-text-primary font-label-md text-label-md flex items-center justify-center hover:bg-surface-container-high">2</button>
+<button class="w-8 h-8 rounded-lg bg-bg-subtle text-text-primary font-label-md text-label-md flex items-center justify-center hover:bg-surface-container-high">3</button>
+<span class="px-1 text-text-muted">...</span>
+<button class="w-8 h-8 rounded-lg bg-bg-subtle text-text-primary font-label-md text-label-md flex items-center justify-center hover:bg-surface-container-high">286</button>
+<button class="px-3 py-1.5 rounded-lg bg-bg-subtle text-text-primary hover:bg-surface-container-high font-label-md text-label-md">Selanjutnya</button>
+</div>
+</div>
+</div>
+<!-- Bottom Panel: Device & Session Security (NFR-08) -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<!-- Active Sessions List -->
+<div class="lg:col-span-2 bg-bg-surface rounded-xl p-space-md shadow-sm">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">devices_other</span>
+<h2 class="font-title-lg text-title-lg text-text-primary">Sesi Login Aktif &amp; Pengawasan Perangkat</h2>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm">
+          3 Perangkat Terverifikasi
+        </span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mb-space-md">
+        Jika ada aktivitas atau perangkat yang tidak Anda kenali, lakukan pemutusan sesi instan untuk melindungi data kos Anda.
+      </p>
+<div class="flex flex-col gap-space-sm">
+<!-- Device 1 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-bg-subtle">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">laptop_mac</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-text-primary">Chrome di macOS Sonoma (Perangkat Ini)</span>
+<span class="px-1.5 py-0.2 rounded bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm">Aktif Sekarang</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted">Pak Hendra • IP: 180.252.12.8 • Jakarta Selatan</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-primary font-bold">Kunci Sesi Utama</span>
+</div>
+<!-- Device 2 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-bg-subtle">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">smartphone</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">Aplikasi Android Kostra Mobile</span>
+<span class="font-body-sm text-body-sm text-text-muted">Mas Joko (Staf Operasional) • IP: 114.124.89.44 • Depok</span>
+</div>
+</div>
+<button class="text-error font-label-sm text-label-sm hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">logout</span>
+<span>Cabut Sesi</span>
+</button>
+</div>
+<!-- Device 3 -->
+<div class="flex items-center justify-between p-3 rounded-lg bg-bg-subtle">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-status-menunggu-bg text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">headset_mic</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-text-primary">Sesi Support Kostra (Dibatasi 30 Menit)</span>
+<span class="font-body-sm text-body-sm text-text-muted">Dukungan Resmi FND-08 • Kedaluwarsa dalam 14 menit</span>
+</div>
+</div>
+<button class="text-error font-label-sm text-label-sm hover:underline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">block</span>
+<span>Akhiri Segera</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Cryptographic Proof & Hash Integrity Info -->
+<div class="bg-bg-surface rounded-xl p-space-md shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-2 mb-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">fingerprint</span>
+<h2 class="font-title-lg text-title-lg text-text-primary">Integritas Kriptografi Log</h2>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mb-space-md">
+          Setiap entri log diikat dengan hash SHA-256 berurutan (Blockchain-style immutability) untuk memastikan tidak ada rekayasa atau penghapusan manual.
+        </p>
+<div class="bg-bg-subtle rounded-lg p-3 font-mono text-body-sm text-text-secondary flex flex-col gap-1.5 mb-space-md">
+<span class="font-label-sm text-label-sm text-text-muted uppercase">Merkle Root Hash Terbaru</span>
+<div class="p-2 rounded bg-bg-surface text-primary font-bold text-body-sm break-all select-all">
+            e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+          </div>
+<span class="text-body-sm text-text-muted">Ditandatangani oleh Kostra Security Engine pada 15 Okt 2026 14:22:18 WIB</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2">
+<div class="flex items-center gap-1.5 text-status-lunas-text font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Status Rantai: Utuh &amp; Valid</span>
+</div>
+<button class="text-primary hover:underline font-label-sm text-label-sm" id="btn-revalidate">
+          Uji Validasi Ulang
+        </button>
+</div>
+</div>
+</div>
+<!-- JSON Diff Modal (Pop-up Inspection) -->
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex items-center justify-center p-4" id="diff-modal">
+<div class="bg-bg-surface rounded-2xl max-w-3xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[921px]">
+<!-- Modal Header -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-primary text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">difference</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-title-md text-title-md text-text-primary font-mono font-bold" id="modal-log-id">#LOG-8831</span>
+<span class="px-2 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm" id="modal-log-badge">Keuangan</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted" id="modal-log-subtitle">Detail Perubahan Data (Audit Diff Payload)</span>
+</div>
+</div>
+<button class="w-8 h-8 rounded-full hover:bg-surface-container-high flex items-center justify-center text-text-secondary transition-colors" id="modal-close">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body (Before & After Diff Columns) -->
+<div class="p-space-md overflow-y-auto flex-1 flex flex-col gap-space-md">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Before Column -->
+<div class="flex flex-col rounded-xl bg-status-jatuh-tempo-bg/30 p-space-sm">
+<div class="flex items-center justify-between mb-2 pb-1.5">
+<span class="font-label-md text-label-md text-status-jatuh-tempo-text flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[18px]">history</span>
+                SEBELUM (BEFORE)
+              </span>
+<span class="font-label-sm text-label-sm text-text-muted">Data Lama</span>
+</div>
+<pre class="font-mono text-body-sm text-status-jatuh-tempo-text bg-bg-surface p-3 rounded-lg overflow-x-auto whitespace-pre leading-relaxed shadow-xs" id="modal-before-json">{
+  "invoice_id": "INV-2026-10-004",
+  "status": "UNPAID",
+  "paid_amount": 0,
+  "payment_method": null,
+  "settled_at": null,
+  "authorized_by": null
+}</pre>
+</div>
+<!-- After Column -->
+<div class="flex flex-col rounded-xl bg-status-lunas-bg/40 p-space-sm">
+<div class="flex items-center justify-between mb-2 pb-1.5">
+<span class="font-label-md text-label-md text-status-lunas-text flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                SESUDAH (AFTER)
+              </span>
+<span class="font-label-sm text-label-sm text-status-lunas-text font-bold">Tervalidasi</span>
+</div>
+<pre class="font-mono text-body-sm text-status-lunas-text bg-bg-surface p-3 rounded-lg overflow-x-auto whitespace-pre leading-relaxed shadow-xs" id="modal-after-json">{
+  "invoice_id": "INV-2026-10-004",
+  "status": "PAID",
+  "paid_amount": 1850000,
+  "payment_method": "CASH_MANUAL",
+  "settled_at": "2026-10-15T14:22:10+07:00",
+  "authorized_by": "USER-HENDRA-01"
+}</pre>
+</div>
+</div>
+<!-- Technical Metadata -->
+<div class="bg-bg-subtle rounded-xl p-space-sm flex flex-col gap-2">
+<span class="font-label-sm text-label-sm text-text-secondary uppercase">Metadata Forensik &amp; Kepatuhan</span>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm text-body-sm">
+<div>
+<span class="text-text-muted block font-label-sm text-label-sm">IP Address:</span>
+<span class="font-mono text-text-primary font-bold" id="modal-ip">180.252.12.8</span>
+</div>
+<div>
+<span class="text-text-muted block font-label-sm text-label-sm">User-Agent:</span>
+<span class="text-text-primary truncate block" id="modal-ua" title="Chrome 130 macOS">Chrome 130 (macOS)</span>
+</div>
+<div>
+<span class="text-text-muted block font-label-sm text-label-sm">Geo Location:</span>
+<span class="text-text-primary" id="modal-geo">Jakarta, ID</span>
+</div>
+<div>
+<span class="text-text-muted block font-label-sm text-label-sm">Hash Payload:</span>
+<span class="font-mono text-text-primary truncate block text-label-sm" title="b319aa827f8...">b319aa827f8...</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="p-space-md bg-surface-container-low flex items-center justify-between">
+<span class="font-body-sm text-body-sm text-text-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">lock</span>
+          Data terenkripsi dan bersifat final (Non-Repudiation)
+        </span>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-all" id="modal-close-btn">
+          Tutup Pratinjau
+        </button>
+</div>
+</div>
+</div>
+<!-- Notification Toast Simulation -->
+<div class="fixed bottom-6 right-6 z-50 bg-text-primary text-on-primary px-4 py-3 rounded-xl shadow-2xl flex items-center gap-3 translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="toast">
+<span class="material-symbols-outlined text-secondary-fixed text-[20px]" id="toast-icon">verified</span>
+<span class="font-body-sm text-body-sm font-medium" id="toast-message">Log integrity hash is valid and untampered.</span>
+</div>
+</div>
+<script>
+  // Interactive mock data for Diff viewer
+  const diffDataMap = {
+    'LOG-8831': {
+      title: '#LOG-8831',
+      badge: 'Keuangan',
+      badgeColor: 'bg-status-lunas-bg text-status-lunas-text',
+      ip: '180.252.12.8',
+      ua: 'Chrome 130 (macOS Sonoma)',
+      geo: 'Jakarta Selatan, ID',
+      before: `{\n  "invoice_id": "INV-2026-10-004",\n  "status": "UNPAID",\n  "paid_amount": 0,\n  "payment_method": null,\n  "settled_at": null,\n  "authorized_by": null\n}`,
+      after: `{\n  "invoice_id": "INV-2026-10-004",\n  "status": "PAID",\n  "paid_amount": 1850000,\n  "payment_method": "CASH_MANUAL",\n  "settled_at": "2026-10-15T14:22:10+07:00",\n  "authorized_by": "USER-HENDRA-01"\n}`
+    },
+    'LOG-8829': {
+      title: '#LOG-8829',
+      badge: 'Operasional',
+      badgeColor: 'bg-surface-container text-on-surface-variant',
+      ip: '114.124.89.44',
+      ua: 'Kostra Staff Android App v2.4',
+      geo: 'Depok, Jawa Barat',
+      before: `{\n  "ticket_id": "TKT-2026-104",\n  "target": "AC Kamar 104",\n  "progress_status": "IN_PROGRESS",\n  "technician_notes": "Menunggu teknisi freon",\n  "cost_incurred": 0\n}`,
+      after: `{\n  "ticket_id": "TKT-2026-104",\n  "target": "AC Kamar 104",\n  "progress_status": "RESOLVED",\n  "technician_notes": "Selesai diisi freon R32 & servis filter",\n  "cost_incurred": 150000,\n  "receipt_ref": "EXP-019"\n}`
+    },
+    'LOG-8824': {
+      title: '#LOG-8824',
+      badge: 'PDP Sensitif',
+      badgeColor: 'bg-surface-container text-primary',
+      ip: '180.252.12.8',
+      ua: 'Safari 18 (macOS Sonoma)',
+      geo: 'Jakarta Selatan, ID',
+      before: `{\n  "document_id": "DOC-KTP-102-KJ",\n  "aes_gcm_state": "ENCRYPTED_AT_REST",\n  "access_requested_by": null,\n  "legal_basis": null\n}`,
+      after: `{\n  "document_id": "DOC-KTP-102-KJ",\n  "aes_gcm_state": "DECRYPTED_FOR_VIEWING",\n  "access_requested_by": "USER-HENDRA-01",\n  "legal_basis": "UU_PDP_ARTICLE_20_VERIFICATION",\n  "auto_shred_timestamp": "2026-10-12T20:14:00+07:00"\n}`
+    },
+    'LOG-8815': {
+      title: '#LOG-8815',
+      badge: 'Automasi',
+      badgeColor: 'bg-bg-subtle text-text-secondary',
+      ip: '10.240.0.14 (Internal)',
+      ua: 'Kostra-Cron/NTF-03 Worker',
+      geo: 'Cloud Region Jakarta',
+      before: `{\n  "batch_job": "MONTHLY_BILL_BROADCAST",\n  "cycle": "OCTOBER_2026",\n  "dispatched_count": 0,\n  "target_recipients": 21,\n  "state": "QUEUED"\n}`,
+      after: `{\n  "batch_job": "MONTHLY_BILL_BROADCAST",\n  "cycle": "OCTOBER_2026",\n  "dispatched_count": 21,\n  "delivered_count": 21,\n  "failed_count": 0,\n  "state": "COMPLETED"\n}`
+    },
+    'LOG-8790': {
+      title: '#LOG-8790',
+      badge: 'Akses Dukungan',
+      badgeColor: 'bg-status-menunggu-bg text-status-menunggu-text',
+      ip: '103.111.45.19',
+      ua: 'Kostra Internal Support Console v4',
+      geo: 'Jakarta Barat, ID',
+      before: `{\n  "impersonation_session": null,\n  "ticket_reference": "CS-9921",\n  "owner_consent_token": "VERIFIED_SMS_OTP",\n  "session_active": false\n}`,
+      after: `{\n  "impersonation_session": "SUPPORT-AGENT-AGUS",\n  "ticket_reference": "CS-9921",\n  "action_performed": "CONFIG_QRIS_STATIC_MERCHANT",\n  "session_active": false,\n  "duration_seconds": 720\n}`
+    }
+  };
+
+  // Toast Functionality
+  const toast = document.getElementById('toast');
+  const toastMsg = document.getElementById('toast-message');
+  function showToast(message, icon = 'verified') {
+    toastMsg.textContent = message;
+    const iconEl = document.getElementById('toast-icon');
+    if (iconEl) iconEl.textContent = icon;
+    toast.classList.remove('translate-y-24', 'opacity-0');
+    setTimeout(() => {
+      toast.classList.add('translate-y-24', 'opacity-0');
+    }, 3200);
+  }
+
+  // Modal Open & Close logic
+  const modal = document.getElementById('diff-modal');
+  const modalLogId = document.getElementById('modal-log-id');
+  const modalLogBadge = document.getElementById('modal-log-badge');
+  const modalBeforeJson = document.getElementById('modal-before-json');
+  const modalAfterJson = document.getElementById('modal-after-json');
+  const modalIp = document.getElementById('modal-ip');
+  const modalUa = document.getElementById('modal-ua');
+  const modalGeo = document.getElementById('modal-geo');
+
+  function openDiffModal(logId) {
+    const data = diffDataMap[logId] || diffDataMap['LOG-8831'];
+    modalLogId.textContent = data.title;
+    modalLogBadge.textContent = data.badge;
+    modalLogBadge.className = `px-2 py-0.5 rounded-full font-label-sm text-label-sm ${data.badgeColor}`;
+    modalBeforeJson.textContent = data.before;
+    modalAfterJson.textContent = data.after;
+    modalIp.textContent = data.ip;
+    modalUa.textContent = data.ua;
+    modalGeo.textContent = data.geo;
+    modal.classList.remove('hidden');
+  }
+
+  document.querySelectorAll('.diff-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.getAttribute('data-target');
+      openDiffModal(id);
+    });
+  });
+
+  // Table row click also triggers diff view
+  document.querySelectorAll('#log-table-body tr').forEach(row => {
+    row.addEventListener('click', () => {
+      const id = row.getAttribute('data-id');
+      if (id) openDiffModal(id);
+    });
+  });
+
+  document.getElementById('modal-close').addEventListener('click', () => modal.classList.add('hidden'));
+  document.getElementById('modal-close-btn').addEventListener('click', () => modal.classList.add('hidden'));
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.add('hidden');
+  });
+
+  // Action Buttons Micro-interactions
+  document.getElementById('btn-integrity-check').addEventListener('click', () => {
+    showToast('Memverifikasi rantai hash SHA-256... 1.428 blok utuh & valid.');
+  });
+
+  document.getElementById('btn-export-log').addEventListener('click', () => {
+    showToast('Menyiapkan arsip audit PDF terenkripsi (AES-256)... Berkas siap!', 'download_done');
+  });
+
+  document.getElementById('btn-revalidate').addEventListener('click', () => {
+    showToast('Merkle Tree Root tervalidasi ulang dengan HSM server utama.', 'security');
+  });
+
+  // Interactive Live Filter
+  const userSelect = document.getElementById('filter-user');
+  const categorySelect = document.getElementById('filter-category');
+  const searchInput = document.getElementById('search-input');
+  const rows = document.querySelectorAll('#log-table-body tr');
+
+  function applyFilters() {
+    const uVal = userSelect.value;
+    const cVal = categorySelect.value;
+    const qVal = searchInput.value.toLowerCase().trim();
+
+    rows.forEach(r => {
+      const rUser = r.getAttribute('data-user') || '';
+      const rCat = r.getAttribute('data-cat') || '';
+      const rText = r.textContent.toLowerCase();
+
+      const userMatch = (uVal === 'all') || (rUser === uVal);
+      const catMatch = (cVal === 'all') || (rCat === cVal);
+      const textMatch = !qVal || rText.includes(qVal);
+
+      if (userMatch && catMatch && textMatch) {
+        r.classList.remove('hidden');
+      } else {
+        r.classList.add('hidden');
+      }
+    });
+  }
+
+  userSelect.addEventListener('change', applyFilters);
+  categorySelect.addEventListener('change', applyFilters);
+  searchInput.addEventListener('input', applyFilters);
+
+  document.getElementById('reset-filters').addEventListener('click', () => {
+    userSelect.value = 'all';
+    categorySelect.value = 'all';
+    searchInput.value = '';
+    applyFilters();
+    showToast('Semua parameter filter telah direset.');
+  });
+</script></main></div></body></html>

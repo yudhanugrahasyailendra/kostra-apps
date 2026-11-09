@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"inverse-surface":"#2a313d","status-menunggu-text":"#92400E","primary-fixed":"#adefea","status-menunggu-bg":"#FEF3C7","surface-tint":"#246865","text-primary":"#111827","tertiary-fixed-dim":"#b9c9d3","primary-container":"#0f5a57","border-subtle":"#E5E7EB","on-primary-container":"#8ecfcb","status-menunggu-border":"#FDE68A","border-strong":"#D1D5DB","on-surface-variant":"#3f4948","outline":"#6f7978","secondary-fixed-dim":"#fdba45","tertiary-container":"#44535b","surface-container-highest":"#dce2f3","status-jatuh-tempo-text":"#9F1239","on-background":"#151c27","on-surface":"#151c27","on-secondary-container":"#6f4b00","tertiary-fixed":"#d5e5ef","error":"#ba1a1a","status-kosong-bg":"#F3F4F6","secondary-fixed":"#ffdeae","primary-fixed-dim":"#91d2ce","secondary":"#7f5700","on-secondary-fixed-variant":"#604100","surface-container-high":"#e2e8f8","surface-variant":"#dce2f3","status-lunas-border":"#A7F3D0","on-tertiary-fixed-variant":"#3a4951","surface-dim":"#d3daea","on-primary-fixed-variant":"#00504d","surface-bright":"#f9f9ff","on-error-container":"#93000a","status-lunas-bg":"#ECFDF5","on-tertiary-fixed":"#0e1d25","error-container":"#ffdad6","status-jatuh-tempo-border":"#FECDD3","on-primary":"#ffffff","status-kosong-border":"#E5E7EB","surface-container-lowest":"#ffffff","on-error":"#ffffff","on-secondary-fixed":"#281900","secondary-container":"#fdba45","status-jatuh-tempo-bg":"#FFE4E6","tertiary":"#2d3c44","inverse-primary":"#91d2ce","inverse-on-surface":"#ebf1ff","surface":"#f9f9ff","outline-variant":"#bfc8c7","text-secondary":"#4B5563","text-muted":"#9CA3AF","on-tertiary-container":"#b6c6d0","primary":"#00413f","on-secondary":"#ffffff","status-kosong-text":"#374151","background":"#f9f9ff","surface-container":"#e7eefe","on-primary-fixed":"#00201f","bg-canvas":"#FBFBFA","bg-surface":"#FFFFFF","bg-subtle":"#F4F5F6","surface-container-low":"#f0f3ff","status-lunas-text":"#065F46","on-tertiary":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem","space-xs":"0.25rem","margin-desktop":"2rem","space-sm":"0.5rem","space-md":"1rem",gutter:"1rem","gutter-desktop":"1.5rem","space-2xl":"3rem",margin:"1rem","margin-tablet":"1.5rem","space-xl":"2rem"},fontFamily:{"label-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"currency-display":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"title-lg":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"]},fontSize:{"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"title-md":["14px",{lineHeight:"20px",fontWeight:"600"}],"label-lg":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.03em",fontWeight:"600"}],"headline-sm":["18px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"600"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"currency-display":["24px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"700"}],"headline-md":["22px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"title-lg":["16px",{lineHeight:"22px",fontWeight:"600"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"display-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}]}}}};</script></head><body class="bg-bg-canvas font-body-md text-on-surface antialiased min-h-screen"><aside class="fixed left-0 top-0 h-full w-64 bg-bg-surface z-50 flex flex-col justify-between shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center justify-between bg-bg-surface"><div class="flex items-center gap-space-sm"><img alt="Logo Kostra (Kost Rapi).png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WlJH1me34_SrxIFcCEQ0-WUDGMbqvnP81oELSrlla7KjucDYKhED42IM9RIYvplM7RsEHNxf_anGCfLZM0o_WujGeHmYWJpx5NoO_boiSUR6Qw7JNul2Fm23TU7CRWRt-z7fbh7ecPuRmhB6-RaHCVJ3d0OLZeuVWWoUS36agPGgS8_caV2GS1MiQJ0KQ-INKhfFkYif_Y0oJsH5-dR7CEPiG2yM_F3kS3hK_rmUJhO7_pXGHgbXhGGSZo"/><div class="flex flex-col"><span class="font-title-lg text-title-lg text-primary leading-tight font-bold tracking-tight">Kostra</span><span class="font-label-sm text-label-sm text-text-muted leading-none">Kost Rapi</span></div></div><span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant">PRO</span></div><div class="px-space-md py-space-sm"><div class="bg-bg-subtle rounded-lg p-space-sm flex items-center justify-between cursor-pointer hover:bg-surface-container-high transition-colors"><div class="flex flex-col overflow-hidden"><span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Properti Aktif</span><span class="font-title-md text-title-md text-text-primary truncate">Griya Harmoni</span><span class="font-body-sm text-body-sm text-text-secondary">24 Kamar Terisi 21</span></div><span class="material-symbols-outlined text-text-secondary text-[20px]">unfold_more</span></div></div><nav class="flex flex-col gap-space-xs px-space-md py-space-sm" data-active-classes="bg-primary-container text-on-primary font-title-md shadow-sm rounded-lg"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-space-sm transition-colors bg-primary-container text-on-primary font-title-md shadow-sm rounded-lg" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span>Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors font-title-md text-title-md" data-path="kamar-properti" href="#"><span class="material-symbols-outlined text-[20px]">meeting_room</span><span>Kamar &amp; Properti</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors font-title-md text-title-md" data-path="tagihan-pembayaran" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span>Tagihan &amp; Bayar</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors font-title-md text-title-md" data-path="penghuni-kontrak" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span>Penghuni &amp; Kontrak</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors font-title-md text-title-md" data-path="komplain-perawatan" href="#"><span class="material-symbols-outlined text-[20px]">build</span><span>Komplain &amp; Servis</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors font-title-md text-title-md" data-path="laporan-keuangan" href="#"><span class="material-symbols-outlined text-[20px]">query_stats</span><span>Laporan Keuangan</span></a><a class="flex items-center gap-space-sm px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors font-title-md text-title-md" data-path="pengaturan" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span>Pengaturan</span></a></nav></div><div class="p-space-md"><div class="bg-status-menunggu-bg rounded-lg p-space-sm flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-status-menunggu-text flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">chat</span> Kuota WhatsApp</span><span class="font-label-md text-label-md text-status-menunggu-text">185 Pesan</span></div><div class="w-full bg-status-menunggu-border h-1.5 rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full w-3/4"></div></div><a class="font-label-sm text-label-sm text-secondary hover:underline self-end pt-1" data-path="pengaturan" href="#">Top Up Kuota →</a></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-xl"><div class="flex items-center gap-space-md"><img alt="Logo Kostra (Kost Rapi).png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WlJH1me34_SrxIFcCEQ0-WUDGMbqvnP81oELSrlla7KjucDYKhED42IM9RIYvplM7RsEHNxf_anGCfLZM0o_WujGeHmYWJpx5NoO_boiSUR6Qw7JNul2Fm23TU7CRWRt-z7fbh7ecPuRmhB6-RaHCVJ3d0OLZeuVWWoUS36agPGgS8_caV2GS1MiQJ0KQ-INKhfFkYif_Y0oJsH5-dR7CEPiG2yM_F3kS3hK_rmUJhO7_pXGHgbXhGGSZo"/><div class="flex items-center gap-space-xs bg-bg-subtle px-space-sm py-1.5 rounded-lg"><span class="material-symbols-outlined text-[18px] text-text-secondary">home_work</span><span class="font-title-md text-title-md text-text-primary">Kost Griya Harmoni</span><span class="material-symbols-outlined text-[16px] text-text-muted">expand_more</span></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs bg-status-lunas-bg px-space-sm py-1 rounded-full"><span class="material-symbols-outlined text-[16px] text-status-lunas-text">sms</span><span class="font-label-sm text-label-sm text-status-lunas-text">Sisa Kuota WA: 185 pesan</span></div><button class="relative p-space-xs rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 rounded-full bg-error"></span></button><div class="flex items-center gap-space-sm pl-space-sm"><div class="flex flex-col text-right hidden sm:flex"><span class="font-title-md text-title-md text-text-primary leading-snug">Pak Hendra Gunawan</span><span class="font-label-sm text-label-sm text-text-secondary">Pemilik Kost</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="relative pt-16 bg-bg-canvas min-h-screen w-full px-space-xl py-space-lg"><div class="flex flex-col w-full">
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-md mb-space-lg">
+<div>
+<div class="flex items-center gap-space-xs text-text-secondary font-label-md text-label-md mb-1">
+<span class="material-symbols-outlined text-[16px] text-primary-container">calendar_month</span>
+<span>Periode Aktif: Oktober 2026</span>
+<span class="mx-1 text-text-muted">•</span>
+<span class="text-status-lunas-text font-semibold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-status-lunas-text"></span> Sistem Online
+        </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">
+        Selamat datang kembali, Pak Hendra
+      </h1>
+<p class="font-body-md text-body-md text-text-secondary mt-0.5">
+        Berikut ringkasan operasional dan kesehatan finansial Kost Griya Harmoni hari ini.
+      </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="inline-flex items-center gap-space-xs bg-primary-container hover:bg-primary text-on-primary font-title-md text-title-md px-space-md py-2.5 rounded-lg shadow-sm transition-all transform active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Kirim Tagihan Massal WA</span>
+</button>
+<button class="inline-flex items-center gap-space-xs bg-bg-surface hover:bg-bg-subtle text-primary-container font-title-md text-title-md px-space-md py-2.5 rounded-lg shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">add_card</span>
+<span>Catat Pembayaran</span>
+</button>
+<button class="inline-flex items-center gap-space-xs bg-bg-subtle hover:bg-surface-container text-text-secondary font-title-md text-title-md px-space-sm py-2.5 rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">add_home</span>
+<span class="hidden sm:inline">Tambah Kamar</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-xl">
+<div class="bg-bg-surface rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Okupansi Kamar</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-display-lg text-text-primary font-bold">88%</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-text">Stabil</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-bg-subtle flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[22px]">bed</span>
+</div>
+</div>
+<div class="mt-space-md">
+<div class="w-full bg-bg-subtle h-2 rounded-full overflow-hidden flex">
+<div class="bg-primary-container h-full" style="width: 87.5%"></div>
+<div class="bg-secondary-container h-full" style="width: 4.16%"></div>
+<div class="bg-surface-container-highest h-full" style="width: 8.34%"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-text-secondary mt-2">
+<span><strong>21</strong> Terisi</span>
+<span class="text-text-muted">•</span>
+<span><strong>2</strong> Kosong</span>
+<span class="text-text-muted">•</span>
+<span class="text-status-menunggu-text"><strong>1</strong> Servis</span>
+</div>
+</div>
+</div>
+<div class="bg-bg-surface rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Pemasukan Oktober</span>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-currency-display text-currency-display text-text-primary">Rp 38.450.000</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-status-lunas-bg flex items-center justify-center text-status-lunas-text">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+</div>
+</div>
+<div class="mt-space-md">
+<div class="flex justify-between items-center text-body-sm font-body-sm mb-1.5">
+<span class="text-text-secondary">Target: Rp 42.000.000</span>
+<span class="font-label-md text-label-md text-status-lunas-text">91.5%</span>
+</div>
+<div class="w-full bg-bg-subtle h-2 rounded-full overflow-hidden">
+<div class="bg-status-lunas-text h-full rounded-full" style="width: 91.5%"></div>
+</div>
+</div>
+</div>
+<div class="bg-bg-surface rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Total Tunggakan</span>
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+</div>
+<div class="flex items-baseline gap-1 mt-1">
+<span class="font-currency-display text-currency-display text-status-jatuh-tempo-text">Rp 4.250.000</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-status-jatuh-tempo-bg flex items-center justify-center text-status-jatuh-tempo-text">
+<span class="material-symbols-outlined text-[22px]">warning</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center justify-between bg-status-jatuh-tempo-bg/50 px-space-sm py-1.5 rounded-lg">
+<span class="font-label-sm text-label-sm text-status-jatuh-tempo-text font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">schedule</span> 3 Kamar Lewat Tempo
+        </span>
+<span class="font-body-sm text-body-sm text-status-jatuh-tempo-text">&gt; 3 Hari</span>
+</div>
+</div>
+<div class="bg-bg-surface rounded-xl p-space-md shadow-sm relative overflow-hidden flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Kontrak Segera Habis</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display-lg text-display-lg text-text-primary font-bold">4</span>
+<span class="font-title-md text-title-md text-text-secondary">Penyewa</span>
+</div>
+</div>
+<div class="w-10 h-10 rounded-lg bg-status-menunggu-bg flex items-center justify-center text-status-menunggu-text">
+<span class="material-symbols-outlined text-[22px]">history_edu</span>
+</div>
+</div>
+<div class="mt-space-md flex items-center justify-between text-body-sm font-body-sm text-text-secondary">
+<span class="text-status-menunggu-text font-semibold">Habis dalam 7-14 hari</span>
+<button class="text-primary-container font-label-md text-label-md hover:underline" type="button">Review →</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg items-start">
+<div class="xl:col-span-8 flex flex-col gap-space-lg">
+<div class="bg-bg-surface rounded-xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-2.5 h-6 bg-status-jatuh-tempo-text rounded-full"></div>
+<div>
+<h2 class="font-title-lg text-title-lg text-text-primary">Tunggakan &amp; Jatuh Tempo Terdekat</h2>
+<p class="font-body-sm text-body-sm text-text-secondary">Prioritas follow-up untuk menjaga cashflow kost</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-status-jatuh-tempo-text bg-status-jatuh-tempo-bg px-2.5 py-1 rounded-full">
+              3 Perlu Tindakan Segera
+            </span>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-body-md text-body-md">
+<thead>
+<tr class="bg-bg-subtle text-text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="px-space-md py-3 rounded-l-lg">Unit &amp; Penghuni</th>
+<th class="px-space-md py-3">Jatuh Tempo</th>
+<th class="px-space-md py-3">Nominal Tagihan</th>
+<th class="px-space-md py-3">Keterlambatan</th>
+<th class="px-space-md py-3 text-right rounded-r-lg">Aksi Penagihan</th>
+</tr>
+</thead>
+<tbody class="text-text-primary">
+<tr class="hover:bg-bg-subtle/60 transition-colors">
+<td class="px-space-md py-3.5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center font-title-md text-title-md text-primary-container font-bold">
+                      102
+                    </div>
+<div>
+<div class="font-title-md text-title-md text-text-primary">Rizky Akbar Pratama</div>
+<div class="font-body-sm text-body-sm text-text-muted">Kamar Tipe Deluxe (Lt. 1)</div>
+</div>
+</div>
+</td>
+<td class="px-space-md py-3.5 font-body-sm text-body-sm text-text-secondary">
+                  01 Okt 2026
+                </td>
+<td class="px-space-md py-3.5 font-title-md text-title-md text-text-primary">
+                  Rp 1.750.000
+                </td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-status-jatuh-tempo-bg text-status-jatuh-tempo-text font-bold">
+<span class="material-symbols-outlined text-[13px]">alarm</span> +12 Hari
+                  </span>
+</td>
+<td class="px-space-md py-3.5 text-right">
+<div class="inline-flex items-center gap-1.5">
+<button class="p-2 rounded-lg bg-status-lunas-bg hover:bg-status-lunas-border text-status-lunas-text transition-colors flex items-center justify-center" title="Kirim Tagihan WhatsApp" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md transition-colors" type="button">
+                      Catat Bayar
+                    </button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-bg-subtle/60 transition-colors">
+<td class="px-space-md py-3.5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center font-title-md text-title-md text-primary-container font-bold">
+                      205
+                    </div>
+<div>
+<div class="font-title-md text-title-md text-text-primary">Sarah Wijaya</div>
+<div class="font-body-sm text-body-sm text-text-muted">Kamar Standard Plus (Lt. 2)</div>
+</div>
+</div>
+</td>
+<td class="px-space-md py-3.5 font-body-sm text-body-sm text-text-secondary">
+                  05 Okt 2026
+                </td>
+<td class="px-space-md py-3.5 font-title-md text-title-md text-text-primary">
+                  Rp 1.500.000
+                </td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-status-jatuh-tempo-bg text-status-jatuh-tempo-text font-bold">
+<span class="material-symbols-outlined text-[13px]">alarm</span> +8 Hari
+                  </span>
+</td>
+<td class="px-space-md py-3.5 text-right">
+<div class="inline-flex items-center gap-1.5">
+<button class="p-2 rounded-lg bg-status-lunas-bg hover:bg-status-lunas-border text-status-lunas-text transition-colors flex items-center justify-center" title="Kirim Tagihan WhatsApp" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md transition-colors" type="button">
+                      Catat Bayar
+                    </button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-bg-subtle/60 transition-colors">
+<td class="px-space-md py-3.5">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center font-title-md text-title-md text-primary-container font-bold">
+                      108
+                    </div>
+<div>
+<div class="font-title-md text-title-md text-text-primary">Bagus Tri Anggoro</div>
+<div class="font-body-sm text-body-sm text-text-muted">Kamar Single Compact (Lt. 1)</div>
+</div>
+</div>
+</td>
+<td class="px-space-md py-3.5 font-body-sm text-body-sm text-text-secondary">
+                  09 Okt 2026
+                </td>
+<td class="px-space-md py-3.5 font-title-md text-title-md text-text-primary">
+                  Rp 1.000.000
+                </td>
+<td class="px-space-md py-3.5">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-status-menunggu-bg text-status-menunggu-text font-bold">
+<span class="material-symbols-outlined text-[13px]">alarm</span> +4 Hari
+                  </span>
+</td>
+<td class="px-space-md py-3.5 text-right">
+<div class="inline-flex items-center gap-1.5">
+<button class="p-2 rounded-lg bg-status-lunas-bg hover:bg-status-lunas-border text-status-lunas-text transition-colors flex items-center justify-center" title="Kirim Tagihan WhatsApp" type="button">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</button>
+<button class="px-3 py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md transition-colors" type="button">
+                      Catat Bayar
+                    </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="bg-bg-surface rounded-xl p-space-lg shadow-sm">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm mb-space-md">
+<div>
+<h2 class="font-title-lg text-title-lg text-text-primary">Ringkasan Status Denah Kamar</h2>
+<p class="font-body-sm text-body-sm text-text-secondary">Visualisasi okupansi unit 24 kamar (PRP-06)</p>
+</div>
+<div class="flex flex-wrap items-center gap-3 font-label-sm text-label-sm">
+<span class="flex items-center gap-1.5 text-text-secondary">
+<span class="w-3 h-3 rounded-sm bg-status-lunas-bg ring-1 ring-status-lunas-border"></span> Terisi (21)
+            </span>
+<span class="flex items-center gap-1.5 text-text-secondary">
+<span class="w-3 h-3 rounded-sm bg-surface-container ring-1 ring-border-strong"></span> Kosong (2)
+            </span>
+<span class="flex items-center gap-1.5 text-text-secondary">
+<span class="w-3 h-3 rounded-sm bg-status-menunggu-bg ring-1 ring-status-menunggu-border"></span> Perawatan (1)
+            </span>
+</div>
+</div>
+<div class="space-y-space-md">
+<div class="bg-bg-subtle p-space-md rounded-xl">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-title-md text-title-md text-text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary-container">layers</span>
+                Lantai 1 • 12 Kamar
+              </span>
+<span class="font-label-sm text-label-sm text-text-muted">11 Terisi • 1 Servis</span>
+</div>
+<div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-12 gap-2">
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">101</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Dimas</span>
+</div>
+<div class="bg-status-jatuh-tempo-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-jatuh-tempo-text">102</span>
+<span class="font-label-sm text-[10px] text-status-jatuh-tempo-text truncate max-w-full">Rizky</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">103</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Aldi</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">104</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Fauzi</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">105</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Rangga</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">106</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Hadi</span>
+</div>
+<div class="bg-status-menunggu-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-menunggu-text">107</span>
+<span class="font-label-sm text-[10px] text-status-menunggu-text truncate max-w-full">Servis AC</span>
+</div>
+<div class="bg-status-jatuh-tempo-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-jatuh-tempo-text">108</span>
+<span class="font-label-sm text-[10px] text-status-jatuh-tempo-text truncate max-w-full">Bagus</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">109</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Kevin</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">110</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Arya</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">111</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Yoga</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">112</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Denny</span>
+</div>
+</div>
+</div>
+<div class="bg-bg-subtle p-space-md rounded-xl">
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-title-md text-title-md text-text-primary flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary-container">layers</span>
+                Lantai 2 • 12 Kamar
+              </span>
+<span class="font-label-sm text-label-sm text-text-muted">10 Terisi • 2 Kosong</span>
+</div>
+<div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-12 gap-2">
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">201</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Putri</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">202</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Citra</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">203</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Salsa</span>
+</div>
+<div class="bg-surface-container-high p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-text-secondary">204</span>
+<span class="font-label-sm text-[10px] text-text-muted truncate max-w-full">Verif WA</span>
+</div>
+<div class="bg-status-jatuh-tempo-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-jatuh-tempo-text">205</span>
+<span class="font-label-sm text-[10px] text-status-jatuh-tempo-text truncate max-w-full">Sarah</span>
+</div>
+<div class="bg-surface-container p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-text-muted">206</span>
+<span class="font-label-sm text-[10px] text-status-kosong-text font-bold uppercase truncate max-w-full">Kosong</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">207</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Nadia</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">208</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Bella</span>
+</div>
+<div class="bg-surface-container p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-text-muted">209</span>
+<span class="font-label-sm text-[10px] text-status-kosong-text font-bold uppercase truncate max-w-full">Kosong</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">210</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Maya</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">211</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Tia</span>
+</div>
+<div class="bg-status-lunas-bg p-2 rounded-lg flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-md transition-shadow">
+<span class="font-title-md text-title-md font-bold text-status-lunas-text">212</span>
+<span class="font-label-sm text-[10px] text-status-lunas-text truncate max-w-full">Laras</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="xl:col-span-4 flex flex-col gap-space-lg">
+<div class="bg-bg-surface rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">pending_actions</span>
+<h3 class="font-title-lg text-title-lg text-text-primary">Antrean Bukti Transfer</h3>
+</div>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-status-menunggu-bg text-status-menunggu-text font-bold">
+            2 Menunggu
+          </span>
+</div>
+<div class="space-y-3">
+<div class="bg-bg-subtle p-space-sm rounded-lg flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-title-md text-title-md text-primary-container shrink-0">
+                204
+              </div>
+<div class="min-w-0">
+<h4 class="font-title-md text-title-md text-text-primary truncate">Farhan Maulana</h4>
+<p class="font-body-sm text-body-sm text-text-secondary truncate">Rp 1.650.000 • BCA</p>
+</div>
+</div>
+<button class="shrink-0 bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md px-3 py-1.5 rounded-lg transition-colors" type="button">
+              Cek Bukti
+            </button>
+</div>
+<div class="bg-bg-subtle p-space-sm rounded-lg flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center font-title-md text-title-md text-primary-container shrink-0">
+                301
+              </div>
+<div class="min-w-0">
+<h4 class="font-title-md text-title-md text-text-primary truncate">Anisa Rahmawati</h4>
+<p class="font-body-sm text-body-sm text-text-secondary truncate">Rp 1.800.000 • Mandiri</p>
+</div>
+</div>
+<button class="shrink-0 bg-primary-container hover:bg-primary text-on-primary font-label-md text-label-md px-3 py-1.5 rounded-lg transition-colors" type="button">
+              Cek Bukti
+            </button>
+</div>
+</div>
+</div>
+<div class="bg-bg-surface rounded-xl p-space-lg shadow-sm">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-container text-[22px]">handyman</span>
+<h3 class="font-title-lg text-title-lg text-text-primary">Komplain Penghuni</h3>
+</div>
+<a class="font-label-md text-label-md text-primary-container hover:underline" href="#">Semua →</a>
+</div>
+<div class="space-y-space-sm">
+<div class="p-space-sm rounded-lg bg-bg-subtle flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-title-md text-text-primary">Kamar 104 • AC Kurang Dingin</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-status-jatuh-tempo-bg text-status-jatuh-tempo-text font-bold">
+                Baru
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary">
+              "Suhu tidak dingin walau remote 18°C, filter sudah dibersihkan."
+            </p>
+<div class="flex items-center justify-between text-text-muted font-label-sm text-label-sm pt-1">
+<span>Dilaporkan: Hari ini, 08:30 WIB</span>
+<button class="text-primary-container font-semibold hover:underline" type="button">Tugaskan Tukang</button>
+</div>
+</div>
+<div class="p-space-sm rounded-lg bg-bg-subtle flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-title-md text-title-md text-text-primary">Kamar 202 • Kran Wastafel Bocor</span>
+<span class="font-label-sm text-label-sm px-2 py-0.5 rounded-full bg-status-menunggu-bg text-status-menunggu-text font-bold">
+                Diproses
+              </span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary">
+              "Kran air kamar mandi menetes terus di bawah sambungan pipa."
+            </p>
+<div class="flex items-center justify-between text-text-muted font-label-sm text-label-sm pt-1">
+<span>Teknisi: Pak Joko (Dijadwalkan 14:00)</span>
+<button class="text-secondary font-semibold hover:underline" type="button">Update Status</button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gradient-to-br from-primary-container to-primary text-on-primary rounded-xl p-space-lg shadow-sm relative overflow-hidden">
+<div class="relative z-10 flex flex-col justify-between h-full">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-primary-container">Paket Starter WhatsApp</span>
+<span class="material-symbols-outlined text-[20px] text-on-primary-container">verified</span>
+</div>
+<div class="mt-space-md">
+<span class="font-headline-lg text-headline-lg font-bold">185</span>
+<span class="font-body-md text-body-md text-on-primary-container ml-1">/ 300 pesan</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-primary-container mt-1">
+              Kuota cukup untuk sekitar 6x siklus penagihan rutin bulan ini.
+            </p>
+</div>
+<div class="mt-space-lg">
+<div class="w-full bg-primary/40 h-2 rounded-full overflow-hidden mb-space-md">
+<div class="bg-secondary-container h-full rounded-full" style="width: 61.6%"></div>
+</div>
+<button class="w-full py-2.5 bg-on-primary text-primary font-title-md text-title-md rounded-lg hover:bg-bg-subtle transition-colors shadow-sm text-center" type="button">
+              Beli Kuota Tambahan
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>

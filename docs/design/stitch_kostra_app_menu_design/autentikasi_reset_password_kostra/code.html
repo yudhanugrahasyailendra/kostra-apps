@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#d3daea","error-container":"#ffdad6","on-primary":"#ffffff","on-primary-fixed":"#00201f","on-secondary-container":"#6f4b00","bg-subtle":"#F4F5F6","on-tertiary-container":"#b6c6d0","surface-container-low":"#f0f3ff","status-kosong-border":"#E5E7EB","primary-fixed-dim":"#91d2ce","error":"#ba1a1a","status-kosong-text":"#374151","secondary-fixed-dim":"#fdba45","surface-bright":"#f9f9ff","status-jatuh-tempo-text":"#9F1239","secondary-fixed":"#ffdeae","status-lunas-border":"#A7F3D0","border-subtle":"#E5E7EB","bg-surface":"#FFFFFF","inverse-primary":"#91d2ce","status-kosong-bg":"#F3F4F6","surface-container-highest":"#dce2f3","on-error-container":"#93000a","on-background":"#151c27","surface-container-high":"#e2e8f8","on-surface":"#151c27","status-jatuh-tempo-bg":"#FFE4E6","surface-tint":"#246865","tertiary-container":"#44535b","status-menunggu-text":"#92400E","on-tertiary-fixed-variant":"#3a4951","tertiary-fixed":"#d5e5ef","primary-fixed":"#adefea","primary":"#00413f","background":"#f9f9ff","bg-canvas":"#FBFBFA","text-primary":"#111827","surface":"#f9f9ff","status-lunas-text":"#065F46","secondary":"#7f5700","status-menunggu-border":"#FDE68A","on-tertiary-fixed":"#0e1d25","text-muted":"#9CA3AF","tertiary-fixed-dim":"#b9c9d3","on-secondary":"#ffffff","on-secondary-fixed":"#281900","surface-container":"#e7eefe","on-surface-variant":"#3f4948","status-menunggu-bg":"#FEF3C7","inverse-surface":"#2a313d","on-tertiary":"#ffffff","outline-variant":"#bfc8c7","tertiary":"#2d3c44","on-primary-container":"#8ecfcb","text-secondary":"#4B5563","outline":"#6f7978","surface-variant":"#dce2f3","primary-container":"#0f5a57","surface-container-lowest":"#ffffff","secondary-container":"#fdba45","on-primary-fixed-variant":"#00504d","border-strong":"#D1D5DB","status-jatuh-tempo-border":"#FECDD3","on-secondary-fixed-variant":"#604100","status-lunas-bg":"#ECFDF5","inverse-on-surface":"#ebf1ff","on-error":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem","space-sm":"0.5rem","margin-desktop":"2rem","space-xl":"2rem",gutter:"1rem","margin-tablet":"1.5rem",margin:"1rem","gutter-desktop":"1.5rem","space-xs":"0.25rem","space-2xl":"3rem","space-md":"1rem"},fontFamily:{"label-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"currency-display":["Plus Jakarta Sans"],"title-lg":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"]},fontSize:{"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["18px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"600"}],"headline-md":["22px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"currency-display":["24px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"700"}],"title-lg":["16px",{lineHeight:"22px",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.03em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"label-lg":["14px",{lineHeight:"20px",fontWeight:"500"}],"display-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"title-md":["14px",{lineHeight:"20px",fontWeight:"600"}]}}}};</script></head><body class="bg-bg-canvas font-body-md text-on-surface min-h-screen py-space-xl px-space-md"><main class="w-full max-w-4xl mx-auto"><div class="flex flex-col w-full">
+<!-- Authentication Layout Container -->
+<div class="w-full grid grid-cols-1 lg:grid-cols-12 rounded-xl overflow-hidden shadow-xl bg-bg-surface">
+<!-- Sisi Kiri / Hero Visual & Nilai Unggul (Desktop: 5 cols) -->
+<div class="lg:col-span-5 bg-primary text-on-primary p-space-lg lg:p-space-xl flex flex-col justify-between relative overflow-hidden">
+<!-- Decorative Backdrop Glow -->
+<div class="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-primary-fixed opacity-10 blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-20 -right-20 w-72 h-72 rounded-full bg-secondary-fixed opacity-15 blur-2xl pointer-events-none"></div>
+<!-- Top Section: Brand Badge & Micro Heading -->
+<div class="relative z-10 flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="inline-flex items-center gap-space-xs px-3 py-1 rounded-full bg-on-primary/10 text-primary-fixed font-label-sm text-label-sm tracking-wide">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+            SISTEM MANAJEMEN KOST MODERN
+          </div>
+<span class="px-2.5 py-0.5 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm font-semibold">
+            v2.4 LTS
+          </span>
+</div>
+<div class="space-y-space-xs pt-space-xs">
+<h1 class="font-headline-lg text-headline-lg text-on-primary tracking-tight leading-tight">
+            Kelola Ratusan Kamar &amp; Tagihan Otomatis Tanpa Ribet
+          </h1>
+<p class="font-body-md text-body-md text-primary-fixed-dim">
+            Satu portal terpadu untuk pencatatan sewa, integrasi WhatsApp billing, dan rekonsiliasi pembayaran instan.
+          </p>
+</div>
+</div>
+<!-- Middle: Property Showcase & Live Metric Widget -->
+<div class="relative z-10 my-space-lg flex flex-col gap-space-md">
+<!-- Visual Property Aesthetic Card -->
+<div class="relative rounded-lg overflow-hidden group shadow-md bg-primary-container">
+<img class="w-full h-44 object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out opacity-90" data-alt="Interior of a modern, aesthetic minimalist Indonesian boarding house room with clean warm wooden furniture, ergonomic study desk, comfortable bed, soft warm evening ambient light, and house plants, captured in a pristine architectural photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFx_j3SC5kdZ9PTqQ11lL_FWuMBxKVJ-_8NiiLPtg_SGyHzv6Icz1cdD61Y-TL0IQBPsHY3hRy0ougRl5OmRUF79EoKnNKf5TGaA_-hErWbU86F_ggj9F7jrSIO2xVwRVGcYsip36wHcKVUiUA91GQAFZGRMD4sUjhf2ognUKvbrh1_krsxcaws3E26zT_muihjHOUxP6fYkBLTejMGGrJOxZCvjA3QFCgjpiSkdNx"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-transparent"></div>
+<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between text-on-primary">
+<div>
+<p class="font-title-md text-title-md text-on-primary">Kost Griya Asri Harmoni</p>
+<p class="font-body-sm text-body-sm text-primary-fixed-dim">28 Unit • Okupansi 96.4%</p>
+</div>
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm">
+              Rapi &amp; Terisi
+            </span>
+</div>
+</div>
+<!-- Metric Counter & Guarantee Pill -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="p-space-sm rounded-lg bg-on-primary/5 flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-wider">Garansi Akses</span>
+<span class="font-title-lg text-title-lg text-secondary-fixed">Gratis 10 Kamar</span>
+<span class="font-body-sm text-body-sm text-primary-fixed-dim">Selamanya Tanpa Biaya</span>
+</div>
+<div class="p-space-sm rounded-lg bg-on-primary/5 flex flex-col justify-center">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-wider">Tagihan Otomatis</span>
+<span class="font-title-lg text-title-lg text-on-primary">WA Gateway</span>
+<span class="font-body-sm text-body-sm text-primary-fixed-dim">Kirim Pengingat 1-Klik</span>
+</div>
+</div>
+</div>
+<!-- Bottom: Verified Social Proof Quote -->
+<div class="relative z-10 pt-space-sm border-t border-on-primary/10">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-secondary-fixed text-xl shrink-0" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<div>
+<p class="font-body-sm text-body-sm italic text-on-primary leading-snug">
+              "Sebelum pakai Kostra, tagihan telat tiap tanggal 1. Sekarang pengingat WA jalan sendiri, uang kos langsung masuk tertib."
+            </p>
+<div class="mt-space-xs flex items-center gap-space-xs">
+<span class="font-title-md text-title-md text-secondary-fixed">Bpk. H. Hendrawan</span>
+<span class="font-body-sm text-body-sm text-primary-fixed-dim">• Pemilik 4 Cabang Kost di Malang</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sisi Kanan / Auth Form & Reset Flow (Desktop: 7 cols) -->
+<div class="lg:col-span-7 p-space-lg lg:p-space-xl flex flex-col justify-between bg-bg-surface">
+<!-- Top: Brand Header & Status Alert -->
+<div class="w-full">
+<!-- Logo Kostra Alignment -->
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-space-sm">
+<img alt="Logo Resmi Kostra" class="w-10 h-10 object-contain rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeTiaxWZC5uB5KyDmcR-T3WAa-Vv9Joc-oXC-DKB8FOgXV3Q4jDApPbJ-smpB7-6M3xF58P4JYyQX-QLvk7UIgTx_SfX_ks1ePrKRYzz_WwoHubprelA4mLxzxwwM5MMnwqxquN-xGS-WanolTnyZSPaaBsxzhuuV2lW3Mp12bj0WNaFofiwOy45Iy09VE9tbCLdR_LgYCzVf_AiDVidKKc1PWUaz_gcC14D20Izblyij6qe2k53U9-w"/>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">Kostra</span>
+<span class="font-body-sm text-body-sm text-secondary font-medium tracking-wide">| Kost Rapi</span>
+</div>
+<p class="font-label-sm text-label-sm text-text-secondary">Owner &amp; Staff Access Hub</p>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-bg-subtle text-text-secondary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary inline-block"></span>
+            Server Operasional
+          </span>
+</div>
+<!-- Title Block -->
+<div class="mb-space-lg">
+<h2 class="font-headline-md text-headline-md text-text-primary tracking-tight" id="view-title">
+            Selamat Datang di Kostra
+          </h2>
+<p class="font-body-md text-body-md text-text-secondary mt-1" id="view-subtitle">
+            Masuk ke portal manajemen kos Anda untuk memantau kamar dan tagihan aktif.
+          </p>
+</div>
+<!-- VIEW 1: LOGIN (EMAIL & OTP TABS) -->
+<div class="space-y-space-md" id="login-container">
+<!-- Auth Method Segmented Tabs -->
+<div class="grid grid-cols-2 p-1 bg-bg-subtle rounded-lg text-center" role="tablist">
+<button class="py-2 rounded-md font-title-md text-title-md transition-all duration-200 bg-bg-surface text-primary shadow-sm flex items-center justify-center gap-1.5" id="tab-btn-email" onclick="switchLoginTab('email')" type="button">
+<span class="material-symbols-outlined text-sm">mail</span>
+              Email &amp; Kata Sandi
+            </button>
+<button class="py-2 rounded-md font-title-md text-title-md text-text-secondary hover:text-text-primary transition-all duration-200 flex items-center justify-center gap-1.5" id="tab-btn-otp" onclick="switchLoginTab('otp')" type="button">
+<span class="material-symbols-outlined text-sm">chat</span>
+              WhatsApp OTP Cepat
+            </button>
+</div>
+<!-- Form Area: Email & Password Variant -->
+<form class="space-y-space-md" id="form-email-login" onsubmit="event.preventDefault(); simulateAuthSuccess();">
+<div>
+<label class="block font-title-md text-title-md text-text-primary mb-1" for="input-email">
+                Alamat Email Pengelola / Pemilik
+              </label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-text-muted">
+<span class="material-symbols-outlined text-lg">alternate_email</span>
+</span>
+<input class="w-full h-11 pl-10 pr-3 rounded-lg bg-bg-subtle text-text-primary font-body-md text-body-md placeholder:text-text-muted focus:outline-none focus:bg-bg-surface focus:ring-2 focus:ring-primary/20 transition-colors" id="input-email" placeholder="pemilik@kostra.id" required="" type="email"/>
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1">
+<label class="block font-title-md text-title-md text-text-primary" for="input-password">
+                  Kata Sandi
+                </label>
+<button class="font-title-md text-title-md text-primary hover:underline hover:text-primary-container focus:outline-none" onclick="toggleView('reset')" type="button">
+                  Lupa Kata Sandi?
+                </button>
+</div>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-text-muted">
+<span class="material-symbols-outlined text-lg">lock</span>
+</span>
+<input class="w-full h-11 pl-10 pr-10 rounded-lg bg-bg-subtle text-text-primary font-body-md text-body-md placeholder:text-text-muted focus:outline-none focus:bg-bg-surface focus:ring-2 focus:ring-primary/20 transition-colors" id="input-password" placeholder="••••••••••••" required="" type="password"/>
+<button class="absolute inset-y-0 right-0 flex items-center pr-3 text-text-muted hover:text-text-primary focus:outline-none" onclick="togglePasswordVisibility('input-password', 'eye-icon-login')" type="button">
+<span class="material-symbols-outlined text-lg" id="eye-icon-login">visibility</span>
+</button>
+</div>
+</div>
+<!-- Checkbox & Persistent Session -->
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary bg-bg-subtle accent-primary cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-text-secondary">Ingat saya di perangkat ini (30 hari)</span>
+</label>
+</div>
+<!-- CTA Primary Button -->
+<button class="w-full h-11 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-lg text-title-lg flex items-center justify-center gap-2 shadow-sm transition-all duration-150 active:scale-[0.99]" type="submit">
+<span>Masuk ke Dashboard Kostra</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</form>
+<!-- Form Area: WhatsApp OTP Variant (Initially Hidden) -->
+<form class="hidden space-y-space-md" id="form-otp-login" onsubmit="event.preventDefault(); triggerOtpSent();">
+<div>
+<label class="block font-title-md text-title-md text-text-primary mb-1" for="input-wa">
+                Nomor WhatsApp Aktif
+              </label>
+<div class="flex items-center rounded-lg bg-bg-subtle overflow-hidden focus-within:ring-2 focus-within:ring-primary/20 focus-within:bg-bg-surface">
+<span class="px-3 h-11 flex items-center bg-bg-subtle font-title-md text-title-md text-text-secondary">
+                  +62
+                </span>
+<input class="w-full h-11 pr-3 bg-transparent text-text-primary font-body-md text-body-md placeholder:text-text-muted focus:outline-none" id="input-wa" placeholder="812-3456-7890" type="tel"/>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mt-1.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">lock</span>
+                Kode OTP 6 digit akan dikirimkan langsung ke aplikasi WhatsApp Anda.
+              </p>
+</div>
+<div class="hidden space-y-2 pt-1" id="otp-input-group">
+<label class="block font-title-md text-title-md text-text-primary">
+                Masukkan Kode Verifikasi 6-Digit
+              </label>
+<div class="flex justify-between gap-2">
+<input class="w-12 h-12 text-center font-currency-display text-currency-display rounded-lg bg-bg-subtle focus:bg-bg-surface focus:ring-2 focus:ring-primary/20 text-text-primary" maxlength="1" type="text"/>
+<input class="w-12 h-12 text-center font-currency-display text-currency-display rounded-lg bg-bg-subtle focus:bg-bg-surface focus:ring-2 focus:ring-primary/20 text-text-primary" maxlength="1" type="text"/>
+<input class="w-12 h-12 text-center font-currency-display text-currency-display rounded-lg bg-bg-subtle focus:bg-bg-surface focus:ring-2 focus:ring-primary/20 text-text-primary" maxlength="1" type="text"/>
+<input class="w-12 h-12 text-center font-currency-display text-currency-display rounded-lg bg-bg-subtle focus:bg-bg-surface focus:ring-2 focus:ring-primary/20 text-text-primary" maxlength="1" type="text"/>
+<input class="w-12 h-12 text-center font-currency-display text-currency-display rounded-lg bg-bg-subtle focus:bg-bg-surface focus:ring-2 focus:ring-primary/20 text-text-primary" maxlength="1" type="text"/>
+<input class="w-12 h-12 text-center font-currency-display text-currency-display rounded-lg bg-bg-subtle focus:bg-bg-surface focus:ring-2 focus:ring-primary/20 text-text-primary" maxlength="1" type="text"/>
+</div>
+<div class="flex justify-between items-center text-body-sm">
+<span class="text-text-muted">Tidak menerima kode?</span>
+<button class="text-primary font-title-md hover:underline" type="button">Kirim Ulang (54s)</button>
+</div>
+</div>
+<button class="w-full h-11 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-title-lg text-title-lg flex items-center justify-center gap-2 shadow-sm transition-all duration-150 active:scale-[0.99]" id="btn-otp-action" type="submit">
+<span class="material-symbols-outlined text-lg">send</span>
+<span id="btn-otp-text">Kirim Kode OTP WhatsApp</span>
+</button>
+</form>
+</div>
+<!-- VIEW 2: RESET PASSWORD / PEMULIHAN AKUN (FND-02) (Initially Hidden) -->
+<div class="hidden space-y-space-md" id="reset-container">
+<div class="p-space-md rounded-lg bg-status-menunggu-bg text-status-menunggu-text flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-xl shrink-0 mt-0.5">info</span>
+<div class="space-y-1">
+<p class="font-title-md text-title-md">Pemulihan Kredensial Pengelola (FND-02)</p>
+<p class="font-body-sm text-body-sm">
+                Tautan aman pemulihan akan dikirimkan secara terenkripsi ke WhatsApp atau Email terdaftar. Tautan hanya berlaku selama <strong>60 menit</strong> demi keamanan properti Anda.
+              </p>
+</div>
+</div>
+<form class="space-y-space-md" onsubmit="event.preventDefault(); simulateResetRequest();">
+<div>
+<label class="block font-title-md text-title-md text-text-primary mb-1" for="input-reset-target">
+                Email atau No. WhatsApp Terdaftar
+              </label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-text-muted">
+<span class="material-symbols-outlined text-lg">badge</span>
+</span>
+<input class="w-full h-11 pl-10 pr-3 rounded-lg bg-bg-subtle text-text-primary font-body-md text-body-md placeholder:text-text-muted focus:outline-none focus:bg-bg-surface focus:ring-2 focus:ring-primary/20 transition-colors" id="input-reset-target" placeholder="Contoh: hendra@kostra.id atau 081234567890" required="" type="text"/>
+</div>
+</div>
+<!-- Role Selector -->
+<div>
+<label class="block font-title-md text-title-md text-text-primary mb-1">
+                Tipe Akses Pengguna
+              </label>
+<div class="grid grid-cols-2 gap-space-sm">
+<label class="flex items-center gap-2 p-2.5 rounded-lg bg-bg-subtle cursor-pointer hover:bg-surface-container">
+<input checked="" class="accent-primary" name="auth-role" type="radio" value="owner"/>
+<span class="font-body-md text-body-md text-text-primary">Pemilik Properti</span>
+</label>
+<label class="flex items-center gap-2 p-2.5 rounded-lg bg-bg-subtle cursor-pointer hover:bg-surface-container">
+<input class="accent-primary" name="auth-role" type="radio" value="staff"/>
+<span class="font-body-md text-body-md text-text-primary">Staf / Resepsionis</span>
+</label>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="space-y-space-xs pt-1">
+<button class="w-full h-11 rounded-lg bg-secondary hover:bg-on-secondary-container text-on-secondary font-title-lg text-title-lg flex items-center justify-center gap-2 shadow-sm transition-all duration-150" type="submit">
+<span class="material-symbols-outlined text-lg">mark_email_read</span>
+<span>Kirim Tautan Reset Mandiri</span>
+</button>
+<button class="w-full h-10 rounded-lg text-text-secondary hover:text-text-primary font-title-md text-title-md flex items-center justify-center gap-1.5 transition-colors" onclick="toggleView('login')" type="button">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span>Kembali ke Halaman Masuk</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Success Toast Notification Alert (Hidden Default) -->
+<div class="hidden mt-space-md p-space-sm rounded-lg bg-status-lunas-bg text-status-lunas-text flex items-center gap-space-xs" id="auth-alert">
+<span class="material-symbols-outlined text-lg">check_circle</span>
+<span class="font-body-sm text-body-sm font-medium" id="auth-alert-message">Instruksi reset berhasil dikirim ke kontak Anda.</span>
+</div>
+</div>
+<!-- Bottom: Onboarding Link & Regulatory PDP Footer -->
+<div class="w-full pt-space-lg mt-space-md border-t border-bg-subtle">
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm mb-space-sm">
+<span class="font-body-md text-body-md text-text-secondary">
+            Belum memiliki akun Kostra?
+          </span>
+<a class="font-title-lg text-title-lg text-primary hover:text-primary-container font-semibold flex items-center gap-1" href="#">
+            Daftarkan Kos Anda Gratis
+            <span class="material-symbols-outlined text-base">open_in_new</span>
+</a>
+</div>
+<!-- Regulatory and Security Footer Notice -->
+<div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-2 text-text-muted font-body-sm text-body-sm">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-sm text-primary">security</span>
+<span>Data terlindungi UU PDP No. 27/2022 &amp; Enkripsi AES-256</span>
+</div>
+<div class="flex items-center gap-3">
+<a class="hover:underline" href="#">Bantuan WhatsApp</a>
+<span>•</span>
+<a class="hover:underline" href="#">Syarat &amp; Ketentuan</a>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Auth Tab Switcher (Email vs OTP)
+  function switchLoginTab(mode) {
+    const btnEmail = document.getElementById('tab-btn-email');
+    const btnOtp = document.getElementById('tab-btn-otp');
+    const formEmail = document.getElementById('form-email-login');
+    const formOtp = document.getElementById('form-otp-login');
+    const alertBox = document.getElementById('auth-alert');
+
+    if (alertBox) alertBox.classList.add('hidden');
+
+    if (mode === 'email') {
+      btnEmail.className = "py-2 rounded-md font-title-md text-title-md transition-all duration-200 bg-bg-surface text-primary shadow-sm flex items-center justify-center gap-1.5";
+      btnOtp.className = "py-2 rounded-md font-title-md text-title-md text-text-secondary hover:text-text-primary transition-all duration-200 flex items-center justify-center gap-1.5";
+      formEmail.classList.remove('hidden');
+      formOtp.classList.add('hidden');
+    } else {
+      btnOtp.className = "py-2 rounded-md font-title-md text-title-md transition-all duration-200 bg-bg-surface text-primary shadow-sm flex items-center justify-center gap-1.5";
+      btnEmail.className = "py-2 rounded-md font-title-md text-title-md text-text-secondary hover:text-text-primary transition-all duration-200 flex items-center justify-center gap-1.5";
+      formOtp.classList.remove('hidden');
+      formEmail.classList.add('hidden');
+    }
+  }
+
+  // View Switcher (Login vs FND-02 Reset Password)
+  function toggleView(target) {
+    const loginContainer = document.getElementById('login-container');
+    const resetContainer = document.getElementById('reset-container');
+    const viewTitle = document.getElementById('view-title');
+    const viewSubtitle = document.getElementById('view-subtitle');
+    const alertBox = document.getElementById('auth-alert');
+
+    if (alertBox) alertBox.classList.add('hidden');
+
+    if (target === 'reset') {
+      loginContainer.classList.add('hidden');
+      resetContainer.classList.remove('hidden');
+      viewTitle.textContent = "Atur Ulang Kata Sandi";
+      viewSubtitle.textContent = "Pulihkan akses dashboard pengelola dengan memasukkan kontak resmi terdaftar.";
+    } else {
+      resetContainer.classList.add('hidden');
+      loginContainer.classList.remove('hidden');
+      viewTitle.textContent = "Selamat Datang di Kostra";
+      viewSubtitle.textContent = "Masuk ke portal manajemen kos Anda untuk memantau kamar dan tagihan aktif.";
+    }
+  }
+
+  // Toggle Password Masking
+  function togglePasswordVisibility(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (!input || !icon) return;
+
+    if (input.type === 'password') {
+      input.type = 'text';
+      icon.textContent = 'visibility_off';
+    } else {
+      input.type = 'password';
+      icon.textContent = 'visibility';
+    }
+  }
+
+  // WhatsApp OTP Send simulation
+  function triggerOtpSent() {
+    const otpGroup = document.getElementById('otp-input-group');
+    const btnText = document.getElementById('btn-otp-text');
+    const alertBox = document.getElementById('auth-alert');
+    const alertMsg = document.getElementById('auth-alert-message');
+
+    otpGroup.classList.remove('hidden');
+    btnText.textContent = "Verifikasi OTP & Buka Dashboard";
+    
+    alertMsg.textContent = "Kode verifikasi 6 digit telah dikirim ke nomor WhatsApp Anda.";
+    alertBox.className = "mt-space-md p-space-sm rounded-lg bg-status-lunas-bg text-status-lunas-text flex items-center gap-space-xs";
+    alertBox.classList.remove('hidden');
+  }
+
+  // Reset simulation
+  function simulateResetRequest() {
+    const alertBox = document.getElementById('auth-alert');
+    const alertMsg = document.getElementById('auth-alert-message');
+    alertMsg.textContent = "Tautan reset telah dikirim! Periksa inbox WhatsApp/Email Anda dalam 60 detik ke depan.";
+    alertBox.className = "mt-space-md p-space-sm rounded-lg bg-status-lunas-bg text-status-lunas-text flex items-center gap-space-xs";
+    alertBox.classList.remove('hidden');
+  }
+
+  // Auth Success Mock
+  function simulateAuthSuccess() {
+    const alertBox = document.getElementById('auth-alert');
+    const alertMsg = document.getElementById('auth-alert-message');
+    alertMsg.textContent = "Kredensial terverifikasi. Mengarahkan ke Dashboard Utama Kostra...";
+    alertBox.className = "mt-space-md p-space-sm rounded-lg bg-status-lunas-bg text-status-lunas-text flex items-center gap-space-xs";
+    alertBox.classList.remove('hidden');
+  }
+</script></main></body></html>

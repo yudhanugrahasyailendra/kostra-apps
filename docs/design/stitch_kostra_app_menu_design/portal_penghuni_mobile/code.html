@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_tab" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100%;margin:0;padding:0;}body{overscroll-behavior-y:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-surface": "#2a313d", "status-menunggu-text": "#92400E", "primary-fixed": "#adefea", "status-menunggu-bg": "#FEF3C7", "surface-tint": "#246865", "text-primary": "#111827", "tertiary-fixed-dim": "#b9c9d3", "primary-container": "#0f5a57", "border-subtle": "#E5E7EB", "on-primary-container": "#8ecfcb", "status-menunggu-border": "#FDE68A", "border-strong": "#D1D5DB", "on-surface-variant": "#3f4948", "outline": "#6f7978", "secondary-fixed-dim": "#fdba45", "tertiary-container": "#44535b", "surface-container-highest": "#dce2f3", "status-jatuh-tempo-text": "#9F1239", "on-background": "#151c27", "on-surface": "#151c27", "on-secondary-container": "#6f4b00", "tertiary-fixed": "#d5e5ef", "error": "#ba1a1a", "status-kosong-bg": "#F3F4F6", "secondary-fixed": "#ffdeae", "primary-fixed-dim": "#91d2ce", "secondary": "#7f5700", "on-secondary-fixed-variant": "#604100", "surface-container-high": "#e2e8f8", "surface-variant": "#dce2f3", "status-lunas-border": "#A7F3D0", "on-tertiary-fixed-variant": "#3a4951", "surface-dim": "#d3daea", "on-primary-fixed-variant": "#00504d", "surface-bright": "#f9f9ff", "on-error-container": "#93000a", "status-lunas-bg": "#ECFDF5", "on-tertiary-fixed": "#0e1d25", "error-container": "#ffdad6", "status-jatuh-tempo-border": "#FECDD3", "on-primary": "#ffffff", "status-kosong-border": "#E5E7EB", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "on-secondary-fixed": "#281900", "secondary-container": "#fdba45", "status-jatuh-tempo-bg": "#FFE4E6", "tertiary": "#2d3c44", "inverse-primary": "#91d2ce", "inverse-on-surface": "#ebf1ff", "surface": "#f9f9ff", "outline-variant": "#bfc8c7", "text-secondary": "#4B5563", "text-muted": "#9CA3AF", "on-tertiary-container": "#b6c6d0", "primary": "#00413f", "on-secondary": "#ffffff", "status-kosong-text": "#374151", "background": "#f9f9ff", "surface-container": "#e7eefe", "on-primary-fixed": "#00201f", "bg-canvas": "#FBFBFA", "bg-surface": "#FFFFFF", "bg-subtle": "#F4F5F6", "surface-container-low": "#f0f3ff", "status-lunas-text": "#065F46", "on-tertiary": "#ffffff" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "space-xs": "0.25rem", "margin-desktop": "2rem", "space-sm": "0.5rem", "space-md": "1rem", "gutter": "1rem", "gutter-desktop": "1.5rem", "space-2xl": "3rem", "margin": "1rem", "margin-tablet": "1.5rem", "space-xl": "2rem" }, "fontFamily": { "label-md": ["Plus Jakarta Sans"], "headline-lg": ["Plus Jakarta Sans"], "title-md": ["Plus Jakarta Sans"], "label-lg": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "label-sm": ["Plus Jakarta Sans"], "headline-sm": ["Plus Jakarta Sans"], "body-md": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "currency-display": ["Plus Jakarta Sans"], "headline-md": ["Plus Jakarta Sans"], "title-lg": ["Plus Jakarta Sans"], "display-lg": ["Plus Jakarta Sans"], "display-lg-mobile": ["Plus Jakarta Sans"] }, "fontSize": { "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "title-md": ["14px", { "lineHeight": "20px", "fontWeight": "600" }], "label-lg": ["14px", { "lineHeight": "20px", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "600" }], "headline-sm": ["18px", { "lineHeight": "24px", "letterSpacing": "-0.005em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "currency-display": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "title-lg": ["16px", { "lineHeight": "22px", "fontWeight": "600" }], "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "display-lg-mobile": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700" }] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-bg-canvas font-body-md text-text-primary antialiased min-h-screen flex flex-col"><header class="fixed top-0 w-full z-50 pt-safe bg-bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-20 px-margin flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0 flex-1"><img alt="Logo Kostra (Kost Rapi).png" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1WlJH1me34_SrxIFcCEQ0-WUDGMbqvnP81oELSrlla7KjucDYKhED42IM9RIYvplM7RsEHNxf_anGCfLZM0o_WujGeHmYWJpx5NoO_boiSUR6Qw7JNul2Fm23TU7CRWRt-z7fbh7ecPuRmhB6-RaHCVJ3d0OLZeuVWWoUS36agPGgS8_caV2GS1MiQJ0KQ-INKhfFkYif_Y0oJsH5-dR7CEPiG2yM_F3kS3hK_rmUJhO7_pXGHgbXhGGSZo"/><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-xs"><span class="font-label-sm text-text-muted uppercase tracking-wider truncate">Kost Griya Harmoni</span><span class="w-1 h-1 rounded-full bg-border-strong flex-shrink-0"></span><span class="font-label-sm text-primary font-bold truncate">Tagihan Dan Status</span></div><span class="font-title-md text-text-primary truncate">Halo, Dimas Prasetyo (Kamar 204)</span></div></div><div class="flex items-center gap-space-xs flex-shrink-0"><a aria-label="Chat Pengelola via WhatsApp" class="h-11 px-space-sm rounded-lg bg-[#25D366]/10 text-[#075E54] hover:bg-[#25D366]/20 flex items-center justify-center gap-1 transition-colors" href="https://wa.me/6281234567890?text=Halo%20Pengelola%20Kost%20Griya%20Harmoni%2C%20saya%20Dimas%20Prasetyo%20Kamar%20204" rel="noopener noreferrer" target="_blank"><span class="material-symbols-outlined text-[20px]">chat</span><span class="font-label-sm font-semibold">Pengelola</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex-1 w-full pt-20 pb-24 bg-bg-canvas"><div class="flex flex-col w-full px-margin space-y-space-md">
+<!-- Floating Toast Notification for Copy / Actions -->
+<div class="fixed top-24 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 pointer-events-none opacity-0 translate-y-[-8px]" id="toastNotification">
+<div class="bg-inverse-surface text-inverse-on-surface px-space-md py-space-xs rounded-full shadow-lg flex items-center gap-space-xs font-label-md text-label-md">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span id="toastMessage">Nomor rekening berhasil disalin!</span>
+</div>
+</div>
+<!-- Resident Identity Card (Login-less Token Welcome) -->
+<section class="bg-bg-surface rounded-xl p-space-md shadow-sm relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 rounded-full bg-primary-fixed/20 pointer-events-none blur-2xl"></div>
+<div class="flex items-start justify-between gap-space-sm mb-space-sm">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span>Portal Penghuni Resmi</span>
+</div>
+<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-status-kosong-bg text-status-kosong-text font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span>Akses Terverifikasi</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="relative w-12 h-12 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center flex-shrink-0 shadow-inner">
+<span class="font-headline-sm text-headline-sm font-bold text-on-primary">204</span>
+</div>
+<div class="flex flex-col min-w-0">
+<h1 class="font-title-lg text-title-lg text-text-primary truncate">Dimas Prasetyo</h1>
+<p class="font-body-sm text-body-sm text-text-secondary truncate">Kamar 204 • Tipe Deluxe AC</p>
+<span class="font-label-sm text-label-sm text-primary font-medium mt-0.5">Kost Griya Harmoni, Jakarta Selatan</span>
+</div>
+</div>
+</section>
+<!-- Active Bill Hero Card (PRT-01 & PRT-02) -->
+<section class="bg-bg-surface rounded-xl shadow-md p-space-md relative overflow-hidden">
+<div class="flex items-center justify-between gap-space-sm pb-space-sm">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted">No. Invoice</span>
+<span class="font-title-md text-title-md text-text-primary tracking-wide">INV-2026-10-0002</span>
+</div>
+<div class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-status-menunggu-bg text-status-menunggu-text font-label-sm text-label-sm shadow-sm">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>Menunggu Pembayaran</span>
+</div>
+</div>
+<div class="my-space-sm p-space-md rounded-xl bg-bg-subtle flex flex-col gap-space-xs">
+<div class="flex justify-between items-center text-text-secondary font-label-md text-label-md">
+<span>Periode Sewa</span>
+<span class="text-text-primary font-semibold">Oktober 2026</span>
+</div>
+<div class="flex justify-between items-center text-text-secondary font-label-md text-label-md">
+<span>Jatuh Tempo</span>
+<span class="text-status-jatuh-tempo-text font-semibold flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-status-jatuh-tempo-text"></span>
+          10 Oktober 2026 (Hari Ini)
+        </span>
+</div>
+<div class="pt-space-sm mt-space-xs flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted">Total Pembayaran</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-title-lg text-title-lg text-primary font-bold">Rp</span>
+<span class="font-display-lg-mobile text-display-lg-mobile text-primary font-extrabold tracking-tight">1.850.000</span>
+</div>
+</div>
+</div>
+<!-- Collapsible Cost Breakdown Accordion -->
+<details class="group bg-canvas rounded-lg overflow-hidden">
+<summary class="list-none flex items-center justify-between p-space-sm cursor-pointer select-none text-text-secondary hover:text-text-primary">
+<span class="font-label-md text-label-md flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">receipt_long</span>
+          Lihat Rincian Tagihan
+        </span>
+<span class="material-symbols-outlined text-[18px] transition-transform duration-200 group-open:rotate-180 text-text-muted">expand_more</span>
+</summary>
+<div class="px-space-sm pb-space-sm pt-space-xs space-y-2 text-text-secondary font-body-sm text-body-sm bg-bg-canvas">
+<div class="flex justify-between items-center">
+<span>Sewa Kamar 204 (Deluxe AC)</span>
+<span class="font-medium text-text-primary">Rp 1.800.000</span>
+</div>
+<div class="flex justify-between items-center">
+<span>Iuran Kebersihan &amp; Sampah</span>
+<span class="font-medium text-text-primary">Rp 50.000</span>
+</div>
+<div class="flex justify-between items-center pt-2 font-semibold text-text-primary">
+<span>Total Bersih</span>
+<span class="text-primary font-bold">Rp 1.850.000</span>
+</div>
+</div>
+</details>
+</section>
+<!-- Payment Methods & Landlord Accounts (PRT-03 & PRT-04) -->
+<section class="bg-bg-surface rounded-xl shadow-sm p-space-md space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">account_balance</span>
+<h2 class="font-title-lg text-title-lg text-text-primary">Metode Pembayaran</h2>
+</div>
+<span class="font-label-sm text-label-sm text-text-muted">A.n. Pemilik Kost</span>
+</div>
+<!-- Bank Accounts List -->
+<div class="space-y-space-sm">
+<!-- BCA Card -->
+<div class="p-space-sm rounded-xl bg-bg-subtle flex items-center justify-between gap-space-sm transition-all hover:bg-surface-container-low">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-11 h-11 rounded-lg bg-bg-surface flex items-center justify-center font-bold text-primary text-title-md shadow-xs flex-shrink-0">
+            BCA
+          </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-muted">Bank Central Asia</span>
+<span class="font-title-md text-title-md text-text-primary tracking-wider truncate font-mono">8820 4910 22</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">a.n. Hendra Gunawan</span>
+</div>
+</div>
+<button aria-label="Salin Rekening BCA" class="h-10 px-3 rounded-lg bg-bg-surface hover:bg-primary/10 text-primary flex items-center justify-center gap-1 shadow-xs transition-colors flex-shrink-0 active:scale-95" onclick="copyToClipboard('8820491022', 'Nomor Rekening BCA berhasil disalin!')">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+<span class="font-label-sm text-label-sm">Salin</span>
+</button>
+</div>
+<!-- Mandiri Card -->
+<div class="p-space-sm rounded-xl bg-bg-subtle flex items-center justify-between gap-space-sm transition-all hover:bg-surface-container-low">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-11 h-11 rounded-lg bg-bg-surface flex items-center justify-center font-bold text-secondary text-title-md shadow-xs flex-shrink-0">
+            MDR
+          </div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-text-muted">Bank Mandiri</span>
+<span class="font-title-md text-title-md text-text-primary tracking-wider truncate font-mono">1370 0192 8472</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">a.n. Hendra Gunawan</span>
+</div>
+</div>
+<button aria-label="Salin Rekening Mandiri" class="h-10 px-3 rounded-lg bg-bg-surface hover:bg-primary/10 text-primary flex items-center justify-center gap-1 shadow-xs transition-colors flex-shrink-0 active:scale-95" onclick="copyToClipboard('137001928472', 'Nomor Rekening Mandiri berhasil disalin!')">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+<span class="font-label-sm text-label-sm">Salin</span>
+</button>
+</div>
+</div>
+<!-- QRIS Option Drawer -->
+<details class="group rounded-xl bg-surface-container-low overflow-hidden">
+<summary class="list-none flex items-center justify-between p-space-sm cursor-pointer select-none text-text-primary">
+<div class="flex items-center gap-space-xs font-title-md text-title-md">
+<span class="material-symbols-outlined text-secondary text-[20px]">qr_code_scanner</span>
+<span>Bayar Praktis via QRIS Pemilik</span>
+</div>
+<span class="material-symbols-outlined text-[20px] transition-transform duration-200 group-open:rotate-180 text-text-muted">expand_more</span>
+</summary>
+<div class="p-space-md pt-0 flex flex-col items-center text-center">
+<div class="p-3 bg-bg-surface rounded-xl shadow-xs mt-space-xs mb-space-sm flex flex-col items-center">
+<!-- Static QRIS Representation SVG -->
+<svg class="w-48 h-48 text-text-primary" fill="none" viewbox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+<rect fill="white" height="160" rx="8" width="160"></rect>
+<!-- Corner marker TL -->
+<rect fill="#00413F" height="40" rx="4" width="40" x="16" y="16"></rect>
+<rect fill="white" height="28" rx="2" width="28" x="22" y="22"></rect>
+<rect fill="#00413F" height="16" rx="1" width="16" x="28" y="28"></rect>
+<!-- Corner marker TR -->
+<rect fill="#00413F" height="40" rx="4" width="40" x="104" y="16"></rect>
+<rect fill="white" height="28" rx="2" width="28" x="110" y="22"></rect>
+<rect fill="#00413F" height="16" rx="1" width="16" x="116" y="28"></rect>
+<!-- Corner marker BL -->
+<rect fill="#00413F" height="40" rx="4" width="40" x="16" y="104"></rect>
+<rect fill="white" height="28" rx="2" width="28" x="22" y="110"></rect>
+<rect fill="#00413F" height="16" rx="1" width="16" x="28" y="116"></rect>
+<!-- Dummy Data Matrix Blocks -->
+<rect fill="#151C27" height="12" width="12" x="64" y="20"></rect>
+<rect fill="#151C27" height="8" width="16" x="80" y="28"></rect>
+<rect fill="#151C27" height="12" width="24" x="68" y="44"></rect>
+<rect fill="#151C27" height="16" width="16" x="20" y="68"></rect>
+<rect fill="#151C27" height="20" width="12" x="44" y="64"></rect>
+<rect fill="#00413F" height="32" rx="4" width="32" x="64" y="64"></rect>
+<rect fill="white" height="12" width="12" x="74" y="74"></rect>
+<rect fill="#151C27" height="12" width="20" x="104" y="68"></rect>
+<rect fill="#151C27" height="24" width="16" x="128" y="64"></rect>
+<rect fill="#151C27" height="12" width="16" x="64" y="108"></rect>
+<rect fill="#151C27" height="20" width="20" x="88" y="104"></rect>
+<rect fill="#151C27" height="16" width="28" x="116" y="104"></rect>
+<rect fill="#151C27" height="16" width="32" x="68" y="128"></rect>
+<rect fill="#151C27" height="16" width="16" x="108" y="128"></rect>
+<rect fill="#151C27" height="20" width="12" x="132" y="124"></rect>
+</svg>
+<span class="font-label-sm text-label-sm text-text-muted mt-2 tracking-wide font-mono">NMID: ID1020394857102</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary max-w-xs">
+          Bisa di-scan menggunakan GoPay, OVO, Dana, BCA Mobile, Livin', dan seluruh aplikasi e-wallet berstandar QRIS.
+        </p>
+</div>
+</details>
+</section>
+<!-- Upload Proof Form Section (PRT-05) -->
+<section class="bg-bg-surface rounded-xl shadow-sm p-space-md space-y-space-md">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">cloud_upload</span>
+<div>
+<h2 class="font-title-lg text-title-lg text-text-primary">Konfirmasi Pembayaran</h2>
+<p class="font-body-sm text-body-sm text-text-secondary">Kirim bukti transfer agar langsung diverifikasi</p>
+</div>
+</div>
+<form class="space-y-space-md" id="paymentProofForm" onsubmit="handleProofSubmit(event)">
+<!-- Drag & Drop Upload Zone -->
+<div class="cursor-pointer bg-bg-subtle hover:bg-surface-container-low transition-colors rounded-xl p-space-md flex flex-col items-center justify-center text-center relative group min-h-[140px]" id="dropZone" onclick="document.getElementById('proofFileInput').click()">
+<input accept="image/png, image/jpeg, image/jpg" class="hidden" id="proofFileInput" onchange="previewFile(event)" type="file"/>
+<div class="flex flex-col items-center" id="uploadPlaceholder">
+<div class="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mb-2 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[26px]">add_photo_alternate</span>
+</div>
+<span class="font-title-md text-title-md text-text-primary">Pilih Foto Bukti Transfer</span>
+<span class="font-body-sm text-body-sm text-text-muted mt-0.5">Format JPG atau PNG (Maksimal 5MB)</span>
+</div>
+<!-- Image Preview Container -->
+<div class="hidden w-full flex-col items-center" id="previewContainer">
+<div class="relative w-28 h-28 rounded-lg overflow-hidden shadow-xs mb-2">
+<img class="w-full h-full object-cover" data-alt="Tangkapan layar bukti transfer m-banking pembayaran uang kos Dimas Prasetyo dengan teks nominal Rp 1.850.000 ke rekening BCA Hendra Gunawan berstatus berhasil di layar ponsel" id="imagePreview" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwxhmoWLwqzLZempn36yTRfx3Vvj7HMEylkGBxfgJrewJWJKGUIrfeltjKSorp5wCrDfuVylXDR1qHUKwrs4YYXF2COeqCrYLjC2hXDxPmqr5zY96CO-n0h6VBdmoxg2kU5hUvlQZbJ0NxoHRptgBjDbimQROCI3QTVzxw9xnExwJzdNz4X0Gasc8r2AHwcORxkbRUnx-Ec4nDJTRjQXu77D75fDRj0eCBiTsHRK6u"/>
+</div>
+<span class="font-label-md text-label-md text-primary max-w-[240px] truncate" id="fileName">struk-pembayaran.jpg</span>
+<span class="font-label-sm text-label-sm text-text-muted mt-0.5">Ketuk untuk ganti foto</span>
+</div>
+</div>
+<!-- Date Input -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-text-primary" for="transferDate">Tanggal Transfer</label>
+<div class="relative">
+<input class="w-full h-[44px] px-3 bg-bg-subtle rounded-lg text-text-primary font-body-md text-body-md focus:bg-bg-surface focus:outline-none focus:shadow-md transition-all" id="transferDate" required="" type="date" value="2026-10-10"/>
+</div>
+</div>
+<!-- Amount Input -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-text-primary" for="transferAmount">Jumlah Transfer</label>
+<div class="flex rounded-lg overflow-hidden bg-bg-subtle focus-within:bg-bg-surface focus-within:shadow-md transition-all">
+<div class="px-3 bg-border-subtle flex items-center font-title-md text-title-md text-text-secondary">
+            Rp
+          </div>
+<input class="w-full h-[44px] px-3 bg-transparent text-text-primary font-title-md text-title-md focus:outline-none" id="transferAmount" required="" type="text" value="1.850.000"/>
+</div>
+</div>
+<!-- Note Input -->
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-text-primary" for="transferNotes">Catatan Tambahan (Opsional)</label>
+<input class="w-full h-[44px] px-3 bg-bg-subtle rounded-lg text-text-primary font-body-md text-body-md focus:bg-bg-surface focus:outline-none focus:shadow-md transition-all" id="transferNotes" placeholder="Contoh: Sudah transfer via m-BCA a.n Dimas" type="text"/>
+</div>
+<!-- Submit Action Button -->
+<button class="w-full h-12 bg-primary hover:bg-primary-container text-on-primary rounded-xl font-title-md text-title-md flex items-center justify-center gap-space-xs shadow-md active:scale-[0.98] transition-all" id="submitProofBtn" type="submit">
+<span class="material-symbols-outlined text-[20px]">send</span>
+<span>Kirim Bukti Pembayaran</span>
+</button>
+</form>
+</section>
+<!-- Quick Actions Grid (PRT-06, PRT-07, PRT-08) -->
+<section class="space-y-space-sm pt-space-xs">
+<h3 class="font-title-md text-title-md text-text-primary px-space-xs">Layanan &amp; Bantuan Kamar</h3>
+<!-- Card 1: Last Month Receipt (PRT-06) -->
+<div class="bg-bg-surface rounded-xl p-space-md shadow-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-status-lunas-bg text-status-lunas-text flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary truncate">September 2026</span>
+<span class="px-2 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm uppercase">Lunas</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted truncate">Kuitansi #KWT-2026-09-0021</span>
+</div>
+</div>
+<button aria-label="Unduh Kuitansi" class="h-10 px-3 rounded-lg bg-bg-subtle hover:bg-surface-container-low text-text-primary flex items-center justify-center gap-1 font-label-md text-label-md flex-shrink-0 active:scale-95 transition-all" onclick="triggerDownloadReceipt()">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span class="hidden xs:inline">PDF</span>
+</button>
+</div>
+<!-- Card 2: Report Facilities / Komplain (PRT-07) -->
+<div class="bg-bg-surface rounded-xl p-space-md shadow-sm flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-secondary-container/20 text-on-secondary-container flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[22px]">handyman</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-text-primary truncate">Ada Kerusakan Kamar?</span>
+<span class="font-body-sm text-body-sm text-text-secondary truncate">AC bocor, lampu mati, atau kran rusak</span>
+</div>
+</div>
+<button class="h-10 px-3 rounded-lg bg-secondary hover:bg-on-secondary-fixed-variant text-on-secondary flex items-center justify-center gap-1 font-label-md text-label-md flex-shrink-0 active:scale-95 transition-all" onclick="openComplaintModal()">
+<span>Lapor</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+<!-- Card 3: WhatsApp Landlord CTA (PRT-08) -->
+<a class="bg-[#25D366]/10 hover:bg-[#25D366]/15 rounded-xl p-space-md flex items-center justify-between gap-space-sm transition-all group" href="https://wa.me/6281234567890?text=Halo%20Pak%20Hendra%2C%20saya%20Dimas%20dari%20Kamar%20204%20Kost%20Griya%20Harmoni." rel="noopener noreferrer" target="_blank">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-xl bg-[#25D366] text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[22px]">chat</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-title-md text-title-md text-text-primary truncate">Chat Pengelola (Pak Hendra)</span>
+<span class="font-body-sm text-body-sm text-[#075E54] truncate">Respons cepat via WhatsApp</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[#075E54] group-hover:translate-x-1 transition-transform text-[20px]">open_in_new</span>
+</a>
+</section>
+<!-- Visual Room Gallery Strip (Domus Comfort Feeling) -->
+<section class="pt-space-xs pb-space-sm">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-md text-label-md text-text-muted">Fasilitas Kamar Anda</span>
+<span class="font-label-sm text-label-sm text-primary">Kamar 204</span>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div class="relative h-28 rounded-xl overflow-hidden shadow-xs">
+<img class="w-full h-full object-cover" data-alt="Kamar kos modern minimalis tipe Deluxe AC dengan tempat tidur empuk seprai abu-abu, meja kerja kayu hangat, pencahayaan alami jendela siang hari, dan tanaman sukulen hias" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmhw1evEQGhwqsPGCnaFiXCPanTJuca0-slCGpJSOPOegwChX-spLPepSzeUPOIDwfJCNQ27si2wWpD04kAVn81Hum7XHtPjhMXf-Z6LWuCw2LZzmYPNwcqRqoFgsCymEw-z79LASmNa_xqL5JaJBfi6umc3dRCg-nIUUpYS1qnE-aapAKJp9tZKEm29CTjvOc8bJyV30GdJRqnkMqot8Zo8yc0xUwV9tF7VZ7Ofca"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2">
+<span class="text-white font-label-sm text-label-sm font-medium">Bed &amp; Meja Belajar</span>
+</div>
+</div>
+<div class="relative h-28 rounded-xl overflow-hidden shadow-xs">
+<img class="w-full h-full object-cover" data-alt="Kamar mandi dalam kamar kos bersih berkeramik putih modern dengan shower air hangat, cermin bulat dengan lampu LED hangat, dan wastafel rapi" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfsbRvcGbeuc1k6DUe_K9yMxLEbz1e6izoD-RoNo9Z0Wi2FCC6rPCaHoVzpLKjODP6ZHdWNhZvfXF4em5omoBkArIijf92C05nA6EDMIUy8wEeA-FC4_uKv-vUT6m0K4WWQC59nO1FCjboGonHOTLp7lIWzq0h7Hj4Q7Jf44OXbDp4_BLDXAWzO9ejFTgW-eZCNF2XbhCiqVO12n1GiR0I7V7gaTUOluu85-EYA0-n"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-2">
+<span class="text-white font-label-sm text-label-sm font-medium">Kamar Mandi Dalam</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Report Complaint Drawer / Dialog -->
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm hidden flex-col justify-end transition-opacity" id="complaintModal">
+<div class="bg-bg-surface w-full rounded-t-2xl p-space-lg max-h-[751px] overflow-y-auto space-y-space-md shadow-2xl animate-in slide-in-from-bottom duration-200">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-full bg-secondary/10 text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">build</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-text-primary">Lapor Kendala Fasilitas</h3>
+</div>
+<button class="w-8 h-8 rounded-full bg-bg-subtle flex items-center justify-center text-text-muted hover:text-text-primary" onclick="closeComplaintModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="space-y-space-sm">
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-text-primary">Jenis Fasilitas</label>
+<select class="w-full h-[44px] px-3 bg-bg-subtle rounded-lg text-text-primary font-body-md text-body-md focus:bg-bg-surface focus:outline-none" id="facilityCategory">
+<option>AC (Bocor / Kurang Dingin)</option>
+<option>Air &amp; Kran Kamar Mandi</option>
+<option>Kelistrikan / Lampu Rusak</option>
+<option>WiFi Lambat / Terputus</option>
+<option>Kunci / Pintu Macet</option>
+<option>Lainnya</option>
+</select>
+</div>
+<div class="flex flex-col gap-1">
+<label class="font-label-md text-label-md text-text-primary">Deskripsi Masalah</label>
+<textarea class="w-full p-3 bg-bg-subtle rounded-lg text-text-primary font-body-md text-body-md focus:bg-bg-surface focus:outline-none" id="complaintDetail" placeholder="Jelaskan kendala secara singkat..." rows="3"></textarea>
+</div>
+<button class="w-full h-11 bg-primary text-on-primary rounded-xl font-title-md text-title-md flex items-center justify-center gap-1 shadow-sm mt-space-sm active:scale-95 transition-all" onclick="submitComplaint()">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Kirim Laporan ke Pengelola</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Micro-Interactions Client Logic -->
+<script>
+    function showToast(message) {
+      const toast = document.getElementById('toastNotification');
+      const text = document.getElementById('toastMessage');
+      if (toast && text) {
+        text.textContent = message;
+        toast.classList.remove('opacity-0', 'translate-y-[-8px]', 'pointer-events-none');
+        toast.classList.add('opacity-100', 'translate-y-0');
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-[-8px]', 'pointer-events-none');
+          toast.classList.remove('opacity-100', 'translate-y-0');
+        }, 2600);
+      }
+    }
+
+    function copyToClipboard(text, customMessage) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(customMessage || 'Berhasil disalin ke papan klip!');
+      }).catch(() => {
+        // Fallback
+        const tempInput = document.createElement('input');
+        tempInput.value = text;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+        showToast(customMessage || 'Berhasil disalin ke papan klip!');
+      });
+    }
+
+    function previewFile(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const previewImg = document.getElementById('imagePreview');
+          const previewContainer = document.getElementById('previewContainer');
+          const placeholder = document.getElementById('uploadPlaceholder');
+          const fileName = document.getElementById('fileName');
+
+          previewImg.src = e.target.result;
+          fileName.textContent = file.name;
+          placeholder.classList.add('hidden');
+          previewContainer.classList.remove('hidden');
+          previewContainer.classList.add('flex');
+          showToast('Foto bukti berhasil dipilih!');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function handleProofSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitProofBtn');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-[20px]">sync</span><span>Mengirim Bukti...</span>`;
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.classList.remove('bg-primary');
+        btn.classList.add('bg-status-lunas-bg', 'text-status-lunas-text');
+        btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">check_circle</span><span>Bukti Terkirim! Menunggu Verifikasi</span>`;
+        showToast('Bukti berhasil dikirim! Pengelola akan segera memverifikasi.');
+      }, 1200);
+    }
+
+    function triggerDownloadReceipt() {
+      showToast('Mengunduh Kuitansi Digital September 2026 (PDF)...');
+    }
+
+    function openComplaintModal() {
+      const modal = document.getElementById('complaintModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeComplaintModal() {
+      const modal = document.getElementById('complaintModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function submitComplaint() {
+      const cat = document.getElementById('facilityCategory').value;
+      closeComplaintModal();
+      showToast('Laporan ' + cat + ' berhasil dikirim ke Pengelola!');
+    }
+  </script>
+</div></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.05)]" data-active-classes="text-primary font-title-md"><div class="flex justify-around items-center h-16 px-space-xs"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] transition-colors text-primary font-title-md" data-path="tagihan-dan-status" href="#"><span class="material-symbols-outlined text-[22px]">receipt_long</span><span class="font-label-sm mt-0.5">Tagihan</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] text-text-muted hover:text-text-primary transition-colors" data-path="riwayat-pembayaran" href="#"><span class="material-symbols-outlined text-[22px]">history</span><span class="font-label-sm mt-0.5">Riwayat</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] text-text-muted hover:text-text-primary transition-colors" data-path="lapor-fasilitas" href="#"><span class="material-symbols-outlined text-[22px]">handyman</span><span class="font-label-sm mt-0.5">Laporan</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] text-text-muted hover:text-text-primary transition-colors" data-path="info-kamar-dan-tata-tertib" href="#"><span class="material-symbols-outlined text-[22px]">info</span><span class="font-label-sm mt-0.5">Tata Tertib</span></a></div></nav></body></html>

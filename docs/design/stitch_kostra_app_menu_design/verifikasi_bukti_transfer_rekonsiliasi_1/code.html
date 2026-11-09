@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>Verifikasi Bukti Transfer &amp; Rekonsiliasi Bank - Kostra</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#246865",
+            "on-surface-variant": "#3f4948",
+            "on-background": "#151c27",
+            "status-kosong-border": "#E5E7EB",
+            "text-secondary": "#4B5563",
+            "bg-surface": "#FFFFFF",
+            "background": "#f9f9ff",
+            "primary": "#00413f",
+            "tertiary-fixed": "#d5e5ef",
+            "status-lunas-text": "#065F46",
+            "on-error": "#ffffff",
+            "secondary-container": "#fdba45",
+            "on-secondary-fixed-variant": "#604100",
+            "on-tertiary-fixed-variant": "#3a4951",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "primary-fixed": "#adefea",
+            "surface-container-highest": "#dce2f3",
+            "primary-fixed-dim": "#91d2ce",
+            "surface-dim": "#d3daea",
+            "status-jatuh-tempo-border": "#FECDD3",
+            "border-subtle": "#E5E7EB",
+            "primary-container": "#0f5a57",
+            "secondary-fixed": "#ffdeae",
+            "border-strong": "#D1D5DB",
+            "surface-container-low": "#f0f3ff",
+            "text-primary": "#111827",
+            "on-primary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "secondary": "#7f5700",
+            "surface-container-high": "#e2e8f8",
+            "bg-subtle": "#F4F5F6",
+            "on-secondary-fixed": "#281900",
+            "status-lunas-bg": "#ECFDF5",
+            "status-kosong-text": "#374151",
+            "inverse-primary": "#91d2ce",
+            "text-muted": "#9CA3AF",
+            "outline": "#6f7978",
+            "status-jatuh-tempo-text": "#9F1239",
+            "bg-canvas": "#F8FAFC",
+            "surface-bright": "#f9f9ff",
+            "error": "#ba1a1a",
+            "status-kosong-bg": "#F3F4F6",
+            "on-primary-fixed-variant": "#00504d",
+            "outline-variant": "#bfc8c7",
+            "on-tertiary-fixed": "#0e1d25",
+            "on-primary-container": "#8ecfcb",
+            "on-primary-fixed": "#00201f",
+            "surface-container": "#e7eefe",
+            "surface": "#f9f9ff",
+            "tertiary": "#2d3c44",
+            "status-menunggu-border": "#FDE68A",
+            "secondary-fixed-dim": "#fdba45",
+            "status-lunas-border": "#A7F3D0",
+            "tertiary-container": "#44535b",
+            "tertiary-fixed-dim": "#b9c9d3",
+            "on-secondary-container": "#6f4b00",
+            "inverse-surface": "#2a313d",
+            "status-menunggu-text": "#92400E",
+            "on-tertiary-container": "#b6c6d0",
+            "error-container": "#ffdad6",
+            "on-surface": "#151c27",
+            "surface-variant": "#dce2f3",
+            "inverse-on-surface": "#ebf1ff",
+            "status-jatuh-tempo-bg": "#FFE4E6",
+            "status-menunggu-bg": "#FEF3C7"
+          },
+          fontFamily: {
+            sans: ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+    }
+    .material-symbols-filled {
+      font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+</head>
+<body class="bg-[#F8FAFC] text-text-primary min-h-screen flex flex-col antialiased">
+<!-- TOP HEADER / NAV BAR -->
+<header class="fixed top-0 left-0 right-0 h-16 z-50 bg-white border-b border-border-subtle shadow-xs px-4 sm:px-6">
+<div class="h-full flex items-center justify-between gap-4 max-w-full">
+<!-- Brand & Property Selector -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-3">
+<img alt="Kostra Logo" class="h-9 w-9 object-contain rounded-lg border border-border-subtle p-0.5 shadow-2xs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIMCaieaMSZt-NG_eIiVQwy7snXqU2s9JfXVqan9PuqtRiqzXHCIv60XlFaXjhePAlKPhMfE-Noh19xMimdimNPHlmtLdkOkMy4J0dYvzGNcw6bDVCH1xc3pi_dol5e8bTEbzyoc2GRa4gh3oOMgUI7K1vU_smylpRpacArw6snuWOmzvEaBoS2rgv2d1DuUQahyretAZsH43hYarc8K8PR4h734lasNh3AOLjfadrm9zq5ddtgLsOGw"/>
+<div class="flex flex-col">
+<span class="font-bold text-lg text-primary tracking-tight leading-none flex items-center gap-1.5">
+              Kostra
+              <span class="text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wider bg-primary/10 text-primary">Pro</span>
+</span>
+<span class="text-xs text-text-secondary font-medium leading-tight">Operasional &amp; Keuangan</span>
+</div>
+</div>
+<div class="hidden lg:flex items-center h-5 w-px bg-slate-200 mx-1"></div>
+<div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-text-primary">
+<span class="material-symbols-outlined text-[17px] text-primary">apartment</span>
+<span>Kostra Residence Utama</span>
+<span class="material-symbols-outlined text-[15px] text-slate-400">arrow_drop_down</span>
+</div>
+</div>
+<!-- Realtime Status Badges & Gateway Stats -->
+<div class="hidden md:flex items-center gap-3">
+<!-- Sistem Online Status -->
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+</span>
+<span class="text-xs font-bold text-emerald-800 tracking-wide">SISTEM ONLINE</span>
+</div>
+<!-- WhatsApp Gateway Quota -->
+<div class="flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs">
+<span class="material-symbols-outlined text-[16px] text-emerald-600">chat</span>
+<span class="text-slate-500 font-medium">Kuota WA:</span>
+<span class="font-bold text-slate-900">842 / 1.000</span>
+<span class="text-[10px] font-semibold text-emerald-700 bg-emerald-100 px-1.5 py-0.2 rounded">Aktif</span>
+</div>
+<!-- Bank Feed Sync Indicator -->
+<div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-semibold text-blue-800">
+<span class="material-symbols-outlined text-[16px] text-blue-600">sync_alt</span>
+<span>BCA Live Feed: Terhubung</span>
+</div>
+</div>
+<!-- Notification & Admin Profile -->
+<div class="flex items-center gap-3">
+<button class="relative w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-900 transition-colors" title="Notifikasi" type="button">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+</button>
+<div class="h-6 w-px bg-slate-200"></div>
+<div class="flex items-center gap-2.5 pl-1">
+<div class="w-9 h-9 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm shadow-xs border border-primary/20">
+            BS
+          </div>
+<div class="hidden sm:flex flex-col text-left">
+<span class="text-xs font-bold text-slate-900 leading-tight">Budi Santoso</span>
+<span class="text-[11px] text-slate-500 leading-tight">Staf Pengelola</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- APP BODY (SIDEBAR + MAIN 3-PANEL VIEW) -->
+<div class="flex pt-16 min-h-screen">
+<!-- LEFT NAVIGATION SHELL SIDEBAR -->
+<aside class="w-60 bg-white border-r border-border-subtle flex-shrink-0 flex flex-col justify-between py-4 fixed top-16 bottom-0 z-40 hidden lg:flex">
+<div class="px-3 space-y-4">
+<div>
+<span class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Manajemen Kos</span>
+<nav class="mt-2 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-[19px]">space_dashboard</span>
+<span>Beranda Operasional</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-[19px]">meeting_room</span>
+<span>Kamar &amp; Unit</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-[19px]">group</span>
+<span>Data Penghuni</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-bold bg-primary text-white shadow-xs" href="#">
+<span class="material-symbols-outlined text-[19px]">receipt_long</span>
+<span>Tagihan &amp; Sewa</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-[19px]">forward_to_inbox</span>
+<span>Broadcast WhatsApp</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-[19px]">build</span>
+<span>Keluhan &amp; Servis</span>
+</a>
+</nav>
+</div>
+<div class="pt-2 border-t border-slate-100">
+<span class="px-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Rekonsiliasi Bank</span>
+<div class="mt-2 p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold text-slate-800">Auto-Match AI</span>
+<span class="text-[10px] px-1.5 py-0.5 bg-emerald-100 text-emerald-800 font-bold rounded">Aktif</span>
+</div>
+<p class="text-[11px] text-slate-500 leading-relaxed">
+              Membandingkan OCR resi &amp; mutasi BCA otomatis.
+            </p>
+</div>
+</div>
+</div>
+<!-- Sidebar Bottom Info -->
+<div class="px-3 space-y-2">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-[19px]">settings</span>
+<span>Pengaturan Kos</span>
+</a>
+</div>
+</aside>
+<!-- MAIN WORKSPACE -->
+<main class="flex-1 lg:pl-60 flex flex-col min-w-0 bg-[#F8FAFC]">
+<!-- SUBHEADER / STATUS & FILTER STRIP -->
+<section class="bg-white border-b border-border-subtle px-4 sm:px-6 py-3.5 sticky top-16 z-30 shadow-2xs">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+<!-- Module Title & Breadcrumbs -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">verified_user</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h1 class="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                  Verifikasi Bukti Transfer &amp; Rekonsiliasi Bank
+                </h1>
+<span class="hidden sm:inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-200">
+                  Modul PBY-03/04/09
+                </span>
+</div>
+<p class="text-xs text-text-secondary">
+                Verifikasi pembayaran masuk dan rekonsiliasi seketika dengan Live Mutasi Rekening BCA.
+              </p>
+</div>
+</div>
+<!-- Filter Pills & Auto-Sync Switch -->
+<div class="flex flex-wrap items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+<!-- Filter Status Counters -->
+<div class="inline-flex rounded-lg bg-slate-100 p-1 border border-slate-200 text-xs font-semibold">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-white text-primary shadow-xs font-bold" type="button">
+<span class="w-2 h-2 rounded-full bg-amber-500"></span>
+<span>Menunggu (3)</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900" type="button">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>Disetujui Hari Ini (14)</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-slate-600 hover:text-slate-900" type="button">
+<span class="w-2 h-2 rounded-full bg-slate-400"></span>
+<span>Ditolak (0)</span>
+</button>
+</div>
+<!-- Auto-Sync BCA Live Feed Toggle -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-50/80 border border-emerald-200 text-xs font-medium text-emerald-900">
+<span class="material-symbols-outlined text-[17px] text-emerald-600 animate-spin" style="animation-duration: 4s;">sync</span>
+<span class="font-bold">Auto-Sync BCA Feed</span>
+<label class="relative inline-flex items-center cursor-pointer ml-1">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-600"></div>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- 3-PANEL SPLIT WORKSPACE -->
+<div class="p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start max-w-[1700px] w-full mx-auto">
+<!-- ============================================== -->
+<!-- PANEL 1: ANTREAN TIKET VERIFIKASI (3-Cols)      -->
+<!-- ============================================== -->
+<div class="lg:col-span-3 flex flex-col gap-3">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="text-xs font-bold uppercase tracking-wider text-slate-600">Antrean Tiket</span>
+<span class="px-2 py-0.5 text-[11px] font-bold rounded-full bg-amber-100 text-amber-900">3 Menunggu</span>
+</div>
+<button class="text-xs text-primary font-semibold hover:underline flex items-center gap-0.5" type="button">
+<span class="material-symbols-outlined text-[15px]">refresh</span>
+              Segarkan
+            </button>
+</div>
+<!-- Queue Card 1 (ACTIVE / MATCHED) -->
+<div class="relative bg-white rounded-xl border-2 border-primary shadow-md p-4 cursor-pointer transition-all hover:shadow-lg ring-2 ring-primary/10">
+<div class="absolute -left-[2px] top-4 bottom-4 w-1 bg-primary rounded-r"></div>
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-primary text-white tracking-wide">
+                KAMAR 104
+              </span>
+<span class="text-[11px] font-medium text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-slate-400">schedule</span>
+                12 mnt lalu
+              </span>
+</div>
+<h3 class="font-bold text-sm text-slate-900 mb-0.5">Farhan Maulana</h3>
+<p class="text-xs text-slate-500 mb-2">Sewa Kamar 104 (Okt 2026)</p>
+<div class="flex items-baseline justify-between pt-2 border-t border-slate-100">
+<span class="text-base font-extrabold text-slate-900">Rp 1.850.000</span>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-800 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-emerald-700">task_alt</span>
+                OCR Match 100%
+              </span>
+</div>
+<div class="mt-2.5 px-2.5 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-between text-[11px]">
+<span class="text-emerald-800 font-semibold">Mutasi BCA Masuk</span>
+<span class="font-bold text-emerald-900">CR Rp 1.850.000</span>
+</div>
+</div>
+<!-- Queue Card 2 (PENDING BANK MUTATION) -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-2xs p-4 cursor-pointer transition-all hover:border-slate-300 hover:shadow-xs">
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700 tracking-wide border border-slate-200">
+                KAMAR 201
+              </span>
+<span class="text-[11px] font-medium text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-slate-400">schedule</span>
+                45 mnt lalu
+              </span>
+</div>
+<h3 class="font-bold text-sm text-slate-800 mb-0.5">Kevin Sanjaya</h3>
+<p class="text-xs text-slate-500 mb-2">Sewa Deluxe Kamar 201</p>
+<div class="flex items-baseline justify-between pt-2 border-t border-slate-100">
+<span class="text-base font-bold text-slate-700">Rp 1.900.000</span>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-50 text-amber-800 border border-amber-200 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px] text-amber-600">hourglass_top</span>
+                Menunggu Cek Mutasi
+              </span>
+</div>
+</div>
+<!-- Queue Card 3 (PARTIAL INSTALLMENT) -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-2xs p-4 cursor-pointer transition-all hover:border-slate-300 hover:shadow-xs">
+<div class="flex items-center justify-between mb-2">
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700 tracking-wide border border-slate-200">
+                KAMAR 107
+              </span>
+<span class="text-[11px] font-medium text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-slate-400">schedule</span>
+                2 jam lalu
+              </span>
+</div>
+<h3 class="font-bold text-sm text-slate-800 mb-0.5">Dimas Arya</h3>
+<p class="text-xs text-slate-500 mb-2">Cicilan Sewa #1 (Total 1,9jt)</p>
+<div class="flex items-baseline justify-between pt-2 border-t border-slate-100">
+<span class="text-base font-bold text-slate-700">Rp 950.000</span>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-purple-50 text-purple-700 border border-purple-200">
+                Cicilan #1
+              </span>
+</div>
+</div>
+<!-- Quick Summary Card -->
+<div class="mt-1 p-4 rounded-xl bg-gradient-to-br from-primary to-[#082a29] text-white shadow-xs">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-emerald-200 uppercase tracking-wide">Target Hari Ini</span>
+<span class="text-xs bg-white/20 px-2 py-0.5 rounded-full font-bold">14 / 17 Selesai</span>
+</div>
+<div class="w-full bg-white/20 h-2 rounded-full overflow-hidden mb-2">
+<div class="bg-secondary-container h-full rounded-full" style="width: 82.3%;"></div>
+</div>
+<p class="text-[11px] text-emerald-100/90 leading-tight">
+              Tingkat akurasi pencocokan otomatis AI <strong>98.7%</strong> tanpa revisi hari ini.
+            </p>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- PANEL 2: PRATINJAU BUKTI TRANSFER ASLI (4-Cols) -->
+<!-- ============================================== -->
+<div class="lg:col-span-4 flex flex-col gap-3">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">receipt_long</span>
+<span class="text-xs font-bold uppercase tracking-wider text-slate-700">Resi Digital Asli</span>
+</div>
+<!-- Image Viewport Controls -->
+<div class="flex items-center gap-1 bg-white border border-border-subtle rounded-lg p-0.5 shadow-2xs">
+<button class="w-7 h-7 flex items-center justify-center rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900" id="btn-zoom-in" title="Perbesar" type="button">
+<span class="material-symbols-outlined text-[17px]">zoom_in</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900" id="btn-zoom-out" title="Perkecil" type="button">
+<span class="material-symbols-outlined text-[17px]">zoom_out</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900" id="btn-rotate" title="Putar" type="button">
+<span class="material-symbols-outlined text-[17px]">rotate_right</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center rounded text-slate-600 hover:bg-slate-100 hover:text-slate-900" id="btn-reset" title="Reset" type="button">
+<span class="material-symbols-outlined text-[17px]">restart_alt</span>
+</button>
+<a class="w-7 h-7 flex items-center justify-center rounded text-primary hover:bg-primary/10" download="resi-farhan-104.jpg" href="#" title="Unduh Berkas Asli">
+<span class="material-symbols-outlined text-[17px]">download</span>
+</a>
+</div>
+</div>
+<!-- OCR Match Confidence Banner -->
+<div class="bg-emerald-50 border border-emerald-300 rounded-xl p-3 flex items-center justify-between text-xs shadow-2xs">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+</span>
+<div>
+<span class="font-bold text-emerald-950 block">OCR Match 100%</span>
+<span class="text-[11px] text-emerald-800">Nominal, Nama Pengirim &amp; Rekening Sesuai</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded font-extrabold text-[11px] bg-emerald-200 text-emerald-900">
+              Kepercayaan 99.8%
+            </span>
+</div>
+<!-- Realistic Digital Mobile Receipt Container -->
+<div class="relative bg-slate-900/5 rounded-2xl border border-slate-200 p-4 sm:p-5 flex items-center justify-center min-h-[510px] overflow-hidden shadow-inner">
+<!-- Mobile Receipt Graphic -->
+<div class="w-full max-w-[325px] bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden transition-transform duration-200 origin-center" id="receipt-card">
+<!-- BCA Header Strip -->
+<div class="bg-[#003B70] px-4 py-3.5 text-white flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="bg-white text-[#003B70] font-black text-xs px-2 py-0.5 rounded tracking-wider">
+                    BCA
+                  </div>
+<span class="text-xs font-semibold tracking-wide">m-Transfer</span>
+</div>
+<div class="flex items-center gap-1 bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2 py-0.5 rounded-full text-[10px] font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  BERHASIL
+                </div>
+</div>
+<!-- Receipt Inner Content -->
+<div class="p-4 space-y-3.5 text-left text-xs text-slate-700">
+<!-- Status icon & Timestamp -->
+<div class="text-center pb-2 border-b border-dashed border-slate-200">
+<div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-1.5">
+<span class="material-symbols-outlined text-[24px]">check</span>
+</div>
+<span class="text-slate-400 text-[10px] block">WAKTU TRANSAKSI</span>
+<span class="font-bold text-slate-800 text-[12px]">15 Okt 2026 • 14:18:22 WIB</span>
+</div>
+<!-- Reference Number -->
+<div class="flex items-center justify-between text-[11px] bg-slate-50 px-2.5 py-1.5 rounded-md">
+<span class="text-slate-500 font-medium">No. Referensi:</span>
+<span class="font-mono font-bold text-slate-800">202610151418228391</span>
+</div>
+<!-- Transfer Parties Box -->
+<div class="space-y-2 pt-1">
+<div>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Pengirim</span>
+<span class="font-bold text-slate-900 text-sm">FARHAN MAULANA</span>
+</div>
+<div class="w-full h-px bg-slate-100"></div>
+<div>
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Tujuan Transfer</span>
+<span class="font-bold text-slate-900 block">BCA 8801-2993-11</span>
+<span class="text-slate-600 text-[11px]">Hendra Gunawan (Kost Griya Harmoni / Kostra)</span>
+</div>
+</div>
+<!-- Nominal Box -->
+<div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
+<span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Nominal Ditransfer</span>
+<span class="text-xl font-black text-primary tracking-tight">Rp 1.850.000</span>
+</div>
+<!-- Berita -->
+<div class="text-[11px] bg-amber-50/70 border border-amber-200/80 rounded-lg p-2 text-amber-950">
+<span class="font-bold block text-[10px] text-amber-800 uppercase">Berita Transfer:</span>
+<span class="italic font-medium">"Sewa Kamar 104 Okt 2026"</span>
+</div>
+<!-- Receipt Footnote -->
+<p class="text-[9px] text-slate-400 text-center pt-1 leading-tight">
+                  Resi sah transaksi perbankan elektronik PT Bank Central Asia Tbk.
+                </p>
+</div>
+</div>
+</div>
+<!-- Document Metainfo Footer -->
+<div class="flex items-center justify-between text-[11px] text-slate-500 px-1">
+<span>Berkas: <strong class="text-slate-700">mBCA_receipt_104.jpg (1.4 MB)</strong></span>
+<span>Device: <strong class="text-slate-700">Samsung Galaxy A54</strong></span>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- PANEL 3: KOMPARASI TAGIHAN & BANK FEED (5-Cols) -->
+<!-- ============================================== -->
+<div class="lg:col-span-5 flex flex-col gap-4">
+<!-- Header of Panel 3 -->
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px] text-primary">compare_arrows</span>
+<span class="text-xs font-bold uppercase tracking-wider text-slate-700">Komparasi Tagihan &amp; Live Bank Feed</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">
+              Match Sempurna
+            </span>
+</div>
+<!-- 1. Data Tagihan Terbuka Kostra Card -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-xs p-4 sm:p-5 space-y-4">
+<div class="flex items-center justify-between pb-3 border-b border-slate-100">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center font-bold text-xs">
+                  INV
+                </span>
+<div>
+<h4 class="font-bold text-sm text-slate-900 leading-tight">Tagihan Terbuka Sistem</h4>
+<span class="text-xs text-slate-500 font-mono">#INV-2026-10-004</span>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
+                Menunggu Verifikasi
+              </span>
+</div>
+<!-- Profile Penghuni & Kamar Grid -->
+<div class="grid grid-cols-2 gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200/80 text-xs">
+<div>
+<span class="text-[11px] text-slate-500 block">Penyewa</span>
+<span class="font-bold text-slate-900 block text-sm">Farhan Maulana</span>
+<span class="text-slate-600">+62 812-4982-1920</span>
+</div>
+<div class="border-l border-slate-200 pl-3">
+<span class="text-[11px] text-slate-500 block">Unit Sewa</span>
+<span class="font-bold text-primary block text-sm">Kamar 104</span>
+<span class="text-slate-600">Lantai 1 • Queen Bed AC</span>
+</div>
+</div>
+<!-- Rincian Item Tagihan Breakdown -->
+<div class="space-y-2 text-xs">
+<div class="flex items-center justify-between text-slate-600">
+<span>Sewa Pokok Kamar 104 (15 Okt - 14 Nov 2026)</span>
+<span class="font-semibold text-slate-900">Rp 1.700.000</span>
+</div>
+<div class="flex items-center justify-between text-slate-600">
+<span>Iuran Listrik &amp; Air Bersih</span>
+<span class="font-semibold text-slate-900">Rp 150.000</span>
+</div>
+<div class="h-px bg-slate-200 my-1"></div>
+<div class="flex items-baseline justify-between pt-1">
+<span class="font-bold text-slate-800 text-sm">Total Tagihan Sistem</span>
+<span class="text-lg font-black text-slate-900">Rp 1.850.000</span>
+</div>
+</div>
+</div>
+<!-- 2. Live Bank Feed Rekening BCA (API Integrated) -->
+<div class="bg-white rounded-xl border-2 border-emerald-500 shadow-sm p-4 sm:p-5 space-y-3 relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-emerald-600 text-white font-bold text-[10px] px-3 py-0.5 rounded-bl-lg uppercase tracking-wider">
+              MATCH SEMPURNA
+            </div>
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-[#003B70] text-white font-bold text-xs flex items-center justify-center">
+                BCA
+              </div>
+<div>
+<h4 class="font-bold text-sm text-slate-900 leading-tight">Live Mutasi Bank BCA</h4>
+<div class="flex items-center gap-1.5 text-xs text-slate-500">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+<span>Sync Otomatis • 15 Okt 2026, 14:22:10 WIB</span>
+</div>
+</div>
+</div>
+<!-- Feed Snapshot Box -->
+<div class="p-3.5 rounded-xl bg-emerald-50/70 border border-emerald-200 space-y-2 text-xs">
+<div class="flex items-baseline justify-between">
+<span class="text-slate-600 font-medium">Mutasi Kredit Terdeteksi:</span>
+<span class="text-base font-extrabold text-emerald-800 font-mono">CR Rp 1.850.000</span>
+</div>
+<div class="text-[11px] text-slate-700 bg-white/80 p-2 rounded border border-emerald-200/60 font-mono">
+                TRSF M-BCA FARHAN MAULANA SEWA KAMAR 104
+              </div>
+<div class="flex items-center gap-1.5 text-[11px] text-emerald-900 font-semibold pt-1">
+<span class="material-symbols-outlined text-[15px] text-emerald-700">timer</span>
+<span>Selisih waktu unggah resi vs mutasi bank: <strong>3 menit 48 detik</strong> (Sangat Valid)</span>
+</div>
+</div>
+</div>
+<!-- 3. Aksi Keputusan 1-Klik -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-xs p-4 sm:p-5 space-y-3">
+<span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
+              Aksi Keputusan Verifikasi 1-Klik
+            </span>
+<!-- Tombol Utama: Setujui -->
+<button class="w-full py-3.5 px-4 rounded-xl bg-primary hover:bg-[#002f2d] text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all active:scale-[0.99]" id="btn-approve" type="button">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span>Setujui Pembayaran (LUNAS)</span>
+</button>
+<!-- Subtext Auto Receipt & WA -->
+<div class="flex items-start gap-2 p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600">
+<span class="material-symbols-outlined text-[17px] text-emerald-600 flex-shrink-0 mt-0.5">mark_chat_read</span>
+<p class="leading-relaxed text-[11px]">
+                Sistem akan otomatis menerbitkan kuitansi digital resmi <strong class="text-slate-900">#KTR-REC-8831</strong> dan mengirimkan PDF via WhatsApp ke nomor <strong class="text-slate-900">Farhan Maulana</strong>.
+              </p>
+</div>
+<!-- Tombol Sekunder: Partial & Tolak -->
+<div class="grid grid-cols-2 gap-3 pt-1">
+<button class="py-2.5 px-3 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold flex items-center justify-center gap-1.5 border border-slate-300 transition-colors" id="btn-partial" type="button">
+<span class="material-symbols-outlined text-[17px] text-slate-600">pie_chart</span>
+<span>Terima Sebagian (Partial)</span>
+</button>
+<button class="py-2.5 px-3 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold flex items-center justify-center gap-1.5 border border-rose-200 transition-colors" id="btn-open-reject" type="button">
+<span class="material-symbols-outlined text-[17px] text-rose-600">cancel</span>
+<span>Tolak Bukti Transfer</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- ============================================== -->
+<!-- MODAL TOLAK BUKTI TRANSFER                     -->
+<!-- ============================================== -->
+<div class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4" id="reject-modal">
+<div class="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-5 sm:p-6 space-y-4 animate-in fade-in zoom-in-95 duration-150">
+<div class="flex items-center justify-between pb-2 border-b border-slate-100">
+<div class="flex items-center gap-2 text-rose-700">
+<span class="material-symbols-outlined text-[24px]">report</span>
+<h3 class="font-bold text-base text-slate-900">Tolak Bukti Transfer</h3>
+</div>
+<button class="w-8 h-8 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700 flex items-center justify-center" id="btn-close-reject" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<p class="text-xs text-slate-600 leading-relaxed">
+        Pemberitahuan penolakan beserta alasan perbaikan akan langsung dikirimkan melalui WhatsApp resmi Kostra ke <strong class="text-slate-900">Farhan Maulana (Kamar 104)</strong>.
+      </p>
+<!-- Reason selector -->
+<div class="space-y-1.5 text-xs">
+<label class="font-bold text-slate-800" for="reject-reason">Alasan Penolakan</label>
+<select class="w-full h-10 px-3 rounded-lg border border-slate-300 text-slate-800 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary" id="reject-reason">
+<option value="mutasi_belum_masuk">Mutasi bank belum masuk / belum terdeteksi di rekening</option>
+<option value="nominal_kurang">Nominal transfer tidak sesuai dengan rincian tagihan</option>
+<option value="gambar_buram">Gambar bukti buram / tanggal &amp; nomor referensi tidak terbaca</option>
+<option value="rekening_salah">Rekening tujuan transfer salah (Bukan rekening resmi Kostra)</option>
+<option value="lainnya">Alasan lainnya (Koreksi manual)</option>
+</select>
+</div>
+<!-- Message text area -->
+<div class="space-y-1.5 text-xs">
+<label class="font-bold text-slate-800" for="reject-message">Pratinjau Pesan WhatsApp ke Penghuni</label>
+<textarea class="w-full p-3 rounded-lg border border-slate-300 text-slate-800 text-xs focus:ring-2 focus:ring-primary/20 focus:border-primary leading-relaxed" id="reject-message" rows="4">Halo Farhan Maulana, mohon maaf bukti pembayaran Anda untuk Tagihan Sewa Kamar 104 belum dapat kami verifikasi karena mutasi dana belum terdeteksi di rekening bank kami. Mohon periksa mutasi keluar Anda atau unggah ulang bukti transfer yang jelas. Terima kasih.</textarea>
+</div>
+<!-- Actions -->
+<div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+<button class="px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs transition-colors" id="btn-cancel-reject" type="button">
+          Batal
+        </button>
+<button class="px-4 py-2 rounded-lg bg-rose-700 hover:bg-rose-800 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition-colors" id="btn-submit-reject" type="button">
+<span class="material-symbols-outlined text-[16px]">send</span>
+<span>Kirim Notifikasi Penolakan</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- SUCCESS TOAST POPUP (APPROVAL FEEDBACK)        -->
+<!-- ============================================== -->
+<div class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-5 py-4 rounded-xl shadow-2xl hidden items-center gap-3.5 border border-slate-700" id="toast-approval">
+<div class="w-9 h-9 rounded-full bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<div class="flex flex-col text-xs">
+<span class="font-bold text-sm text-white">Pembayaran Disetujui &amp; Lunas!</span>
+<span class="text-slate-300">Kuitansi resmi #KTR-REC-8831 terkirim otomatis ke WhatsApp Farhan Maulana.</span>
+</div>
+<button class="ml-2 text-slate-400 hover:text-white" onclick="document.getElementById('toast-approval').classList.add('hidden')" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- JAVASCRIPT LOGIC -->
+<script>
+    (function () {
+      // Zoom & Rotate Controls for Receipt Card
+      let zoomLevel = 1;
+      let rotationAngle = 0;
+      const receiptCard = document.getElementById('receipt-card');
+      const btnZoomIn = document.getElementById('btn-zoom-in');
+      const btnZoomOut = document.getElementById('btn-zoom-out');
+      const btnRotate = document.getElementById('btn-rotate');
+      const btnReset = document.getElementById('btn-reset');
+
+      function updateTransform() {
+        if (receiptCard) {
+          receiptCard.style.transform = `scale(${zoomLevel}) rotate(${rotationAngle}deg)`;
+        }
+      }
+
+      if (btnZoomIn) {
+        btnZoomIn.addEventListener('click', () => {
+          if (zoomLevel < 1.4) {
+            zoomLevel += 0.1;
+            updateTransform();
+          }
+        });
+      }
+
+      if (btnZoomOut) {
+        btnZoomOut.addEventListener('click', () => {
+          if (zoomLevel > 0.8) {
+            zoomLevel -= 0.1;
+            updateTransform();
+          }
+        });
+      }
+
+      if (btnRotate) {
+        btnRotate.addEventListener('click', () => {
+          rotationAngle = (rotationAngle + 90) % 360;
+          updateTransform();
+        });
+      }
+
+      if (btnReset) {
+        btnReset.addEventListener('click', () => {
+          zoomLevel = 1;
+          rotationAngle = 0;
+          updateTransform();
+        });
+      }
+
+      // Rejection Modal
+      const rejectModal = document.getElementById('reject-modal');
+      const btnOpenReject = document.getElementById('btn-open-reject');
+      const btnCloseReject = document.getElementById('btn-close-reject');
+      const btnCancelReject = document.getElementById('btn-cancel-reject');
+      const btnSubmitReject = document.getElementById('btn-submit-reject');
+
+      function openModal() {
+        if (rejectModal) {
+          rejectModal.classList.remove('hidden');
+          rejectModal.classList.add('flex');
+        }
+      }
+
+      function closeModal() {
+        if (rejectModal) {
+          rejectModal.classList.add('hidden');
+          rejectModal.classList.remove('flex');
+        }
+      }
+
+      if (btnOpenReject) btnOpenReject.addEventListener('click', openModal);
+      if (btnCloseReject) btnCloseReject.addEventListener('click', closeModal);
+      if (btnCancelReject) btnCancelReject.addEventListener('click', closeModal);
+      
+      if (btnSubmitReject) {
+        btnSubmitReject.addEventListener('click', () => {
+          closeModal();
+          alert('Bukti transfer ditolak. Notifikasi perbaikan telah dikirim ke nomor WhatsApp penghuni.');
+        });
+      }
+
+      // Partial Modal Prompt
+      const btnPartial = document.getElementById('btn-partial');
+      if (btnPartial) {
+        btnPartial.addEventListener('click', () => {
+          const nominal = prompt('Masukkan nominal pembayaran cicilan yang diterima (Rp):', '925000');
+          if (nominal) {
+            alert('Penerimaan sebagian sebesar Rp ' + nominal + ' berhasil disimpan. Sisa tagihan telah diperbarui di akun Farhan Maulana.');
+          }
+        });
+      }
+
+      // Approval Button & Toast
+      const btnApprove = document.getElementById('btn-approve');
+      const toastApproval = document.getElementById('toast-approval');
+
+      if (btnApprove && toastApproval) {
+        btnApprove.addEventListener('click', () => {
+          toastApproval.classList.remove('hidden');
+          toastApproval.classList.add('flex');
+          setTimeout(() => {
+            toastApproval.classList.add('hidden');
+            toastApproval.classList.remove('flex');
+          }, 4500);
+        });
+      }
+    })();
+  </script>
+</body></html>

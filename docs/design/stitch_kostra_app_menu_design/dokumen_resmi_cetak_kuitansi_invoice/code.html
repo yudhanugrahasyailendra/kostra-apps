@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#d3daea","error-container":"#ffdad6","on-primary":"#ffffff","on-primary-fixed":"#00201f","on-secondary-container":"#6f4b00","bg-subtle":"#F4F5F6","on-tertiary-container":"#b6c6d0","surface-container-low":"#f0f3ff","status-kosong-border":"#E5E7EB","primary-fixed-dim":"#91d2ce","error":"#ba1a1a","status-kosong-text":"#374151","secondary-fixed-dim":"#fdba45","surface-bright":"#f9f9ff","status-jatuh-tempo-text":"#9F1239","secondary-fixed":"#ffdeae","status-lunas-border":"#A7F3D0","border-subtle":"#E5E7EB","bg-surface":"#FFFFFF","inverse-primary":"#91d2ce","status-kosong-bg":"#F3F4F6","surface-container-highest":"#dce2f3","on-error-container":"#93000a","on-background":"#151c27","surface-container-high":"#e2e8f8","on-surface":"#151c27","status-jatuh-tempo-bg":"#FFE4E6","surface-tint":"#246865","tertiary-container":"#44535b","status-menunggu-text":"#92400E","on-tertiary-fixed-variant":"#3a4951","tertiary-fixed":"#d5e5ef","primary-fixed":"#adefea","primary":"#00413f","background":"#f9f9ff","bg-canvas":"#FBFBFA","text-primary":"#111827","surface":"#f9f9ff","status-lunas-text":"#065F46","secondary":"#7f5700","status-menunggu-border":"#FDE68A","on-tertiary-fixed":"#0e1d25","text-muted":"#9CA3AF","tertiary-fixed-dim":"#b9c9d3","on-secondary":"#ffffff","on-secondary-fixed":"#281900","surface-container":"#e7eefe","on-surface-variant":"#3f4948","status-menunggu-bg":"#FEF3C7","inverse-surface":"#2a313d","on-tertiary":"#ffffff","outline-variant":"#bfc8c7","tertiary":"#2d3c44","on-primary-container":"#8ecfcb","text-secondary":"#4B5563","outline":"#6f7978","surface-variant":"#dce2f3","primary-container":"#0f5a57","surface-container-lowest":"#ffffff","secondary-container":"#fdba45","on-primary-fixed-variant":"#00504d","border-strong":"#D1D5DB","status-jatuh-tempo-border":"#FECDD3","on-secondary-fixed-variant":"#604100","status-lunas-bg":"#ECFDF5","inverse-on-surface":"#ebf1ff","on-error":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem","space-sm":"0.5rem","margin-desktop":"2rem","space-xl":"2rem",gutter:"1rem","margin-tablet":"1.5rem",margin:"1rem","gutter-desktop":"1.5rem","space-xs":"0.25rem","space-2xl":"3rem","space-md":"1rem"},fontFamily:{"label-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"currency-display":["Plus Jakarta Sans"],"title-lg":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"]},fontSize:{"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["18px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"600"}],"headline-md":["22px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"currency-display":["24px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"700"}],"title-lg":["16px",{lineHeight:"22px",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.03em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"label-lg":["14px",{lineHeight:"20px",fontWeight:"500"}],"display-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"title-md":["14px",{lineHeight:"20px",fontWeight:"600"}]}}}};</script></head><body class="bg-bg-canvas font-body-md text-on-surface min-h-screen py-space-xl px-space-md"><main class="w-full max-w-4xl mx-auto"><div class="flex flex-col w-full">
+<!-- Interactive Action Toolbar -->
+<aside aria-label="Toolbar Aksi Dokumen" class="w-full bg-bg-surface rounded-xl shadow-sm p-space-md mb-space-lg flex flex-col md:flex-row items-center justify-between gap-space-md">
+<!-- View Switcher Tabs -->
+<div aria-label="Pilih Mode Dokumen" class="flex items-center bg-bg-subtle p-space-xs rounded-lg w-full md:w-auto" role="tablist">
+<button aria-controls="document-sheet" aria-selected="false" class="flex-1 md:flex-initial flex items-center justify-center gap-space-xs px-space-md py-space-xs rounded-DEFAULT font-label-md text-label-md transition-all text-text-secondary hover:text-text-primary" id="tab-invoice" onclick="switchDocMode('invoice')" role="tab">
+<span class="material-symbols-outlined text-[18px]">receipt_long</span>
+        Invoice Tagihan
+      </button>
+<button aria-selected="true" class="flex-1 md:flex-initial flex items-center justify-center gap-space-xs px-space-md py-space-xs rounded-DEFAULT font-label-md text-label-md transition-all bg-bg-surface text-primary-container shadow-sm font-semibold" id="tab-receipt" onclick="switchDocMode('receipt')" role="tab">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+        Kuitansi Lunas (PAID)
+      </button>
+</div>
+<!-- Quick Actions -->
+<div class="flex items-center flex-wrap gap-space-sm w-full md:w-auto justify-end">
+<!-- WhatsApp Share CTA -->
+<button class="flex items-center gap-space-xs bg-[#25D366] text-on-primary px-space-md py-space-xs rounded-lg font-label-md text-label-md shadow-sm hover:brightness-95 active:scale-95 transition-all" onclick="triggerWhatsAppShare()" title="Kirim dokumen langsung ke WhatsApp penghuni">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+        Kirim ke WhatsApp
+      </button>
+<!-- Print Document Action -->
+<button class="flex items-center gap-space-xs bg-bg-surface text-primary-container px-space-md py-space-xs rounded-lg font-label-md text-label-md shadow-sm hover:bg-bg-subtle active:scale-95 transition-all" onclick="window.print()" title="Cetak via printer atau Simpan PDF (Ctrl+P)">
+<span class="material-symbols-outlined text-[18px]">print</span>
+        Cetak (Ctrl+P)
+      </button>
+<!-- Download PDF Action -->
+<button class="flex items-center gap-space-xs bg-primary-container text-on-primary px-space-md py-space-xs rounded-lg font-label-md text-label-md shadow-sm hover:bg-primary active:scale-95 transition-all" id="btn-download" onclick="triggerPdfDownload()">
+<span class="material-symbols-outlined text-[18px]">download</span>
+        Unduh PDF
+      </button>
+</div>
+</aside>
+<!-- Live Toast Notification Container -->
+<div class="hidden fixed bottom-6 right-6 z-50 bg-inverse-surface text-inverse-on-surface px-space-lg py-space-sm rounded-lg shadow-xl flex items-center gap-space-sm transition-all transform translate-y-2" id="toast-notification">
+<span class="material-symbols-outlined text-primary-fixed" id="toast-icon">check_circle</span>
+<span class="font-body-md text-body-md" id="toast-message">Dokumen berhasil diproses</span>
+</div>
+<!-- A4 Document Canvas Sheet -->
+<div class="w-full flex justify-center pb-space-xl">
+<article class="w-full max-w-[820px] bg-bg-surface shadow-xl rounded-xl p-space-lg md:p-space-2xl relative overflow-hidden transition-all text-on-surface" id="document-sheet">
+<!-- Watermark Badge for Paid Mode -->
+<div class="absolute top-28 right-8 md:top-32 md:right-16 pointer-events-none select-none z-10 transition-opacity duration-300 opacity-95 rotate-[-12deg]" id="paid-stamp">
+<div class="relative w-44 h-44 rounded-full flex flex-col items-center justify-center p-3 text-center bg-status-lunas-bg/40 backdrop-blur-[1px] shadow-sm">
+<div class="w-36 h-36 rounded-full flex flex-col items-center justify-center text-status-lunas-text p-2">
+<span class="font-label-sm text-[10px] tracking-widest uppercase font-bold text-status-lunas-text opacity-90">KOSTRA VERIFIED</span>
+<div class="font-display-lg text-[26px] leading-tight font-extrabold tracking-wider my-0.5 text-status-lunas-text">
+              LUNAS
+            </div>
+<div class="h-0.5 w-16 bg-status-lunas-text/40 my-0.5"></div>
+<span class="font-label-sm text-[9px] uppercase tracking-wider text-status-lunas-text font-bold">15 OKT 2026</span>
+<span class="font-label-sm text-[7px] text-status-lunas-text/80 tracking-tight font-mono mt-0.5">SHA: e8f9c2a4...</span>
+</div>
+</div>
+</div>
+<!-- Watermark Background for Invoice Pending Mode -->
+<div class="hidden absolute top-32 right-12 md:top-36 md:right-20 pointer-events-none select-none z-10 opacity-80 rotate-[-14deg]" id="pending-stamp">
+<div class="w-40 h-40 rounded-full flex flex-col items-center justify-center p-3 text-center bg-status-menunggu-bg/50">
+<div class="w-32 h-32 rounded-full flex flex-col items-center justify-center text-status-menunggu-text p-2">
+<span class="font-label-sm text-[9px] tracking-widest uppercase font-bold text-status-menunggu-text">STATUS TAGIHAN</span>
+<div class="font-headline-lg text-[22px] leading-tight font-extrabold tracking-wider text-status-menunggu-text">
+              MENUNGGU
+            </div>
+<div class="h-0.5 w-14 bg-status-menunggu-text/40 my-0.5"></div>
+<span class="font-label-sm text-[9px] uppercase tracking-wider text-status-menunggu-text font-semibold">JATUH TEMPO</span>
+<span class="font-label-sm text-[8px] text-status-menunggu-text font-mono mt-0.5">31 OKT 2026</span>
+</div>
+</div>
+</div>
+<!-- Header Section: Logo & Property Identification -->
+<div class="flex flex-col sm:flex-row justify-between items-start gap-space-lg relative z-20 pb-space-lg">
+<!-- Logo & Brand Subtext -->
+<div class="flex items-center gap-space-md">
+<div class="w-20 h-20 bg-bg-canvas rounded-xl shadow-sm p-1.5 flex items-center justify-center shrink-0 overflow-hidden">
+<img alt="Logo Kostra Kost Rapi" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeTiaxWZC5uB5KyDmcR-T3WAa-Vv9Joc-oXC-DKB8FOgXV3Q4jDApPbJ-smpB7-6M3xF58P4JYyQX-QLvk7UIgTx_SfX_ks1ePrKRYzz_WwoHubprelA4mLxzxwwM5MMnwqxquN-xGS-WanolTnyZSPaaBsxzhuuV2lW3Mp12bj0WNaFofiwOy45Iy09VE9tbCLdR_LgYCzVf_AiDVidKKc1PWUaz_gcC14D20Izblyij6qe2k53U9-w"/>
+</div>
+<div class="flex flex-col">
+<h1 class="font-headline-md text-headline-md text-primary-container tracking-tight">Kost Griya Harmoni</h1>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Hunian Kost Eksklusif &amp; Terkelola Rapi</p>
+<p class="font-body-sm text-body-sm text-text-muted mt-0.5">Jl. Radio Dalam No. 14, Gandaria Utara, Kebayoran Baru, Jakarta Selatan 12140</p>
+<div class="flex items-center gap-space-xs mt-1 text-primary-container font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">call</span>
+<span>Pengelola: +62 812-9876-543</span>
+</div>
+</div>
+</div>
+<!-- Document Identity Strip -->
+<div class="flex flex-col items-start sm:items-end w-full sm:w-auto bg-bg-subtle p-space-md rounded-xl">
+<span class="px-space-sm py-0.5 rounded-full font-label-sm text-label-sm bg-status-lunas-bg text-status-lunas-text mb-2" id="doc-badge">
+            KUITANSI RESMI PELUNASAN
+          </span>
+<div class="flex items-baseline gap-2">
+<span class="font-body-sm text-body-sm text-text-muted">Nomor:</span>
+<span class="font-headline-sm text-headline-sm font-mono text-primary-container tracking-tight" id="doc-number">#KTR-REC-8831</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-body-sm text-body-sm text-text-muted">Ref. Tagihan:</span>
+<span class="font-body-sm text-body-sm font-mono text-text-secondary">#INV-2026-10-004</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="font-body-sm text-body-sm text-text-muted">Tanggal Cetak:</span>
+<span class="font-body-sm text-body-sm text-text-secondary font-medium">15 Oktober 2026</span>
+</div>
+</div>
+</div>
+<!-- Parties Metadata (Bento Split) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md my-space-md">
+<!-- Pihak 1: Penghuni / Ditagihkan Kepada -->
+<div class="bg-bg-subtle/80 p-space-md rounded-xl">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-text-muted font-bold">Ditagihkan Kepada / Penyewa</span>
+<span class="material-symbols-outlined text-text-muted text-[18px]">person</span>
+</div>
+<div class="font-title-lg text-title-lg text-text-primary font-bold">Farhan Maulana</div>
+<div class="flex items-center gap-space-xs mt-1 text-primary-container font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]">meeting_room</span>
+<span class="font-semibold">Kamar 104</span>
+<span class="text-text-muted">•</span>
+<span>Deluxe AC (Lantai 1)</span>
+</div>
+<div class="mt-2 space-y-1 font-body-sm text-body-sm text-text-secondary">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[14px]">smartphone</span>
+<span>+62 895-6012-4822</span>
+</div>
+<div class="flex items-center gap-space-xs text-primary-container font-medium">
+<span class="material-symbols-outlined text-[14px]">date_range</span>
+<span>Periode Sewa: 01 Nov 2026 – 30 Nov 2026</span>
+</div>
+</div>
+</div>
+<!-- Pihak 2: Pengelola & Rekening Pembayaran -->
+<div class="bg-bg-subtle/80 p-space-md rounded-xl">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-text-muted font-bold">Penerima &amp; Rekening Resmi</span>
+<span class="material-symbols-outlined text-text-muted text-[18px]">account_balance</span>
+</div>
+<div class="font-title-lg text-title-lg text-text-primary font-bold">Hendra Gunawan (Pemilik)</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Pengelola Operasional Kost Griya Harmoni</p>
+<div class="mt-space-sm p-space-xs bg-bg-surface rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-7 bg-primary-container/10 rounded flex items-center justify-center font-bold font-mono text-[11px] text-primary-container">
+                BCA
+              </div>
+<div>
+<div class="font-label-md text-label-md font-mono text-text-primary">8801-2993-11</div>
+<div class="font-body-sm text-[11px] text-text-muted leading-tight">a.n. Hendra Gunawan</div>
+</div>
+</div>
+<button class="px-2 py-1 bg-bg-subtle text-text-secondary hover:text-primary-container rounded font-label-sm text-[11px] flex items-center gap-1 transition-colors" onclick="copyRekening('8801299311')" title="Salin nomor rekening">
+<span class="material-symbols-outlined text-[13px]">content_copy</span>
+              Salin
+            </button>
+</div>
+<div class="mt-1.5 flex items-center gap-1 text-[11px] text-text-muted font-body-sm">
+<span class="material-symbols-outlined text-[14px] text-secondary">qr_code_2</span>
+<span>Mendukung transfer antar bank &amp; QRIS Statis Kostra</span>
+</div>
+</div>
+</div>
+<!-- Itemized Billing Table -->
+<div class="mt-space-lg overflow-x-auto">
+<table class="w-full text-left font-body-md text-body-md border-collapse">
+<thead>
+<tr class="bg-bg-subtle text-text-secondary font-label-md text-label-md uppercase tracking-wider">
+<th class="py-space-sm px-space-md w-12 text-center rounded-l-lg" scope="col">No</th>
+<th class="py-space-sm px-space-md" scope="col">Uraian Tagihan &amp; Komponen Fasilitas</th>
+<th class="py-space-sm px-space-md text-center w-28" scope="col">Kuantitas</th>
+<th class="py-space-sm px-space-md text-right w-44 rounded-r-lg" scope="col">Subtotal (IDR)</th>
+</tr>
+</thead>
+<tbody class="text-text-primary divide-y-0">
+<!-- Row 1: Kamar Pokok -->
+<tr class="hover:bg-bg-subtle/40 transition-colors">
+<td class="py-space-md px-space-md text-center font-mono text-text-muted text-body-sm">01</td>
+<td class="py-space-md px-space-md">
+<div class="font-title-md text-title-md text-text-primary">Biaya Sewa Kamar Pokok (Kamar 104)</div>
+<div class="font-body-sm text-body-sm text-text-muted mt-0.5">Sewa bulanan tipe Deluxe AC, Springbed 160x200, Kamar Mandi Dalam &amp; Water Heater</div>
+</td>
+<td class="py-space-md px-space-md text-center text-text-secondary font-medium">1 Bulan</td>
+<td class="py-space-md px-space-md text-right font-mono font-semibold text-text-primary">Rp 1.850.000</td>
+</tr>
+<!-- Row 2: Fasilitas Gratis / Termasuk -->
+<tr class="hover:bg-bg-subtle/40 transition-colors bg-bg-surface">
+<td class="py-space-md px-space-md text-center font-mono text-text-muted text-body-sm">02</td>
+<td class="py-space-md px-space-md">
+<div class="font-title-md text-title-md text-text-primary">Abodemen Air Bersih PDAM &amp; Internet WiFi</div>
+<div class="font-body-sm text-body-sm text-text-muted mt-0.5">Akses Fiber Optik Dedicated 100 Mbps tanpa FUP + Maintenance filter air</div>
+</td>
+<td class="py-space-md px-space-md text-center text-text-secondary">Termasuk</td>
+<td class="py-space-md px-space-md text-right">
+<span class="inline-flex px-2 py-0.5 rounded-full text-label-sm font-label-sm bg-status-lunas-bg text-status-lunas-text">
+                  GRATIS / FREE
+                </span>
+</td>
+</tr>
+<!-- Row 3: Iuran Kebersihan -->
+<tr class="hover:bg-bg-subtle/40 transition-colors">
+<td class="py-space-md px-space-md text-center font-mono text-text-muted text-body-sm">03</td>
+<td class="py-space-md px-space-md">
+<div class="font-title-md text-title-md text-text-primary">Iuran Kebersihan Koridor &amp; Pengelolaan Sampah</div>
+<div class="font-body-sm text-body-sm text-text-muted mt-0.5">Pembersihan area komunal setiap 2 hari sekali &amp; retribusi RT/RW setempat</div>
+</td>
+<td class="py-space-md px-space-md text-center text-text-secondary">1 Periode</td>
+<td class="py-space-md px-space-md text-right font-mono font-semibold text-text-primary">Rp 50.000</td>
+</tr>
+<!-- Row 4: Token Listrik -->
+<tr class="hover:bg-bg-subtle/40 transition-colors bg-bg-surface">
+<td class="py-space-md px-space-md text-center font-mono text-text-muted text-body-sm">04</td>
+<td class="py-space-md px-space-md">
+<div class="font-title-md text-title-md text-text-primary">Penggunaan Listrik Kamar Pribadi (Meteran PLN Mandiri)</div>
+<div class="font-body-sm text-body-sm text-text-muted mt-0.5">Meteran Prabayar Token mandiri tiap kamar (dibebankan langsung ke penghuni)</div>
+</td>
+<td class="py-space-md px-space-md text-center text-text-secondary font-mono">Token Prabayar</td>
+<td class="py-space-md px-space-md text-right font-mono text-text-muted">Rp 0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Calculation Breakdown & Terbilang Container -->
+<div class="mt-space-md pt-space-md flex flex-col md:flex-row justify-between gap-space-lg bg-bg-canvas p-space-lg rounded-xl">
+<!-- Left: Terbilang Box & Verification Stamp Data -->
+<div class="w-full md:w-7/12 flex flex-col justify-between space-y-3">
+<div>
+<div class="font-label-sm text-label-sm uppercase tracking-wider text-text-muted font-bold">Jumlah Terbilang (In Words)</div>
+<div class="font-title-md text-title-md text-primary-container italic mt-1 font-serif bg-bg-surface p-space-sm rounded-lg shadow-sm">
+              “Satu Juta Delapan Ratus Lima Puluh Ribu Rupiah”
+            </div>
+</div>
+<div class="text-[12px] font-body-sm text-text-secondary bg-bg-surface/70 p-space-sm rounded-lg space-y-1">
+<div class="flex items-center gap-1.5 font-label-sm text-label-sm text-text-primary font-semibold">
+<span class="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+<span>Catatan Otentikasi Kostra Gateway</span>
+</div>
+<p class="text-text-muted text-[11px] leading-relaxed">
+              Dokumen ini dihasilkan secara otomatis oleh sistem manajemen kost Kostra. Sah tanpa tanda tangan basah fisik sesuai UU ITE Pasal 5 Ayat 1.
+            </p>
+</div>
+</div>
+<!-- Right: Subtotal, Discount & Grand Total -->
+<div class="w-full md:w-5/12 flex flex-col space-y-2 font-body-md text-body-md">
+<div class="flex justify-between items-center text-text-secondary">
+<span>Subtotal Tagihan:</span>
+<span class="font-mono text-text-primary">Rp 1.900.000</span>
+</div>
+<div class="flex justify-between items-center text-status-lunas-text font-medium">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">local_offer</span>
+              Promo Booking Awal:
+            </span>
+<span class="font-mono">- Rp 50.000</span>
+</div>
+<div class="flex justify-between items-center text-text-secondary">
+<span>Biaya Layanan Gerbang Kostra:</span>
+<span class="font-mono text-status-lunas-text font-medium">GRATIS</span>
+</div>
+<div class="pt-2 mt-1 bg-bg-surface p-space-sm rounded-lg shadow-sm">
+<div class="flex justify-between items-baseline">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider font-bold text-primary-container" id="total-label">
+                  TOTAL TELAH DIBAYAR
+                </span>
+<span class="text-[11px] font-body-sm text-text-muted">Metode: Transfer Bank BCA</span>
+</div>
+<div class="text-right">
+<span class="font-currency-display text-currency-display text-primary-container font-extrabold tracking-tight">
+                  Rp 1.850.000
+                </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Payment Settlement Metadata Row (Receipt Only Detail) -->
+<div class="mt-space-md p-space-md rounded-xl bg-status-lunas-bg/40 flex flex-wrap items-center justify-between gap-space-sm" id="settlement-info">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-full bg-status-lunas-bg flex items-center justify-center text-status-lunas-text">
+<span class="material-symbols-outlined text-[20px]">task_alt</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-status-lunas-text font-bold">Pembayaran Dikonfirmasi Otomatis</div>
+<div class="font-body-sm text-body-sm text-text-secondary">Diterima pada 15 Okt 2026 pukul 14:22:09 WIB via Rekening BCA</div>
+</div>
+</div>
+<div class="font-mono text-[11px] bg-bg-surface px-2.5 py-1 rounded text-text-muted">
+          ID Mutasi: #BCA-TX-990238120
+        </div>
+</div>
+<!-- Document Signatures & Verification Footer -->
+<footer class="mt-space-xl pt-space-lg flex flex-col sm:flex-row items-center justify-between gap-space-lg relative z-20">
+<!-- QR Code Verification Hub -->
+<div class="flex items-center gap-space-md w-full sm:w-auto">
+<div class="w-24 h-24 bg-bg-surface p-1.5 rounded-lg shadow-sm flex items-center justify-center shrink-0">
+<!-- Inline High Contrast QR Code SVG representation -->
+<svg class="w-full h-full text-text-primary" fill="currentColor" viewbox="0 0 100 100">
+<!-- Corner Top Left Position Marker -->
+<rect fill="currentColor" height="28" rx="2" width="28" x="5" y="5"></rect>
+<rect fill="white" height="20" width="20" x="9" y="9"></rect>
+<rect fill="currentColor" height="12" width="12" x="13" y="13"></rect>
+<!-- Corner Top Right Position Marker -->
+<rect fill="currentColor" height="28" rx="2" width="28" x="67" y="5"></rect>
+<rect fill="white" height="20" width="20" x="71" y="9"></rect>
+<rect fill="currentColor" height="12" width="12" x="75" y="13"></rect>
+<!-- Corner Bottom Left Position Marker -->
+<rect fill="currentColor" height="28" rx="2" width="28" x="5" y="67"></rect>
+<rect fill="white" height="20" width="20" x="9" y="71"></rect>
+<rect fill="currentColor" height="12" width="12" x="13" y="75"></rect>
+<!-- Pattern Data Points -->
+<rect height="8" width="8" x="38" y="8"></rect>
+<rect height="6" width="8" x="50" y="14"></rect>
+<rect height="8" width="6" x="40" y="24"></rect>
+<rect height="6" width="6" x="52" y="26"></rect>
+<rect height="8" width="6" x="8" y="38"></rect>
+<rect height="6" width="10" x="20" y="42"></rect>
+<rect height="10" width="10" x="38" y="38"></rect>
+<rect height="8" width="8" x="54" y="40"></rect>
+<rect height="6" width="6" x="68" y="42"></rect>
+<rect height="10" width="10" x="80" y="38"></rect>
+<rect height="6" width="8" x="38" y="54"></rect>
+<rect height="10" width="8" x="50" y="52"></rect>
+<rect height="8" width="10" x="66" y="56"></rect>
+<rect height="6" width="8" x="82" y="54"></rect>
+<rect height="8" width="6" x="40" y="68"></rect>
+<rect height="6" width="10" x="52" y="72"></rect>
+<rect height="8" width="8" x="42" y="84"></rect>
+<rect height="8" width="8" x="68" y="72"></rect>
+<rect height="12" width="12" x="80" y="80"></rect>
+</svg>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-label-sm text-label-sm uppercase font-bold text-primary-container tracking-wider">Verifikasi Digital</span>
+<p class="font-body-sm text-[11px] text-text-muted max-w-[190px] leading-tight mt-0.5">
+              Pindai QR ini dengan kamera HP untuk memvalidasi keaslian tanda pelunasan langsung di cloud Kostra.
+            </p>
+<span class="font-mono text-[9px] text-text-muted mt-1">ID: KOSTRA-AUTH-8831-2026</span>
+</div>
+</div>
+<!-- Electronic Signature of Landlord -->
+<div class="flex flex-col items-center sm:items-end text-center sm:text-right w-full sm:w-auto">
+<div class="font-body-sm text-body-sm text-text-muted">Jakarta Selatan, 15 Oktober 2026</div>
+<div class="font-label-md text-label-md text-text-secondary mt-0.5">Pengelola Kost Griya Harmoni</div>
+<!-- Stylized Digital Signature Stamp Container -->
+<div class="relative py-2 my-1 flex items-center justify-center">
+<div class="font-serif italic font-bold text-[26px] text-primary-container opacity-85 select-none tracking-tight">
+              Hendra Gunawan
+            </div>
+<span class="absolute -top-1 right-0 text-[10px] font-mono px-1 rounded bg-bg-subtle text-primary-container">
+              [E-SIGN]
+            </span>
+</div>
+<div class="font-title-md text-title-md font-bold text-text-primary">Hendra Gunawan</div>
+<div class="font-body-sm text-[11px] text-text-muted">Penanggung Jawab Legal Unit Kost</div>
+</div>
+</footer>
+<!-- Privacy & System Stamp Sub-Footer -->
+<div class="mt-space-lg pt-space-sm flex flex-col md:flex-row items-center justify-between gap-2 text-text-muted text-[10px] font-body-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px] text-primary-container">lock</span>
+<span>Dokumen dilindungi kepatuhan UU PDP No. 27/2022. Informasi finansial bersifat konfidensial.</span>
+</div>
+<div class="flex items-center gap-2 font-mono">
+<span>Kostra Core Engine v4.2.1</span>
+<span>•</span>
+<span>Server Node: JKT-02</span>
+</div>
+</div>
+</article>
+</div>
+</div>
+<!-- Inline Logic for Mode Toggling, Clipboard Copy & PDF Actions -->
+<script>
+  function switchDocMode(mode) {
+    const tabInvoice = document.getElementById('tab-invoice');
+    const tabReceipt = document.getElementById('tab-receipt');
+    const paidStamp = document.getElementById('paid-stamp');
+    const pendingStamp = document.getElementById('pending-stamp');
+    const docBadge = document.getElementById('doc-badge');
+    const docNumber = document.getElementById('doc-number');
+    const totalLabel = document.getElementById('total-label');
+    const settlementInfo = document.getElementById('settlement-info');
+    const btnDownload = document.getElementById('btn-download');
+
+    if (mode === 'invoice') {
+      // Set Tab visual states
+      tabInvoice.className = "flex-1 md:flex-initial flex items-center justify-center gap-space-xs px-space-md py-space-xs rounded-DEFAULT font-label-md text-label-md transition-all bg-bg-surface text-primary-container shadow-sm font-semibold";
+      tabReceipt.className = "flex-1 md:flex-initial flex items-center justify-center gap-space-xs px-space-md py-space-xs rounded-DEFAULT font-label-md text-label-md transition-all text-text-secondary hover:text-text-primary";
+      tabInvoice.setAttribute('aria-selected', 'true');
+      tabReceipt.setAttribute('aria-selected', 'false');
+
+      // Update Stamp
+      paidStamp.classList.add('hidden');
+      pendingStamp.classList.remove('hidden');
+
+      // Update Text and metadata
+      docBadge.className = "px-space-sm py-0.5 rounded-full font-label-sm text-label-sm bg-status-menunggu-bg text-status-menunggu-text mb-2";
+      docBadge.innerText = "INVOICE TAGIHAN SEWA";
+      docNumber.innerText = "#INV-2026-10-004";
+      totalLabel.innerText = "TOTAL HARUS DIBAYAR";
+      settlementInfo.classList.add('hidden');
+      btnDownload.innerHTML = `<span class="material-symbols-outlined text-[18px]">download</span> Unduh Invoice Tagihan`;
+      showToast('Mode diubah: Menampilkan Invoice Tagihan (Menunggu Pembayaran)');
+    } else {
+      // Set Tab visual states
+      tabReceipt.className = "flex-1 md:flex-initial flex items-center justify-center gap-space-xs px-space-md py-space-xs rounded-DEFAULT font-label-md text-label-md transition-all bg-bg-surface text-primary-container shadow-sm font-semibold";
+      tabInvoice.className = "flex-1 md:flex-initial flex items-center justify-center gap-space-xs px-space-md py-space-xs rounded-DEFAULT font-label-md text-label-md transition-all text-text-secondary hover:text-text-primary";
+      tabReceipt.setAttribute('aria-selected', 'true');
+      tabInvoice.setAttribute('aria-selected', 'false');
+
+      // Update Stamp
+      paidStamp.classList.remove('hidden');
+      pendingStamp.classList.add('hidden');
+
+      // Update Text and metadata
+      docBadge.className = "px-space-sm py-0.5 rounded-full font-label-sm text-label-sm bg-status-lunas-bg text-status-lunas-text mb-2";
+      docBadge.innerText = "KUITANSI RESMI PELUNASAN";
+      docNumber.innerText = "#KTR-REC-8831";
+      totalLabel.innerText = "TOTAL TELAH DIBAYAR";
+      settlementInfo.classList.remove('hidden');
+      btnDownload.innerHTML = `<span class="material-symbols-outlined text-[18px]">download</span> Unduh Kuitansi PDF`;
+      showToast('Mode diubah: Menampilkan Kuitansi Tanda Lunas (PAID)');
+    }
+  }
+
+  function showToast(message) {
+    const toast = document.getElementById('toast-notification');
+    const msgEl = document.getElementById('toast-message');
+    msgEl.innerText = message;
+    toast.classList.remove('hidden');
+    toast.classList.remove('translate-y-2');
+    setTimeout(() => {
+      toast.classList.add('hidden');
+      toast.classList.add('translate-y-2');
+    }, 3200);
+  }
+
+  function copyRekening(rekNumber) {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(rekNumber).then(() => {
+        showToast(`Nomor Rekening BCA (${rekNumber}) berhasil disalin!`);
+      });
+    } else {
+      showToast(`Nomor Rekening: ${rekNumber}`);
+    }
+  }
+
+  function triggerWhatsAppShare() {
+    const phone = "6289560124822";
+    const text = encodeURIComponent(
+      "Halo Mas Farhan Maulana,\nBerikut terlampir Kuitansi Pelunasan Sewa Kost Griya Harmoni Kamar 104 periode Nov 2026 (No. #KTR-REC-8831). Terima kasih telah membayar tepat waktu!"
+    );
+    window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+  }
+
+  function triggerPdfDownload() {
+    showToast('Menyiapkan file PDF beresolusi cetak tinggi...');
+    setTimeout(() => {
+      window.print();
+    }, 700);
+  }
+</script></main></body></html>

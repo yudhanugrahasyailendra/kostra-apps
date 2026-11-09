@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>Kostra - Panel Staf &amp; Penjaga Kos Operasional</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#246865",
+            "on-surface-variant": "#3f4948",
+            "on-background": "#151c27",
+            "status-kosong-border": "#E5E7EB",
+            "text-secondary": "#4B5563",
+            "bg-surface": "#FFFFFF",
+            "background": "#f9f9ff",
+            "primary": "#00413f",
+            "tertiary-fixed": "#d5e5ef",
+            "status-lunas-text": "#065F46",
+            "on-error": "#ffffff",
+            "secondary-container": "#fdba45",
+            "on-secondary-fixed-variant": "#604100",
+            "on-tertiary-fixed-variant": "#3a4951",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "primary-fixed": "#adefea",
+            "surface-container-highest": "#dce2f3",
+            "primary-fixed-dim": "#91d2ce",
+            "surface-dim": "#d3daea",
+            "status-jatuh-tempo-border": "#FECDD3",
+            "border-subtle": "#E5E7EB",
+            "primary-container": "#0f5a57",
+            "secondary-fixed": "#ffdeae",
+            "border-strong": "#D1D5DB",
+            "surface-container-low": "#f0f3ff",
+            "text-primary": "#111827",
+            "on-primary": "#ffffff",
+            "on-tertiary": "#ffffff",
+            "secondary": "#7f5700",
+            "surface-container-high": "#e2e8f8",
+            "bg-subtle": "#F4F5F6",
+            "on-secondary-fixed": "#281900",
+            "status-lunas-bg": "#ECFDF5",
+            "status-kosong-text": "#374151",
+            "inverse-primary": "#91d2ce",
+            "text-muted": "#9CA3AF",
+            "outline": "#6f7978",
+            "status-jatuh-tempo-text": "#9F1239",
+            "bg-canvas": "#FBFBFA",
+            "surface-bright": "#f9f9ff",
+            "error": "#ba1a1a",
+            "status-kosong-bg": "#F3F4F6",
+            "on-primary-fixed-variant": "#00504d",
+            "outline-variant": "#bfc8c7",
+            "on-tertiary-fixed": "#0e1d25",
+            "on-primary-container": "#8ecfcb",
+            "on-primary-fixed": "#00201f",
+            "surface-container": "#e7eefe",
+            "surface": "#f9f9ff",
+            "tertiary": "#2d3c44",
+            "status-menunggu-border": "#FDE68A",
+            "secondary-fixed-dim": "#fdba45",
+            "status-lunas-border": "#A7F3D0",
+            "tertiary-container": "#44535b",
+            "tertiary-fixed-dim": "#b9c9d3",
+            "on-secondary-container": "#6f4b00",
+            "inverse-surface": "#2a313d",
+            "status-menunggu-text": "#92400E",
+            "on-tertiary-container": "#b6c6d0",
+            "error-container": "#ffdad6",
+            "on-surface": "#151c27",
+            "surface-variant": "#dce2f3",
+            "inverse-on-surface": "#ebf1ff",
+            "status-jatuh-tempo-bg": "#FFE4E6",
+            "status-menunggu-bg": "#FEF3C7"
+          },
+          borderRadius: {
+            DEFAULT: "0.25rem",
+            lg: "0.5rem",
+            xl: "0.75rem",
+            full: "9999px"
+          },
+          spacing: {
+            "space-2xl": "3rem",
+            "space-xl": "2rem",
+            "gutter-desktop": "1.5rem",
+            "space-xs": "0.25rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "margin-desktop": "2rem",
+            margin: "1rem",
+            "space-lg": "1.5rem",
+            "margin-tablet": "1.5rem",
+            gutter: "1rem"
+          },
+          fontFamily: {
+            "label-sm": ["Plus Jakarta Sans"],
+            "label-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "body-sm": ["Plus Jakarta Sans"],
+            "title-lg": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "currency-display": ["Plus Jakarta Sans"]
+          },
+          fontSize: {
+            "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "600" }],
+            "label-lg": ["14px", { lineHeight: "20px", fontWeight: "500" }],
+            "headline-md": ["22px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+            "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "body-sm": ["12px", { lineHeight: "16px", fontWeight: "400" }],
+            "title-lg": ["16px", { lineHeight: "22px", fontWeight: "600" }],
+            "headline-lg": ["28px", { lineHeight: "36px", letterSpacing: "-0.015em", fontWeight: "700" }],
+            "title-md": ["14px", { lineHeight: "20px", fontWeight: "600" }],
+            "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.02em", fontWeight: "600" }],
+            "headline-sm": ["18px", { lineHeight: "24px", letterSpacing: "-0.005em", fontWeight: "600" }],
+            "currency-display": ["24px", { lineHeight: "32px", letterSpacing: "-0.02em", fontWeight: "700" }]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+</head>
+<body class="bg-bg-canvas font-body-md text-body-md text-on-surface antialiased">
+<!-- Header & Shell Staf Lapangan -->
+<header class="fixed top-0 left-0 right-0 h-16 z-50 bg-bg-surface/95 backdrop-blur-md border-b border-border-subtle shadow-xs">
+<div class="w-full h-16 px-gutter-desktop flex items-center justify-between gap-space-md">
+<!-- Brand & Modul Staf -->
+<div class="flex items-center gap-space-md">
+<a class="flex items-center gap-space-sm group" href="#">
+<img alt="Logo Kostra (Kost Rapi)" class="h-9 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIMCaieaMSZt-NG_eIiVQwy7snXqU2s9JfXVqan9PuqtRiqzXHCIv60XlFaXjhePAlKPhMfE-Noh19xMimdimNPHlmtLdkOkMy4J0dYvzGNcw6bDVCH1xc3pi_dol5e8bTEbzyoc2GRa4gh3oOMgUI7K1vU_smylpRpacArw6snuWOmzvEaBoS2rgv2d1DuUQahyretAZsH43hYarc8K8PR4h734lasNh3AOLjfadrm9zq5ddtgLsOGw"/>
+<div class="flex flex-col">
+<span class="font-title-lg text-title-lg text-primary tracking-tight font-bold">Kostra</span>
+<span class="font-label-sm text-label-sm text-primary font-bold uppercase tracking-wider">Panel Staf Lapangan (FND-04)</span>
+</div>
+</a>
+</div>
+<!-- Shift Info, Toren Water Level, & Kontak Darurat Pemilik -->
+<div class="hidden lg:flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs px-3 py-1.5 rounded-full bg-status-lunas-bg text-status-lunas-text border border-status-lunas-border/60">
+<span class="w-2 h-2 rounded-full bg-status-lunas-text animate-pulse"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wide font-bold">Shift Pagi: 07.00 - 15.00 WIB</span>
+</div>
+<!-- Widget Toren Air 82% Normal -->
+<div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-lg border border-border-subtle">
+<span class="material-symbols-outlined text-primary text-[20px]">water_drop</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-secondary leading-none">Toren Air</span>
+<span class="font-title-md text-title-md text-primary font-bold leading-tight">82% Normal</span>
+</div>
+</div>
+<!-- Tombol Darurat Pemilik (Pak Hendra) -->
+<button class="inline-flex items-center gap-space-xs px-3.5 py-1.5 rounded-lg bg-status-jatuh-tempo-bg text-status-jatuh-tempo-text border border-status-jatuh-tempo-border font-label-md text-label-md hover:bg-status-jatuh-tempo-border/80 active:scale-95 transition-all shadow-xs" onclick="alert('Menghubungi Pak Hendra (Pemilik Kos) via panggilan darurat: 0812-9876-5432...')" type="button">
+<span class="material-symbols-outlined text-[18px]">phone_in_talk</span>
+<span>Darurat: Hubungi Pak Hendra</span>
+</button>
+</div>
+<!-- Profile Mas Joko Siswanto -->
+<div class="flex items-center gap-space-sm">
+<button aria-label="Notifikasi Operasional" class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors relative" type="button">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-error"></span>
+</button>
+<div class="flex items-center gap-space-sm pl-space-xs border-l border-border-subtle">
+<div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-on-primary font-bold shadow-xs">
+<span class="material-symbols-outlined text-[20px]">person</span>
+</div>
+<div class="hidden sm:flex flex-col text-left">
+<span class="font-title-md text-title-md text-text-primary leading-tight font-semibold">Mas Joko Siswanto</span>
+<span class="font-label-sm text-label-sm text-text-secondary">Penjaga Kos • Griya Harmoni</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Sidebar Ringkas Staf Lapangan (Terisolasi dari Laporan Keuangan, Pengaturan Master, & Langganan SaaS) -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 bg-bg-surface z-40 flex flex-col justify-between py-space-md border-r border-border-subtle shadow-xs">
+<div class="px-space-md flex flex-col gap-space-md">
+<div class="px-space-sm flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider font-semibold">Akses Operasional Lapangan</span>
+<span class="material-symbols-outlined text-[16px] text-text-muted" title="Akses staf lapangan aktif">shield_person</span>
+</div>
+<nav class="flex flex-col gap-1.5" data-active-classes="bg-primary text-on-primary font-title-md rounded-lg shadow-sm">
+<!-- Beranda Operasional (Active) -->
+<a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg bg-primary text-on-primary font-title-md shadow-sm transition-all" data-path="dashboard-operasional" href="#">
+<span class="material-symbols-outlined text-[20px]">space_dashboard</span>
+<span class="font-title-md text-title-md">Beranda Operasional</span>
+</a>
+<!-- Kamar & Unit -->
+<a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-text-primary transition-colors font-body-md" data-path="katalog-kamar" href="#">
+<span class="material-symbols-outlined text-[20px]">meeting_room</span>
+<span class="font-body-md text-body-md">Kamar &amp; Unit</span>
+</a>
+<!-- Data Penghuni -->
+<a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-text-primary transition-colors font-body-md" data-path="data-penghuni" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="font-body-md text-body-md">Data Penghuni</span>
+</a>
+<!-- Tagihan & Sewa Lapangan -->
+<a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-text-primary transition-colors font-body-md" data-path="tagihan-dan-pembayaran" href="#">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-body-md text-body-md">Tagihan &amp; Sewa Lapangan</span>
+</a>
+<!-- Broadcast WhatsApp Staf -->
+<a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-text-primary transition-colors font-body-md" data-path="broadcast-whatsapp" href="#">
+<span class="material-symbols-outlined text-[20px]">forward_to_inbox</span>
+<span class="font-body-md text-body-md">Broadcast WhatsApp Staf</span>
+</a>
+<!-- Keluhan & Servis -->
+<a class="flex items-center gap-space-sm px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-bg-subtle hover:text-text-primary transition-colors font-body-md" data-path="keluhan-dan-maintenance" href="#">
+<span class="material-symbols-outlined text-[20px]">handyman</span>
+<span class="font-body-md text-body-md">Keluhan &amp; Servis</span>
+</a>
+</nav>
+</div>
+<!-- Status Keamanan & Hak Akses Terisolasi -->
+<div class="px-space-md flex flex-col gap-space-sm">
+<div class="p-space-sm rounded-xl bg-surface-container-low border border-border-subtle flex flex-col gap-1.5">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[16px]">lock</span>
+<span class="font-label-sm text-label-sm font-bold uppercase">Hak Akses Terisolasi</span>
+</div>
+<p class="text-[11px] leading-relaxed text-text-secondary">
+          Bebas akses laporan kas besar &amp; setelan master. Fokus operasional harian kos.
+        </p>
+</div>
+<div class="px-space-xs flex items-center justify-between text-[11px] text-text-muted">
+<span>Kostra Staf v2.4</span>
+<span class="font-mono">#JKO-04</span>
+</div>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="pl-64">
+<main class="w-full min-h-screen pt-16 bg-bg-canvas px-gutter-desktop py-space-lg">
+<div class="flex flex-col w-full max-w-7xl mx-auto">
+<!-- Banner Identitas Staf & Shift Lapangan -->
+<div class="relative bg-bg-surface rounded-2xl border border-border-subtle shadow-sm p-space-md md:p-space-lg mb-space-lg overflow-hidden">
+<div class="absolute -right-12 -top-12 w-52 h-52 bg-primary/5 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md relative z-10">
+<div class="flex flex-col gap-space-xs">
+<div class="flex flex-wrap items-center gap-space-xs">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm uppercase tracking-wider font-semibold shadow-xs">
+<span class="material-symbols-outlined text-[14px]">badge</span>
+                  Panel Staf Lapangan (FND-04)
+                </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-status-lunas-bg text-status-lunas-text border border-status-lunas-border font-label-sm text-label-sm uppercase font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-status-lunas-text animate-ping"></span>
+                  Shift Pagi: 07.00 - 15.00 WIB
+                </span>
+</div>
+<div class="flex items-baseline gap-space-sm mt-space-xs">
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">Mas Joko Siswanto</h1>
+<span class="font-body-md text-body-md text-text-secondary font-medium">| Griya Harmoni Residence</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-primary">verified_user</span>
+                Akses terbatas operasional harian: Tanpa akses laporan finansial utama, billing langganan, dan setelan master.
+              </p>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="inline-flex items-center gap-space-xs px-4 py-2.5 rounded-xl bg-status-jatuh-tempo-bg text-status-jatuh-tempo-text border border-status-jatuh-tempo-border font-title-md text-title-md hover:bg-status-jatuh-tempo-border/80 active:scale-95 transition-all shadow-xs" onclick="alert('Menghubungi Pak Hendra (Pemilik Kos) via panggilan darurat: 0812-9876-5432...')" type="button">
+<span class="material-symbols-outlined text-[18px]">phone_in_talk</span>
+<span>Darurat: Hubungi Pak Hendra</span>
+</button>
+<div class="flex items-center gap-2 bg-surface-container-low border border-border-subtle px-3.5 py-2 rounded-xl">
+<span class="material-symbols-outlined text-primary text-[22px]">water_drop</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-secondary leading-none">Toren Air</span>
+<span class="font-title-md text-title-md text-text-primary font-bold">82% Normal</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. Metric Bar Shift Harian -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md mb-space-lg">
+<!-- Tugas Hari Ini -->
+<div class="bg-bg-surface p-space-md rounded-xl border border-border-subtle shadow-xs flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-text-secondary uppercase tracking-wider font-semibold">Tugas Hari Ini</p>
+<h3 class="font-currency-display text-currency-display text-text-primary mt-1 font-bold">3 / 4</h3>
+<p class="font-body-sm text-body-sm text-status-lunas-text font-semibold mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">check_circle</span> 75% Selesai
+              </p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-status-lunas-bg text-status-lunas-text flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">task_alt</span>
+</div>
+</div>
+<!-- Tiket Servis Aktif -->
+<div class="bg-bg-surface p-space-md rounded-xl border border-border-subtle shadow-xs flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-text-secondary uppercase tracking-wider font-semibold">Tiket Servis Aktif</p>
+<h3 class="font-currency-display text-currency-display text-text-primary mt-1 font-bold">1 Tiket</h3>
+<p class="font-body-sm text-body-sm text-status-menunggu-text font-semibold mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">pending_actions</span> 1 Butuh Tindakan
+              </p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-status-menunggu-bg text-status-menunggu-text flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">handyman</span>
+</div>
+</div>
+<!-- Tamu Terdaftar Hari Ini -->
+<div class="bg-bg-surface p-space-md rounded-xl border border-border-subtle shadow-xs flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-text-secondary uppercase tracking-wider font-semibold">Tamu Terdaftar Hari Ini</p>
+<h3 class="font-currency-display text-currency-display text-text-primary mt-1 font-bold">2 Orang</h3>
+<p class="font-body-sm text-body-sm text-text-secondary font-medium mt-0.5">Kamar 102 &amp; 105</p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">person_pin_circle</span>
+</div>
+</div>
+<!-- Titipan Tunai Shift -->
+<div class="bg-bg-surface p-space-md rounded-xl border border-border-subtle shadow-xs flex items-center justify-between">
+<div>
+<p class="font-label-sm text-label-sm text-text-secondary uppercase tracking-wider font-semibold">Titipan Tunai Shift</p>
+<h3 class="font-currency-display text-currency-display text-text-primary mt-1 font-bold">Rp 1.850.000</h3>
+<p class="font-body-sm text-body-sm text-secondary font-semibold mt-0.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">lock</span> Tersimpan di brankas pos resepsionis
+              </p>
+</div>
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed text-on-secondary-fixed-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[24px]">payments</span>
+</div>
+</div>
+</div>
+<!-- 4. 2-Kolom Tata Letak Operasional Lapangan -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg mb-space-lg items-start">
+<!-- SISI KIRI: Tugas Rutin, Log Tamu Menginap, Antrean Tiket Servis (lg:col-span-7) -->
+<section class="lg:col-span-7 flex flex-col gap-space-md">
+<!-- 4.a Checklist Tugas Rutin Operasional -->
+<div class="bg-bg-surface rounded-2xl border border-border-subtle shadow-xs p-space-md md:p-space-lg">
+<div class="flex items-center justify-between mb-space-md border-b border-border-subtle pb-3">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">checklist_rtl</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-text-primary font-bold">Checklist Tugas Rutin Operasional</h2>
+<p class="font-body-sm text-body-sm text-text-secondary">Pemeriksaan wajib harian staf penjaga kos</p>
+</div>
+</div>
+<span class="font-label-sm text-label-sm text-text-secondary bg-bg-subtle border border-border-subtle px-2.5 py-1 rounded-full font-semibold">
+                  Senin, 23 Feb 2026
+                </span>
+</div>
+<div class="flex flex-col gap-space-sm" id="operational-checklist">
+<!-- [V] Tugas 1: Selesai -->
+<div class="flex items-start gap-space-md p-space-sm bg-bg-subtle/80 rounded-xl border border-border-subtle/60 transition-all hover:bg-bg-subtle">
+<div class="pt-0.5">
+<span class="w-6 h-6 rounded-md bg-status-lunas-bg text-status-lunas-text border border-status-lunas-border flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] font-bold">check</span>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-space-xs flex-wrap">
+<span class="font-title-md text-title-md text-text-primary line-through opacity-75 font-semibold">Cek Kebersihan Koridor &amp; Dapur Bersama Lt. 1 &amp; 2</span>
+<span class="px-2.5 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-text border border-status-lunas-border font-label-sm text-label-sm font-bold">Selesai 08:30</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Kondisi tempat sampah sudah dikosongkan, kompor gas bersih, refill air minum galon siap.</p>
+</div>
+</div>
+<!-- [Progress] Tugas 2: Sedang Berjalan -->
+<div class="flex items-start gap-space-md p-space-sm bg-surface-container-low/70 rounded-xl border border-border-subtle transition-all">
+<div class="pt-0.5">
+<span class="w-6 h-6 rounded-md bg-status-menunggu-bg text-status-menunggu-text border border-status-menunggu-border flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-space-xs flex-wrap">
+<span class="font-title-md text-title-md text-text-primary font-bold">Inspeksi Kunci &amp; Kondisi Kamar 108 untuk Check-out</span>
+<span class="px-2.5 py-0.5 rounded-full bg-status-menunggu-bg text-status-menunggu-text border border-status-menunggu-border font-label-sm text-label-sm font-bold">Sedang Berjalan (12:00)</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Jadwal serah terima kunci siang ini pkl 12:00 (Penyewa: Sdr. Kevin - mutasi dinas). Cek inventaris kasur, AC, dan kartu akses.</p>
+<div class="flex items-center gap-space-xs mt-2.5 flex-wrap">
+<button class="px-3 py-1 rounded-lg bg-bg-surface text-primary border border-border-subtle font-label-sm text-label-sm shadow-xs hover:bg-surface-container transition-colors" type="button">
+                        Cek Meteran Listrik
+                      </button>
+<button class="px-3 py-1 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm shadow-xs hover:bg-primary-container transition-colors" type="button">
+                        Tandai Selesai
+                      </button>
+</div>
+</div>
+</div>
+<!-- [Pending] Tugas 3: Menunggu -->
+<div class="flex items-start gap-space-md p-space-sm bg-bg-surface rounded-xl border border-border-subtle shadow-xs">
+<div class="pt-0.5">
+<span class="w-6 h-6 rounded-md bg-bg-subtle text-text-muted border border-border-subtle flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between gap-space-xs flex-wrap">
+<span class="font-title-md text-title-md text-text-primary font-semibold">Cek Tekanan Pompa Toren Air Utama</span>
+<span class="px-2.5 py-0.5 rounded-full bg-status-kosong-bg text-status-kosong-text border border-status-kosong-border font-label-sm text-label-sm font-bold">Pending (14:00)</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">Pemeriksaan sensor otomatis pelampung &amp; kebocoran pipa bawah sebelum pkl 14:00.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 4.b Log Tamu Menginap Sementara (Buku Tamu Digital) -->
+<div class="bg-bg-surface rounded-2xl border border-border-subtle shadow-xs p-space-md md:p-space-lg">
+<div class="flex items-center justify-between mb-space-md border-b border-border-subtle pb-3">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">how_to_reg</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-text-primary font-bold">Log Tamu Menginap Sementara</h2>
+<p class="font-body-sm text-body-sm text-text-secondary">Buku tamu digital aktif pos jaga hari ini</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-surface-container text-primary font-label-sm text-label-sm font-bold border border-border-subtle">
+                  2 Tamu Terdaftar
+                </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+<!-- Tamu 1: Kamar 102 -->
+<div class="p-space-sm bg-bg-subtle/80 rounded-xl border border-border-subtle flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between gap-2 mb-1">
+<span class="font-title-md text-title-md text-text-primary font-bold">Kamar 102 (Rian)</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-status-lunas-bg text-status-lunas-text border border-status-lunas-border">Izin Aktif</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-primary font-medium">Tamu: Dimas (Adik Kandung)</p>
+<p class="text-[11px] text-text-secondary mt-0.5">Durasi: 2 malam • Tiba Minggu 22 Feb</p>
+</div>
+<div class="mt-3 pt-2 border-t border-border-subtle flex items-center justify-between">
+<span class="text-[11px] text-text-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">badge</span> KTP Difoto
+                    </span>
+<button class="text-[11px] text-primary font-bold hover:underline" type="button">Detail Tamu</button>
+</div>
+</div>
+<!-- Tamu 2: Kamar 105 -->
+<div class="p-space-sm bg-bg-subtle/80 rounded-xl border border-border-subtle flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between gap-2 mb-1">
+<span class="font-title-md text-title-md text-text-primary font-bold">Kamar 105 (Anisa)</span>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-status-lunas-bg text-status-lunas-text border border-status-lunas-border">Izin Aktif</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-primary font-medium">Tamu: Bu Lestari (Ibu)</p>
+<p class="text-[11px] text-text-secondary mt-0.5">Durasi: 3 malam • KTP terverifikasi sistem</p>
+</div>
+<div class="mt-3 pt-2 border-t border-border-subtle flex items-center justify-between">
+<span class="text-[11px] text-status-lunas-text font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">verified</span> Terverifikasi
+                    </span>
+<button class="text-[11px] text-primary font-bold hover:underline" type="button">Detail Tamu</button>
+</div>
+</div>
+</div>
+</div>
+<!-- 4.c Antrean Tiket Perbaikan Servis Hari Ini (KMP-04) -->
+<div class="bg-bg-surface rounded-2xl border border-border-subtle shadow-xs p-space-md md:p-space-lg">
+<div class="flex items-center justify-between mb-space-md border-b border-border-subtle pb-3">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">build_circle</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-text-primary font-bold">Antrean Tiket Servis Hari Ini (KMP-04)</h2>
+<p class="font-body-sm text-body-sm text-text-secondary">Pantau &amp; laporkan penanganan kerusakan fasilitas kamar</p>
+</div>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-surface-container text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-primary hover:text-on-primary transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Ambil Tiket Baru</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-md">
+<!-- Tiket #TKT-2026-104 (AC Kurang Dingin - Menunggu Teknisi) -->
+<div class="p-space-md rounded-xl bg-status-menunggu-bg/30 border border-status-menunggu-border/80">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md px-2 py-0.5 rounded bg-bg-surface font-mono text-primary border border-border-subtle shadow-xs font-bold">#TKT-2026-104</span>
+<span class="font-title-md text-title-md text-text-primary font-bold">AC Kamar 104 Kurang Dingin</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-status-menunggu-bg text-status-menunggu-text border border-status-menunggu-border font-label-sm text-label-sm font-bold self-start sm:self-auto">
+                      Menunggu Teknisi Daikin (13:00)
+                    </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Keluhan penyewa: Suhu AC mentok di 24°C hembusan angin kecil. Ditugaskan mendampingi teknisi Daikin pkl 13:00 WIB.
+                  </p>
+<div class="flex flex-wrap items-center justify-between gap-space-xs mt-space-sm pt-space-xs border-t border-status-menunggu-border/60">
+<div class="flex items-center gap-2 text-text-secondary font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">person</span>
+<span>PIC Lapangan: <strong>Mas Joko (Anda)</strong></span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-3 py-1.5 rounded-lg bg-bg-surface text-text-primary border border-border-subtle font-label-md text-label-md hover:bg-bg-subtle shadow-xs transition-colors" type="button">
+                        Hubungi Teknisi
+                      </button>
+<button class="px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container shadow-xs transition-colors" type="button">
+                        Perbarui Status Servis
+                      </button>
+</div>
+</div>
+</div>
+<!-- Tiket #TKT-2026-202 (Kran Wastafel Bocor - Selesai Diganti Mas Joko) -->
+<div class="p-space-md rounded-xl bg-status-lunas-bg/40 border border-status-lunas-border/80">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md px-2 py-0.5 rounded bg-bg-surface font-mono text-primary border border-border-subtle shadow-xs font-bold">#TKT-2026-202</span>
+<span class="font-title-md text-title-md text-text-primary font-bold">Kran Wastafel Bocor Lt. 2</span>
+</div>
+<span class="px-2.5 py-0.5 rounded-full bg-status-lunas-bg text-status-lunas-text border border-status-lunas-border font-label-sm text-label-sm font-bold">
+                      Selesai Diperbaiki
+                    </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    Seal karet pipa wastafel diganti baru oleh Mas Joko. Aliran air kembali rapat tanpa rembesan.
+                  </p>
+<div class="flex items-center gap-space-md mt-space-sm pt-space-xs border-t border-status-lunas-border/60 flex-wrap">
+<div class="flex items-center gap-2 bg-bg-surface px-3 py-1.5 rounded-lg border border-border-subtle shadow-xs">
+<img alt="Nota seal kran" class="w-8 h-8 rounded object-cover border border-border-subtle" data-alt="Foto struk nota pembelian seal karet kran wastafel seharga Rp 25.000 dari toko bangunan lokal dengan cap stempel lunas tergeletak di atas meja kayu resepsionis yang bersih dan rapi." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB0sLXPdX6MhTsYGr0xjj95_3-Y6PciksqJA135R7OnYYEprqcTMoNeui-9ygtC4-1PA6EkxMsb00zjFp1ZQTIaU0AJMhu4y8WzZCyPhhEElAA4SAdRansU-Wqwq4dWR45SewcjMo5po_QAhJLTZ19aSdJmlrVD_v48xJtY0q1i6DskQ7MOucKsMeVaRK8DqZ0tEnw64oN4OP2It2v-vlHq0F9bPmCcWXB736HCk9CB"/>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-primary font-semibold">Nota Seal Kran (Rp 25.000)</span>
+<span class="text-[10px] text-status-lunas-text font-bold">Reimburse Operasional Disetujui</span>
+</div>
+</div>
+<button class="font-label-sm text-label-sm text-primary underline font-bold ml-auto hover:text-primary-container" type="button">
+                      Lihat Log Pengerjaan
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- SISI KANAN: Form Cepat Penerimaan Tunai / Titip Sewa (PBY-01) & Log Kunci (lg:col-span-5) -->
+<section class="lg:col-span-5 flex flex-col gap-space-md">
+<!-- Form Cepat Penerimaan Tunai / Titip Sewa (PBY-01) -->
+<div class="bg-bg-surface rounded-2xl border border-border-subtle shadow-xs p-space-md md:p-space-lg relative overflow-hidden">
+<div class="flex items-center justify-between pb-space-sm mb-space-sm border-b border-border-subtle">
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-lg bg-secondary-fixed text-on-secondary-fixed-variant flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[18px]">point_of_sale</span>
+</div>
+<div>
+<h2 class="font-title-lg text-title-lg text-text-primary font-bold">Terima Tunai / Titip Sewa</h2>
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">Prosedur Lapangan (PBY-01)</span>
+</div>
+</div>
+<span class="font-label-sm text-label-sm px-2.5 py-0.5 rounded-full bg-status-menunggu-bg text-status-menunggu-text border border-status-menunggu-border font-bold">
+                  Kas Operasional
+                </span>
+</div>
+<form class="flex flex-col gap-space-md" id="cash-payment-form" onsubmit="event.preventDefault(); showReceiptSuccess();">
+<!-- Pilih Kamar & Penghuni Terdaftar -->
+<div>
+<label class="block font-label-md text-label-md text-text-primary font-semibold mb-1.5">
+                    Pilih Kamar &amp; Penghuni Terdaftar <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-11 px-3 bg-bg-subtle text-text-primary rounded-xl font-body-md text-body-md border border-border-subtle focus:border-primary focus:bg-bg-surface outline-none transition-all cursor-pointer">
+<option selected="" value="104">Kamar 104 - Farhan Maulana (Tagihan Sewa Feb 2026)</option>
+<option value="201">Kamar 201 - Desta Pratama (Iuran Sampah &amp; Wifi)</option>
+<option value="108">Kamar 108 - Kevin Ardiansyah (Pelunasan Denda Kunci)</option>
+<option value="other">+ Titipan Tamu Lain / Non-Kamar</option>
+</select>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">info</span>
+                    Status tagihan sistem: Jatuh Tempo 25 Feb 2026
+                  </p>
+</div>
+<!-- Nominal Uang Fisik -->
+<div>
+<label class="block font-label-md text-label-md text-text-primary font-semibold mb-1.5">
+                    Jumlah Uang Tunai Diterima Fisik (Rp) <span class="text-error">*</span>
+</label>
+<div class="flex items-center bg-bg-subtle border border-border-subtle rounded-xl px-3 focus-within:border-primary focus-within:bg-bg-surface transition-all">
+<span class="font-title-md text-title-md text-text-secondary pr-2 font-bold">Rp</span>
+<input class="w-full h-11 bg-transparent font-currency-display text-currency-display text-text-primary font-bold outline-none border-0 p-0 focus:ring-0" required="" type="text" value="1.850.000"/>
+</div>
+<span class="font-label-sm text-label-sm text-text-secondary mt-1 block">Terbilang: Satu juta delapan ratus lima puluh ribu rupiah</span>
+</div>
+<!-- Tanggal & Waktu Fisik -->
+<div class="grid grid-cols-2 gap-space-sm">
+<div>
+<label class="block font-label-md text-label-md text-text-primary font-semibold mb-1.5">Tanggal Serah</label>
+<input class="w-full h-10 px-3 bg-bg-subtle text-text-primary rounded-xl font-body-md text-body-md border border-border-subtle focus:border-primary focus:bg-bg-surface outline-none" type="date" value="2026-02-23"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-text-primary font-semibold mb-1.5">Waktu Fisik</label>
+<input class="w-full h-10 px-3 bg-bg-subtle text-text-primary rounded-xl font-body-md text-body-md border border-border-subtle focus:border-primary focus:bg-bg-surface outline-none" type="time" value="09:15"/>
+</div>
+</div>
+<!-- Catatan Staf -->
+<div>
+<label class="block font-label-md text-label-md text-text-primary font-semibold mb-1.5">
+                    Lokasi Serah Terima &amp; Catatan Staf
+                  </label>
+<textarea class="w-full p-3 bg-bg-subtle rounded-xl font-body-md text-body-md text-text-primary border border-border-subtle outline-none focus:border-primary focus:bg-bg-surface resize-none leading-relaxed" rows="2">Diterima tunai di pos resepsionis pecahan 100k pas.</textarea>
+</div>
+<!-- Banner WhatsApp Gateway Integrasi -->
+<div class="p-space-sm bg-surface-container-low rounded-xl border border-border-subtle flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px] shrink-0 mt-0.5">mark_chat_read</span>
+<div class="flex-1">
+<span class="font-title-md text-title-md text-text-primary font-bold block">Kuitansi Instan WhatsApp Otomatis</span>
+<p class="font-body-sm text-body-sm text-text-secondary mt-0.5">
+                      Nomor Farhan Maulana (+62 821-4455-9012) akan otomatis menerima PDF kuitansi titipan sah dari sistem Kostra.
+                    </p>
+</div>
+</div>
+<!-- Tombol Simpan Kuitansi -->
+<button class="w-full h-12 bg-primary text-on-primary hover:bg-primary-container font-title-md text-title-md rounded-xl transition-all shadow-md flex items-center justify-center gap-space-xs active:scale-[0.99] font-bold" type="submit">
+<span class="material-symbols-outlined text-[20px]">send_to_mobile</span>
+<span>Simpan &amp; Kirim Kuitansi Titipan Sah via WhatsApp Penghuni</span>
+</button>
+</form>
+<!-- Feedback Alert Kuitansi Berhasil Dikirim -->
+<div class="hidden mt-space-md p-space-sm bg-status-lunas-bg text-status-lunas-text border border-status-lunas-border rounded-xl flex items-center gap-space-xs transition-all" id="receipt-success-alert">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span class="font-label-md text-label-md font-semibold">Berhasil tercatat! Notifikasi &amp; nomor bukti #TUNAI-082 terkirim ke Farhan Maulana via WhatsApp.</span>
+</div>
+</div>
+<!-- Log Kunci & Kamar Shift Ini -->
+<div class="bg-bg-surface rounded-2xl border border-border-subtle shadow-xs p-space-md">
+<div class="flex items-center justify-between mb-space-sm border-b border-border-subtle pb-2.5">
+<h3 class="font-title-md text-title-md text-text-primary font-bold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">key</span>
+                  Log Kunci &amp; Kamar Shift Ini
+                </h3>
+<span class="font-label-sm text-label-sm text-text-secondary font-mono">Audit #FND-04</span>
+</div>
+<div class="flex flex-col gap-2 font-body-sm text-body-sm">
+<!-- Log 1: Kunci Cadangan AC -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-bg-subtle border border-border-subtle">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[16px]">vpn_key</span>
+<span class="font-medium text-text-primary">Kamar 104 - Penyerahan kunci cadangan servis AC</span>
+</div>
+<span class="text-text-muted text-[11px] font-mono">08:45 WIB</span>
+</div>
+<!-- Log 2: Slot Kunci Check-out -->
+<div class="flex items-center justify-between p-2.5 rounded-xl bg-bg-subtle border border-border-subtle">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">meeting_room</span>
+<span class="font-medium text-text-primary">Kamar 108 - Slot kunci kamar siap serah terima</span>
+</div>
+<span class="text-text-muted text-[11px] font-mono">07:30 WIB</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer Audit Log Bar Ringkas Operasional -->
+<div class="bg-surface-container-high/60 border border-border-subtle rounded-xl p-space-sm flex flex-col sm:flex-row items-center justify-between gap-space-xs text-text-secondary font-body-sm text-body-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary">security</span>
+<span>Mode Operasional Staf Lapangan: Seluruh pencatatan kas titipan &amp; kunci terenkripsi audit log Kostra Griya Harmoni.</span>
+</div>
+<span class="font-label-sm text-label-sm font-mono">Kostra Engine v2.4 • Shift ID: #SFT-JKO-0223</span>
+</div>
+</div>
+</main>
+</div>
+<script>
+    function showReceiptSuccess() {
+      const alertBox = document.getElementById('receipt-success-alert');
+      if (alertBox) {
+        alertBox.classList.remove('hidden');
+        setTimeout(() => {
+          alertBox.classList.add('hidden');
+        }, 5000);
+      }
+    }
+  </script>
+</body></html>

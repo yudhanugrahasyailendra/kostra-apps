@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+<title>Input Tagihan Insidental &amp; Meteran Utilitas - Kostra</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#ffffff",
+            "surface-tint": "#0f5a57",
+            "on-surface-variant": "#3f4948",
+            "on-background": "#151c27",
+            "status-kosong-border": "#E5E7EB",
+            "text-secondary": "#4B5563",
+            "bg-surface": "#FFFFFF",
+            "background": "#f9f9ff",
+            "primary": "#00413f",
+            "primary-container": "#0f5a57",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#adefea",
+            "primary-fixed-dim": "#91d2ce",
+            "status-lunas-text": "#065F46",
+            "status-lunas-bg": "#ECFDF5",
+            "status-lunas-border": "#A7F3D0",
+            "secondary": "#7f5700",
+            "secondary-container": "#fdba45",
+            "secondary-fixed": "#ffdeae",
+            "secondary-fixed-dim": "#fdba45",
+            "status-menunggu-text": "#92400E",
+            "status-menunggu-bg": "#FEF3C7",
+            "status-menunggu-border": "#FDE68A",
+            "status-jatuh-tempo-text": "#9F1239",
+            "status-jatuh-tempo-bg": "#FFE4E6",
+            "status-jatuh-tempo-border": "#FECDD3",
+            "bg-subtle": "#F4F5F6",
+            "bg-canvas": "#F8FAFC",
+            "border-subtle": "#E2E8F0",
+            "border-strong": "#CBD5E1",
+            "surface-container-low": "#f0f4f8",
+            "surface-container": "#e2e8f0",
+            "surface-container-high": "#cbd5e1"
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #F8FAFC;
+        color: #151c27;
+      }
+    }
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+      -webkit-appearance: none; 
+      margin: 0; 
+    }
+  </style>
+</head>
+<body class="bg-bg-canvas min-h-screen text-slate-800 antialiased selection:bg-teal-100 selection:text-teal-900">
+<!-- TOP HEADER -->
+<header class="fixed top-0 left-0 right-0 h-16 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+<div class="h-full px-6 flex items-center justify-between gap-4">
+<!-- Brand & Property Context -->
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3">
+<img alt="Logo Kostra" class="h-9 w-9 object-contain rounded-lg shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIMCaieaMSZt-NG_eIiVQwy7snXqU2s9JfXVqan9PuqtRiqzXHCIv60XlFaXjhePAlKPhMfE-Noh19xMimdimNPHlmtLdkOkMy4J0dYvzGNcw6bDVCH1xc3pi_dol5e8bTEbzyoc2GRa4gh3oOMgUI7K1vU_smylpRpacArw6snuWOmzvEaBoS2rgv2d1DuUQahyretAZsH43hYarc8K8PR4h734lasNh3AOLjfadrm9zq5ddtgLsOGw"/>
+<div class="flex flex-col">
+<span class="text-xl font-bold tracking-tight text-primary leading-none">Kostra</span>
+<span class="text-[11px] font-semibold text-slate-500 uppercase tracking-wider mt-0.5">SaaS Kost Rapi</span>
+</div>
+</div>
+<div class="h-6 w-px bg-slate-200 hidden sm:block"></div>
+<div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100/80 text-slate-700 text-xs font-semibold">
+<span class="material-symbols-outlined text-[17px] text-[#0f5a57]">apartment</span>
+<span>Kostra Residence Utama</span>
+<span class="text-slate-400">|</span>
+<span class="text-slate-500 font-normal">Gedung Melati</span>
+</div>
+</div>
+<!-- Realtime Status Badges & Admin Profile -->
+<div class="flex items-center gap-3">
+<!-- WhatsApp Gateway Status -->
+<div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+</span>
+<span class="text-xs font-medium text-emerald-800">WhatsApp Gateway Online</span>
+</div>
+<!-- WA Message Quota -->
+<div class="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-xs">
+<span class="material-symbols-outlined text-[16px] text-[#0f5a57]">sms</span>
+<span class="text-slate-600">Kuota WA:</span>
+<span class="font-bold text-[#0f5a57]">842 / 1.000</span>
+<span class="text-[10px] text-slate-400">(84%)</span>
+</div>
+<button class="relative w-9 h-9 rounded-lg flex items-center justify-center text-slate-600 hover:bg-slate-100 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 rounded-full bg-amber-500"></span>
+</button>
+<div class="h-6 w-px bg-slate-200"></div>
+<!-- User Profile -->
+<div class="flex items-center gap-3 pl-1">
+<div class="w-9 h-9 rounded-full bg-primary-container text-white flex items-center justify-center font-bold text-sm shadow-sm ring-2 ring-white">
+            BS
+          </div>
+<div class="hidden xl:flex flex-col text-left">
+<span class="text-xs font-bold text-slate-900 leading-tight">Budi Santoso</span>
+<span class="text-[11px] text-slate-500">Staf Pengelola</span>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- SIDEBAR NAVIGATION -->
+<aside class="fixed left-0 top-16 bottom-0 w-64 bg-white border-r border-slate-200 z-40 flex flex-col justify-between py-5 px-3">
+<div class="space-y-6">
+<div class="px-3">
+<span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Manajemen Kos</span>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">space_dashboard</span>
+<span>Beranda Operasional</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">meeting_room</span>
+<span>Kamar &amp; Unit</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span>Data Penghuni</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-[#0f5a57] text-white font-semibold text-sm shadow-sm shadow-teal-900/10 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+<span>Tagihan &amp; Sewa</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">forward_to_inbox</span>
+<span>Broadcast WhatsApp</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">build</span>
+<span>Keluhan &amp; Servis</span>
+</a>
+</nav>
+</div>
+<!-- Sidebar Bottom Card & Settings -->
+<div class="space-y-3">
+<div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70">
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-semibold text-slate-700">Auto-Sync Meteran</span>
+<span class="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-800">Aktif</span>
+</div>
+<p class="text-[11px] text-slate-500 leading-relaxed">
+          Kalkulasi otomatis ditautkan ke billing tanggal 28 tiap bulan.
+        </p>
+</div>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-sm font-medium transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span>Pengaturan Kos</span>
+</a>
+</div>
+</aside>
+<!-- MAIN VIEWPORT -->
+<div class="pl-64 pt-16">
+<main class="max-w-7xl mx-auto px-6 lg:px-8 py-8">
+<!-- BREADCRUMB & PAGE HEADER -->
+<div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<div class="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-1">
+<span class="hover:text-slate-700">Keuangan &amp; Penagihan</span>
+<span class="material-symbols-outlined text-[13px]">chevron_right</span>
+<span class="text-[#0f5a57] font-bold">Modul Tagihan Insidental &amp; Utilitas</span>
+</div>
+<h1 class="text-2xl lg:text-3xl font-bold tracking-tight text-slate-900">
+            Input Tagihan Insidental &amp; Meteran Utilitas
+          </h1>
+<p class="text-sm text-slate-500 mt-1 max-w-3xl">
+            Pencatatan sub-panel listrik &amp; air (TGH-09) serta penerbitan biaya insidental non-sewa (TGH-04, TGH-08) secara mandiri atau gabungan invoice.
+          </p>
+</div>
+<div class="flex items-center gap-2.5 self-start md:self-auto">
+<button class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+<span>Cetak Form Lapangan</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-[#0f5a57] hover:bg-[#00413f] rounded-lg shadow-sm shadow-teal-900/10 transition-colors" onclick="notifyBulkSaved()" type="button">
+<span class="material-symbols-outlined text-[18px]">save</span>
+<span>Simpan Semua Perubahan</span>
+</button>
+</div>
+</div>
+<!-- 2. BANNER RINGKASAN PERIODE & METERAN -->
+<section class="mb-6 rounded-2xl bg-gradient-to-r from-[#00413f] via-[#0f5a57] to-[#164e4b] text-white p-5 lg:p-6 shadow-md relative overflow-hidden">
+<div class="absolute -right-8 -bottom-10 opacity-10 pointer-events-none">
+<span class="material-symbols-outlined text-[200px]">speed</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative z-10">
+<!-- Active Billing Period -->
+<div class="border-b md:border-b-0 md:border-r border-teal-600/40 pb-4 md:pb-0 md:pr-4">
+<div class="flex items-center gap-2 text-teal-200 text-xs font-semibold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>Periode Siklus Aktif</span>
+</div>
+<div class="text-xl font-bold mt-1 text-white tracking-tight">Siklus Oktober 2026</div>
+<p class="text-xs text-teal-100/80 mt-0.5">Penagihan reguler terbit 28 Okt 2026</p>
+</div>
+<!-- Physical Recording Deadline -->
+<div class="border-b md:border-b-0 md:border-r border-teal-600/40 pb-4 md:pb-0 md:pr-4">
+<div class="flex items-center gap-2 text-teal-200 text-xs font-semibold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+<span>Tenggat Pencatatan Fisik</span>
+</div>
+<div class="text-xl font-bold mt-1 text-amber-300 tracking-tight">25 Okt 2026 • 18:00 WIB</div>
+<p class="text-xs text-teal-100/80 mt-0.5 font-medium">Tersisa H-3 sebelum invoice otomatis terbit</p>
+</div>
+<!-- Status Kelengkapan Meteran -->
+<div class="border-b md:border-b-0 md:border-r border-teal-600/40 pb-4 md:pb-0 md:pr-4">
+<div class="flex items-center gap-2 text-teal-200 text-xs font-semibold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span>Kelengkapan Pencatatan</span>
+</div>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-2xl font-extrabold text-white">4 / 4</span>
+<span class="text-xs font-bold text-emerald-300 uppercase tracking-wide bg-emerald-900/60 px-2 py-0.5 rounded-full border border-emerald-500/40">100% Tercatat</span>
+</div>
+<div class="w-full bg-teal-950/60 rounded-full h-1.5 mt-2 overflow-hidden">
+<div class="bg-emerald-400 h-1.5 rounded-full" style="width: 100%"></div>
+</div>
+</div>
+<!-- Accumulated Utilities Estimate -->
+<div>
+<div class="flex items-center gap-2 text-teal-200 text-xs font-semibold uppercase tracking-wider">
+<span class="material-symbols-outlined text-[16px]">payments</span>
+<span>Estimasi Utilitas Bulan Ini</span>
+</div>
+<div class="text-2xl font-extrabold mt-1 text-white tracking-tight" id="header-total-utilitas">Rp 275.950</div>
+<p class="text-xs text-teal-100/80 mt-0.5">3 Listrik PLN + 1 Air PDAM</p>
+</div>
+</div>
+</section>
+<!-- 3. TAB SWITCHER -->
+<div class="flex items-center justify-between mb-6">
+<div class="inline-flex p-1 bg-slate-200/80 rounded-xl">
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold bg-[#0f5a57] text-white shadow-sm transition-all" id="tab-btn-meteran" onclick="switchBillingTab('meteran')" type="button">
+<span class="material-symbols-outlined text-[19px]">speed</span>
+<span>Pencatatan Meteran Listrik &amp; Air (TGH-09)</span>
+<span class="ml-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-white/20 text-white">4 Unit</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/60 transition-all" id="tab-btn-insidental" onclick="switchBillingTab('insidental')" type="button">
+<span class="material-symbols-outlined text-[19px]">receipt_long</span>
+<span>Tagihan Tambahan Insidental (TGH-04)</span>
+<span class="ml-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-rose-100 text-rose-700">1 Draf Baru</span>
+</button>
+</div>
+<div class="hidden sm:flex items-center text-xs text-slate-500 font-medium">
+<span class="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-2"></span>
+          Seluruh kalkulasi otomatis terkunci ke tarif regulasi per kriteria
+        </div>
+</div>
+<!-- TAB 1: PENCATATAN METERAN UTILITAS MANDIRI (TGH-09) -->
+<div class="space-y-6" id="tab-content-meteran">
+<!-- 4. KARTU TARIF DASAR & REGULASI -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Box Tarif PLN -->
+<div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-start justify-between">
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</span>
+<span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tarif Dasar Listrik PLN Non-Subsidi</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-extrabold text-slate-900">Rp 1.650</span>
+<span class="text-sm font-medium text-slate-500">/ kWh</span>
+</div>
+<div class="flex items-center gap-3 pt-1 text-xs">
+<span class="px-2 py-0.5 rounded bg-slate-100 font-medium text-slate-700">Golongan B-1 / TR 1.300 - 2.200 VA</span>
+<span class="text-emerald-700 font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">verified</span> Terkunci Regulasi ESDM
+                </span>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-block text-[11px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
+                Sub-Meter Prabayar &amp; Pasca
+              </span>
+</div>
+</div>
+<!-- Box Tarif PDAM -->
+<div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex items-start justify-between">
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="w-7 h-7 rounded-lg bg-teal-100 text-[#0f5a57] flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">water_drop</span>
+</span>
+<span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Air Bersih PDAM &amp; Pompa Tekan</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-extrabold text-slate-900">Rp 5.000</span>
+<span class="text-sm font-medium text-slate-500">/ m³</span>
+</div>
+<div class="flex items-center gap-3 pt-1 text-xs">
+<span class="px-2 py-0.5 rounded bg-slate-100 font-medium text-slate-700">Flow-meter Sub-unit Mandiri</span>
+<span class="text-[#0f5a57] font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">verified_user</span> Kalibrasi &amp; Segel Juli 2026
+                </span>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-block text-[11px] font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
+                Meter Air Analog Standar SNI
+              </span>
+</div>
+</div>
+</div>
+<!-- 5. TABEL INTERAKTIF MATRIKS PENCATATAN METERAN -->
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+<!-- Table Controls Toolbar -->
+<div class="p-4 border-b border-slate-200 bg-slate-50/70 flex flex-col sm:flex-row items-center justify-between gap-3">
+<div class="flex items-center gap-2 w-full sm:w-auto">
+<button class="px-3 py-1.5 text-xs font-bold rounded-lg bg-[#0f5a57] text-white shadow-sm" type="button">
+                Semua Lantai (4)
+              </button>
+<button class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:bg-slate-200/80 transition-colors" type="button">
+                Lantai 1 (3 Kamar)
+              </button>
+<button class="px-3 py-1.5 text-xs font-medium rounded-lg text-slate-600 hover:bg-slate-200/80 transition-colors" type="button">
+                Lantai 2 (1 Kamar)
+              </button>
+</div>
+<div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+<div class="relative w-full sm:w-64">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-[17px] text-slate-400">search</span>
+<input class="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-[#0f5a57] focus:ring-1 focus:ring-[#0f5a57]" placeholder="Cari nomor kamar / penghuni..." type="text"/>
+</div>
+</div>
+</div>
+<!-- Main Table Container -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-slate-200 bg-slate-100/70 text-[11px] font-bold text-slate-600 uppercase tracking-wider">
+<th class="py-3 px-4">Kamar &amp; Penghuni</th>
+<th class="py-3 px-4">Tipe Utilitas</th>
+<th class="py-3 px-4 text-right">Meter Lalu</th>
+<th class="py-3 px-4 text-right min-w-[150px]">Meter Kini (Input)</th>
+<th class="py-3 px-4 text-right">Konsumsi</th>
+<th class="py-3 px-4 text-right">Tarif Dasar</th>
+<th class="py-3 px-4 text-right">Subtotal</th>
+<th class="py-3 px-4 text-center">Bukti Fisik</th>
+<th class="py-3 px-4 text-center">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 text-sm">
+<!-- ROW 1: Kamar 101 (Deluxe L1) -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-teal-50 border border-teal-200 flex items-center justify-center font-bold text-[#0f5a57]">
+                        101
+                      </div>
+<div>
+<div class="font-bold text-slate-900 leading-snug">Kamar 101</div>
+<div class="text-xs text-slate-500">Dimas Pratama • Deluxe (L1)</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200/80">
+<span class="material-symbols-outlined text-[15px] text-amber-600">bolt</span> Listrik
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right font-medium text-slate-500">
+                    420 <span class="text-xs text-slate-400">kWh</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="inline-flex items-center gap-1.5 justify-end">
+<input class="w-24 text-right px-2.5 py-1 font-bold text-[#0f5a57] text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-[#0f5a57] focus:ring-2 focus:ring-teal-100 shadow-inner" id="input-kamar-101" oninput="calculateRow('101', 420, 1650, 'kWh')" type="number" value="475"/>
+<span class="text-xs text-slate-500 font-medium">kWh</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-bold text-slate-900" id="usage-101">55</span>
+<span class="text-xs text-slate-500 font-medium">kWh</span>
+</td>
+<td class="py-3.5 px-4 text-right text-xs text-slate-600 font-medium">
+                    Rp 1.650
+                  </td>
+<td class="py-3.5 px-4 text-right font-bold text-[#0f5a57]" id="total-101">
+                    Rp 90.750
+                  </td>
+<td class="py-3.5 px-4 text-center">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-teal-50 text-[#0f5a57] border border-teal-200 hover:bg-teal-100 transition-colors" onclick="showPhotoPreview('Kamar 101', 'Meter Listrik PLN: 475 kWh')" type="button">
+<span class="material-symbols-outlined text-[15px]">image</span>
+<span>Tersimpan</span>
+</button>
+</td>
+<td class="py-3.5 px-4 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Siap Terbit
+                    </span>
+</td>
+</tr>
+<!-- ROW 2: Kamar 102 (Standar L1) -->
+<tr class="hover:bg-slate-50/80 transition-colors bg-slate-50/40">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-teal-50 border border-teal-200 flex items-center justify-center font-bold text-[#0f5a57]">
+                        102
+                      </div>
+<div>
+<div class="font-bold text-slate-900 leading-snug">Kamar 102</div>
+<div class="text-xs text-slate-500">Rian Kusuma • Standar (L1)</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200/80">
+<span class="material-symbols-outlined text-[15px] text-amber-600">bolt</span> Listrik
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right font-medium text-slate-500">
+                    310 <span class="text-xs text-slate-400">kWh</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="inline-flex items-center gap-1.5 justify-end">
+<input class="w-24 text-right px-2.5 py-1 font-bold text-[#0f5a57] text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-[#0f5a57] focus:ring-2 focus:ring-teal-100 shadow-inner" id="input-kamar-102" oninput="calculateRow('102', 310, 1650, 'kWh')" type="number" value="342"/>
+<span class="text-xs text-slate-500 font-medium">kWh</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-bold text-slate-900" id="usage-102">32</span>
+<span class="text-xs text-slate-500 font-medium">kWh</span>
+</td>
+<td class="py-3.5 px-4 text-right text-xs text-slate-600 font-medium">
+                    Rp 1.650
+                  </td>
+<td class="py-3.5 px-4 text-right font-bold text-[#0f5a57]" id="total-102">
+                    Rp 52.800
+                  </td>
+<td class="py-3.5 px-4 text-center">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-teal-50 text-[#0f5a57] border border-teal-200 hover:bg-teal-100 transition-colors" onclick="showPhotoPreview('Kamar 102', 'Meter Listrik PLN: 342 kWh')" type="button">
+<span class="material-symbols-outlined text-[15px]">image</span>
+<span>Tersimpan</span>
+</button>
+</td>
+<td class="py-3.5 px-4 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Siap Terbit
+                    </span>
+</td>
+</tr>
+<!-- ROW 3: Kamar 104 (VIP Suite L1) -->
+<tr class="hover:bg-slate-50/80 transition-colors">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-teal-50 border border-teal-200 flex items-center justify-center font-bold text-[#0f5a57]">
+                        104
+                      </div>
+<div>
+<div class="font-bold text-slate-900 leading-snug">Kamar 104</div>
+<div class="text-xs text-slate-500">Farhan Maulana • VIP Suite (L1)</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-200/80">
+<span class="material-symbols-outlined text-[15px] text-amber-600">bolt</span> Listrik
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right font-medium text-slate-500">
+                    512 <span class="text-xs text-slate-400">kWh</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="inline-flex items-center gap-1.5 justify-end">
+<input class="w-24 text-right px-2.5 py-1 font-bold text-[#0f5a57] text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-[#0f5a57] focus:ring-2 focus:ring-teal-100 shadow-inner" id="input-kamar-104" oninput="calculateRow('104', 512, 1650, 'kWh')" type="number" value="568"/>
+<span class="text-xs text-slate-500 font-medium">kWh</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-bold text-slate-900" id="usage-104">56</span>
+<span class="text-xs text-slate-500 font-medium">kWh</span>
+</td>
+<td class="py-3.5 px-4 text-right text-xs text-slate-600 font-medium">
+                    Rp 1.650
+                  </td>
+<td class="py-3.5 px-4 text-right font-bold text-[#0f5a57]" id="total-104">
+                    Rp 92.400
+                  </td>
+<td class="py-3.5 px-4 text-center">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-teal-50 text-[#0f5a57] border border-teal-200 hover:bg-teal-100 transition-colors" onclick="showPhotoPreview('Kamar 104', 'Meter Listrik PLN: 568 kWh')" type="button">
+<span class="material-symbols-outlined text-[15px]">image</span>
+<span>Tersimpan</span>
+</button>
+</td>
+<td class="py-3.5 px-4 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Siap Terbit
+                    </span>
+</td>
+</tr>
+<!-- ROW 4: Kamar 105 (Studio L2 - PDAM) -->
+<tr class="hover:bg-slate-50/80 transition-colors bg-slate-50/40">
+<td class="py-3.5 px-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-teal-50 border border-teal-200 flex items-center justify-center font-bold text-[#0f5a57]">
+                        105
+                      </div>
+<div>
+<div class="font-bold text-slate-900 leading-snug">Kamar 105</div>
+<div class="text-xs text-slate-500">Aulia Rahman • Studio (L2)</div>
+</div>
+</div>
+</td>
+<td class="py-3.5 px-4">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-cyan-50 text-cyan-800 border border-cyan-200/80">
+<span class="material-symbols-outlined text-[15px] text-cyan-600">water_drop</span> Air PDAM
+                    </span>
+</td>
+<td class="py-3.5 px-4 text-right font-medium text-slate-500">
+                    180 <span class="text-xs text-slate-400">m³</span>
+</td>
+<td class="py-3.5 px-4 text-right">
+<div class="inline-flex items-center gap-1.5 justify-end">
+<input class="w-24 text-right px-2.5 py-1 font-bold text-[#0f5a57] text-sm bg-white border border-slate-300 rounded-lg focus:outline-none focus:border-[#0f5a57] focus:ring-2 focus:ring-teal-100 shadow-inner" id="input-kamar-105" oninput="calculateRow('105', 180, 5000, 'm³')" type="number" value="188"/>
+<span class="text-xs text-slate-500 font-medium">m³</span>
+</div>
+</td>
+<td class="py-3.5 px-4 text-right">
+<span class="font-bold text-slate-900" id="usage-105">8</span>
+<span class="text-xs text-slate-500 font-medium">m³</span>
+</td>
+<td class="py-3.5 px-4 text-right text-xs text-slate-600 font-medium">
+                    Rp 5.000
+                  </td>
+<td class="py-3.5 px-4 text-right font-bold text-[#0f5a57]" id="total-105">
+                    Rp 40.000
+                  </td>
+<td class="py-3.5 px-4 text-center">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg bg-amber-50 text-amber-800 border border-amber-300 hover:bg-amber-100 transition-colors shadow-sm" onclick="triggerUploadModal('105')" type="button">
+<span class="material-symbols-outlined text-[15px] text-amber-600">upload_file</span>
+<span>Unggah Foto Meteran</span>
+</button>
+</td>
+<td class="py-3.5 px-4 text-center">
+<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Verifikasi Foto
+                    </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Bottom Bar -->
+<div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-[#0f5a57]">info</span>
+<span>Seluruh subtotal utilitas akan diterbitkan otomatis dalam 1 faktur invoice gabungan pada <strong>28 Oktober 2026</strong>.</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3.5 py-1.5 rounded-lg bg-[#0f5a57] hover:bg-[#00413f] text-white font-semibold transition-colors" onclick="notifyBulkSaved()" type="button">
+                Terapkan &amp; Sinkronkan
+              </button>
+</div>
+</div>
+</div>
+</div>
+<!-- 6. TAB 2: MODAL / PANEL TAMBAHAN 'INPUT TAGIHAN INSIDENTAL' (TGH-04, TGH-08) -->
+<div class="hidden" id="tab-content-insidental">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+<!-- Formulir Cepat Tagihan Insidental (8 cols) -->
+<div class="lg:col-span-8 bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
+<div class="border-b border-slate-200 pb-4 flex items-center justify-between">
+<div>
+<h2 class="text-lg font-bold text-slate-900">Formulir Beban Biaya Insidental (TGH-04)</h2>
+<p class="text-xs text-slate-500 mt-0.5">Penagihan ad-hoc untuk denda keterlambatan sewa, penggantian fasilitas, atau sewa parkir tambahan.</p>
+</div>
+<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 uppercase tracking-wider">
+                Non-Sewa Reguler
+              </span>
+</div>
+<!-- Pilih Kamar & Penghuni -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wide" for="select-kamar">
+                Target Kamar &amp; Nama Penghuni
+              </label>
+<div class="relative">
+<select class="w-full text-sm rounded-lg border-slate-300 bg-white py-2.5 pl-3 pr-10 text-slate-800 focus:border-[#0f5a57] focus:ring-1 focus:ring-[#0f5a57]" id="select-kamar" onchange="syncTenantPreview(this.value)">
+<option selected="" value="104">Kamar 104 • Farhan Maulana (Jatuh tempo sewa: 18 Okt 2026 - Menunggak H+2)</option>
+<option value="101">Kamar 101 • Dimas Pratama (Jatuh tempo: 01 Nov 2026)</option>
+<option value="102">Kamar 102 • Rian Kusuma (Jatuh tempo: 05 Nov 2026)</option>
+<option value="105">Kamar 105 • Aulia Rahman (Jatuh tempo: 28 Okt 2026)</option>
+</select>
+</div>
+</div>
+<!-- Kategori Biaya Tambahan (Preset Chips / Radio) -->
+<div class="space-y-2">
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+                Kategori Biaya Tambahan
+              </label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<!-- Option 1: Denda Keterlambatan Sewa (TGH-08) -->
+<label class="relative flex items-start gap-3 p-3.5 rounded-xl border border-teal-600 bg-teal-50/50 cursor-pointer transition-all">
+<input checked="" class="mt-1 text-[#0f5a57] focus:ring-[#0f5a57]" name="kategori_insidental" onchange="handleCategoryChange('denda', 50000, 'Denda keterlambatan sewa (TGH-08) lewat jatuh tempo H+2 sesuai peraturan tertib kos pasal 4.1')" type="radio" value="denda"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900">Denda Keterlambatan Sewa (TGH-08)</span>
+<span class="text-xs text-slate-500 mt-0.5">Sanksi regulasi +Rp 50.000 / insiden</span>
+</div>
+</label>
+<!-- Option 2: Sewa Parkir Mobil Ekstra -->
+<label class="relative flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all">
+<input class="mt-1 text-[#0f5a57] focus:ring-[#0f5a57]" name="kategori_insidental" onchange="handleCategoryChange('parkir', 200000, 'Sewa slot parkir mobil tambahan blok P-04 periode 1 bulan kalender')" type="radio" value="parkir"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900">Sewa Parkir Mobil Ekstra</span>
+<span class="text-xs text-slate-500 mt-0.5">+Rp 200.000 / bulan</span>
+</div>
+</label>
+<!-- Option 3: Penggantian Kartu Akses RFID Hilang -->
+<label class="relative flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all">
+<input class="mt-1 text-[#0f5a57] focus:ring-[#0f5a57]" name="kategori_insidental" onchange="handleCategoryChange('rfid', 75000, 'Biaya penggantian &amp; registrasi ulang kartu akses RFID Smart Lock yang hilang')" type="radio" value="rfid"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900">Ganti Kartu Akses RFID Hilang</span>
+<span class="text-xs text-slate-500 mt-0.5">+Rp 75.000 / kartu fisik</span>
+</div>
+</label>
+<!-- Option 4: Servis & Pemeliharaan Kerusakan -->
+<label class="relative flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer transition-all">
+<input class="mt-1 text-[#0f5a57] focus:ring-[#0f5a57]" name="kategori_insidental" onchange="handleCategoryChange('servis', 120000, 'Perbaikan engsel pintu geser balkon &amp; penggantian handle kamar mandi')" type="radio" value="servis"/>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900">Servis Kerusakan Fasilitas</span>
+<span class="text-xs text-slate-500 mt-0.5">Sesuai nota kuitansi teknisi</span>
+</div>
+</label>
+</div>
+</div>
+<!-- Input Nominal & Jatuh Tempo -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="space-y-1.5">
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wide" for="input-nominal">
+                  Nominal Beban (IDR)
+                </label>
+<div class="relative rounded-lg shadow-sm">
+<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+<span class="text-sm font-bold text-slate-400">Rp</span>
+</div>
+<input class="block w-full rounded-lg border-slate-300 pl-11 pr-3 py-2.5 text-base font-bold text-[#0f5a57] focus:border-[#0f5a57] focus:ring-1 focus:ring-[#0f5a57]" id="input-nominal" onkeyup="updateLiveTotal(this.value)" type="text" value="50.000"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wide" for="input-jatuh-tempo">
+                  Tenggat Waktu Bayar
+                </label>
+<input class="block w-full rounded-lg border-slate-300 py-2.5 px-3 text-sm text-slate-800 focus:border-[#0f5a57] focus:ring-1 focus:ring-[#0f5a57]" id="input-jatuh-tempo" type="date" value="2026-10-22"/>
+</div>
+</div>
+<!-- Deskripsi Rincian -->
+<div class="space-y-1.5">
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wide" for="input-deskripsi">
+                Catatan Rincian Tagihan (Akan Muncul di Kuitansi &amp; WA)
+              </label>
+<textarea class="block w-full rounded-lg border-slate-300 p-3 text-sm text-slate-800 focus:border-[#0f5a57] focus:ring-1 focus:ring-[#0f5a57]" id="input-deskripsi" rows="3">Denda keterlambatan sewa (TGH-08) lewat jatuh tempo H+2 sesuai peraturan tertib kos pasal 4.1</textarea>
+</div>
+<!-- Opsi Distribusi Tagihan (Kirim Instan vs Gabungkan) -->
+<div class="space-y-2 pt-2 border-t border-slate-200">
+<label class="block text-xs font-bold text-slate-700 uppercase tracking-wide">
+                Kebijakan Penagihan &amp; Distribusi
+              </label>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<label class="flex items-start gap-3 p-3.5 rounded-xl border border-teal-600 bg-teal-50/50 cursor-pointer">
+<input checked="" class="mt-1 text-[#0f5a57] focus:ring-[#0f5a57]" name="opsi_distribusi" type="radio" value="instan"/>
+<div>
+<span class="text-sm font-bold text-[#0f5a57]">Kirim Tagihan Instan via WhatsApp</span>
+<p class="text-xs text-slate-600 mt-0.5">Kirimkan link pembayaran online langsung ke WhatsApp tenant hari ini.</p>
+</div>
+</label>
+<label class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer">
+<input class="mt-1 text-[#0f5a57] focus:ring-[#0f5a57]" name="opsi_distribusi" type="radio" value="gabung"/>
+<div>
+<span class="text-sm font-bold text-slate-800">Gabungkan ke Invoice Bulanan</span>
+<p class="text-xs text-slate-500 mt-0.5">Dibiarkan tertunda dan diakumulasi pada billing tanggal 28 Oktober 2026.</p>
+</div>
+</label>
+</div>
+</div>
+<!-- Aksi Tombol -->
+<div class="flex items-center justify-end gap-3 pt-3">
+<button class="px-4 py-2.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors" onclick="switchBillingTab('meteran')" type="button">
+                Kembali ke Meteran
+              </button>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[#0f5a57] hover:bg-[#00413f] text-white text-xs font-bold shadow-md shadow-teal-900/10 transition-colors" onclick="submitIncidentalBill()" type="button">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Terbitkan &amp; Kirim Notifikasi WA</span>
+</button>
+</div>
+</div>
+<!-- Preview Realtime Pesan WhatsApp (4 cols) -->
+<div class="lg:col-span-4 space-y-4">
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden sticky top-24">
+<!-- Top Preview Header -->
+<div class="bg-[#0f5a57] text-white p-3.5 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</div>
+<div>
+<h3 class="text-xs font-bold leading-none">WhatsApp Notifier Live Preview</h3>
+<span class="text-[10px] text-teal-200">Kostra Automated Dispatch</span>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500 text-white">Live</span>
+</div>
+<!-- Chat Background Body -->
+<div class="p-4 bg-[#ece5dd] min-h-[420px] flex flex-col justify-between">
+<div class="space-y-3">
+<div class="text-center">
+<span class="inline-block px-2.5 py-0.5 rounded-md bg-white/80 shadow-xs text-[10px] text-slate-600 font-medium">
+                      Hari ini • 16:45
+                    </span>
+</div>
+<!-- WhatsApp Chat Bubble -->
+<div class="bg-white rounded-xl rounded-tl-xs p-3.5 shadow-sm space-y-2 border border-slate-100 text-xs">
+<div class="flex items-center gap-1.5 font-bold text-[#0f5a57] text-[11px] pb-1 border-b border-slate-100">
+<span class="material-symbols-outlined text-[15px]">apartment</span>
+<span>KOSTRA RESIDENCE UTAMA</span>
+</div>
+<p class="text-slate-700 leading-relaxed">
+                      Halo Sdr. <strong class="text-slate-900" id="preview-nama">Farhan Maulana</strong> (Kamar <span id="preview-kamar">104</span>),
+                    </p>
+<p class="text-slate-600">
+                      Telah diterbitkan rincian tagihan tambahan insidental untuk unit sewa Anda:
+                    </p>
+<!-- Invoice snapshot box -->
+<div class="p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 space-y-1">
+<div class="flex justify-between items-center text-[11px]">
+<span class="text-slate-500">Komponen:</span>
+<span class="font-bold text-[#0f5a57]" id="preview-tagihan-nama">Denda Keterlambatan Sewa</span>
+</div>
+<div class="flex justify-between items-center text-[11px]">
+<span class="text-slate-500">Nominal:</span>
+<span class="font-extrabold text-slate-900" id="preview-tagihan-nominal">Rp 50.000</span>
+</div>
+<div class="flex justify-between items-center text-[11px]">
+<span class="text-slate-500">Tenggat Waktu:</span>
+<span class="font-bold text-rose-600">22 Okt 2026</span>
+</div>
+</div>
+<div class="p-2 rounded bg-amber-50 border border-amber-200 text-[11px] text-amber-900 italic" id="preview-catatan">
+                      "Denda keterlambatan sewa (TGH-08) lewat jatuh tempo H+2 sesuai peraturan tertib kos pasal 4.1"
+                    </div>
+<p class="text-slate-600 text-[11px]">
+                      Detail &amp; pembayaran dapat diakses melalui link resmi:
+                    </p>
+<div class="text-[#0f5a57] font-semibold underline truncate text-[11px]">
+                      https://bill.kostra.id/pay/INS-202610-104
+                    </div>
+<div class="flex items-center justify-end gap-1 text-[10px] text-slate-400 pt-1">
+<span>16:45</span>
+<span class="material-symbols-outlined text-[13px] text-[#0f5a57]">done_all</span>
+</div>
+</div>
+</div>
+<!-- Footer Status -->
+<div class="bg-white/90 rounded-lg p-2 text-center text-[11px] text-slate-600 border border-slate-200/60 shadow-xs">
+                  Gateway siap kirim via <span class="font-bold text-slate-800">+62 812-9842-xxxx</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- MODAL UNGGAH FOTO METERAN (KAMAR 105) -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 backdrop-blur-xs p-4" id="modal-upload">
+<div class="bg-white w-full max-w-md rounded-2xl shadow-xl border border-slate-200 overflow-hidden transform transition-all">
+<div class="p-4 bg-[#0f5a57] text-white flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">upload_file</span>
+<h3 class="font-bold text-sm" id="modal-upload-title">Unggah Bukti Fisik Meteran Air</h3>
+</div>
+<button class="text-white/80 hover:text-white" onclick="closeUploadModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="p-6 space-y-4">
+<div class="p-3 rounded-lg bg-teal-50 border border-teal-200 text-xs text-teal-900">
+<strong>Kamar 105 (Aulia Rahman):</strong> Pastikan 4 digit angka jarum hitam pada water meter terlihat jernih tanpa bayangan air.
+        </div>
+<div class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:border-[#0f5a57] bg-slate-50/50 transition-colors cursor-pointer" onclick="simulateSelectFile()">
+<span class="material-symbols-outlined text-4xl text-slate-400">add_a_photo</span>
+<p class="text-xs font-bold text-slate-700 mt-2">Ambil Foto atau Pilih Gambar</p>
+<p class="text-[11px] text-slate-400 mt-0.5">Format JPG/PNG maks. 5MB</p>
+</div>
+<div class="hidden p-2.5 rounded-lg bg-emerald-50 text-emerald-800 text-xs font-semibold flex items-center gap-2" id="upload-status">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span>Foto water-meter-105.jpg siap diunggah.</span>
+</div>
+</div>
+<div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-end gap-2">
+<button class="px-3.5 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-200 transition-colors" onclick="closeUploadModal()" type="button">
+          Batal
+        </button>
+<button class="px-4 py-2 rounded-lg bg-[#0f5a57] hover:bg-[#00413f] text-white text-xs font-bold transition-colors" onclick="saveUploadModal()" type="button">
+          Simpan Bukti Meteran
+        </button>
+</div>
+</div>
+</div>
+<!-- TOAST NOTIFIKASI -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="toast-notif">
+<div class="bg-[#0f5a57] text-white px-4 py-3 rounded-xl shadow-xl flex items-center gap-3 border border-teal-700">
+<span class="material-symbols-outlined text-[20px] text-teal-200" id="toast-icon">check_circle</span>
+<span class="text-xs font-bold" id="toast-message">Operasi Berhasil</span>
+</div>
+</div>
+<!-- JAVASCRIPT LOGIC -->
+<script>
+    // Tab Switcher Handler
+    function switchBillingTab(tabKey) {
+      const meteranContent = document.getElementById('tab-content-meteran');
+      const insidentalContent = document.getElementById('tab-content-insidental');
+      const meteranBtn = document.getElementById('tab-btn-meteran');
+      const insidentalBtn = document.getElementById('tab-btn-insidental');
+
+      if (tabKey === 'meteran') {
+        meteranContent.classList.remove('hidden');
+        insidentalContent.classList.add('hidden');
+
+        meteranBtn.className = "flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold bg-[#0f5a57] text-white shadow-sm transition-all";
+        insidentalBtn.className = "flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/60 transition-all";
+      } else {
+        meteranContent.classList.add('hidden');
+        insidentalContent.classList.remove('hidden');
+
+        insidentalBtn.className = "flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-bold bg-[#0f5a57] text-white shadow-sm transition-all";
+        meteranBtn.className = "flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:text-slate-900 hover:bg-white/60 transition-all";
+      }
+    }
+
+    // Auto-Kalkulasi Tabel Meteran
+    function calculateRow(roomId, meterLalu, rate, unit) {
+      const inputElem = document.getElementById('input-kamar-' + roomId);
+      const usageElem = document.getElementById('usage-' + roomId);
+      const totalElem = document.getElementById('total-' + roomId);
+
+      let meterKini = parseFloat(inputElem.value) || 0;
+      let pemakaian = Math.max(0, meterKini - meterLalu);
+      let subtotal = pemakaian * rate;
+
+      usageElem.textContent = pemakaian;
+      totalElem.textContent = 'Rp ' + subtotal.toLocaleString('id-ID');
+
+      recalcHeaderTotal();
+    }
+
+    function recalcHeaderTotal() {
+      const r101 = (parseFloat(document.getElementById('input-kamar-101').value) - 420) * 1650;
+      const r102 = (parseFloat(document.getElementById('input-kamar-102').value) - 310) * 1650;
+      const r104 = (parseFloat(document.getElementById('input-kamar-104').value) - 512) * 1650;
+      const r105 = (parseFloat(document.getElementById('input-kamar-105').value) - 180) * 5000;
+
+      const grandTotal = Math.max(0, r101) + Math.max(0, r102) + Math.max(0, r104) + Math.max(0, r105);
+      document.getElementById('header-total-utilitas').textContent = 'Rp ' + grandTotal.toLocaleString('id-ID');
+    }
+
+    // Interaktivitas Tagihan Insidental & Live WhatsApp Preview
+    function handleCategoryChange(catKey, defaultAmount, description) {
+      const nominalInput = document.getElementById('input-nominal');
+      const deskripsiInput = document.getElementById('input-deskripsi');
+      const previewTagihanNama = document.getElementById('preview-tagihan-nama');
+      const previewCatatan = document.getElementById('preview-catatan');
+
+      nominalInput.value = defaultAmount.toLocaleString('id-ID');
+      deskripsiInput.value = description;
+      previewCatatan.textContent = '"' + description + '"';
+      updateLiveTotal(nominalInput.value);
+
+      const categoryLabels = {
+        'denda': 'Denda Keterlambatan Sewa',
+        'parkir': 'Sewa Parkir Ekstra',
+        'rfid': 'Ganti Kartu Akses RFID',
+        'servis': 'Servis Kerusakan Fasilitas'
+      };
+      previewTagihanNama.textContent = categoryLabels[catKey] || 'Tagihan Insidental';
+    }
+
+    function updateLiveTotal(val) {
+      const previewNominal = document.getElementById('preview-tagihan-nominal');
+      previewNominal.textContent = 'Rp ' + val;
+    }
+
+    function syncTenantPreview(roomId) {
+      const tenantDirectory = {
+        '104': { name: 'Farhan Maulana', room: '104' },
+        '101': { name: 'Dimas Pratama', room: '101' },
+        '102': { name: 'Rian Kusuma', room: '102' },
+        '105': { name: 'Aulia Rahman', room: '105' }
+      };
+      const tenant = tenantDirectory[roomId] || { name: 'Penyewa', room: roomId };
+      document.getElementById('preview-nama').textContent = tenant.name;
+      document.getElementById('preview-kamar').textContent = tenant.room;
+    }
+
+    // Modal Unggah
+    function triggerUploadModal(roomId) {
+      document.getElementById('modal-upload').classList.remove('hidden');
+      document.getElementById('modal-upload').classList.add('flex');
+    }
+
+    function closeUploadModal() {
+      document.getElementById('modal-upload').classList.add('hidden');
+      document.getElementById('modal-upload').classList.remove('flex');
+      document.getElementById('upload-status').classList.add('hidden');
+    }
+
+    function simulateSelectFile() {
+      document.getElementById('upload-status').classList.remove('hidden');
+    }
+
+    function saveUploadModal() {
+      closeUploadModal();
+      showToast('Foto bukti meteran air Kamar 105 berhasil diunggah & diverifikasi!');
+    }
+
+    function showPhotoPreview(kamar, info) {
+      showToast('Menampilkan thumbnail bukti fisik ' + kamar + ' (' + info + ')');
+    }
+
+    // Toast Notification System
+    function showToast(msg) {
+      const toast = document.getElementById('toast-notif');
+      const msgElem = document.getElementById('toast-message');
+      msgElem.textContent = msg;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3200);
+    }
+
+    function notifyBulkSaved() {
+      showToast('Seluruh angka meteran berhasil disimpan dan disinkronkan ke draft faktur!');
+    }
+
+    function submitIncidentalBill() {
+      showToast('Tagihan insidental diterbitkan & pesan WhatsApp terkirim ke penyewa!');
+      setTimeout(() => {
+        switchBillingTab('meteran');
+      }, 1500);
+    }
+  </script>
+</body></html>

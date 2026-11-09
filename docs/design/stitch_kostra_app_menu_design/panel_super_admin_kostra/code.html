@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-dim":"#d3daea","error-container":"#ffdad6","on-primary":"#ffffff","on-primary-fixed":"#00201f","on-secondary-container":"#6f4b00","bg-subtle":"#F4F5F6","on-tertiary-container":"#b6c6d0","surface-container-low":"#f0f3ff","status-kosong-border":"#E5E7EB","primary-fixed-dim":"#91d2ce","error":"#ba1a1a","status-kosong-text":"#374151","secondary-fixed-dim":"#fdba45","surface-bright":"#f9f9ff","status-jatuh-tempo-text":"#9F1239","secondary-fixed":"#ffdeae","status-lunas-border":"#A7F3D0","border-subtle":"#E5E7EB","bg-surface":"#FFFFFF","inverse-primary":"#91d2ce","status-kosong-bg":"#F3F4F6","surface-container-highest":"#dce2f3","on-error-container":"#93000a","on-background":"#151c27","surface-container-high":"#e2e8f8","on-surface":"#151c27","status-jatuh-tempo-bg":"#FFE4E6","surface-tint":"#246865","tertiary-container":"#44535b","status-menunggu-text":"#92400E","on-tertiary-fixed-variant":"#3a4951","tertiary-fixed":"#d5e5ef","primary-fixed":"#adefea","primary":"#00413f","background":"#f9f9ff","bg-canvas":"#FBFBFA","text-primary":"#111827","surface":"#f9f9ff","status-lunas-text":"#065F46","secondary":"#7f5700","status-menunggu-border":"#FDE68A","on-tertiary-fixed":"#0e1d25","text-muted":"#9CA3AF","tertiary-fixed-dim":"#b9c9d3","on-secondary":"#ffffff","on-secondary-fixed":"#281900","surface-container":"#e7eefe","on-surface-variant":"#3f4948","status-menunggu-bg":"#FEF3C7","inverse-surface":"#2a313d","on-tertiary":"#ffffff","outline-variant":"#bfc8c7","tertiary":"#2d3c44","on-primary-container":"#8ecfcb","text-secondary":"#4B5563","outline":"#6f7978","surface-variant":"#dce2f3","primary-container":"#0f5a57","surface-container-lowest":"#ffffff","secondary-container":"#fdba45","on-primary-fixed-variant":"#00504d","border-strong":"#D1D5DB","status-jatuh-tempo-border":"#FECDD3","on-secondary-fixed-variant":"#604100","status-lunas-bg":"#ECFDF5","inverse-on-surface":"#ebf1ff","on-error":"#ffffff"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-lg":"1.5rem","space-sm":"0.5rem","margin-desktop":"2rem","space-xl":"2rem",gutter:"1rem","margin-tablet":"1.5rem",margin:"1rem","gutter-desktop":"1.5rem","space-xs":"0.25rem","space-2xl":"3rem","space-md":"1rem"},fontFamily:{"label-md":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-sm":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],"currency-display":["Plus Jakarta Sans"],"title-lg":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"body-lg":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"display-lg-mobile":["Plus Jakarta Sans"],"display-lg":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"]},fontSize:{"label-md":["12px",{lineHeight:"16px",letterSpacing:"0.02em",fontWeight:"600"}],"headline-lg":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"headline-sm":["18px",{lineHeight:"24px",letterSpacing:"-0.005em",fontWeight:"600"}],"headline-md":["22px",{lineHeight:"28px",letterSpacing:"-0.01em",fontWeight:"600"}],"currency-display":["24px",{lineHeight:"32px",letterSpacing:"-0.02em",fontWeight:"700"}],"title-lg":["16px",{lineHeight:"22px",fontWeight:"600"}],"label-sm":["11px",{lineHeight:"14px",letterSpacing:"0.03em",fontWeight:"600"}],"body-lg":["16px",{lineHeight:"24px",fontWeight:"400"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"400"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"400"}],"label-lg":["14px",{lineHeight:"20px",fontWeight:"500"}],"display-lg-mobile":["28px",{lineHeight:"36px",letterSpacing:"-0.015em",fontWeight:"700"}],"display-lg":["36px",{lineHeight:"44px",letterSpacing:"-0.02em",fontWeight:"700"}],"title-md":["14px",{lineHeight:"20px",fontWeight:"600"}]}}}};</script></head><body class="bg-bg-canvas font-body-md text-on-surface min-h-screen"><aside class="fixed left-0 top-0 h-full w-64 bg-bg-surface shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between"><div class="flex flex-col flex-1"><div class="h-16 flex items-center gap-space-sm px-space-lg"><img alt="Logo Kostra (Kost Rapi).png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WlJH1me34_SrxIFcCEQ0-WUDGMbqvnP81oELSrlla7KjucDYKhED42IM9RIYvplM7RsEHNxf_anGCfLZM0o_WujGeHmYWJpx5NoO_boiSUR6Qw7JNul2Fm23TU7CRWRt-z7fbh7ecPuRmhB6-RaHCVJ3d0OLZeuVWWoUS36agPGgS8_caV2GS1MiQJ0KQ-INKhfFkYif_Y0oJsH5-dR7CEPiG2yM_F3kS3hK_rmUJhO7_pXGHgbXhGGSZo"/><div class="flex flex-col"><span class="font-title-lg text-title-lg text-primary tracking-tight leading-none">Kostra</span><span class="font-label-sm text-label-sm text-text-muted leading-tight">Kost Rapi SaaS</span></div></div><div class="px-space-md py-space-sm"><div class="bg-bg-subtle rounded-lg p-space-sm flex items-center justify-between"><div class="flex items-center gap-space-sm overflow-hidden"><span class="material-symbols-outlined text-primary text-[20px]">apartment</span><div class="flex flex-col min-w-0"><span class="font-label-md text-label-md text-on-surface truncate">Kost Griya Utama</span><span class="font-body-sm text-body-sm text-text-muted truncate">Jakarta Selatan</span></div></div><span class="material-symbols-outlined text-text-muted text-[18px]">unfold_more</span></div></div><div class="px-space-md mt-space-sm mb-space-xs"><span class="font-label-sm text-label-sm text-text-muted uppercase px-space-sm">Manajemen Kost</span></div><nav class="flex-1 px-space-md flex flex-col gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-title-md"><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="ringkasan" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span class="font-label-lg text-label-lg">Ringkasan</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="kamar-dan-unit" href="#"><span class="material-symbols-outlined text-[20px]">meeting_room</span><span class="font-label-lg text-label-lg">Kamar &amp; Unit</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="penghuni" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span class="font-label-lg text-label-lg">Penghuni</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="tagihan-dan-pembayaran" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-label-lg text-label-lg">Tagihan &amp; Invoice</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="siaran-whatsapp" href="#"><span class="material-symbols-outlined text-[20px]">chat</span><span class="font-label-lg text-label-lg">WhatsApp Tagihan</span></a><a class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="laporan-keuangan" href="#"><span class="material-symbols-outlined text-[20px]">payments</span><span class="font-label-lg text-label-lg">Laporan Arus Kas</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-space-sm rounded-lg transition-all bg-primary-container text-on-primary font-title-md" data-path="pengaturan-kost" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span class="font-label-lg text-label-lg">Pengaturan Kost</span></a></nav></div><div class="p-space-md m-space-md rounded-xl bg-status-menunggu-bg flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-md text-label-md text-status-menunggu-text">Paket Juragan</span><span class="font-label-sm text-label-sm text-status-menunggu-text uppercase font-bold">Aktif</span></div><p class="font-body-sm text-body-sm text-status-menunggu-text">18/24 Kamar Terisi</p></div></aside><div class="pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-64 right-0 h-16 bg-bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg"><div class="flex items-center gap-space-md"><img alt="Logo Kostra (Kost Rapi).png" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WlJH1me34_SrxIFcCEQ0-WUDGMbqvnP81oELSrlla7KjucDYKhED42IM9RIYvplM7RsEHNxf_anGCfLZM0o_WujGeHmYWJpx5NoO_boiSUR6Qw7JNul2Fm23TU7CRWRt-z7fbh7ecPuRmhB6-RaHCVJ3d0OLZeuVWWoUS36agPGgS8_caV2GS1MiQJ0KQ-INKhfFkYif_Y0oJsH5-dR7CEPiG2yM_F3kS3hK_rmUJhO7_pXGHgbXhGGSZo"/><span class="font-title-lg text-title-lg text-primary hidden sm:inline-block">Kostra</span><div class="hidden md:flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm"><span class="w-2 h-2 rounded-full bg-primary"></span><span>Online Sync</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-bg-subtle text-text-secondary"><span class="material-symbols-outlined text-[18px] text-primary">sms</span><span class="font-label-sm text-label-sm text-text-primary">142 / 200 WA Quota</span></div><button class="relative p-space-xs rounded-full text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[22px]">notifications</span><span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span></button><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden lg:flex flex-col"><span class="font-label-md text-label-md text-on-surface leading-tight">Pak Budi Santoso</span><span class="font-body-sm text-body-sm text-text-muted leading-tight">Pemilik Kost</span></div></div></div></header><main class="relative pt-16 w-full px-space-lg bg-bg-canvas flex-1"><div class="flex flex-col w-full pb-space-2xl">
+<!-- Top Internal Platform Navigation & Scope Indicator -->
+<div class="flex flex-wrap items-center justify-between gap-space-md py-space-sm mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-container text-on-primary font-label-sm text-label-sm tracking-widest uppercase">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-fixed animate-ping"></span>
+        Modul 12 • Super Admin Platform Internal
+      </span>
+<span class="text-text-muted text-body-sm font-body-sm hidden sm:inline">•</span>
+<span class="text-text-secondary text-body-sm font-body-sm hidden sm:inline flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">security</span>
+        Protokol LGN-06 / LGN-07 (Level Root)
+      </span>
+</div>
+<!-- Cluster Region Selector & Environment Indicator -->
+<div class="flex items-center gap-space-xs">
+<div class="flex items-center gap-1.5 px-space-sm py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span>ID-JKT01 (Cluster AWS AP-Southeast-3)</span>
+</div>
+<div class="px-space-sm py-1 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm font-semibold">
+        SECURE GATEWAY ACTIVE
+      </div>
+</div>
+</div>
+<!-- Page Title & High-Level Platform Actions -->
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-space-lg mb-space-xl">
+<div>
+<h1 class="font-headline-lg text-headline-lg text-text-primary tracking-tight">
+        Manajemen Tenant &amp; Lisensi SaaS Kostra
+      </h1>
+<p class="font-body-md text-body-md text-text-secondary mt-1">
+        Pusat kendali multi-tenant nasional, pemantauan utilisasi Meta WhatsApp Cloud BSP, lisensi berbayar, dan audit impersonasi root operator.
+      </p>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-bg-surface text-primary border-none shadow-sm hover:bg-bg-subtle transition-all font-label-lg text-label-lg" onclick="triggerToast('Mengekspor laporan metrik global CSV...')">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Export Global Metrics</span>
+</button>
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:bg-surface-dim hover:text-on-surface transition-all font-label-lg text-label-lg" onclick="toggleModal('modal-broadcast')">
+<span class="material-symbols-outlined text-[18px] text-secondary">campaign</span>
+<span>Broadcast Pengumuman</span>
+</button>
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-container shadow-sm hover:shadow-md transition-all font-label-lg text-label-lg" onclick="toggleModal('modal-tenant')">
+<span class="material-symbols-outlined text-[18px]">add_business</span>
+<span>+ Daftarkan Tenant Manual</span>
+</button>
+</div>
+</div>
+<!-- Real-Time Metrics & Operational KPI Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md mb-space-xl">
+<!-- Card 1: Total Active Tenants -->
+<div class="bg-bg-surface rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-primary/5 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Total Tenant Aktif</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">apartment</span>
+</div>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-text-primary leading-none">142</span>
+<span class="font-body-md text-body-md text-text-secondary">Properti Kos</span>
+</div>
+<div class="flex items-center gap-1.5 mt-space-xs font-label-sm text-label-sm text-status-lunas-text">
+<span class="material-symbols-outlined text-[16px]">trending_up</span>
+<span class="font-semibold">+12 properti baru</span>
+<span class="text-text-muted font-normal">• 18 Kota Besar</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between text-body-sm font-body-sm text-text-muted">
+<span>Kapasitas Lisensi Pool</span>
+<span class="font-semibold text-text-primary">142 / 200 Slot</span>
+</div>
+</div>
+<!-- Card 2: Total Managed Rooms -->
+<div class="bg-bg-surface rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-secondary/5 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Kamar Terkelola</span>
+<div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">bed</span>
+</div>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-display-lg text-display-lg text-text-primary leading-none">3.840</span>
+<span class="font-body-md text-body-md text-text-secondary">Unit</span>
+</div>
+<div class="flex items-center gap-1.5 mt-space-xs font-label-sm text-label-sm text-status-lunas-text">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-semibold">89.2% Okupansi Agregat</span>
+<span class="text-text-muted font-normal">(3.425 Terisi)</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between text-body-sm font-body-sm text-text-muted">
+<span>Rasio Kosong Nasional</span>
+<span class="font-semibold text-text-primary">10.8% (415 Unit)</span>
+</div>
+</div>
+<!-- Card 3: Meta WhatsApp Cloud API Pool -->
+<div class="bg-bg-surface rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-primary-container/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">Meta Cloud WA Quota</span>
+<div class="w-8 h-8 rounded-lg bg-status-lunas-bg flex items-center justify-center text-status-lunas-text">
+<span class="material-symbols-outlined text-[20px]">chat</span>
+</div>
+</div>
+<div>
+<div class="flex items-baseline gap-2">
+<span class="font-headline-lg text-headline-lg text-text-primary leading-none">48.920</span>
+<span class="font-body-sm text-body-sm text-text-muted">/ 60.000 bln</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-1.5 mt-space-sm overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 81.5%"></div>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between text-body-sm font-body-sm text-text-muted">
+<span class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+          Latency 42ms
+        </span>
+<span class="font-semibold text-status-menunggu-text">81.5% Kuota Terpakai</span>
+</div>
+</div>
+<!-- Card 4: MRR Monthly Recurring Revenue -->
+<div class="bg-bg-surface rounded-xl p-space-lg shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between">
+<div class="absolute -right-4 -bottom-4 w-24 h-24 bg-secondary-fixed/30 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-sm">
+<span class="font-label-sm text-label-sm text-text-muted uppercase tracking-wider">MRR Berlangganan</span>
+<div class="w-8 h-8 rounded-lg bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+</div>
+</div>
+<div>
+<div class="flex items-baseline gap-1">
+<span class="font-title-lg text-title-lg text-text-secondary">Rp</span>
+<span class="font-currency-display text-currency-display text-text-primary leading-none">22.850.000</span>
+</div>
+<div class="flex items-center gap-1.5 mt-space-xs font-label-sm text-label-sm text-status-lunas-text">
+<span class="material-symbols-outlined text-[16px]">north_east</span>
+<span class="font-semibold">+18.4% MoM</span>
+<span class="text-text-muted font-normal">• Starter &amp; Pro &amp; Biz</span>
+</div>
+</div>
+<div class="mt-space-md pt-space-xs flex items-center justify-between text-body-sm font-body-sm text-text-muted">
+<span>Tunggakan SaaS Aktif</span>
+<span class="font-semibold text-status-jatuh-tempo-text">Rp 207.000 (3 Tenant)</span>
+</div>
+</div>
+</div>
+<!-- Operational Tenant Directory Filter & Search Header -->
+<div class="bg-bg-surface rounded-xl p-space-md shadow-sm mb-space-md">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<!-- Search Field -->
+<div class="relative flex-1 min-w-[280px]">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-[20px]">search</span>
+<input class="w-full pl-10 pr-4 py-2 bg-bg-subtle rounded-lg text-on-surface font-body-md text-body-md placeholder:text-text-muted outline-none focus:bg-bg-surface focus:shadow-md transition-all" id="tenant-search" oninput="handleSearch(this.value)" placeholder="Cari nama properti kos, nama owner, nomor WhatsApp (+62), atau tenant ID (e.g. TNT-089)..." type="text"/>
+</div>
+<!-- Plan Filter Pill Buttons -->
+<div class="flex items-center gap-1 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
+<button class="plan-btn px-3 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md transition-colors" data-plan="all" onclick="filterPlan('all')">
+          Semua Paket (142)
+        </button>
+<button class="plan-btn px-3 py-1.5 rounded-lg bg-bg-subtle text-text-secondary hover:bg-surface-container-high font-label-md text-label-md transition-colors" data-plan="Starter" onclick="filterPlan('Starter')">
+          Starter (74)
+        </button>
+<button class="plan-btn px-3 py-1.5 rounded-lg bg-bg-subtle text-text-secondary hover:bg-surface-container-high font-label-md text-label-md transition-colors" data-plan="Pro" onclick="filterPlan('Pro')">
+          Pro (48)
+        </button>
+<button class="plan-btn px-3 py-1.5 rounded-lg bg-bg-subtle text-text-secondary hover:bg-surface-container-high font-label-md text-label-md transition-colors" data-plan="Business" onclick="filterPlan('Business')">
+          Business (20)
+        </button>
+</div>
+<!-- Status Dropdown Selector -->
+<div class="flex items-center gap-space-xs">
+<label class="font-label-sm text-label-sm text-text-muted uppercase" for="status-filter">Status:</label>
+<select class="px-3 py-1.5 bg-bg-subtle text-text-primary rounded-lg font-label-md text-label-md outline-none cursor-pointer hover:bg-surface-container-high transition-colors" id="status-filter" onchange="filterStatus(this.value)">
+<option value="all">Semua Status</option>
+<option value="Aktif">Aktif Saja</option>
+<option value="Trial">Masa Uji (Trial 14 Hari)</option>
+<option value="Menunggak">Menunggak Biaya</option>
+<option value="Ditangguhkan">Ditangguhkan / Suspended</option>
+</select>
+</div>
+</div>
+</div>
+<!-- Multi-Tenant Directory Main Data Table -->
+<div class="bg-bg-surface rounded-xl shadow-sm overflow-hidden mb-space-xl">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse" id="tenant-table">
+<thead>
+<tr class="bg-bg-subtle text-text-secondary font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3 px-space-md">Identitas Properti &amp; ID</th>
+<th class="py-3 px-space-md">Owner / Kontak Admin</th>
+<th class="py-3 px-space-md">Okupansi Kamar</th>
+<th class="py-3 px-space-md">Paket &amp; Billing</th>
+<th class="py-3 px-space-md">Meta WA Quota</th>
+<th class="py-3 px-space-md">Status SaaS</th>
+<th class="py-3 px-space-md text-right">Aksi Internal (LGN-07)</th>
+</tr>
+</thead>
+<tbody class="divide-y-none">
+<!-- Row 1: Kost Griya Harmoni -->
+<tr class="tenant-row hover:bg-surface-container-low transition-colors" data-id="TNT-001" data-name="Kost Griya Harmoni" data-owner="Hendra Gunawan" data-phone="+62 811-987-654" data-plan="Starter" data-status="Aktif">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high text-primary flex items-center justify-center font-bold">
+                  GH
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Kost Griya Harmoni</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-mono">TNT-001</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted truncate">Kebayoran Baru, Jakarta Selatan</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">Hendra Gunawan</span>
+<a class="font-body-sm text-body-sm text-primary hover:underline flex items-center gap-1" href="https://wa.me/62811987654" target="_blank">
+<span class="material-symbols-outlined text-[14px]">call</span>
+                  +62 811-987-654
+                </a>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center justify-between text-body-sm font-body-sm mb-1">
+<span class="font-semibold text-text-primary">24 / 30 Kamar</span>
+<span class="text-text-muted">80%</span>
+</div>
+<div class="w-28 bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 80%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Starter</span>
+<span class="text-label-sm font-label-sm text-text-muted">Rp 69.000/bln</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted">Next: 15 Nov 2026</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">185 / 300</span>
+<span class="font-body-sm text-body-sm text-status-lunas-text">Sisa 115 Kuota</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm font-bold uppercase inline-block">
+                Aktif
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary transition-all" onclick="launchImpersonation('TNT-001', 'Kost Griya Harmoni', 'Hendra Gunawan')" title="Masuk Mode Impersonasi Pemilik (FND-08)">
+<span class="material-symbols-outlined text-[18px]">switch_account</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-high text-text-secondary hover:text-text-primary transition-all" onclick="openEditPlan('TNT-001', 'Starter')" title="Ubah Lisensi &amp; Kuota">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-high text-text-secondary hover:text-text-primary transition-all" onclick="showTenantDetails('TNT-001')" title="Detail Profil SaaS">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Wisma Mahasiswa Dago -->
+<tr class="tenant-row hover:bg-surface-container-low transition-colors" data-id="TNT-048" data-name="Wisma Mahasiswa Dago" data-owner="dr. Siti Aminah" data-phone="+62 812-445-901" data-plan="Pro" data-status="Aktif">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/30 text-secondary flex items-center justify-center font-bold">
+                  WM
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Wisma Mahasiswa Dago</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-mono">TNT-048</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted truncate">Coblong, Bandung Kota</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">dr. Siti Aminah</span>
+<a class="font-body-sm text-body-sm text-primary hover:underline flex items-center gap-1" href="https://wa.me/62812445901" target="_blank">
+<span class="material-symbols-outlined text-[14px]">call</span>
+                  +62 812-445-901
+                </a>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center justify-between text-body-sm font-body-sm mb-1">
+<span class="font-semibold text-text-primary">68 / 100 Kamar</span>
+<span class="text-text-muted">68%</span>
+</div>
+<div class="w-28 bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 68%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Pro</span>
+<span class="text-label-sm font-label-sm text-text-muted">Rp 149.000/bln</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted">Next: 02 Des 2026</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">820 / 1.000</span>
+<span class="font-body-sm text-body-sm text-status-lunas-text">Sisa 180 Kuota</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm font-bold uppercase inline-block">
+                Aktif
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary transition-all" onclick="launchImpersonation('TNT-048', 'Wisma Mahasiswa Dago', 'dr. Siti Aminah')" title="Masuk Mode Impersonasi Pemilik (FND-08)">
+<span class="material-symbols-outlined text-[18px]">switch_account</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-high text-text-secondary hover:text-text-primary transition-all" onclick="openEditPlan('TNT-048', 'Pro')" title="Ubah Lisensi &amp; Kuota">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-high text-text-secondary hover:text-text-primary transition-all" onclick="showTenantDetails('TNT-048')" title="Detail Profil SaaS">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: Kost Putri Melati Residence (Trial Sisa 3 Hari) -->
+<tr class="tenant-row hover:bg-surface-container-low transition-colors" data-id="TNT-089" data-name="Kost Putri Melati Residence" data-owner="Ibu Ratih" data-phone="+62 856-789-123" data-plan="Starter" data-status="Trial">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest text-tertiary flex items-center justify-center font-bold">
+                  PM
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Kost Putri Melati Residence</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-mono">TNT-089</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted truncate">Tembalang, Semarang</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">Ibu Ratih</span>
+<a class="font-body-sm text-body-sm text-primary hover:underline flex items-center gap-1" href="https://wa.me/62856789123" target="_blank">
+<span class="material-symbols-outlined text-[14px]">call</span>
+                  +62 856-789-123
+                </a>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center justify-between text-body-sm font-body-sm mb-1">
+<span class="font-semibold text-text-primary">12 / 30 Kamar</span>
+<span class="text-text-muted">40%</span>
+</div>
+<div class="w-28 bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 40%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Starter (Trial)</span>
+<span class="text-label-sm font-label-sm text-secondary font-semibold">14 Hari</span>
+</div>
+<span class="font-body-sm text-body-sm text-status-menunggu-text font-medium">Sisa 3 Hari Lagi</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">45 / 100</span>
+<span class="font-body-sm text-body-sm text-text-muted">Trial Pool</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-status-menunggu-bg text-status-menunggu-text font-label-sm text-label-sm font-bold uppercase inline-block">
+                Trial 14D
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-lg bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary transition-all font-label-sm text-label-sm flex items-center gap-1" onclick="extendTrial('TNT-089')" title="Perpanjang Trial +7 Hari">
+<span class="material-symbols-outlined text-[16px]">more_time</span>
+<span>+7 Hari</span>
+</button>
+<a class="p-1.5 rounded-lg bg-status-lunas-bg text-status-lunas-text hover:opacity-80 transition-all" href="https://wa.me/62856789123?text=Halo%20Ibu%20Ratih,%20tim%20SaaS%20Kostra%20ingin%20membantu%20upgrade%20lisensi" target="_blank" title="Hubungi Penjualan via WhatsApp">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</a>
+</div>
+</td>
+</tr>
+<!-- Row 4: Paviliun Tebet Executive -->
+<tr class="tenant-row hover:bg-surface-container-low transition-colors" data-id="TNT-014" data-name="Paviliun Tebet Executive" data-owner="Budi Santoso" data-phone="+62 813-221-889" data-plan="Business" data-status="Aktif">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-primary-container text-on-primary flex items-center justify-center font-bold">
+                  PT
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Paviliun Tebet Executive</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-mono">TNT-014</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted truncate">Tebet Barat, Jakarta Selatan</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">Budi Santoso</span>
+<a class="font-body-sm text-body-sm text-primary hover:underline flex items-center gap-1" href="https://wa.me/62813221889" target="_blank">
+<span class="material-symbols-outlined text-[14px]">call</span>
+                  +62 813-221-889
+                </a>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center justify-between text-body-sm font-body-sm mb-1">
+<span class="font-semibold text-text-primary">110 / Unlimited</span>
+<span class="text-text-muted">Enterprise</span>
+</div>
+<div class="w-28 bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-1.5 rounded-full" style="width: 95%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Business</span>
+<span class="text-label-sm font-label-sm text-text-muted">Rp 349.000/bln</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted">Next: 20 Des 2026</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">2.850 / 3.000</span>
+<span class="font-body-sm text-body-sm text-status-menunggu-text">95% Kuota</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm font-bold uppercase inline-block">
+                Aktif
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg bg-surface-container-high text-primary hover:bg-primary hover:text-on-primary transition-all" onclick="launchImpersonation('TNT-014', 'Paviliun Tebet Executive', 'Budi Santoso')" title="Masuk Mode Impersonasi Pemilik (FND-08)">
+<span class="material-symbols-outlined text-[18px]">switch_account</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-high text-text-secondary hover:text-text-primary transition-all" onclick="openEditPlan('TNT-014', 'Business')" title="Ubah Lisensi &amp; Kuota">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+<button class="p-1.5 rounded-lg hover:bg-surface-container-high text-text-secondary hover:text-text-primary transition-all" onclick="showTenantDetails('TNT-014')" title="Detail Profil SaaS">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Pondok Singgah Kalibata (Menunggak H+5) -->
+<tr class="tenant-row hover:bg-surface-container-low transition-colors" data-id="TNT-112" data-name="Pondok Singgah Kalibata" data-owner="Aris Munandar" data-phone="+62 878-554-321" data-plan="Starter" data-status="Menunggak">
+<td class="py-space-md px-space-md">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-status-jatuh-tempo-bg text-status-jatuh-tempo-text flex items-center justify-center font-bold">
+                  PS
+                </div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Pondok Singgah Kalibata</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-mono">TNT-112</span>
+</div>
+<span class="font-body-sm text-body-sm text-text-muted truncate">Pancoran, Jakarta Selatan</span>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">Aris Munandar</span>
+<a class="font-body-sm text-body-sm text-primary hover:underline flex items-center gap-1" href="https://wa.me/62878554321" target="_blank">
+<span class="material-symbols-outlined text-[14px]">call</span>
+                  +62 878-554-321
+                </a>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center justify-between text-body-sm font-body-sm mb-1">
+<span class="font-semibold text-text-primary">28 / 30 Kamar</span>
+<span class="text-text-muted">93%</span>
+</div>
+<div class="w-28 bg-surface-container-high rounded-full h-1.5 overflow-hidden">
+<div class="bg-status-jatuh-tempo-text h-1.5 rounded-full" style="width: 93%"></div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-title-md text-title-md text-text-primary">Starter</span>
+<span class="text-label-sm font-label-sm text-text-muted">Rp 69.000/bln</span>
+</div>
+<span class="font-body-sm text-body-sm text-status-jatuh-tempo-text font-semibold">Tenggang: H+5 Terlambat</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-text-primary">298 / 300</span>
+<span class="font-body-sm text-body-sm text-status-jatuh-tempo-text">Hampir Habis</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-2.5 py-1 rounded-full bg-status-jatuh-tempo-bg text-status-jatuh-tempo-text font-label-sm text-label-sm font-bold uppercase inline-block">
+                Menunggak
+              </span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-1">
+<button class="px-2.5 py-1 rounded-lg bg-secondary text-on-secondary hover:opacity-90 transition-all font-label-sm text-label-sm flex items-center gap-1" onclick="sendBillingReminder('TNT-112', 'Aris Munandar')" title="Kirim Tagihan Peringatan WhatsApp Otomatis">
+<span class="material-symbols-outlined text-[16px]">notifications_active</span>
+<span>Ingatkan WA</span>
+</button>
+<button class="p-1.5 rounded-lg bg-error-container text-on-error-container hover:bg-error hover:text-on-error transition-all" onclick="confirmSuspendTenant('TNT-112', 'Pondok Singgah Kalibata')" title="Tangguhkan Akses Tenant (LGN-07)">
+<span class="material-symbols-outlined text-[18px]">block</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination & Counter Status Footer -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm p-space-md bg-bg-subtle text-body-sm font-body-sm text-text-secondary">
+<div>
+        Menampilkan <span class="font-semibold text-text-primary">5</span> dari <span class="font-semibold text-text-primary">142</span> Properti SaaS Aktif Terdaftar
+      </div>
+<div class="flex items-center gap-1">
+<button class="px-3 py-1 rounded-lg bg-bg-surface text-text-muted hover:bg-surface-container-high transition-colors disabled:opacity-50" disabled="">Sebelumnya</button>
+<button class="px-3 py-1 rounded-lg bg-primary text-on-primary font-semibold">1</button>
+<button class="px-3 py-1 rounded-lg bg-bg-surface text-text-secondary hover:bg-surface-container-high transition-colors">2</button>
+<button class="px-3 py-1 rounded-lg bg-bg-surface text-text-secondary hover:bg-surface-container-high transition-colors">3</button>
+<span class="px-1 text-text-muted">...</span>
+<button class="px-3 py-1 rounded-lg bg-bg-surface text-text-secondary hover:bg-surface-container-high transition-colors">15</button>
+<button class="px-3 py-1 rounded-lg bg-bg-surface text-text-secondary hover:bg-surface-container-high transition-colors">Selanjutnya</button>
+</div>
+</div>
+</div>
+<!-- Operational Diagnostics & Infrastructure Telemetry Bento -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Meta Cloud WhatsApp BSP Cluster Real-Time Pulse (8 Cols) -->
+<div class="lg:col-span-8 bg-bg-surface rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">signal_cellular_alt</span>
+<div>
+<h2 class="font-title-lg text-title-lg text-text-primary">
+                Telemetri WhatsApp Cloud API (BSP Meta Direct Node)
+              </h2>
+<span class="font-body-sm text-body-sm text-text-muted">
+                Throughput agregat broadcast invoice, OTP login kamar, dan reminder sewa 7 hari terakhir
+              </span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-status-lunas-bg text-status-lunas-text font-label-sm text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-status-lunas-text animate-pulse"></span>
+              BSP Status: Operational 100%
+            </span>
+</div>
+</div>
+<!-- Inline SVG Visualization: 7-Day Usage Volume Bar & Trend -->
+<div class="w-full h-44 my-space-sm">
+<svg class="w-full h-full text-primary" preserveaspectratio="none" viewbox="0 0 700 160">
+<!-- Grid Lines -->
+<line stroke="currentColor" stroke-dasharray="4,4" stroke-opacity="0.08" x1="0" x2="700" y1="30" y2="30"></line>
+<line stroke="currentColor" stroke-dasharray="4,4" stroke-opacity="0.08" x1="0" x2="700" y1="75" y2="75"></line>
+<line stroke="currentColor" stroke-dasharray="4,4" stroke-opacity="0.08" x1="0" x2="700" y1="120" y2="120"></line>
+<!-- Bars for Daily Traffic -->
+<!-- Sen (Day 1) -->
+<rect class="fill-surface-container-high" height="75" rx="4" width="40" x="35" y="65"></rect>
+<rect fill="currentColor" fill-opacity="0.4" height="60" rx="4" width="40" x="35" y="80"></rect>
+<!-- Sel (Day 2) -->
+<rect class="fill-surface-container-high" height="95" rx="4" width="40" x="135" y="45"></rect>
+<rect fill="currentColor" fill-opacity="0.6" height="85" rx="4" width="40" x="135" y="55"></rect>
+<!-- Rab (Day 3) -->
+<rect class="fill-surface-container-high" height="90" rx="4" width="40" x="235" y="50"></rect>
+<rect fill="currentColor" fill-opacity="0.5" height="78" rx="4" width="40" x="235" y="62"></rect>
+<!-- Kam (Day 4) -->
+<rect class="fill-surface-container-high" height="110" rx="4" width="40" x="335" y="30"></rect>
+<rect fill="currentColor" fill-opacity="0.8" height="102" rx="4" width="40" x="335" y="38"></rect>
+<!-- Jum (Day 5 - Peak Broadcast) -->
+<rect class="fill-secondary-container" height="120" rx="4" width="40" x="435" y="20"></rect>
+<rect fill="#00413f" height="118" rx="4" width="40" x="435" y="22"></rect>
+<!-- Sab (Day 6) -->
+<rect class="fill-surface-container-high" height="70" rx="4" width="40" x="535" y="70"></rect>
+<rect fill="currentColor" fill-opacity="0.4" height="55" rx="4" width="40" x="535" y="85"></rect>
+<!-- Min (Day 7 - Hari Ini) -->
+<rect class="fill-primary-container" height="100" rx="4" width="40" x="635" y="40"></rect>
+<rect fill="currentColor" height="90" rx="4" width="40" x="635" y="50"></rect>
+<!-- Dynamic Smooth Baseline Wave -->
+<path d="M 55 80 Q 155 55 255 62 T 455 22 T 655 50" fill="none" stroke="#fdba45" stroke-linecap="round" stroke-width="2.5"></path>
+</svg>
+</div>
+<div class="grid grid-cols-7 text-center font-label-sm text-label-sm text-text-muted border-t-none pt-2">
+<div>Sen (5.8k)</div>
+<div>Sel (7.1k)</div>
+<div>Rab (6.4k)</div>
+<div>Kam (8.9k)</div>
+<div class="font-bold text-text-primary">Jum (11.2k) • Peak</div>
+<div>Sab (4.6k)</div>
+<div class="font-bold text-primary">Min (6.2k) Hari Ini</div>
+</div>
+</div>
+<!-- SLA & Delivery Rate Breakdown Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-sm mt-space-md pt-space-md bg-bg-subtle rounded-lg p-space-sm">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted">Tingkat Pengiriman (Delivery)</span>
+<span class="font-title-lg text-title-lg text-status-lunas-text font-bold">99.78% Sukses</span>
+<span class="font-body-sm text-body-sm text-text-muted">108 Gagal (Nomor Salah)</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted">Average Read-Rate</span>
+<span class="font-title-lg text-title-lg text-text-primary font-bold">84.3%</span>
+<span class="font-body-sm text-body-sm text-text-muted">Dalam 15 menit awal</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-text-muted">SLA API Uptime 30 Hari</span>
+<span class="font-title-lg text-title-lg text-primary font-bold">99.98%</span>
+<span class="font-body-sm text-body-sm text-text-muted">Tanpa degradasi koneksi</span>
+</div>
+</div>
+</div>
+<!-- Super Admin Impersonation & Security Transparency Audit (FND-08) (4 Cols) -->
+<div class="lg:col-span-4 bg-bg-surface rounded-xl p-space-lg shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">policy</span>
+<h2 class="font-title-lg text-title-lg text-text-primary">
+              Log Audit Impersonasi
+            </h2>
+</div>
+<span class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm font-mono">FND-08</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mb-space-md">
+          Rekaman mutlak setiap aksi operator Super Admin yang login ke dashboard penyewa kost untuk audit keamanan.
+        </p>
+<!-- Audit Event List -->
+<div class="flex flex-col gap-space-sm">
+<!-- Event 1 -->
+<div class="p-space-sm rounded-lg bg-bg-subtle flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-text-primary">admin_root_dimas</span>
+<span class="font-body-sm text-body-sm text-text-muted">14:20 WIB Hari ini</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary leading-snug">
+              Impersonasi <strong class="text-text-primary">Kost Griya Harmoni (TNT-001)</strong> untuk verifikasi gateway QRIS statis.
+            </p>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-text-muted font-mono">
+<span>IP: 103.144.18.22</span>
+<span>•</span>
+<span class="text-status-lunas-text">Sesi Berakhir Normal</span>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="p-space-sm rounded-lg bg-bg-subtle flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-text-primary">ops_super_rizka</span>
+<span class="font-body-sm text-body-sm text-text-muted">Kemarin, 19:42 WIB</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary leading-snug">
+              Impersonasi <strong class="text-text-primary">Paviliun Tebet (TNT-014)</strong> membantu ekspor laporan pajak tahunan.
+            </p>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-text-muted font-mono">
+<span>IP: 36.88.241.110</span>
+<span>•</span>
+<span class="text-status-lunas-text">Audit Approved</span>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="p-space-sm rounded-lg bg-bg-subtle flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-semibold text-text-primary">system_sentinel</span>
+<span class="font-body-sm text-body-sm text-text-muted">03 Nov, 10:15 WIB</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-secondary leading-snug">
+              Otomasi LGN-07: Penandaan status teguran tunggakan pada <strong class="text-text-primary">TNT-112</strong>.
+            </p>
+<div class="flex items-center gap-1 font-label-sm text-label-sm text-text-muted font-mono">
+<span>Internal Service Cron</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-space-md pt-space-sm">
+<button class="w-full py-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:bg-surface-dim hover:text-on-surface font-label-md text-label-md transition-colors text-center" onclick="triggerToast('Membuka seluruh riwayat log security AWS CloudTrail...')">
+          Lihat Seluruh Log Keamanan (30 Hari)
+        </button>
+</div>
+</div>
+</div>
+<!-- Operational Modals & Overlays -->
+<!-- Modal 1: Impersonation Warning & Confirmation (FND-08) -->
+<div class="fixed inset-0 z-50 hidden bg-on-background/40 backdrop-blur-sm flex items-center justify-center p-4" id="modal-impersonate">
+<div class="bg-bg-surface rounded-xl max-w-md w-full p-space-lg shadow-xl relative animate-in fade-in zoom-in-95 duration-150">
+<div class="flex items-center gap-space-sm text-secondary mb-space-sm">
+<span class="material-symbols-outlined text-[28px]">shield_person</span>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Mode Impersonasi Tenant</h3>
+</div>
+<p class="font-body-md text-body-md text-text-secondary mb-space-md">
+        Anda akan masuk ke dalam lingkungan operasional kos <strong class="text-text-primary" id="imp-tenant-name">...</strong> sebagai pemilik (<span id="imp-owner-name">...</span>). Sesi ini akan ditandatangani secara kriptografis dan dicatat ke log transparansi FND-08.
+      </p>
+<div class="p-space-sm rounded-lg bg-status-menunggu-bg text-status-menunggu-text font-body-sm text-body-sm mb-space-lg flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] shrink-0 mt-0.5">warning</span>
+<span>Perubahan data penghuni, tagihan, atau rekening transfer yang dilakukan selama impersonasi mengikat identitas operator Anda.</span>
+</div>
+<div class="flex items-center justify-end gap-space-sm">
+<button class="px-4 py-2 rounded-lg bg-bg-subtle text-text-secondary hover:bg-surface-container-high font-label-lg text-label-lg" onclick="closeModal('modal-impersonate')">
+          Batal
+        </button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg flex items-center gap-1.5" onclick="executeImpersonation()">
+<span>Lanjutkan Masuk Dashboard</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Modal 2: Edit Lisensi & Kuota Tenant (LGN-06) -->
+<div class="fixed inset-0 z-50 hidden bg-on-background/40 backdrop-blur-sm flex items-center justify-center p-4" id="modal-plan">
+<div class="bg-bg-surface rounded-xl max-w-lg w-full p-space-lg shadow-xl relative">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">tune</span>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Atur Lisensi &amp; Kuota Pesan</h3>
+</div>
+<button class="p-1 rounded-full text-text-muted hover:bg-bg-subtle" onclick="closeModal('modal-plan')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-md">
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Target Tenant ID</label>
+<input class="w-full px-3 py-2 mt-1 bg-bg-subtle rounded-lg text-text-primary font-mono text-body-md" id="plan-tenant-id" readonly="" type="text" value="TNT-001"/>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Paket Berlangganan SaaS</label>
+<div class="grid grid-cols-3 gap-2 mt-1">
+<label class="flex flex-col p-2.5 rounded-lg bg-bg-subtle hover:bg-surface-container-high cursor-pointer">
+<input checked="" class="accent-primary" name="plan_tier" type="radio" value="Starter"/>
+<span class="font-title-md text-title-md mt-1">Starter</span>
+<span class="font-body-sm text-body-sm text-text-muted">30 Kamar</span>
+</label>
+<label class="flex flex-col p-2.5 rounded-lg bg-bg-subtle hover:bg-surface-container-high cursor-pointer">
+<input class="accent-primary" name="plan_tier" type="radio" value="Pro"/>
+<span class="font-title-md text-title-md mt-1">Pro</span>
+<span class="font-body-sm text-body-sm text-text-muted">100 Kamar</span>
+</label>
+<label class="flex flex-col p-2.5 rounded-lg bg-bg-subtle hover:bg-surface-container-high cursor-pointer">
+<input class="accent-primary" name="plan_tier" type="radio" value="Business"/>
+<span class="font-title-md text-title-md mt-1">Business</span>
+<span class="font-body-sm text-body-sm text-text-muted">Unlimited</span>
+</label>
+</div>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Injeksi Tambahan Kuota Meta WA (Top-Up)</label>
+<div class="flex items-center gap-2 mt-1">
+<input class="flex-1 px-3 py-2 bg-bg-surface rounded-lg text-text-primary font-body-md shadow-sm outline-none focus:ring-1 focus:ring-primary" type="number" value="250"/>
+<span class="font-body-md text-body-md text-text-secondary">Pesan</span>
+</div>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Perpanjang Tanggal Jatuh Tempo</label>
+<input class="w-full px-3 py-2 mt-1 bg-bg-surface rounded-lg text-text-primary font-body-md shadow-sm outline-none focus:ring-1 focus:ring-primary" type="date" value="2026-12-15"/>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm mt-space-lg">
+<button class="px-4 py-2 rounded-lg bg-bg-subtle text-text-secondary hover:bg-surface-container-high font-label-lg text-label-lg" onclick="closeModal('modal-plan')">
+          Batalkan
+        </button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg" onclick="savePlanChanges()">
+          Simpan Konfigurasi
+        </button>
+</div>
+</div>
+</div>
+<!-- Modal 3: Daftarkan Tenant Manual Baru -->
+<div class="fixed inset-0 z-50 hidden bg-on-background/40 backdrop-blur-sm flex items-center justify-center p-4" id="modal-tenant">
+<div class="bg-bg-surface rounded-xl max-w-lg w-full p-space-lg shadow-xl relative max-h-[921px] overflow-y-auto">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">add_business</span>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Registrasi Tenant Baru Manual</h3>
+</div>
+<button class="p-1 rounded-full text-text-muted hover:bg-bg-subtle" onclick="closeModal('modal-tenant')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-md">
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Nama Properti Kos</label>
+<input class="w-full px-3 py-2 mt-1 bg-bg-subtle rounded-lg text-text-primary font-body-md outline-none focus:bg-bg-surface focus:ring-1 focus:ring-primary" placeholder="Contoh: Kost De Paviliun Bintaro" type="text"/>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Nama Pemilik / Juragan</label>
+<input class="w-full px-3 py-2 mt-1 bg-bg-subtle rounded-lg text-text-primary font-body-md outline-none focus:bg-bg-surface focus:ring-1 focus:ring-primary" placeholder="Nama Lengkap" type="text"/>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Nomor WhatsApp Aktif</label>
+<input class="w-full px-3 py-2 mt-1 bg-bg-subtle rounded-lg text-text-primary font-body-md outline-none focus:bg-bg-surface focus:ring-1 focus:ring-primary" placeholder="+62 8..." type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-space-sm">
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Kota / Wilayah</label>
+<input class="w-full px-3 py-2 mt-1 bg-bg-subtle rounded-lg text-text-primary font-body-md outline-none focus:bg-bg-surface focus:ring-1 focus:ring-primary" placeholder="Contoh: Tangerang Selatan" type="text"/>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Total Kamar Fisik</label>
+<input class="w-full px-3 py-2 mt-1 bg-bg-subtle rounded-lg text-text-primary font-body-md outline-none focus:bg-bg-surface focus:ring-1 focus:ring-primary" type="number" value="15"/>
+</div>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Tipe Aktivasi Awal</label>
+<select class="w-full px-3 py-2 mt-1 bg-bg-subtle text-text-primary rounded-lg font-body-md outline-none focus:bg-bg-surface">
+<option>Masa Uji Coba Gratis 14 Hari (Trial)</option>
+<option>Langsung Aktifkan Starter (Rp 69.000/bln)</option>
+<option>Langsung Aktifkan Pro (Rp 149.000/bln)</option>
+<option>Langsung Aktifkan Business (Rp 349.000/bln)</option>
+</select>
+</div>
+<div class="flex items-center gap-2 pt-1">
+<input checked="" class="accent-primary w-4 h-4" id="send-welcome-wa" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-text-secondary cursor-pointer" for="send-welcome-wa">
+            Kirimkan kredensial login awal otomatis via WhatsApp Official Kostra
+          </label>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm mt-space-lg">
+<button class="px-4 py-2 rounded-lg bg-bg-subtle text-text-secondary hover:bg-surface-container-high font-label-lg text-label-lg" onclick="closeModal('modal-tenant')">
+          Batal
+        </button>
+<button class="px-4 py-2 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg flex items-center gap-1.5" onclick="registerTenant()">
+<span class="material-symbols-outlined text-[18px]">domain_add</span>
+<span>Daftarkan Sekarang</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Modal 4: Broadcast Pengumuman Maintenance Nasional -->
+<div class="fixed inset-0 z-50 hidden bg-on-background/40 backdrop-blur-sm flex items-center justify-center p-4" id="modal-broadcast">
+<div class="bg-bg-surface rounded-xl max-w-lg w-full p-space-lg shadow-xl relative">
+<div class="flex items-center justify-between mb-space-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[24px]">campaign</span>
+<h3 class="font-headline-sm text-headline-sm text-text-primary">Siaran Pesan SaaS Nasional</h3>
+</div>
+<button class="p-1 rounded-full text-text-muted hover:bg-bg-subtle" onclick="closeModal('modal-broadcast')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-md">
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Target Penerima</label>
+<select class="w-full px-3 py-2 mt-1 bg-bg-subtle text-text-primary rounded-lg font-body-md outline-none">
+<option>Seluruh Pemilik Kos Terdaftar (142 Tenant)</option>
+<option>Hanya Tenant Aktif Berbayar (122 Tenant)</option>
+<option>Hanya Tenant Masa Trial (17 Tenant)</option>
+<option>Tenant yang Memiliki Tunggakan Lisensi</option>
+</select>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Judul Pengumuman</label>
+<input class="w-full px-3 py-2 mt-1 bg-bg-subtle rounded-lg text-text-primary font-body-md outline-none" type="text" value="[Informasi Penting] Pemeliharaan Terjadwal Sinkronisasi Bank BCA"/>
+</div>
+<div>
+<label class="font-label-sm text-label-sm text-text-muted uppercase">Isi Pesan Siaran</label>
+<textarea class="w-full p-3 mt-1 bg-bg-subtle rounded-lg text-text-primary font-body-md outline-none resize-none" rows="4">Halo Juragan Kostra, pada Minggu malam pukul 23:00 - 01:00 WIB kami akan melakukan upgrade sistem verifikasi mutasi rekening BCA. Operasional penerimaan bukti sewa offline tetap berjalan normal.</textarea>
+</div>
+<div class="flex items-center gap-2">
+<input checked="" class="accent-primary w-4 h-4" id="bc-wa" type="checkbox"/>
+<label class="font-body-sm text-body-sm text-text-secondary cursor-pointer" for="bc-wa">
+            Salurkan juga sebagai flash banner ke dalam header masing-masing dashboard pemilik
+          </label>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm mt-space-lg">
+<button class="px-4 py-2 rounded-lg bg-bg-subtle text-text-secondary hover:bg-surface-container-high font-label-lg text-label-lg" onclick="closeModal('modal-broadcast')">
+          Tutup
+        </button>
+<button class="px-4 py-2 rounded-lg bg-secondary text-on-secondary hover:opacity-90 font-label-lg text-label-lg flex items-center gap-1.5" onclick="sendBroadcast()">
+<span class="material-symbols-outlined text-[18px]">send</span>
+<span>Kirim Broadcast</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Notification Toast Container -->
+<div class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none" id="toast">
+<div class="bg-primary text-on-primary px-4 py-3 rounded-lg shadow-xl flex items-center gap-2 font-body-md text-body-md">
+<span class="material-symbols-outlined text-[20px] text-secondary-fixed">info</span>
+<span id="toast-message">Operasi berhasil dilakukan.</span>
+</div>
+</div>
+<!-- Client-Side Micro-Interactions Script -->
+<script>
+    let activeImpersonateTarget = { id: '', name: '', owner: '' };
+
+    function triggerToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      toastMessage.textContent = message;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+
+    function toggleModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.toggle('hidden');
+      }
+    }
+
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('hidden');
+      }
+    }
+
+    function launchImpersonation(tenantId, tenantName, ownerName) {
+      activeImpersonateTarget = { id: tenantId, name: tenantName, owner: ownerName };
+      document.getElementById('imp-tenant-name').textContent = tenantName + ' (' + tenantId + ')';
+      document.getElementById('imp-owner-name').textContent = ownerName;
+      toggleModal('modal-impersonate');
+    }
+
+    function executeImpersonation() {
+      closeModal('modal-impersonate');
+      triggerToast('Mengalihkan ke konteks ' + activeImpersonateTarget.name + ' [FND-08]...');
+      setTimeout(() => {
+        window.location.hash = '#/ringkasan?impersonate=' + activeImpersonateTarget.id;
+      }, 800);
+    }
+
+    function openEditPlan(tenantId, currentPlan) {
+      document.getElementById('plan-tenant-id').value = tenantId;
+      const radios = document.getElementsByName('plan_tier');
+      for (const r of radios) {
+        if (r.value === currentPlan) r.checked = true;
+      }
+      toggleModal('modal-plan');
+    }
+
+    function savePlanChanges() {
+      closeModal('modal-plan');
+      triggerToast('Lisensi paket & alokasi kuota berhasil diperbarui.');
+    }
+
+    function registerTenant() {
+      closeModal('modal-tenant');
+      triggerToast('Tenant baru berhasil didaftarkan. Kredensial telah diteruskan.');
+    }
+
+    function sendBroadcast() {
+      closeModal('modal-broadcast');
+      triggerToast('Pesan siaran darurat berhasil dikirim ke 142 tenant.');
+    }
+
+    function extendTrial(tenantId) {
+      triggerToast('Masa percobaan untuk ' + tenantId + ' berhasil diperpanjang 7 hari.');
+    }
+
+    function sendBillingReminder(tenantId, ownerName) {
+      triggerToast('Invoice pengingat tunggakan berhasil dikirim ke WhatsApp ' + ownerName + '.');
+    }
+
+    function confirmSuspendTenant(tenantId, tenantName) {
+      if (confirm('Konfirmasi penangguhan lisensi ' + tenantName + ' (' + tenantId + ')? Pemilik dan penghuni tidak akan dapat mengakses portal.')) {
+        triggerToast('Tenant ' + tenantId + ' telah ditangguhkan (LGN-07).');
+      }
+    }
+
+    function showTenantDetails(tenantId) {
+      triggerToast('Membuka rincian spesifikasi database untuk ' + tenantId + '...');
+    }
+
+    function handleSearch(query) {
+      const q = query.toLowerCase();
+      const rows = document.querySelectorAll('.tenant-row');
+      rows.forEach(row => {
+        const text = (row.dataset.name + ' ' + row.dataset.owner + ' ' + row.dataset.phone + ' ' + row.dataset.id).toLowerCase();
+        row.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    function filterPlan(plan) {
+      const buttons = document.querySelectorAll('.plan-btn');
+      buttons.forEach(btn => {
+        if (btn.dataset.plan === plan) {
+          btn.classList.add('bg-primary', 'text-on-primary');
+          btn.classList.remove('bg-bg-subtle', 'text-text-secondary');
+        } else {
+          btn.classList.remove('bg-primary', 'text-on-primary');
+          btn.classList.add('bg-bg-subtle', 'text-text-secondary');
+        }
+      });
+
+      const rows = document.querySelectorAll('.tenant-row');
+      rows.forEach(row => {
+        if (plan === 'all' || row.dataset.plan === plan) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    function filterStatus(status) {
+      const rows = document.querySelectorAll('.tenant-row');
+      rows.forEach(row => {
+        if (status === 'all' || row.dataset.status === status) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</div></main></div></body></html>
