@@ -2,42 +2,58 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\UserResource;
+use App\Models\AuditLog;
+use App\Models\User;
+use App\Tenancy\TenantContext;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
 {
-    /**
-     * The root template that's loaded on the first page visit.
-     *
-     * @see https://inertiajs.com/server-side-setup#root-template
-     *
-     * @var string
-     */
     protected $rootView = 'app';
 
-    /**
-     * Determines the current asset version.
-     *
-     * @see https://inertiajs.com/asset-versioning
-     */
     public function version(Request $request): ?string
     {
         return parent::version($request);
     }
 
     /**
-     * Define the props that are shared by default.
-     *
-     * @see https://inertiajs.com/shared-data
+     * Props bersama. Hanya data yang dipakai kerangka layar; izin dikirim dari
+     * Gate (`can`) hanya untuk menyembunyikan menu, otorisasi tetap di server.
      *
      * @return array<string, mixed>
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
+
         return [
             ...parent::share($request),
-            //
+            'auth' => fn () => $user ? [
+                'user' => (new UserResource($user))->resolve(),
+                'can' => [
+                    'manageStaff' => $user->can('viewAny', User::class),
+                    'viewAudit' => $user->can('viewAny', AuditLog::class),
+                    'viewFinance' => $user->can('view-finance'),
+                    'manageSettings' => $user->can('manage-settings'),
+                    'exportData' => $user->can('export-data'),
+                ],
+            ] : null,
+            // Dievaluasi saat render, setelah SetCurrentTenant menetapkan tenant.
+            'tenant' => function () {
+                $tenant = app(TenantContext::class)->tenant();
+
+                return $tenant ? [
+                    'name' => $tenant->name,
+                    'status' => $tenant->status->value,
+                    'suspended' => $tenant->isSuspended(),
+                ] : null;
+            },
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'invitation_link' => fn () => $request->session()->get('invitation_link'),
+            ],
         ];
     }
 }

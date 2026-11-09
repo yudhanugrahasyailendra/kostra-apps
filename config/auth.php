@@ -63,7 +63,8 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            // Penyedia khusus: mencari pengguna tanpa scope tenant (lihat TenantUserProvider).
+            'driver' => 'tenant-eloquent',
             'model' => env('AUTH_MODEL', User::class),
         ],
 

@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Middleware\EnsureTenantIsActive;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Http\Middleware\SetCurrentTenant;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -12,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function (): void {
-            Route::middleware('web')->prefix('app')->name('owner.')
+            Route::middleware(['web', 'auth', 'tenant', 'tenant.active'])->prefix('app')->name('owner.')
                 ->group(base_path('routes/owner.php'));
             Route::middleware('web')->prefix('portal')->name('portal.')
                 ->group(base_path('routes/portal.php'));
@@ -24,6 +27,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleInertiaRequests::class,
         ]);
+
+        $middleware->alias([
+            'tenant' => SetCurrentTenant::class,
+            'tenant.active' => EnsureTenantIsActive::class,
+        ]);
+
+        // Tenant harus sudah ditetapkan sebelum route model binding, supaya binding terscope tenant.
+        $middleware->prependToPriorityList(before: SubstituteBindings::class, prepend: SetCurrentTenant::class);
+
+        $middleware->redirectGuestsTo(fn () => route('login'));
+        $middleware->redirectUsersTo(fn () => route('owner.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

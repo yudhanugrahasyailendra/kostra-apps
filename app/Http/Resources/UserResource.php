@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Contoh bentuk data yang aman dikirim ke halaman. Hanya kolom yang dipakai
+ * Bentuk pengguna yang aman dikirim ke halaman. Hanya kolom yang dipakai
  * layar; jangan pernah mengirim model mentah (password, remember_token, dan
- * seterusnya terlihat di browser).
+ * seterusnya terlihat di browser). Kirim ke Inertia dengan ->resolve().
  *
  * @mixin User
  */
@@ -22,6 +22,11 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
+            'phone' => $this->phone,
+            'role' => $this->role?->value,
+            'role_label' => $this->role?->label(),
+            'is_active' => $this->is_active,
+            'permissions' => $this->permissions ?? [],
         ];
     }
 }
