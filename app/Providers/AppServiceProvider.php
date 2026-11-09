@@ -8,6 +8,8 @@ use App\Exports\TenantExportRegistry;
 use App\Models\Attachment;
 use App\Models\AuditLog;
 use App\Models\BillingSetting;
+use App\Models\Complaint;
+use App\Models\ComplaintComment;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\Invitation;
@@ -84,6 +86,8 @@ class AppServiceProvider extends ServiceProvider
             'payment_proof' => PaymentProof::class,
             'expense_category' => ExpenseCategory::class,
             'expense' => Expense::class,
+            'complaint' => Complaint::class,
+            'complaint_comment' => ComplaintComment::class,
         ]);
 
         // Daftar model yang boleh diekspor (NFR-12). Fase berikutnya menambah modelnya di sini.
@@ -110,6 +114,8 @@ class AppServiceProvider extends ServiceProvider
         $registry->register(PaymentProof::class);
         $registry->register(ExpenseCategory::class);
         $registry->register(Expense::class);
+        $registry->register(Complaint::class);
+        $registry->register(ComplaintComment::class);
 
         Gate::define('export-data', fn (User $user) => $user->hasPermission(Permission::DataExport));
         Gate::define('view-finance', fn (User $user) => $user->hasPermission(Permission::FinanceView));

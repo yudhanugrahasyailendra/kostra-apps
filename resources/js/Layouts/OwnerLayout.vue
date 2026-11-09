@@ -28,6 +28,7 @@ const navItems = computed<NavItem[]>(() => [
     { key: 'kamar', label: 'Kamar & Properti', icon: 'meeting_room', href: '/app/kamar', visible: true },
     { key: 'penghuni', label: 'Penghuni', icon: 'groups', href: '/app/penghuni', visible: true },
     { key: 'kontrak', label: 'Kontrak Sewa', icon: 'assignment', href: '/app/kontrak', visible: true },
+    { key: 'komplain', label: 'Komplain', icon: 'support_agent', href: '/app/komplain', visible: true },
     { key: 'tagihan', label: 'Tagihan', icon: 'receipt_long', href: '/app/tagihan', visible: !!can.value?.viewFinance },
     { key: 'pembayaran', label: 'Pembayaran', icon: 'payments', href: '/app/pembayaran', visible: !!can.value?.viewFinance },
     { key: 'bukti', label: 'Bukti Transfer', icon: 'fact_check', href: '/app/bukti-transfer', visible: !!can.value?.viewFinance },

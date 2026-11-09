@@ -352,3 +352,38 @@ export interface DashboardSummary {
         arrears_buckets: { label: string; count: number; amount: number }[];
     } | null;
 }
+
+export interface ComplaintData {
+    id: number;
+    title: string;
+    category: string;
+    category_label: string;
+    status: string;
+    status_label: string;
+    status_tone: StatusTone;
+    room_id: number;
+    room_number: string;
+    property_name: string;
+    resident_name: string;
+    assigned_to: number | null;
+    assignee_name: string | null;
+    is_stale: boolean;
+    created_at: string;
+    closed_at: string | null;
+}
+
+export interface ComplaintCommentData {
+    id: number;
+    body: string;
+    author_name: string | null;
+    author_type: 'staff' | 'resident';
+    created_at: string;
+}
+
+export interface ComplaintDetailData extends ComplaintData {
+    description: string;
+    resolved_at: string | null;
+    allowed_statuses: { value: string; label: string }[];
+    photos: AttachmentFileData[];
+    comments: ComplaintCommentData[];
+}

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Owner\AttachmentController;
 use App\Http\Controllers\Owner\AuditLogController;
 use App\Http\Controllers\Owner\BillingSettingsController;
+use App\Http\Controllers\Owner\ComplaintController;
 use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\DataExportController;
 use App\Http\Controllers\Owner\ExpenseController;
@@ -99,6 +100,16 @@ Route::post('/pengeluaran', [ExpenseController::class, 'store'])
 Route::post('/pengeluaran/{expense}', [ExpenseController::class, 'update'])
     ->middleware('throttle:30,1')->name('expenses.update');
 Route::delete('/pengeluaran/{expense}', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
+
+Route::get('/komplain', [ComplaintController::class, 'index'])->name('complaints.index');
+Route::post('/komplain', [ComplaintController::class, 'store'])
+    ->middleware('throttle:30,1')->name('complaints.store');
+Route::get('/komplain/{complaint}', [ComplaintController::class, 'show'])->name('complaints.show');
+Route::post('/komplain/{complaint}/status', [ComplaintController::class, 'status'])->name('complaints.status');
+Route::post('/komplain/{complaint}/penanggung-jawab', [ComplaintController::class, 'assign'])->name('complaints.assign');
+Route::post('/komplain/{complaint}/komentar', [ComplaintController::class, 'comment'])
+    ->middleware('throttle:60,1')->name('complaints.comment');
+// Sengaja tanpa route hapus: tiket ditutup lewat status, tidak dihapus.
 
 Route::get('/laporan', [ReportController::class, 'index'])->name('reports.index');
 Route::get('/laporan/xlsx', [ReportController::class, 'xlsx'])->middleware('throttle:20,1')->name('reports.xlsx');
