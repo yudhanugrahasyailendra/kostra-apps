@@ -42,6 +42,8 @@ class RegisterOwner
                 $user->role = UserRole::Owner;
                 $user->save();
 
+                app(EnsureDefaultExpenseCategories::class)->handle();
+
                 return $user;
             });
         });

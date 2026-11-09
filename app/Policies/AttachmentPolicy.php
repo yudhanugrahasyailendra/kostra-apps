@@ -31,10 +31,11 @@ class AttachmentPolicy
         return $this->view($user, $attachment);
     }
 
-    /** Bukti transfer adalah data keuangan: butuh izin keuangan seperti halaman pembayaran. */
+    /** Bukti transfer dan nota pengeluaran adalah data keuangan: butuh izin keuangan seperti halaman pembayaran. */
     private function mayHandleFinance(User $user, AttachmentCategory $category): bool
     {
-        return $category !== AttachmentCategory::TransferProof || $user->hasPermission(Permission::FinanceView);
+        return ! in_array($category, [AttachmentCategory::TransferProof, AttachmentCategory::ExpenseReceipt], true)
+            || $user->hasPermission(Permission::FinanceView);
     }
 
     private function mayHandle(User $user, bool $sensitive): bool

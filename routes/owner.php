@@ -5,6 +5,7 @@ use App\Http\Controllers\Owner\AuditLogController;
 use App\Http\Controllers\Owner\BillingSettingsController;
 use App\Http\Controllers\Owner\DashboardController;
 use App\Http\Controllers\Owner\DataExportController;
+use App\Http\Controllers\Owner\ExpenseController;
 use App\Http\Controllers\Owner\InvoiceController;
 use App\Http\Controllers\Owner\LeaseCheckOutController;
 use App\Http\Controllers\Owner\LeaseController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Owner\PaymentAccountController;
 use App\Http\Controllers\Owner\PaymentController;
 use App\Http\Controllers\Owner\PaymentProofController;
 use App\Http\Controllers\Owner\PropertyController;
+use App\Http\Controllers\Owner\ReportController;
 use App\Http\Controllers\Owner\ResidentController;
 use App\Http\Controllers\Owner\RoomController;
 use App\Http\Controllers\Owner\RoomTypeController;
@@ -90,6 +92,17 @@ Route::post('/pembayaran', [PaymentController::class, 'store'])->name('payments.
 Route::get('/pembayaran/{payment}/kuitansi', [PaymentController::class, 'receipt'])->name('payments.receipt');
 Route::get('/pembayaran/{payment}/kuitansi.pdf', [PaymentController::class, 'receiptPdf'])->name('payments.receipt.pdf');
 Route::post('/pembayaran/{payment}/batal', [PaymentController::class, 'void'])->name('payments.void');
+
+Route::get('/pengeluaran', [ExpenseController::class, 'index'])->name('expenses.index');
+Route::post('/pengeluaran', [ExpenseController::class, 'store'])
+    ->middleware('throttle:30,1')->name('expenses.store');
+Route::post('/pengeluaran/{expense}', [ExpenseController::class, 'update'])
+    ->middleware('throttle:30,1')->name('expenses.update');
+Route::delete('/pengeluaran/{expense}', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
+
+Route::get('/laporan', [ReportController::class, 'index'])->name('reports.index');
+Route::get('/laporan/xlsx', [ReportController::class, 'xlsx'])->middleware('throttle:20,1')->name('reports.xlsx');
+Route::get('/laporan/pdf', [ReportController::class, 'pdf'])->middleware('throttle:20,1')->name('reports.pdf');
 
 Route::get('/bukti-transfer', [PaymentProofController::class, 'index'])->name('proofs.index');
 Route::post('/tagihan/{invoice}/bukti', [PaymentProofController::class, 'store'])

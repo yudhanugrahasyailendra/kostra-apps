@@ -302,3 +302,53 @@ export interface PaginationData {
     prev_url: string | null;
     next_url: string | null;
 }
+
+export interface ExpenseData {
+    id: number;
+    expense_category_id: number;
+    category_name: string;
+    property_id: number | null;
+    property_name: string | null;
+    amount: number;
+    spent_on: string;
+    description: string;
+    vendor_name: string | null;
+    created_by_name: string | null;
+    receipts: AttachmentFileData[];
+}
+
+export interface ReportColumn {
+    key: string;
+    label: string;
+    type: 'text' | 'date' | 'money' | 'number' | 'percent';
+}
+
+export type ReportCell = string | number | null;
+
+export interface ReportTableData {
+    key: string;
+    title: string;
+    columns: ReportColumn[];
+    rows: Record<string, ReportCell>[];
+    totals: Record<string, ReportCell> | null;
+    summary: { label: string; value: ReportCell; type: ReportColumn['type'] }[];
+}
+
+export interface DashboardSummary {
+    as_of: string;
+    occupancy: { total: number; occupied: number; vacant: number; percent: number };
+    expiring_leases: {
+        count: number;
+        within_days: number;
+        items: { lease_id: number; resident_name: string; room_number: string; end_date: string; days_left: number }[];
+    };
+    finance: {
+        period: string;
+        period_label: string;
+        income: number;
+        income_count: number;
+        arrears_total: number;
+        arrears_count: number;
+        arrears_buckets: { label: string; count: number; amount: number }[];
+    } | null;
+}
