@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from '@inertiajs/vue3';
+import { Head, router } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
@@ -23,7 +23,7 @@ defineProps<{
             <StatusBadge tone="kosong" label="Kosong" />
         </div>
         <div class="mt-space-lg">
-            <Button icon="login">Masuk</Button>
+            <Button icon="login" @click="router.visit('/masuk')">Masuk</Button>
         </div>
     </GuestLayout>
 </template>

@@ -2,6 +2,7 @@
 
 namespace App\Services\Reports;
 
+use App\Models\Tenant;
 use App\Services\Billing\BillingClock;
 
 /**
@@ -16,10 +17,11 @@ class DashboardReport
         private ArrearsReport $arrears,
         private OccupancyReport $occupancy,
         private ExpiringLeasesReport $expiring,
+        private DashboardWidgets $widgets,
     ) {}
 
     /** @return array<string, mixed> */
-    public function build(bool $withFinance): array
+    public function build(bool $withFinance, ?Tenant $tenant = null): array
     {
         $today = BillingClock::today();
         $occupancy = $this->occupancy->at($today);
@@ -38,9 +40,17 @@ class DashboardReport
                 'items' => $this->expiring->rows($today)->values()->all(),
             ],
             'finance' => null,
+            'due_soon' => null,
+            'pending_proofs' => null,
+            'complaints' => $this->widgets->openComplaints(),
+            'room_map' => $this->widgets->roomMap(),
+            'quota' => $tenant ? $this->widgets->quota($tenant) : null,
         ];
 
         if ($withFinance) {
+            $data['due_soon'] = $this->widgets->dueSoon($today);
+            $data['pending_proofs'] = $this->widgets->pendingProofs();
+
             $period = ReportPeriod::month($today->format('Y-m'));
             $arrears = $this->arrears->summary($today);
 

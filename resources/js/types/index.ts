@@ -352,6 +352,34 @@ export interface DashboardSummary {
         arrears_count: number;
         arrears_buckets: { label: string; count: number; amount: number }[];
     } | null;
+    // Null bagi staf tanpa izin finance.view.
+    due_soon: {
+        overdue_count: number;
+        items: {
+            invoice_id: number;
+            resident_name: string;
+            room_number: string | null;
+            room_type: string | null;
+            floor: number | null;
+            due_date: string;
+            // Negatif berarti belum jatuh tempo.
+            days_late: number;
+            outstanding: number;
+        }[];
+    } | null;
+    pending_proofs: {
+        count: number;
+        items: { proof_id: number; resident_name: string; room_number: string | null; amount: number }[];
+    } | null;
+    complaints: {
+        count: number;
+        items: { id: number; title: string; room_number: string | null; status_label: string; status_tone: StatusTone; created_at: string }[];
+    };
+    room_map: {
+        floor: number | null;
+        rooms: { id: number; number: string; status: 'vacant' | 'occupied' | 'maintenance'; status_label: string; resident_name: string | null }[];
+    }[];
+    quota: { used: number; limit: number; remaining: number } | null;
 }
 
 export interface ComplaintData {

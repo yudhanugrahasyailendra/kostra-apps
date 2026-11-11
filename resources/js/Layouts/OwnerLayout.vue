@@ -16,39 +16,94 @@ const flash = computed(() => page.props.flash);
 // Melewati batas paket bukan galat teknis: tampilkan penjelasan dan tautan naik paket di halaman mana pun.
 const limitError = computed(() => (page.props.errors as Record<string, string>).limit);
 
-interface NavItem {
+interface NavTab {
     key: string;
     label: string;
-    icon: string;
     href: string;
     visible: boolean;
     download?: boolean;
 }
 
-const navItems = computed<NavItem[]>(() => [
-    { key: 'dashboard', label: 'Dashboard', icon: 'dashboard', href: '/app', visible: true },
-    { key: 'kamar', label: 'Kamar & Properti', icon: 'meeting_room', href: '/app/kamar', visible: true },
-    { key: 'penghuni', label: 'Penghuni', icon: 'groups', href: '/app/penghuni', visible: true },
-    { key: 'kontrak', label: 'Kontrak Sewa', icon: 'assignment', href: '/app/kontrak', visible: true },
-    { key: 'komplain', label: 'Komplain', icon: 'support_agent', href: '/app/komplain', visible: true },
-    { key: 'tagihan', label: 'Tagihan', icon: 'receipt_long', href: '/app/tagihan', visible: !!can.value?.viewFinance },
-    { key: 'pembayaran', label: 'Pembayaran', icon: 'payments', href: '/app/pembayaran', visible: !!can.value?.viewFinance },
-    { key: 'bukti', label: 'Bukti Transfer', icon: 'fact_check', href: '/app/bukti-transfer', visible: !!can.value?.viewFinance },
-    { key: 'pengeluaran', label: 'Pengeluaran', icon: 'outbox', href: '/app/pengeluaran', visible: !!can.value?.viewFinance },
-    { key: 'laporan', label: 'Laporan Keuangan', icon: 'query_stats', href: '/app/laporan', visible: !!can.value?.viewFinance },
-    { key: 'pesan', label: 'Pesan WhatsApp', icon: 'chat', href: '/app/pesan', visible: !!can.value?.manageSettings },
-    { key: 'rekening', label: 'Rekening Bayar', icon: 'account_balance', href: '/app/pengaturan/rekening', visible: !!can.value?.manageSettings },
-    { key: 'staf', label: 'Staf', icon: 'badge', href: '/app/staf', visible: !!can.value?.manageStaff },
-    { key: 'audit', label: 'Log Audit', icon: 'policy', href: '/app/log-audit', visible: !!can.value?.viewAudit },
-    { key: 'langganan', label: 'Paket Langganan', icon: 'workspace_premium', href: '/app/langganan', visible: !!can.value?.manageSubscription },
-    { key: 'pengaturan', label: 'Pengaturan', icon: 'settings', href: '/app/pengaturan/penagihan', visible: !!can.value?.manageSettings },
-    { key: 'ekspor', label: 'Ekspor Data', icon: 'download', href: '/app/ekspor', visible: !!can.value?.exportData, download: true },
-].filter((item) => item.visible));
+interface NavGroup {
+    key: string;
+    label: string;
+    icon: string;
+    // Tab di dalam grup; kunci tab sama dengan prop `active` yang dikirim tiap halaman.
+    tabs: NavTab[];
+}
+
+// Enam menu mockup (varian A). Halaman lama tetap di URL-nya dan muncul sebagai tab grup induknya.
+const groups = computed<NavGroup[]>(() => {
+    const finance = !!can.value?.viewFinance;
+    const settings = !!can.value?.manageSettings;
+
+    return [
+        { key: 'dashboard', label: 'Dashboard', icon: 'dashboard', tabs: [{ key: 'dashboard', label: 'Dashboard', href: '/app', visible: true }] },
+        { key: 'kamar', label: 'Kamar & Properti', icon: 'meeting_room', tabs: [{ key: 'kamar', label: 'Kamar', href: '/app/kamar', visible: true }] },
+        {
+            key: 'tagihan',
+            label: 'Tagihan & Bayar',
+            icon: 'receipt_long',
+            tabs: [
+                { key: 'tagihan', label: 'Tagihan', href: '/app/tagihan', visible: finance },
+                { key: 'pembayaran', label: 'Pembayaran', href: '/app/pembayaran', visible: finance },
+                { key: 'bukti', label: 'Bukti Transfer', href: '/app/bukti-transfer', visible: finance },
+            ],
+        },
+        {
+            key: 'penghuni',
+            label: 'Penghuni & Kontrak',
+            icon: 'groups',
+            tabs: [
+                { key: 'penghuni', label: 'Penghuni', href: '/app/penghuni', visible: true },
+                { key: 'kontrak', label: 'Kontrak Sewa', href: '/app/kontrak', visible: true },
+            ],
+        },
+        { key: 'komplain', label: 'Komplain & Servis', icon: 'build', tabs: [{ key: 'komplain', label: 'Komplain', href: '/app/komplain', visible: true }] },
+        {
+            key: 'laporan',
+            label: 'Laporan Keuangan',
+            icon: 'query_stats',
+            tabs: [
+                { key: 'laporan', label: 'Laporan', href: '/app/laporan', visible: finance },
+                { key: 'pengeluaran', label: 'Pengeluaran', href: '/app/pengeluaran', visible: finance },
+            ],
+        },
+        {
+            key: 'pengaturan',
+            label: 'Pengaturan',
+            icon: 'settings',
+            tabs: [
+                { key: 'pengaturan', label: 'Penagihan', href: '/app/pengaturan/penagihan', visible: settings },
+                { key: 'rekening', label: 'Rekening Bayar', href: '/app/pengaturan/rekening', visible: settings },
+                { key: 'pesan', label: 'Pesan WhatsApp', href: '/app/pesan', visible: settings },
+                { key: 'staf', label: 'Staf', href: '/app/staf', visible: !!can.value?.manageStaff },
+                { key: 'audit', label: 'Log Audit', href: '/app/log-audit', visible: !!can.value?.viewAudit },
+                { key: 'langganan', label: 'Paket Langganan', href: '/app/langganan', visible: !!can.value?.manageSubscription },
+                { key: 'ekspor', label: 'Ekspor Data', href: '/app/ekspor', visible: !!can.value?.exportData, download: true },
+            ],
+        },
+    ]
+        .map((group) => ({ ...group, tabs: group.tabs.filter((tab) => tab.visible) }))
+        .filter((group) => group.tabs.length > 0);
+});
+
+// Grup 'kamar' sudah punya tab sendiri (RoomsTabs) yang juga memuat Properti dan Tipe kamar.
+const roomKeys = ['kamar', 'properti', 'tipe'];
+const activeGroupKey = computed(() => {
+    if (roomKeys.includes(props.active)) {
+        return 'kamar';
+    }
+
+    return groups.value.find((group) => group.tabs.some((tab) => tab.key === props.active))?.key ?? props.active;
+});
+const activeGroup = computed(() => groups.value.find((group) => group.key === activeGroupKey.value));
+const sectionTabs = computed(() => (activeGroupKey.value === 'kamar' ? [] : (activeGroup.value?.tabs ?? [])));
 
 const menuOpen = ref(false);
 
 function linkClass(key: string) {
-    return key === props.active
+    return key === activeGroupKey.value
         ? 'bg-primary-container text-on-primary shadow-low'
         : 'text-on-surface-variant hover:bg-bg-subtle hover:text-on-surface';
 }
@@ -57,7 +112,7 @@ function linkClass(key: string) {
 <template>
     <div class="min-h-screen bg-bg-canvas">
         <!-- Sidebar desktop -->
-        <aside class="fixed inset-y-0 left-0 z-50 hidden w-64 print:!hidden flex-col justify-between bg-bg-surface shadow-low lg:flex">
+        <aside class="fixed inset-y-0 left-0 z-50 hidden w-72 print:!hidden flex-col justify-between bg-bg-surface shadow-low lg:flex">
             <div>
                 <div class="flex h-16 items-center px-space-md">
                     <div class="flex flex-col leading-tight">
@@ -66,18 +121,17 @@ function linkClass(key: string) {
                     </div>
                 </div>
                 <nav class="flex flex-col gap-space-xs px-space-md py-space-sm" aria-label="Menu utama">
-                    <component
-                        :is="item.download ? 'a' : Link"
-                        v-for="item in navItems"
-                        :key="item.key"
-                        :href="item.href"
+                    <Link
+                        v-for="group in groups"
+                        :key="group.key"
+                        :href="group.tabs[0].href"
                         class="flex items-center gap-space-sm rounded-md px-space-md py-space-sm text-title-md transition-colors"
-                        :class="linkClass(item.key)"
-                        :aria-current="item.key === active ? 'page' : undefined"
+                        :class="linkClass(group.key)"
+                        :aria-current="group.key === activeGroupKey ? 'page' : undefined"
                     >
-                        <span class="material-symbols-outlined" aria-hidden="true">{{ item.icon }}</span>
-                        <span>{{ item.label }}</span>
-                    </component>
+                        <span class="material-symbols-outlined" aria-hidden="true">{{ group.icon }}</span>
+                        <span>{{ group.label }}</span>
+                    </Link>
                 </nav>
             </div>
             <div class="p-space-md">
@@ -91,18 +145,17 @@ function linkClass(key: string) {
         <!-- Menu ponsel dan tablet -->
         <Drawer :show="menuOpen" title="Menu" side="left" @close="menuOpen = false">
             <nav class="flex flex-col gap-space-xs p-space-md" aria-label="Menu utama">
-                <component
-                    :is="item.download ? 'a' : Link"
-                    v-for="item in navItems"
-                    :key="item.key"
-                    :href="item.href"
+                <Link
+                    v-for="group in groups"
+                    :key="group.key"
+                    :href="group.tabs[0].href"
                     class="flex items-center gap-space-sm rounded-md px-space-md py-space-sm text-title-md"
-                    :class="linkClass(item.key)"
+                    :class="linkClass(group.key)"
                     @click="menuOpen = false"
                 >
-                    <span class="material-symbols-outlined" aria-hidden="true">{{ item.icon }}</span>
-                    <span>{{ item.label }}</span>
-                </component>
+                    <span class="material-symbols-outlined" aria-hidden="true">{{ group.icon }}</span>
+                    <span>{{ group.label }}</span>
+                </Link>
                 <Link href="/keluar" method="post" as="button" class="flex items-center gap-space-sm rounded-md px-space-md py-space-sm text-title-md text-on-surface-variant hover:bg-bg-subtle">
                     <span class="material-symbols-outlined" aria-hidden="true">logout</span>
                     <span>Keluar</span>
@@ -110,9 +163,9 @@ function linkClass(key: string) {
             </nav>
         </Drawer>
 
-        <div class="lg:pl-64 print:!pl-0">
+        <div class="lg:pl-72 print:!pl-0">
             <header
-                class="fixed inset-x-0 top-0 z-40 flex h-16 print:!hidden items-center justify-between bg-bg-surface/90 px-margin shadow-low backdrop-blur-xl lg:left-64 lg:px-space-xl"
+                class="fixed inset-x-0 top-0 z-40 flex h-16 print:!hidden items-center justify-between bg-bg-surface/90 px-margin shadow-low backdrop-blur-xl lg:left-72 lg:px-space-xl"
             >
                 <div class="flex items-center gap-space-sm">
                     <button
@@ -163,6 +216,23 @@ function linkClass(key: string) {
                     <Link v-if="can?.manageSubscription" href="/app/langganan" class="text-label-md underline">Lihat paket langganan</Link>
                 </div>
                 <h1 class="mb-space-lg print:hidden text-display-lg-mobile text-text-primary lg:text-headline-lg">{{ title }}</h1>
+                <nav
+                    v-if="sectionTabs.length > 1"
+                    class="mb-space-lg flex gap-space-xs overflow-x-auto rounded-md bg-bg-subtle p-space-xs print:hidden sm:inline-flex"
+                    aria-label="Bagian halaman"
+                >
+                    <component
+                        :is="tab.download ? 'a' : Link"
+                        v-for="tab in sectionTabs"
+                        :key="tab.key"
+                        :href="tab.href"
+                        class="shrink-0 rounded-md px-space-md py-space-sm text-center text-title-md"
+                        :class="tab.key === active ? 'bg-bg-surface text-text-primary shadow-low' : 'text-text-secondary hover:text-text-primary'"
+                        :aria-current="tab.key === active ? 'page' : undefined"
+                    >
+                        {{ tab.label }}
+                    </component>
+                </nav>
                 <slot />
             </main>
         </div>

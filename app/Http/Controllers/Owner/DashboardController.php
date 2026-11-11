@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Services\Reports\DashboardReport;
+use App\Tenancy\TenantContext;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -19,7 +20,7 @@ class DashboardController extends Controller
         $canFinance = $request->user()->can('view-finance');
 
         return Inertia::render('Owner/Dashboard', [
-            'summary' => $dashboard->build($canFinance),
+            'summary' => $dashboard->build($canFinance, app(TenantContext::class)->tenant()),
             'can' => ['finance' => $canFinance],
         ]);
     }
