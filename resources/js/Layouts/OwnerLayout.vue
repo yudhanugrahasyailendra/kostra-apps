@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import Drawer from '@/Components/Drawer.vue';
+import ThemeToggle from '@/Components/ThemeToggle.vue';
 import type { SharedProps } from '@/types';
 
 // Kerangka dari mockup dashboard_ringkasan_pemilik. Menu disembunyikan lewat `can`
@@ -182,6 +183,7 @@ function linkClass(key: string) {
                     </div>
                 </div>
                 <div class="flex items-center gap-space-sm">
+                    <ThemeToggle />
                     <div class="hidden flex-col text-right sm:flex">
                         <span class="text-title-md leading-snug text-text-primary">{{ user?.name }}</span>
                         <span class="text-label-sm text-text-secondary">{{ user?.role_label }}</span>

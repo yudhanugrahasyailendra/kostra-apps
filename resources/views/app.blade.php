@@ -4,6 +4,17 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <meta name="color-scheme" content="light dark">
+        <!-- Pasang tema sebelum render pertama supaya tidak berkedip. Logika sama dengan resources/js/lib/theme.ts -->
+        <script>
+            (function () {
+                var mode = 'system';
+                try { mode = localStorage.getItem('kostra-theme') || 'system'; } catch (e) {}
+                var dark = mode === 'dark' || (mode !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                document.documentElement.classList.toggle('dark', dark);
+            })();
+        </script>
+
         <title inertia>{{ config('app.name', 'Kostra') }}</title>
 
         <!-- Font: Plus Jakarta Sans dan Material Symbols (DESIGN.md) -->

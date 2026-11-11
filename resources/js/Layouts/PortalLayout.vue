@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import ThemeToggle from '@/Components/ThemeToggle.vue';
 import { portalBase } from '@/lib/portal';
 import type { PortalShell, SharedProps } from '@/types';
 
@@ -29,7 +30,7 @@ const tabs = computed(() => [
                         Halo, {{ props.shell.resident.name }}<template v-if="props.shell.room_number"> (Kamar {{ props.shell.room_number }})</template>
                     </p>
                 </div>
-                <span class="material-symbols-outlined shrink-0 text-[28px]" aria-hidden="true">verified_user</span>
+                <ThemeToggle />
             </div>
         </header>
 

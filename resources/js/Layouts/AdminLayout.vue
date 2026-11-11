@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import ThemeToggle from '@/Components/ThemeToggle.vue';
 import type { SharedProps } from '@/types';
 
 // Kerangka panel Super Admin (mockup panel_super_admin_kostra). Telemetri WhatsApp Cloud API, siaran pesan
@@ -29,6 +30,7 @@ const errors = computed(() => Object.values(page.props.errors as Record<string, 
                 </nav>
             </div>
             <div class="flex items-center gap-space-md">
+                <ThemeToggle />
                 <span class="hidden text-title-md text-text-primary sm:inline">{{ user?.name }}</span>
                 <Link href="/keluar" method="post" as="button" class="flex items-center gap-space-xs rounded-md px-space-sm py-space-xs text-title-md text-on-surface-variant hover:bg-bg-subtle">
                     <span class="material-symbols-outlined text-[18px]" aria-hidden="true">logout</span>

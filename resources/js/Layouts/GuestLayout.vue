@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import ThemeToggle from '@/Components/ThemeToggle.vue';
+
 // Halaman tanpa login (masuk, daftar, reset sandi, terima undangan). Mengikuti mockup
 // autentikasi_reset_password_kostra: panel merek di kiri (desktop saja), formulir di kanan.
 // Klaim yang belum benar (enkripsi AES-256, testimoni, status server) sengaja tidak ditampilkan.
 </script>
 
 <template>
-    <div class="flex min-h-screen items-center justify-center bg-bg-canvas px-margin py-space-xl">
+    <div class="relative flex min-h-screen items-center justify-center bg-bg-canvas px-margin py-space-xl">
+        <div class="absolute right-margin top-space-md"><ThemeToggle /></div>
         <div class="grid w-full max-w-5xl overflow-hidden rounded-lg bg-bg-surface shadow-high lg:grid-cols-[5fr_6fr]">
             <aside class="hidden flex-col justify-between bg-primary p-space-xl text-on-primary lg:flex" aria-hidden="true">
                 <div>

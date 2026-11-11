@@ -7,6 +7,9 @@
 @source '../**/*.ts';
 @source '../**/*.vue';
 
+/* Varian dark: tema gelap dipasang lewat kelas `dark` di <html> (lihat resources/js/lib/theme.ts). */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /*
  * Token desain Kostra. Sumber kebenaran: docs/plan/DESIGN.md (frontmatter).
  * Jangan menambah warna di luar token ini. Amber (secondary) bukan warna teks
@@ -160,6 +163,78 @@
     --shadow-low: 0 1px 3px 0 rgb(17 24 39 / 0.05), 0 1px 2px -1px rgb(17 24 39 / 0.05);
     --shadow-mid: 0 4px 6px -1px rgb(17 24 39 / 0.07), 0 2px 4px -2px rgb(17 24 39 / 0.05);
     --shadow-high: 0 20px 25px -5px rgb(15 90 87 / 0.08), 0 8px 10px -6px rgb(17 24 39 / 0.04);
+}
+
+/*
+ * Tema gelap. DESIGN.md hanya mendefinisikan tema terang, jadi palet ini turunan dari token yang sama
+ * (teal, amber, slate, warna status). Nama token tidak berubah, sehingga komponen tidak perlu kelas
+ * `dark:` satu per satu. Saat cetak, tema terang tetap dipakai.
+ */
+@media not print {
+    :root.dark {
+        color-scheme: dark;
+
+        --color-surface: #0e141b;
+        --color-surface-dim: #0e141b;
+        --color-surface-bright: #343a46;
+        --color-surface-container-lowest: #090f16;
+        --color-surface-container-low: #151c27;
+        --color-surface-container: #1a212c;
+        --color-surface-container-high: #252c37;
+        --color-surface-container-highest: #303742;
+        --color-on-surface: #dde3f1;
+        --color-on-surface-variant: #bfc8c7;
+        --color-inverse-surface: #dde3f1;
+        --color-inverse-on-surface: #2a313d;
+        --color-outline: #899392;
+        --color-outline-variant: #3f4948;
+        --color-surface-tint: #91d2ce;
+        --color-primary: #91d2ce;
+        --color-on-primary: #00201f;
+        --color-primary-container: #7cc4bf;
+        --color-on-primary-container: #00504d;
+        --color-inverse-primary: #00413f;
+        --color-secondary: #fdba45;
+        --color-on-secondary: #442c00;
+        --color-secondary-container: #604100;
+        --color-on-secondary-container: #ffdeae;
+        --color-tertiary: #b9c9d3;
+        --color-on-tertiary: #233239;
+        --color-tertiary-container: #3a4951;
+        --color-on-tertiary-container: #d5e5ef;
+        --color-error: #ffb4ab;
+        --color-on-error: #690005;
+        --color-error-container: #93000a;
+        --color-on-error-container: #ffdad6;
+        --color-primary-fixed: #003735;
+        --color-background: #0e141b;
+        --color-on-background: #dde3f1;
+        --color-surface-variant: #3f4948;
+        --color-bg-canvas: #0b1016;
+        --color-bg-surface: #151c27;
+        --color-bg-subtle: #1e2631;
+        --color-border-subtle: #2a323d;
+        --color-border-strong: #3d4652;
+        --color-text-primary: #f3f4f6;
+        --color-text-secondary: #b4bcc8;
+        --color-text-muted: #8a94a1;
+        --color-status-lunas-text: #6ee7b7;
+        --color-status-lunas-bg: #052e22;
+        --color-status-lunas-border: #065f46;
+        --color-status-menunggu-text: #fcd34d;
+        --color-status-menunggu-bg: #3a2a05;
+        --color-status-menunggu-border: #78350f;
+        --color-status-jatuh-tempo-text: #fda4af;
+        --color-status-jatuh-tempo-bg: #3f0a18;
+        --color-status-jatuh-tempo-border: #881337;
+        --color-status-kosong-text: #d1d5db;
+        --color-status-kosong-bg: #1f2937;
+        --color-status-kosong-border: #374151;
+
+        --shadow-low: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+        --shadow-mid: 0 4px 6px -1px rgb(0 0 0 / 0.45), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+        --shadow-high: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+    }
 }
 
 .material-symbols-outlined {
