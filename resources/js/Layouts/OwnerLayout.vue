@@ -3,8 +3,10 @@ import { computed, ref } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import Drawer from '@/Components/Drawer.vue';
 import NotificationBell from '@/Components/NotificationBell.vue';
+import OwnerSidebar, { type SidebarItem } from '@/Components/OwnerSidebar.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
 import { buildNotifications } from '@/lib/notifications';
+import { useSidebar } from '@/lib/sidebar';
 import type { SharedProps } from '@/types';
 
 // Kerangka dari mockup dashboard_ringkasan_pemilik. Menu disembunyikan lewat `can`
@@ -124,6 +126,10 @@ const initials = computed(() =>
 );
 
 const menuOpen = ref(false);
+const { collapsed } = useSidebar();
+
+// Satu tautan per grup di sidebar desktop: menuju tab pertama grup itu.
+const sidebarItems = (list: NavGroup[]): SidebarItem[] => list.map((group) => ({ key: group.key, label: group.label, icon: group.icon, href: group.tabs[0].href }));
 
 const isActive = (key: string) => key === activeGroupKey.value;
 
@@ -146,88 +152,14 @@ const sectionLabelClass = 'flex items-center gap-space-sm px-space-md text-label
 
 <template>
     <div class="isolate min-h-screen bg-bg-canvas">
-        <!-- Aksen latar: cahaya teal (kiri atas) dan emas (kanan bawah) dari warna logo. Hanya hiasan. -->
+        <!-- Aksen latar: cahaya emas (kanan bawah) dan teal (tengah) dari warna logo. Hanya hiasan.
+             Tidak ada cahaya di kiri atas supaya tab menu aktif menyatu rata dengan kanvas. -->
         <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden print:hidden" aria-hidden="true">
-            <div class="absolute -left-48 -top-48 size-[40rem] rounded-full bg-primary-container/20 blur-3xl" />
             <div class="absolute -bottom-56 -right-40 size-[36rem] rounded-full bg-secondary-container/25 blur-3xl" />
             <div class="absolute left-1/2 top-1/3 size-[28rem] -translate-x-1/2 rounded-full bg-primary-fixed-dim/15 blur-3xl" />
         </div>
-        <!-- Sidebar desktop: panel melayang dengan bagian Menu dan Umum -->
-        <aside
-            class="scrollbar-none fixed inset-y-space-md left-space-md z-50 hidden w-64 print:!hidden flex-col overflow-y-auto rounded-xl panel-glass lg:flex"
-        >
-            <!-- Layar pendek: jarak dirapatkan dan kartu paket disembunyikan supaya sidebar muat tanpa digulir. -->
-            <!-- Logo dari docs/plan/brand/Logo Kostra (Kost Rapi).png: simbol rumah-K + tulisan "Kostra" (latar transparan),
-                 tagline "Kost Rapi" dengan garis emas seperti logo aslinya. Tema gelap: alas terang supaya teal terbaca. -->
-            <Link href="/app" class="flex flex-col items-start gap-1 px-space-lg pb-space-sm pt-space-md tall:pb-space-md tall:pt-space-lg" aria-label="Kostra, Kost Rapi. Ke dashboard">
-                <img
-                    src="/images/kostra-logo-horizontal.png"
-                    alt=""
-                    width="450"
-                    height="96"
-                    class="h-10 w-auto dark:rounded-lg dark:bg-inverse-surface dark:px-space-sm dark:py-1"
-                />
-                <span class="flex w-full max-w-47 items-center gap-space-sm text-label-sm tracking-[0.3em] text-primary-container" aria-hidden="true">
-                    <span class="h-0.5 flex-1 rounded-full bg-secondary-container dark:bg-secondary" />Kost Rapi<span class="h-0.5 flex-1 rounded-full bg-secondary-container dark:bg-secondary" />
-                </span>
-            </Link>
-            <nav class="flex flex-1 flex-col px-space-md" aria-label="Menu utama">
-                <p :class="sectionLabelClass" class="pb-space-xs pt-space-sm tall:pb-space-sm tall:pt-space-md">
-                    <span class="h-0.5 w-4 rounded-full bg-secondary-container dark:bg-secondary" aria-hidden="true" />Menu
-                </p>
-                <Link
-                    v-for="group in menuGroups"
-                    :key="group.key"
-                    :href="group.tabs[0].href"
-                    class="relative flex items-center gap-space-sm rounded-md px-space-md py-2 text-body-lg transition-colors tall:py-2.5"
-                    :class="linkClass(group.key)"
-                    :aria-current="isActive(group.key) ? 'page' : undefined"
-                >
-                    <span class="material-symbols-outlined" :class="iconClass(group.key)" aria-hidden="true">{{ group.icon }}</span>
-                    <span>{{ group.label }}</span>
-                </Link>
-                <p :class="sectionLabelClass" class="pb-space-xs pt-space-md tall:pb-space-sm tall:pt-space-lg">
-                    <span class="h-0.5 w-4 rounded-full bg-secondary-container dark:bg-secondary" aria-hidden="true" />Umum
-                </p>
-                <Link
-                    v-for="group in generalGroups"
-                    :key="group.key"
-                    :href="group.tabs[0].href"
-                    class="relative flex items-center gap-space-sm rounded-md px-space-md py-2 text-body-lg transition-colors tall:py-2.5"
-                    :class="linkClass(group.key)"
-                    :aria-current="isActive(group.key) ? 'page' : undefined"
-                >
-                    <span class="material-symbols-outlined" :class="iconClass(group.key)" aria-hidden="true">{{ group.icon }}</span>
-                    <span>{{ group.label }}</span>
-                </Link>
-                <Link
-                    href="/keluar"
-                    method="post"
-                    as="button"
-                    class="flex w-full items-center gap-space-sm rounded-md px-space-md py-2 text-body-lg text-text-secondary transition-colors hover:bg-primary-container/10 hover:text-primary-container tall:py-2.5"
-                >
-                    <span class="material-symbols-outlined text-primary-container" aria-hidden="true">logout</span>
-                    <span>Keluar</span>
-                </Link>
-            </nav>
-            <div v-if="can?.manageSubscription" class="hidden p-space-md roomy:block">
-                <div class="relative overflow-hidden rounded-xl bg-linear-to-br from-primary to-primary-container p-space-md text-on-primary">
-                    <svg class="pointer-events-none absolute inset-0 size-full opacity-20" viewBox="0 0 200 220" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
-                        <ellipse v-for="n in 9" :key="n" cx="190" cy="230" :rx="n * 22" :ry="n * 16" stroke="currentColor" stroke-width="1" />
-                    </svg>
-                    <span class="relative flex size-7 items-center justify-center rounded-full bg-secondary-container text-on-secondary-container" aria-hidden="true">
-                        <span class="material-symbols-outlined icon-fill text-[16px]">workspace_premium</span>
-                    </span>
-                    <p class="relative mt-space-md text-title-lg font-medium">Paket langganan</p>
-                    <p class="relative mt-space-xs text-body-sm opacity-80">Tambah kamar dan kuota WhatsApp sesuai kebutuhan.</p>
-                    <Link
-                        href="/app/langganan"
-                        class="relative mt-space-lg flex items-center justify-center rounded-full bg-secondary-container px-space-md py-2.5 text-title-md text-on-secondary-container shadow-low transition-colors hover:bg-secondary-fixed"
-                        >Lihat paket</Link
-                    >
-                </div>
-            </div>
-        </aside>
+        <!-- Sidebar desktop: panel teal yang bisa diciutkan menjadi kolom ikon -->
+        <OwnerSidebar :menu="sidebarItems(menuGroups)" :general="sidebarItems(generalGroups)" :active-key="activeGroupKey" :show-plan="!!can?.manageSubscription" />
 
         <!-- Menu ponsel dan tablet -->
         <Drawer :show="menuOpen" title="Menu" side="left" @close="menuOpen = false">
@@ -271,9 +203,10 @@ const sectionLabelClass = 'flex items-center gap-space-sm px-space-md text-label
             </nav>
         </Drawer>
 
-        <div class="lg:pl-72 lg:pr-space-md print:!p-0">
+        <div class="lg:pr-space-md motion-safe:transition-[padding] motion-safe:duration-300 print:!p-0" :class="collapsed ? 'lg:pl-28' : 'lg:pl-72'">
             <header
-                class="fixed inset-x-0 top-0 z-40 flex h-16 print:!hidden items-center justify-between gap-space-sm bg-bg-surface/90 px-margin shadow-low backdrop-blur-xl lg:left-72 lg:right-space-md lg:top-space-md lg:h-[4.5rem] lg:rounded-xl lg:px-space-lg lg:panel-glass"
+                :class="collapsed ? 'lg:left-28' : 'lg:left-72'"
+                class="fixed inset-x-0 top-0 z-40 flex h-16 print:!hidden items-center justify-between gap-space-sm bg-bg-surface/90 px-margin shadow-low backdrop-blur-xl lg:right-space-md motion-safe:transition-[left] motion-safe:duration-300 lg:top-space-md lg:h-[4.5rem] lg:rounded-xl lg:px-space-lg lg:panel-glass"
             >
                 <div class="flex min-w-0 items-center gap-space-sm">
                     <button
