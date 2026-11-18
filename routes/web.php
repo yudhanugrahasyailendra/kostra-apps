@@ -4,13 +4,25 @@ use App\Http\Controllers\Auth\AcceptInvitationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'message' => 'Kelola kos jadi rapi: tagihan, pembayaran, dan pengingat dalam satu tempat.',
-    ]);
+// Tidak ada halaman sambutan: tamu langsung ke form masuk, pengguna yang sudah masuk ke ruang kerjanya.
+Route::get('/', function (Request $request) {
+    $user = $request->user();
+
+    return match (true) {
+        $user === null => redirect()->route('login'),
+        $user->tenant_id !== null => redirect()->route('owner.dashboard'),
+        $user->isSuperAdmin() => redirect()->route('admin.tenants.index'),
+        // Akun tanpa tenant dan bukan super admin tidak punya ruang kerja; keluar agar tidak berputar.
+        default => tap(redirect()->route('login'), function () use ($request) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }),
+    };
 })->name('home');
 
 Route::middleware('guest')->group(function () {

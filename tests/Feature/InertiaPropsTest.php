@@ -14,20 +14,12 @@ class InertiaPropsTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_halaman_utama_merender_komponen_welcome(): void
-    {
-        $this->get('/')
-            ->assertOk()
-            ->assertInertia(fn (AssertableInertia $page) => $page
-                ->component('Welcome')
-                ->has('message'));
-    }
-
     public function test_props_dari_api_resource_tidak_memuat_kolom_terlarang(): void
     {
         $user = User::factory()->superAdmin()->create();
 
-        Route::middleware('web')->get('/_uji/props', fn () => Inertia::render('Welcome', [
+        // Komponen apa pun yang ada cukup; yang diuji adalah bentuk props dari API Resource.
+        Route::middleware('web')->get('/_uji/props', fn () => Inertia::render('Auth/Login', [
             'message' => 'uji',
             // resolve() menghasilkan array polos tanpa pembungkus "data".
             'user' => (new UserResource($user))->resolve(),
@@ -36,7 +28,7 @@ class InertiaPropsTest extends TestCase
         $this->get('/_uji/props')
             ->assertOk()
             ->assertInertia(fn (AssertableInertia $page) => $page
-                ->component('Welcome')
+                ->component('Auth/Login')
                 ->where('user.id', $user->id)
                 ->where('user.name', $user->name)
                 ->where('user.email', $user->email)

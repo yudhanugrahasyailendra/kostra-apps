@@ -34,7 +34,7 @@ const outlineButton =
         </div>
 
         <div class="flex w-full max-w-4xl items-center justify-between">
-            <Link href="/" class="flex items-center gap-space-sm" aria-label="Kostra, beranda">
+            <Link href="/masuk" class="flex items-center gap-space-sm" aria-label="Kostra, ke halaman masuk">
                 <img src="/images/kostra-mark.png" alt="" width="192" height="144" class="h-9 w-auto dark:rounded-md dark:bg-inverse-surface dark:p-0.5" />
                 <span class="text-headline-sm font-bold text-primary-container">Kostra</span>
             </Link>
