@@ -9,8 +9,9 @@ withDefaults(
         hint?: string;
         autocomplete?: string;
         required?: boolean;
+        placeholder?: string;
     }>(),
-    { type: 'text', error: undefined, hint: undefined, autocomplete: undefined, required: false },
+    { type: 'text', error: undefined, hint: undefined, autocomplete: undefined, required: false, placeholder: undefined },
 );
 
 const id = `field-${Math.random().toString(36).slice(2, 9)}`;
@@ -25,9 +26,10 @@ const id = `field-${Math.random().toString(36).slice(2, 9)}`;
             :type="type"
             :autocomplete="autocomplete"
             :required="required"
+            :placeholder="placeholder"
             :aria-invalid="error ? 'true' : undefined"
             :aria-describedby="error ? `${id}-error` : hint ? `${id}-hint` : undefined"
-            class="h-[42px] rounded-md border bg-bg-surface px-3 text-body-md text-text-primary focus:border-primary-container focus:outline-none focus:ring-[3px] focus:ring-primary-container/15"
+            class="h-[42px] rounded-md border bg-bg-surface px-3 text-body-md text-text-primary placeholder:text-text-muted focus:border-primary-container focus:outline-none focus:ring-[3px] focus:ring-primary-container/15"
             :class="error ? 'border-error' : 'border-border-strong'"
         />
         <p v-if="error" :id="`${id}-error`" class="text-body-sm text-error">{{ error }}</p>
