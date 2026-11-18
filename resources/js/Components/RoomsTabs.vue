@@ -18,7 +18,7 @@ const tabs = [
                 :key="tab.key"
                 :href="tab.href"
                 class="flex-1 rounded-md px-space-md py-space-sm text-center text-title-md sm:flex-none"
-                :class="tab.key === props.active ? 'bg-bg-surface text-text-primary shadow-low' : 'text-text-secondary hover:text-text-primary'"
+                :class="tab.key === props.active ? 'bg-primary-container text-on-primary shadow-low' : 'text-text-secondary hover:text-primary-container'"
                 :aria-current="tab.key === props.active ? 'page' : undefined"
             >
                 {{ tab.label }}

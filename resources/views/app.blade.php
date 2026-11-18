@@ -17,6 +17,11 @@
 
         <title inertia>{{ config('app.name', 'Kostra') }}</title>
 
+        <!-- Favicon: simbol rumah-K dari logo Kostra -->
+        <link rel="icon" href="/favicon.ico" sizes="any">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
         <!-- Font: Plus Jakarta Sans dan Material Symbols (DESIGN.md) -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

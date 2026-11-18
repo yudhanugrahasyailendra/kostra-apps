@@ -157,6 +157,15 @@ export interface ResidentImportResult {
 export type StatusTone = 'lunas' | 'menunggu' | 'jatuh-tempo' | 'kosong';
 
 /** Props bersama dari HandleInertiaRequests. `can` hanya untuk menyembunyikan menu. */
+export interface OwnerNotificationCounts {
+    // Null bagi pengguna tanpa izin finance.view.
+    pending_proofs: number | null;
+    overdue_invoices: { count: number; amount: number } | null;
+    open_complaints: number;
+    expiring_leases: { count: number; within_days: number };
+    quota: { limit: number; remaining: number };
+}
+
 export interface SharedProps {
     auth: {
         user: UserData;
@@ -170,6 +179,8 @@ export interface SharedProps {
         };
     } | null;
     tenant: { name: string; status: string; suspended: boolean } | null;
+    // Lonceng notifikasi; hanya di area pemilik (/app), null di tempat lain.
+    notifications: OwnerNotificationCounts | null;
     flash: {
         success: string | null;
         invitation_link: string | null;
@@ -351,6 +362,8 @@ export interface DashboardSummary {
         arrears_total: number;
         arrears_count: number;
         arrears_buckets: { label: string; count: number; amount: number }[];
+        // Enam bulan, terlama lebih dulu; bulan terakhir = bulan berjalan.
+        trend: { month: string; label: string; income: number }[];
     } | null;
     // Null bagi staf tanpa izin finance.view.
     due_soon: {

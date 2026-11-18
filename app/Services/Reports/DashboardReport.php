@@ -12,12 +12,16 @@ use App\Services\Billing\BillingClock;
  */
 class DashboardReport
 {
+    /** Jumlah bulan pada grafik tren pemasukan (bulan berjalan ditambah lima bulan sebelumnya). */
+    public const TREND_MONTHS = 6;
+
     public function __construct(
         private IncomeReport $income,
         private ArrearsReport $arrears,
         private OccupancyReport $occupancy,
         private ExpiringLeasesReport $expiring,
         private DashboardWidgets $widgets,
+        private MonthlyCashflowReport $cashflow,
     ) {}
 
     /** @return array<string, mixed> */
@@ -62,6 +66,11 @@ class DashboardReport
                 'arrears_total' => $arrears['total'],
                 'arrears_count' => $arrears['count'],
                 'arrears_buckets' => array_values($arrears['buckets']),
+                // Sama dengan kolom pemasukan pada laporan rekap bulanan.
+                'trend' => array_map(
+                    fn (array $row) => ['month' => $row['month'], 'label' => $row['label'], 'income' => $row['income']],
+                    $this->cashflow->months($period->key(), self::TREND_MONTHS),
+                ),
             ];
         }
 

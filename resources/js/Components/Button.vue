@@ -5,8 +5,10 @@ withDefaults(
         type?: 'button' | 'submit' | 'reset';
         icon?: string;
         disabled?: boolean;
+        // Bentuk kapsul untuk tombol utama di kepala halaman dashboard.
+        pill?: boolean;
     }>(),
-    { variant: 'primary', type: 'button', icon: undefined, disabled: false },
+    { variant: 'primary', type: 'button', icon: undefined, disabled: false, pill: false },
 );
 
 const variants = {
@@ -21,8 +23,8 @@ const variants = {
     <button
         :type="type"
         :disabled="disabled"
-        class="inline-flex min-h-11 items-center justify-center gap-space-xs rounded-md px-space-md py-2.5 text-title-md transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-container disabled:cursor-not-allowed disabled:opacity-50 motion-safe:transition-transform motion-safe:active:scale-[0.98] lg:min-h-10"
-        :class="variants[variant]"
+        class="inline-flex min-h-11 items-center justify-center gap-space-xs py-2.5 text-title-md transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-container disabled:cursor-not-allowed disabled:opacity-50 motion-safe:transition-transform motion-safe:active:scale-[0.98] lg:min-h-10"
+        :class="[variants[variant], pill ? 'rounded-full px-space-lg' : 'rounded-md px-space-md']"
     >
         <span v-if="icon" class="material-symbols-outlined text-[18px]" aria-hidden="true">{{ icon }}</span>
         <slot />

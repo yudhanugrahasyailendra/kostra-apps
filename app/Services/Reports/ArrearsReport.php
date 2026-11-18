@@ -29,14 +29,36 @@ class ArrearsReport
         };
     }
 
-    /** @return Collection<int, array<string, scalar|null>> Diurutkan dari sisa terbesar. */
-    public function rows(CarbonImmutable $asOf, ?int $propertyId = null): Collection
+    /** @return Builder<Invoice> */
+    private function query(CarbonImmutable $asOf, ?int $propertyId = null): Builder
     {
         return Invoice::query()
             ->open()
             ->whereColumn('total', '>', 'paid_total')
             ->where('due_date', '<', $asOf->toDateString())
-            ->when($propertyId, fn (Builder $q) => $q->where('property_id', $propertyId))
+            ->when($propertyId, fn (Builder $q) => $q->where('property_id', $propertyId));
+    }
+
+    /**
+     * Jumlah dan total sisa tunggakan tanpa memuat baris (lonceng notifikasi di semua halaman).
+     * Sama dengan summary(): sisa = total - paid_total untuk tagihan terbuka yang bersisa.
+     *
+     * @return array{count: int, amount: int}
+     */
+    public function totals(CarbonImmutable $asOf): array
+    {
+        // toBase() tetap menerapkan global scope tenant dari model Invoice.
+        $row = $this->query($asOf)->toBase()
+            ->selectRaw('COUNT(*) as overdue_count, COALESCE(SUM(total - paid_total), 0) as overdue_amount')
+            ->first();
+
+        return ['count' => (int) ($row->overdue_count ?? 0), 'amount' => (int) ($row->overdue_amount ?? 0)];
+    }
+
+    /** @return Collection<int, array<string, scalar|null>> Diurutkan dari sisa terbesar. */
+    public function rows(CarbonImmutable $asOf, ?int $propertyId = null): Collection
+    {
+        return $this->query($asOf, $propertyId)
             ->with(['resident', 'property', 'lease.room'])
             ->get()
             ->map(function (Invoice $invoice) use ($asOf) {

@@ -6,6 +6,7 @@ use App\Http\Resources\UserResource;
 use App\Models\AuditLog;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Services\Reports\OwnerNotifications;
 use App\Tenancy\TenantContext;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -51,6 +52,17 @@ class HandleInertiaRequests extends Middleware
                     'status' => $tenant->status->value,
                     'suspended' => $tenant->isSuspended(),
                 ] : null;
+            },
+            // Lonceng notifikasi: hanya di area pemilik (/app), setelah tenant ditetapkan. Portal, admin,
+            // dan halaman tamu menerima null sehingga tidak ada query tambahan di sana.
+            'notifications' => function () use ($request, $user) {
+                $tenant = app(TenantContext::class)->tenant();
+
+                if (! $user || ! $tenant || ! $request->is('app', 'app/*')) {
+                    return null;
+                }
+
+                return app(OwnerNotifications::class)->for($user, $tenant);
             },
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),

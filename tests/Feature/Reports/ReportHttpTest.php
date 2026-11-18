@@ -133,6 +133,28 @@ class ReportHttpTest extends TestCase
         $this->assertSame('2026-11-25', $dashboard['expiring_leases']['items'][0]['end_date']);
     }
 
+    public function test_tren_pemasukan_dashboard_sama_dengan_rekap_bulanan(): void
+    {
+        $this->seedTenantA();
+
+        $trend = $this->actingAs($this->ownerA)->get('/app')->assertOk()->viewData('page')['props']['summary']['finance']['trend'];
+        $recap = $this->actingAs($this->ownerA)->get('/app/laporan?type=rekap&period=2026-11')->viewData('page')['props']['table'];
+
+        $this->assertCount(6, $trend);
+        $this->assertSame(['month' => '2026-11', 'label' => 'November 2026', 'income' => 1500000], $trend[5]);
+        $this->assertSame('2026-06', $trend[0]['month']);
+        $this->assertSame(array_column($recap['rows'], 'income'), array_column($trend, 'income'));
+    }
+
+    public function test_tren_pemasukan_dashboard_tidak_memuat_data_tenant_lain(): void
+    {
+        $this->seedTenantA();
+
+        $trend = $this->actingAs($this->ownerB)->get('/app')->assertOk()->viewData('page')['props']['summary']['finance']['trend'];
+
+        $this->assertSame([0, 0, 0, 0, 0, 0], array_column($trend, 'income'));
+    }
+
     public function test_dashboard_komponen_dan_props(): void
     {
         $this->seedTenantA();

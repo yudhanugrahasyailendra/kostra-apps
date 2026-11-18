@@ -29,9 +29,13 @@ import ThemeToggle from '@/Components/ThemeToggle.vue';
             </aside>
 
             <main class="flex flex-col p-space-lg sm:p-space-xl">
-                <div class="mb-space-lg flex flex-col leading-tight">
-                    <span class="text-headline-sm font-bold text-primary">Kostra <span class="text-label-md font-medium text-secondary">| Kost Rapi</span></span>
-                    <span class="text-body-sm text-text-secondary">Owner &amp; Staff Access Hub</span>
+                <div class="mb-space-lg flex items-center gap-space-sm">
+                    <!-- Logo: simbol rumah-K (public/images/kostra-mark.png); alas terang di tema gelap supaya teal terbaca. -->
+                    <img src="/images/kostra-mark.png" alt="" width="192" height="144" class="h-11 w-auto dark:rounded-md dark:bg-inverse-surface dark:p-0.5" />
+                    <span class="flex flex-col leading-tight">
+                        <span class="text-headline-sm font-bold text-primary-container">Kostra <span class="text-label-md font-medium text-secondary">| Kost Rapi</span></span>
+                        <span class="text-body-sm text-text-secondary">Owner &amp; Staff Access Hub</span>
+                    </span>
                 </div>
                 <slot />
             </main>

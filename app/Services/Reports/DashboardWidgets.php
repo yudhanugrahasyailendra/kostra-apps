@@ -11,6 +11,7 @@ use App\Models\Room;
 use App\Models\Tenant;
 use App\Services\WhatsApp\MessageQuota;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Bagian dashboard yang berupa daftar ringkas (tagihan terdekat, antrean bukti, komplain, denah kamar,
@@ -51,6 +52,22 @@ class DashboardWidgets
         ];
     }
 
+    public function pendingProofCount(): int
+    {
+        return PaymentProof::query()->pending()->count();
+    }
+
+    public function openComplaintCount(): int
+    {
+        return $this->openComplaintsQuery()->count();
+    }
+
+    /** @return Builder<Complaint> */
+    private function openComplaintsQuery(): Builder
+    {
+        return Complaint::query()->whereIn('status', array_map(fn (ComplaintStatus $s) => $s->value, ComplaintStatus::open()));
+    }
+
     /** @return array{count: int, items: list<array<string, scalar|null>>} */
     public function pendingProofs(int $limit = 3): array
     {
@@ -72,7 +89,7 @@ class DashboardWidgets
     /** @return array{count: int, items: list<array<string, scalar|null>>} */
     public function openComplaints(int $limit = 3): array
     {
-        $query = Complaint::query()->whereIn('status', array_map(fn (ComplaintStatus $s) => $s->value, ComplaintStatus::open()));
+        $query = $this->openComplaintsQuery();
 
         return [
             'count' => (clone $query)->count(),
