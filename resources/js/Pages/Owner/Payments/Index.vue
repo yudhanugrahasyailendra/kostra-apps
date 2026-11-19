@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import TextField from '@/Components/TextField.vue';
 import OwnerLayout from '@/Layouts/OwnerLayout.vue';
@@ -171,8 +172,15 @@ function submitVoid() {
                             <span v-if="payment.void_reason" class="mt-space-xs block max-w-48 text-body-sm text-text-secondary">{{ payment.void_reason }}</span>
                         </td>
                         <td class="whitespace-nowrap px-space-md py-space-sm text-right">
-                            <Link :href="`/app/pembayaran/${payment.id}/kuitansi`" class="rounded-md px-space-sm py-space-xs text-title-md text-primary-container hover:bg-bg-subtle">Kuitansi</Link>
-                            <button v-if="payment.can.void" type="button" class="rounded-md px-space-sm py-space-xs text-title-md text-status-jatuh-tempo-text hover:bg-bg-subtle" @click="voidTarget = payment">Batalkan</button>
+                            <RowMenu
+                                :items="[
+                                    { key: 'receipt', label: 'Lihat kuitansi', icon: 'receipt_long', href: `/app/pembayaran/${payment.id}/kuitansi` },
+                                    { key: 'pdf', label: 'Unduh PDF', icon: 'download', href: `/app/pembayaran/${payment.id}/kuitansi.pdf`, external: true },
+                                    ...(payment.can.void ? [{ key: 'void', label: 'Batalkan pembayaran', icon: 'block', danger: true }] : []),
+                                ]"
+                                :label="`Aksi pembayaran ${payment.receipt_number}`"
+                                @select="(key) => key === 'void' && (voidTarget = payment)"
+                            />
                         </td>
                     </tr>
                 </tbody>

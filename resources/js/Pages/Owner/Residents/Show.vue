@@ -5,6 +5,7 @@ import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
 import Panel from '@/Components/Panel.vue';
 import ResidentForm, { type ResidentFormData } from '@/Components/ResidentForm.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import SelectField from '@/Components/SelectField.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import OwnerLayout from '@/Layouts/OwnerLayout.vue';
@@ -179,10 +180,14 @@ function removeAttachment(attachment: AttachmentData) {
                             </p>
                             <p class="truncate text-body-sm text-text-secondary">{{ attachment.original_name }} &middot; {{ formatSize(attachment.size) }} &middot; {{ formatDate(attachment.created_at) }}</p>
                         </div>
-                        <div class="flex gap-space-xs">
-                            <a :href="attachment.url" target="_blank" rel="noopener noreferrer" class="rounded-md px-space-sm py-space-xs text-title-md text-primary-container hover:bg-bg-subtle">Buka</a>
-                            <Button v-if="can.update" variant="ghost" @click="removeAttachment(attachment)">Hapus</Button>
-                        </div>
+                        <RowMenu
+                            :items="[
+                                { key: 'open', label: 'Buka dokumen', icon: 'open_in_new', href: attachment.url, external: true },
+                                ...(can.update ? [{ key: 'delete', label: 'Hapus', icon: 'delete', danger: true }] : []),
+                            ]"
+                            :label="`Aksi dokumen ${attachment.category_label}`"
+                            @select="(key) => key === 'delete' && removeAttachment(attachment)"
+                        />
                     </li>
                 </ul>
 

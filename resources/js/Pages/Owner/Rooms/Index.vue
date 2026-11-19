@@ -5,6 +5,7 @@ import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
 import RoomPlate from '@/Components/RoomPlate.vue';
 import RoomsTabs from '@/Components/RoomsTabs.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import SelectField from '@/Components/SelectField.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import TextField from '@/Components/TextField.vue';
@@ -193,8 +194,7 @@ function saveImport() {
                         <td class="px-space-md py-space-sm text-right tabular-nums">{{ formatRupiah(room.price) }}</td>
                         <td class="px-space-md py-space-sm"><StatusBadge :tone="room.status_tone" :label="room.status_label" /></td>
                         <td v-if="can.create" class="whitespace-nowrap px-space-md py-space-sm text-right">
-                            <Button variant="ghost" @click="openEdit(room)">Ubah</Button>
-                            <Button variant="ghost" @click="removeRoom(room)">Hapus</Button>
+                            <RowMenu :items="[{ key: 'edit', label: 'Ubah', icon: 'edit' }, { key: 'delete', label: 'Hapus', icon: 'delete', danger: true }]" :label="`Aksi kamar ${room.number}`" @select="(key) => (key === 'edit' ? openEdit(room) : removeRoom(room))" />
                         </td>
                     </tr>
                 </tbody>

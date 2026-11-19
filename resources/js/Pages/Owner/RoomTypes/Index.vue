@@ -4,6 +4,7 @@ import { Head, router, useForm, usePage } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
 import RoomsTabs from '@/Components/RoomsTabs.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import SelectField from '@/Components/SelectField.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import TextField from '@/Components/TextField.vue';
@@ -102,9 +103,8 @@ function remove(type: RoomTypeData) {
                 <ul v-if="type.facilities.length" class="flex flex-wrap gap-space-xs">
                     <li v-for="facility in type.facilities" :key="facility" class="rounded-full bg-bg-subtle px-space-sm py-space-xs text-label-md text-text-secondary">{{ facility }}</li>
                 </ul>
-                <div v-if="can.create" class="mt-auto flex justify-end gap-space-xs border-t border-border-subtle pt-space-sm">
-                    <Button variant="ghost" @click="openEdit(type)">Ubah</Button>
-                    <Button variant="ghost" @click="remove(type)">Hapus</Button>
+                <div v-if="can.create" class="mt-auto flex justify-end border-t border-border-subtle pt-space-xs">
+                    <RowMenu :items="[{ key: 'edit', label: 'Ubah', icon: 'edit' }, { key: 'delete', label: 'Hapus', icon: 'delete', danger: true }]" :label="`Aksi tipe ${type.name}`" @select="(key) => (key === 'edit' ? openEdit(type) : remove(type))" />
                 </div>
             </li>
         </ul>

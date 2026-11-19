@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import SelectField from '@/Components/SelectField.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import OwnerLayout from '@/Layouts/OwnerLayout.vue';
@@ -95,10 +96,15 @@ function resend(log: MessageLogData) {
                             <p class="text-title-md text-text-primary">{{ template.label }}</p>
                             <p class="text-body-sm text-text-secondary">{{ template.is_custom ? 'Disesuaikan' : 'Bawaan sistem' }} · kategori utilitas</p>
                         </div>
-                        <div v-if="template.available" class="flex gap-space-xs">
-                            <Button variant="secondary" icon="edit" @click="openEdit(template)">Ubah</Button>
-                            <Button v-if="template.is_custom" variant="ghost" icon="restart_alt" @click="reset(template)">Kembalikan</Button>
-                        </div>
+                        <RowMenu
+                            v-if="template.available"
+                            :items="[
+                                { key: 'edit', label: 'Ubah templat', icon: 'edit' },
+                                ...(template.is_custom ? [{ key: 'reset', label: 'Kembalikan bawaan', icon: 'restart_alt', danger: true }] : []),
+                            ]"
+                            :label="`Aksi templat ${template.label}`"
+                            @select="(key) => (key === 'edit' ? openEdit(template) : reset(template))"
+                        />
                     </div>
                     <p v-if="template.available" class="mt-space-sm whitespace-pre-line rounded-md bg-bg-subtle p-space-sm text-body-md text-text-primary">{{ template.body }}</p>
                     <p v-else class="mt-space-sm text-body-sm text-text-secondary">Templat bawaan belum dipasang. Jalankan seeder templat.</p>

@@ -4,6 +4,7 @@ import { Head, Link, useForm } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
 import Panel from '@/Components/Panel.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import SelectField from '@/Components/SelectField.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import TextField from '@/Components/TextField.vue';
@@ -201,8 +202,17 @@ function submitVoid() {
                                 <span class="text-title-md" :class="payment.status === 'voided' ? 'text-text-muted line-through' : 'text-text-primary'">
                                     {{ formatRupiah(payment.invoices?.find((i) => i.id === invoice.id)?.amount ?? payment.amount) }}
                                 </span>
-                                <StatusBadge :tone="payment.status_tone as never" :label="payment.status_label" />
-                                <button v-if="payment.can.void" type="button" class="rounded-md px-space-sm py-space-xs text-title-md text-status-jatuh-tempo-text hover:bg-bg-subtle" @click="voidPaymentTarget = payment">Batalkan</button>
+                                <div class="flex items-center gap-space-xs">
+                                    <StatusBadge :tone="payment.status_tone as never" :label="payment.status_label" />
+                                    <RowMenu
+                                        :items="[
+                                            { key: 'receipt', label: 'Lihat kuitansi', icon: 'receipt_long', href: `/app/pembayaran/${payment.id}/kuitansi` },
+                                            ...(payment.can.void ? [{ key: 'void', label: 'Batalkan pembayaran', icon: 'block', danger: true }] : []),
+                                        ]"
+                                        :label="`Aksi pembayaran ${payment.receipt_number}`"
+                                        @select="(key) => key === 'void' && (voidPaymentTarget = payment)"
+                                    />
+                                </div>
                             </div>
                         </li>
                     </ul>

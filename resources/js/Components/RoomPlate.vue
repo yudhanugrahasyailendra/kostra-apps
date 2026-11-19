@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import RowMenu from '@/Components/RowMenu.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import { formatRupiah } from '@/lib/formatRupiah';
 import type { RoomData } from '@/types';
 
 // Kartu kamar (DESIGN.md: Room Unit Card). Nama penghuni dan tagihan menyusul di Fase 4 dan 5.
 defineProps<{ room: RoomData; canManage: boolean }>();
-defineEmits<{ edit: [room: RoomData]; remove: [room: RoomData] }>();
+const emit = defineEmits<{ edit: [room: RoomData]; remove: [room: RoomData] }>();
 
 const accent: Record<string, string> = {
     kosong: 'border-t-border-strong',
@@ -38,13 +39,8 @@ const accent: Record<string, string> = {
             <p class="text-body-sm text-text-secondary">{{ formatRupiah(room.price) }} / bulan</p>
         </div>
 
-        <footer v-if="canManage" class="flex justify-end gap-space-xs">
-            <button type="button" class="rounded-md px-space-sm py-space-xs text-label-md text-primary-container hover:bg-bg-subtle" @click="$emit('edit', room)">
-                Ubah
-            </button>
-            <button type="button" class="rounded-md px-space-sm py-space-xs text-label-md text-status-jatuh-tempo-text hover:bg-status-jatuh-tempo-bg" @click="$emit('remove', room)">
-                Hapus
-            </button>
+        <footer v-if="canManage" class="-mb-space-xs -mr-space-xs flex justify-end">
+            <RowMenu :items="[{ key: 'edit', label: 'Ubah', icon: 'edit' }, { key: 'delete', label: 'Hapus', icon: 'delete', danger: true }]" :label="`Aksi kamar ${room.number}`" @select="(key) => (key === 'edit' ? emit('edit', room) : emit('remove', room))" />
         </footer>
     </article>
 </template>

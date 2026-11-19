@@ -4,6 +4,7 @@ import { Head, useForm } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
 import Panel from '@/Components/Panel.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import SelectField from '@/Components/SelectField.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import TextField from '@/Components/TextField.vue';
@@ -109,9 +110,15 @@ function toggleActive(account: PaymentAccountData) {
                     <div class="flex justify-between gap-space-md"><dt class="text-text-secondary">Berlaku untuk</dt><dd>{{ account.property_name ?? 'Semua properti' }}</dd></div>
                     <p v-if="account.instructions" class="text-body-sm text-text-secondary">{{ account.instructions }}</p>
                 </dl>
-                <div v-if="can.manage" class="mt-space-md flex gap-space-sm">
-                    <Button variant="secondary" icon="edit" @click="openEdit(account)">Ubah</Button>
-                    <Button variant="ghost" :icon="account.is_active ? 'visibility_off' : 'visibility'" @click="toggleActive(account)">{{ account.is_active ? 'Nonaktifkan' : 'Aktifkan' }}</Button>
+                <div v-if="can.manage" class="mt-space-sm flex justify-end border-t border-border-subtle pt-space-xs">
+                    <RowMenu
+                        :items="[
+                            { key: 'edit', label: 'Ubah', icon: 'edit' },
+                            { key: 'toggle', label: account.is_active ? 'Nonaktifkan' : 'Aktifkan', icon: account.is_active ? 'visibility_off' : 'visibility', danger: account.is_active },
+                        ]"
+                        :label="`Aksi rekening ${account.label}`"
+                        @select="(key) => (key === 'edit' ? openEdit(account) : toggleActive(account))"
+                    />
                 </div>
             </Panel>
         </div>

@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { Head, router, useForm, usePage } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import TextField from '@/Components/TextField.vue';
 import OwnerLayout from '@/Layouts/OwnerLayout.vue';
@@ -142,11 +143,16 @@ function labelOf(value: string) {
 
                 <div class="mt-auto flex flex-wrap items-center justify-between gap-space-sm border-t border-border-subtle pt-space-sm">
                     <span class="text-body-sm text-text-muted">{{ lastActive(member.last_login_at) }}</span>
-                    <div v-if="member.role !== 'owner'" class="flex items-center gap-space-xs">
-                        <Button variant="ghost" @click="openEdit(member)">Edit hak akses</Button>
-                        <Button variant="ghost" @click="setActive(member, !member.is_active)">{{ member.is_active ? 'Nonaktifkan' : 'Aktifkan' }}</Button>
-                        <Button variant="ghost" icon="delete" aria-label="Hapus staf" @click="remove(member)" />
-                    </div>
+                    <RowMenu
+                        v-if="member.role !== 'owner'"
+                        :items="[
+                            { key: 'edit', label: 'Ubah hak akses', icon: 'manage_accounts' },
+                            { key: 'toggle', label: member.is_active ? 'Nonaktifkan' : 'Aktifkan', icon: member.is_active ? 'person_off' : 'person_check' },
+                            { key: 'delete', label: 'Hapus staf', icon: 'delete', danger: true },
+                        ]"
+                        :label="`Aksi staf ${member.name}`"
+                        @select="(key) => (key === 'edit' ? openEdit(member) : key === 'toggle' ? setActive(member, !member.is_active) : remove(member))"
+                    />
                 </div>
             </li>
         </ul>

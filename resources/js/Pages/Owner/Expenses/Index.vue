@@ -3,6 +3,7 @@ import { computed, ref } from 'vue';
 import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import SelectField from '@/Components/SelectField.vue';
 import TextField from '@/Components/TextField.vue';
 import OwnerLayout from '@/Layouts/OwnerLayout.vue';
@@ -161,10 +162,12 @@ const periodLabel = computed(() => {
                         </td>
                         <td class="px-space-md py-space-sm text-right text-title-md">{{ formatRupiah(expense.amount) }}</td>
                         <td class="whitespace-nowrap px-space-md py-space-sm text-right">
-                            <template v-if="can.create">
-                                <button type="button" class="rounded-md px-space-sm py-space-xs text-title-md text-primary-container hover:bg-bg-subtle" @click="openEdit(expense)">Ubah</button>
-                                <button type="button" class="rounded-md px-space-sm py-space-xs text-title-md text-status-jatuh-tempo-text hover:bg-bg-subtle" @click="deleteTarget = expense">Hapus</button>
-                            </template>
+                            <RowMenu
+                                v-if="can.create"
+                                :items="[{ key: 'edit', label: 'Ubah', icon: 'edit' }, { key: 'delete', label: 'Hapus', icon: 'delete', danger: true }]"
+                                :label="`Aksi pengeluaran ${expense.category_name}`"
+                                @select="(key) => (key === 'edit' ? openEdit(expense) : (deleteTarget = expense))"
+                            />
                         </td>
                     </tr>
                 </tbody>

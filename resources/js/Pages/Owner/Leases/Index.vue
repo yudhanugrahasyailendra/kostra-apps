@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import OwnerLayout from '@/Layouts/OwnerLayout.vue';
 import { formatDate, remainingLabel } from '@/lib/formatDate';
@@ -128,8 +129,14 @@ function remainingTone(lease: LeaseData): 'jatuh-tempo' | 'menunggu' | null {
                             </div>
                         </td>
                         <td class="whitespace-nowrap px-space-md py-space-sm text-right">
-                            <Link :href="`/app/kontrak/${lease.id}`" class="rounded-md px-space-sm py-space-xs text-title-md text-primary-container hover:bg-bg-subtle">Lihat</Link>
-                            <Link v-if="lease.status === 'active' && lease.can.check_out" :href="`/app/kontrak/${lease.id}/check-out`" class="rounded-md px-space-sm py-space-xs text-title-md text-primary-container hover:bg-bg-subtle">Check-out</Link>
+                            <RowMenu
+                                :items="[
+                                    { key: 'view', label: 'Lihat kontrak', icon: 'visibility', href: `/app/kontrak/${lease.id}` },
+                                    { key: 'resident', label: 'Lihat penghuni', icon: 'person', href: `/app/penghuni/${lease.primary_resident_id}` },
+                                    ...(lease.status === 'active' && lease.can.check_out ? [{ key: 'checkout', label: 'Check-out', icon: 'logout', href: `/app/kontrak/${lease.id}/check-out` }] : []),
+                                ]"
+                                :label="`Aksi kontrak kamar ${lease.room_number}`"
+                            />
                         </td>
                     </tr>
                 </tbody>

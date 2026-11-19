@@ -4,6 +4,7 @@ import { Head, router, useForm, usePage } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
 import Modal from '@/Components/Modal.vue';
 import RoomsTabs from '@/Components/RoomsTabs.vue';
+import RowMenu from '@/Components/RowMenu.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import TextField from '@/Components/TextField.vue';
 import OwnerLayout from '@/Layouts/OwnerLayout.vue';
@@ -85,9 +86,8 @@ const usageLabel = computed(() => `${props.usage.used}${props.usage.max !== null
                     <StatusBadge :tone="property.is_active ? 'lunas' : 'kosong'" :label="property.is_active ? 'Aktif' : 'Nonaktif'" />
                 </div>
                 <p class="text-body-md text-text-primary">{{ property.rooms_count ?? 0 }} kamar<span v-if="property.floors"> &middot; {{ property.floors }} lantai</span></p>
-                <div v-if="can.create" class="mt-auto flex justify-end gap-space-xs border-t border-border-subtle pt-space-sm">
-                    <Button variant="ghost" @click="openEdit(property)">Ubah</Button>
-                    <Button variant="ghost" @click="remove(property)">Hapus</Button>
+                <div v-if="can.create" class="mt-auto flex justify-end border-t border-border-subtle pt-space-xs">
+                    <RowMenu :items="[{ key: 'edit', label: 'Ubah', icon: 'edit' }, { key: 'delete', label: 'Hapus', icon: 'delete', danger: true }]" :label="`Aksi properti ${property.name}`" @select="(key) => (key === 'edit' ? openEdit(property) : remove(property))" />
                 </div>
             </li>
         </ul>
