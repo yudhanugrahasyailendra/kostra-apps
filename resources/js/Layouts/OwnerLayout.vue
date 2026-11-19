@@ -2,9 +2,10 @@
 import { computed, ref } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import Drawer from '@/Components/Drawer.vue';
+import GlobalSearch from '@/Components/GlobalSearch.vue';
 import NotificationBell from '@/Components/NotificationBell.vue';
-import OwnerSidebar, { type SidebarItem } from '@/Components/OwnerSidebar.vue';
 import ThemeToggle from '@/Components/ThemeToggle.vue';
+import OwnerSidebar, { type SidebarItem } from '@/Components/OwnerSidebar.vue';
 import { buildNotifications } from '@/lib/notifications';
 import { useSidebar } from '@/lib/sidebar';
 import type { SharedProps } from '@/types';
@@ -129,13 +130,28 @@ const menuOpen = ref(false);
 const { collapsed } = useSidebar();
 
 // Satu tautan per grup di sidebar desktop: menuju tab pertama grup itu.
-const sidebarItems = (list: NavGroup[]): SidebarItem[] => list.map((group) => ({ key: group.key, label: group.label, icon: group.icon, href: group.tabs[0].href }));
+const sidebarItems = (list: NavGroup[]): SidebarItem[] =>
+    list.map((group) => ({ key: group.key, label: group.label, icon: group.icon, href: group.tabs[0].href, count: groupCounts.value[group.key] }));
+
+// Lencana angka di menu (seperti "12+" pada desain acuan), dari hitungan notifikasi yang sudah dibagikan server.
+const groupCounts = computed(() => {
+    const counts = page.props.notifications;
+    const result: Record<string, number> = {};
+
+    if (counts) {
+        result.tagihan = (counts.pending_proofs ?? 0) + (counts.overdue_invoices?.count ?? 0);
+        result.komplain = counts.open_complaints;
+    }
+
+    return result;
+});
 
 const isActive = (key: string) => key === activeGroupKey.value;
 
 // Warna menu mengikuti logo (docs/plan/brand): teal untuk menu, emas untuk aksen. Dipetakan ke token
 // terdekat DESIGN.md: teal logo #105F62 ≈ primary-container, emas logo #DBA63C ≈ secondary-container.
 // Emas hanya untuk aksen non-teks (garis, ikon di atas teal), bukan teks di atas putih.
+// Menu ponsel memakai gaya yang sama dengan sidebar desktop: aktif = teks tebal, ikon terisi, garis teal di tepi kiri.
 function linkClass(key: string) {
     return isActive(key)
         ? 'bg-primary-container font-semibold text-on-primary shadow-low before:absolute before:-left-space-md before:top-1/2 before:h-8 before:w-1 before:-translate-y-1/2 before:rounded-r-full before:bg-secondary-container dark:before:bg-secondary'
@@ -146,8 +162,9 @@ function iconClass(key: string) {
     return isActive(key) ? 'icon-fill text-secondary-container dark:text-on-primary' : 'text-primary-container';
 }
 
-// Label bagian menu dengan garis emas pendek, seperti "— Kost Rapi —" pada logo.
+// Label bagian menu dengan garis emas pendek, sama dengan sidebar desktop.
 const sectionLabelClass = 'flex items-center gap-space-sm px-space-md text-label-sm uppercase tracking-[0.2em] text-primary-container';
+const sectionLine = 'h-0.5 w-4 rounded-full bg-secondary-container dark:bg-secondary';
 </script>
 
 <template>
@@ -164,8 +181,8 @@ const sectionLabelClass = 'flex items-center gap-space-sm px-space-md text-label
         <!-- Menu ponsel dan tablet -->
         <Drawer :show="menuOpen" title="Menu" side="left" @close="menuOpen = false">
             <nav class="flex flex-col p-space-md" aria-label="Menu utama">
-                <img src="/images/kostra-logo-horizontal.png" alt="Kostra" width="450" height="96" class="mb-space-md ml-space-md h-8 w-auto self-start dark:rounded-lg dark:bg-inverse-surface dark:px-space-sm dark:py-1" />
-                <p :class="sectionLabelClass" class="pb-space-sm"><span class="h-0.5 w-4 rounded-full bg-secondary-container dark:bg-secondary" aria-hidden="true" />Menu</p>
+                <img src="/images/kostra-logo-sidebar.png" alt="Kostra, Kost Rapi" width="758" height="160" class="mb-space-md ml-space-md h-9 w-auto self-start dark:rounded-lg dark:bg-inverse-surface dark:px-space-sm dark:py-1" />
+                <p :class="sectionLabelClass" class="pb-space-sm"><span :class="sectionLine" aria-hidden="true" />Menu</p>
                 <Link
                     v-for="group in menuGroups"
                     :key="group.key"
@@ -178,7 +195,7 @@ const sectionLabelClass = 'flex items-center gap-space-sm px-space-md text-label
                     <span class="material-symbols-outlined" :class="iconClass(group.key)" aria-hidden="true">{{ group.icon }}</span>
                     <span>{{ group.label }}</span>
                 </Link>
-                <p :class="sectionLabelClass" class="pb-space-sm pt-space-lg"><span class="h-0.5 w-4 rounded-full bg-secondary-container dark:bg-secondary" aria-hidden="true" />Umum</p>
+                <p :class="sectionLabelClass" class="pb-space-sm pt-space-lg"><span :class="sectionLine" aria-hidden="true" />Umum</p>
                 <Link
                     v-for="group in generalGroups"
                     :key="group.key"
@@ -217,10 +234,7 @@ const sectionLabelClass = 'flex items-center gap-space-sm px-space-md text-label
                     >
                         <span class="material-symbols-outlined" aria-hidden="true">menu</span>
                     </button>
-                    <div class="flex min-w-0 items-center gap-space-sm rounded-full bg-bg-subtle px-space-md py-2.5 sm:min-w-72 lg:bg-bg-surface">
-                        <span class="material-symbols-outlined text-primary-container" aria-hidden="true">home_work</span>
-                        <span class="truncate text-body-md text-text-secondary">{{ tenant?.name }}</span>
-                    </div>
+                    <GlobalSearch />
                 </div>
                 <div class="flex shrink-0 items-center gap-space-sm sm:gap-space-lg">
                     <div class="flex items-center gap-space-sm">
@@ -238,7 +252,8 @@ const sectionLabelClass = 'flex items-center gap-space-sm px-space-md text-label
                         </div>
                         <div class="hidden flex-col sm:flex">
                             <span class="text-title-lg font-medium leading-snug text-text-primary">{{ user?.name }}</span>
-                            <span class="text-body-sm text-text-muted">{{ user?.email ?? user?.role_label }}</span>
+                            <!-- Nama kos menggantikan baris email acuan: kotak kiri kini dipakai untuk pencarian. -->
+                            <span class="max-w-48 truncate text-body-sm text-text-muted" :title="user?.email ?? undefined">{{ tenant?.name ?? user?.email ?? user?.role_label }}</span>
                         </div>
                     </div>
                 </div>

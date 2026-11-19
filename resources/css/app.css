@@ -280,8 +280,8 @@
 }
 
 /*
- * Sidebar pemilik: teal gelap bergradasi dari warna logo, dengan cahaya lembut di atas.
- * Memakai token `*-fixed` yang tidak berubah di tema gelap, sehingga sidebar tetap gelap di kedua tema.
+ * Permukaan teal gelap bergradasi dari warna logo, dengan cahaya lembut di atas (kartu paket di dasar sidebar).
+ * Memakai token `*-fixed` yang tidak berubah di tema gelap, sehingga tetap gelap di kedua tema.
  */
 @utility panel-sidebar {
     background:
@@ -293,32 +293,6 @@
             color-mix(in oklab, var(--color-on-primary-fixed) 55%, black) 100%
         );
     box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
-}
-
-/*
- * Tab menu aktif yang menempel ke tepi kanan sidebar: lengkung cekung di atas dan bawahnya
- * berwarna kanvas, sehingga tab terlihat menyatu dengan area konten di sebelah kanan.
- */
-@utility sidebar-tab-notch {
-    &::before,
-    &::after {
-        content: '';
-        position: absolute;
-        right: 0;
-        width: 1.25rem;
-        height: 1.25rem;
-        pointer-events: none;
-    }
-
-    &::before {
-        bottom: 100%;
-        background: radial-gradient(circle at 0 0, transparent 1.25rem, var(--color-bg-canvas) calc(1.25rem + 0.5px));
-    }
-
-    &::after {
-        top: 100%;
-        background: radial-gradient(circle at 0 100%, transparent 1.25rem, var(--color-bg-canvas) calc(1.25rem + 0.5px));
-    }
 }
 
 /* Ikon Material Symbols versi terisi (menu aktif). */

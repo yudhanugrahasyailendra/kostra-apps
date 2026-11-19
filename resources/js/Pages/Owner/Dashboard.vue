@@ -67,7 +67,7 @@ const stats = computed<Stat[]>(() => {
     const { occupancy, expiring_leases: expiring, finance, complaints } = props.summary;
     const occupancyStat: Stat = {
         key: 'occupancy',
-        title: 'Okupansi Kamar',
+        title: 'Kamar Terisi',
         value: animatedPercent(animated.occupancy.value),
         srValue: percent(occupancy.percent),
         href: '/app/kamar',
