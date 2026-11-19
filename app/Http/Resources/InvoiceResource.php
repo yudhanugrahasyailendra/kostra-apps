@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\InvoiceStatus;
 use App\Models\Invoice;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -38,9 +40,22 @@ class InvoiceResource extends JsonResource
             'total' => $this->total,
             'paid_total' => $this->paid_total,
             'outstanding' => $this->outstanding(),
+            // Rincian item: dipakai baris yang dibuka di daftar dan halaman detail. Hanya bila `items` dimuat.
+            'items' => $this->whenLoaded('items', fn () => $this->items->map(fn ($item) => [
+                'id' => $item->id,
+                'type_label' => $item->type->label(),
+                'description' => $item->description,
+                'quantity' => (float) $item->quantity,
+                'unit_price' => $item->unit_price,
+                'amount' => $item->amount,
+            ])->values()),
             'can' => [
                 'adjust' => $user?->can('adjust', $this->resource) ?? false,
                 'void' => $user?->can('void', $this->resource) ?? false,
+                // Catat pembayaran: hanya tagihan terbuka yang masih bersisa, dan pengguna berizin mencatat.
+                'pay' => in_array($this->status, InvoiceStatus::open(), true)
+                    && $this->outstanding() > 0
+                    && ($user?->can('create', Payment::class) ?? false),
             ],
         ];
     }

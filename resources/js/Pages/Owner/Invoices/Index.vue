@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { Head, Link, router, useForm } from '@inertiajs/vue3';
 import Button from '@/Components/Button.vue';
+import Modal from '@/Components/Modal.vue';
+import PaymentPanel from '@/Components/PaymentPanel.vue';
+import RowMenu, { type RowMenuItem } from '@/Components/RowMenu.vue';
 import StatusBadge from '@/Components/StatusBadge.vue';
 import OwnerLayout from '@/Layouts/OwnerLayout.vue';
 import { formatDate } from '@/lib/formatDate';
 import { formatRupiah } from '@/lib/formatRupiah';
-import type { InvoiceData } from '@/types';
+import type { InvoiceData, InvoicePanelData, PaymentOptionsData, RecordedPaymentData } from '@/types';
 
 type StatusTab = 'all' | 'issued' | 'partial' | 'overdue' | 'paid' | 'void';
 
@@ -18,7 +21,73 @@ const props = defineProps<{
     summary: { billed: number; collected: number; outstanding: number; overdue_amount: number; overdue_count: number };
     properties: { id: number; name: string }[];
     can: { create: boolean };
+    panel: InvoicePanelData | null;
+    payment_options: PaymentOptionsData | null;
+    recorded_payment: RecordedPaymentData | null;
 }>();
+
+// Baris yang dibuka (chevron): rincian item dan tombol catat bayar, seperti sub-baris pada desain acuan.
+const expanded = ref<Set<number>>(new Set());
+function toggleRow(id: number) {
+    const next = new Set(expanded.value);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
+    expanded.value = next;
+}
+
+// Panel catat pembayaran. Terbuka lewat ?panel={id} supaya bisa dimuat ulang; data detail dimuat sebagian (`only`).
+const clicked = ref<InvoiceData | null>(null);
+const panelOpen = ref(props.panel !== null);
+const panelInvoice = computed<InvoiceData | null>(() => clicked.value ?? props.panel?.invoice ?? null);
+
+function urlWithPanel(id: number | null): string {
+    const url = new URL(window.location.href);
+    if (id === null) url.searchParams.delete('panel');
+    else url.searchParams.set('panel', String(id));
+    return url.pathname + url.search;
+}
+
+function openPanel(invoice: InvoiceData) {
+    clicked.value = invoice;
+    panelOpen.value = true;
+    router.get(urlWithPanel(invoice.id), {}, { only: ['panel', 'payment_options'], preserveState: true, preserveScroll: true, replace: true });
+}
+
+function closePanel() {
+    panelOpen.value = false;
+    router.get(urlWithPanel(null), {}, { only: ['panel'], preserveState: true, preserveScroll: true, replace: true });
+}
+
+// Pembatalan tagihan dari menu titik tiga (wajib alasan; tagihan tidak pernah dihapus).
+const voidTarget = ref<InvoiceData | null>(null);
+const voidForm = useForm({ reason: '' });
+function submitVoid() {
+    if (!voidTarget.value) return;
+    voidForm.post(`/app/tagihan/${voidTarget.value.id}/batal`, {
+        preserveScroll: true,
+        onSuccess: () => {
+            voidTarget.value = null;
+            voidForm.reset();
+        },
+    });
+}
+
+function menuItems(invoice: InvoiceData): RowMenuItem[] {
+    const items: RowMenuItem[] = [{ key: 'view', label: 'Lihat detail', icon: 'visibility', href: `/app/tagihan/${invoice.id}` }];
+    if (invoice.can.pay) items.push({ key: 'pay', label: 'Catat pembayaran', icon: 'payments' });
+    if (invoice.can.adjust && invoice.status !== 'void' && invoice.status !== 'draft') {
+        items.push({ key: 'adjust', label: 'Tambah penyesuaian', icon: 'edit_note', href: `/app/tagihan/${invoice.id}` });
+    }
+    if (invoice.can.void && invoice.status !== 'void' && invoice.status !== 'paid' && invoice.paid_total === 0) {
+        items.push({ key: 'void', label: 'Batalkan tagihan', icon: 'block', danger: true });
+    }
+    return items;
+}
+
+function onMenu(invoice: InvoiceData, key: string) {
+    if (key === 'pay') openPanel(invoice);
+    if (key === 'void') voidTarget.value = invoice;
+}
 
 const search = ref(props.filters.q ?? '');
 const period = ref(props.filters.period ?? '');
@@ -150,30 +219,71 @@ const cards = computed(() => [
                         <th scope="col" class="px-space-md py-space-sm text-right">Total</th>
                         <th scope="col" class="px-space-md py-space-sm">Jatuh tempo</th>
                         <th scope="col" class="px-space-md py-space-sm">Status</th>
-                        <th scope="col" class="px-space-md py-space-sm"><span class="sr-only">Aksi</span></th>
+                        <th scope="col" class="px-space-sm py-space-sm"><span class="sr-only">Aksi</span></th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-border-subtle text-text-primary">
-                    <tr v-for="invoice in invoices" :key="invoice.id">
-                        <td class="px-space-md py-space-sm">
-                            <Link :href="`/app/tagihan/${invoice.id}`" class="text-title-md text-primary-container hover:underline">{{ invoice.number }}</Link>
-                            <span class="block text-body-sm text-text-secondary">Kamar {{ invoice.room_number }} &middot; {{ invoice.property_name }}</span>
-                        </td>
-                        <td class="px-space-md py-space-sm">{{ invoice.resident_name }}</td>
-                        <td class="px-space-md py-space-sm text-body-sm">
-                            <span class="block">{{ invoice.period ?? 'Manual' }}</span>
-                            <span class="block text-text-secondary">{{ invoice.type_label }}</span>
-                        </td>
-                        <td class="px-space-md py-space-sm text-right">
-                            <span class="block text-title-md">{{ formatRupiah(invoice.total) }}</span>
-                            <span v-if="invoice.paid_total > 0" class="block text-body-sm text-text-secondary">Sisa {{ formatRupiah(invoice.outstanding) }}</span>
-                        </td>
-                        <td class="px-space-md py-space-sm text-body-sm" :class="invoice.status === 'overdue' ? 'text-status-jatuh-tempo-text' : ''">{{ formatDate(invoice.due_date, 'short') }}</td>
-                        <td class="px-space-md py-space-sm"><StatusBadge :tone="invoice.status_tone as never" :label="invoice.status_label" /></td>
-                        <td class="whitespace-nowrap px-space-md py-space-sm text-right">
-                            <Link :href="`/app/tagihan/${invoice.id}`" class="rounded-md px-space-sm py-space-xs text-title-md text-primary-container hover:bg-bg-subtle">Lihat</Link>
-                        </td>
-                    </tr>
+                <tbody class="text-text-primary">
+                    <template v-for="invoice in invoices" :key="invoice.id">
+                        <tr class="border-t border-border-subtle transition-colors hover:bg-bg-subtle/60" :class="expanded.has(invoice.id) ? 'bg-bg-subtle/60' : ''">
+                            <td class="px-space-md py-space-sm">
+                                <Link :href="`/app/tagihan/${invoice.id}`" class="text-title-md text-primary-container hover:underline">{{ invoice.number }}</Link>
+                                <span class="block text-body-sm text-text-secondary">Kamar {{ invoice.room_number }} &middot; {{ invoice.property_name }}</span>
+                            </td>
+                            <td class="px-space-md py-space-sm">{{ invoice.resident_name }}</td>
+                            <td class="px-space-md py-space-sm text-body-sm">
+                                <span class="block">{{ invoice.period ?? 'Manual' }}</span>
+                                <span class="block text-text-secondary">{{ invoice.type_label }}</span>
+                            </td>
+                            <td class="px-space-md py-space-sm text-right">
+                                <span class="block text-title-md tabular-nums">{{ formatRupiah(invoice.total) }}</span>
+                                <span v-if="invoice.paid_total > 0" class="block text-body-sm text-text-secondary">Sisa {{ formatRupiah(invoice.outstanding) }}</span>
+                            </td>
+                            <td class="px-space-md py-space-sm text-body-sm" :class="invoice.status === 'overdue' ? 'text-status-jatuh-tempo-text' : ''">{{ formatDate(invoice.due_date, 'short') }}</td>
+                            <td class="px-space-md py-space-sm"><StatusBadge :tone="invoice.status_tone" :label="invoice.status_label" /></td>
+                            <td class="whitespace-nowrap px-space-sm py-space-sm text-right">
+                                <div class="inline-flex items-center gap-1">
+                                    <RowMenu :items="menuItems(invoice)" :label="`Aksi tagihan ${invoice.number}`" @select="onMenu(invoice, $event)" />
+                                    <button
+                                        type="button"
+                                        class="flex size-9 items-center justify-center rounded-full text-text-secondary transition-colors hover:bg-bg-subtle hover:text-text-primary"
+                                        :aria-expanded="expanded.has(invoice.id)"
+                                        :aria-controls="`invoice-rows-${invoice.id}`"
+                                        :aria-label="`${expanded.has(invoice.id) ? 'Tutup' : 'Buka'} rincian ${invoice.number}`"
+                                        @click="toggleRow(invoice.id)"
+                                    >
+                                        <span class="material-symbols-outlined text-[20px] motion-safe:transition-transform" :class="{ 'rotate-180': expanded.has(invoice.id) }" aria-hidden="true">expand_more</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr v-if="expanded.has(invoice.id)" :id="`invoice-rows-${invoice.id}`" class="bg-bg-subtle/60">
+                            <td colspan="7" class="px-space-md pb-space-sm">
+                                <ul class="divide-y divide-dashed divide-border-subtle rounded-lg bg-bg-surface px-space-md">
+                                    <li v-for="item in invoice.items ?? []" :key="item.id" class="grid grid-cols-[minmax(0,2fr)_minmax(0,1.5fr)_auto] items-center gap-space-md py-2 text-body-sm">
+                                        <span class="min-w-0 truncate"><span class="text-text-muted">Item</span> <span class="text-text-primary">{{ item.description }}</span></span>
+                                        <span class="truncate text-text-secondary">Untuk {{ item.type_label }}</span>
+                                        <span class="text-right tabular-nums"><span class="text-text-muted">Jumlah</span> <span class="font-medium text-text-primary">{{ formatRupiah(item.amount) }}</span></span>
+                                    </li>
+                                    <li class="flex flex-wrap items-center justify-between gap-space-sm py-2 text-body-sm">
+                                        <span class="text-text-secondary">
+                                            Dibayar <span class="font-medium tabular-nums text-text-primary">{{ formatRupiah(invoice.paid_total) }}</span> dari
+                                            <span class="tabular-nums">{{ formatRupiah(invoice.total) }}</span>
+                                            &middot; sisa <span class="font-semibold tabular-nums text-text-primary">{{ formatRupiah(invoice.outstanding) }}</span>
+                                        </span>
+                                        <button
+                                            v-if="invoice.can.pay"
+                                            type="button"
+                                            class="inline-flex items-center gap-1 rounded-full bg-primary-container px-space-md py-1.5 text-label-md text-on-primary shadow-low hover:bg-primary"
+                                            @click="openPanel(invoice)"
+                                        >
+                                            <span class="material-symbols-outlined text-[16px]" aria-hidden="true">payments</span>Catat bayar
+                                        </button>
+                                        <StatusBadge v-else :tone="invoice.status_tone" :label="invoice.status_label" />
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </template>
                 </tbody>
             </table>
         </div>
@@ -185,5 +295,37 @@ const cards = computed(() => [
                 <Link v-if="pagination.next_url" :href="pagination.next_url" class="rounded-md px-space-sm py-space-xs hover:bg-bg-subtle">Selanjutnya</Link>
             </div>
         </nav>
+
+        <PaymentPanel :show="panelOpen" :invoice="panelInvoice" :panel="panel" :options="payment_options" :recorded="recorded_payment" @close="closePanel" />
+
+        <Modal :show="voidTarget !== null" title="Batalkan tagihan" @close="voidTarget = null">
+            <form class="flex flex-col gap-space-md" @submit.prevent="submitVoid">
+                <p class="text-body-md text-text-secondary">
+                    Tagihan <span class="font-semibold text-text-primary">{{ voidTarget?.number }}</span> akan ditandai batal dan tetap tersimpan sebagai riwayat. Tindakan ini tidak dapat diurungkan.
+                </p>
+                <div>
+                    <label for="void-reason" class="mb-1 block text-label-md text-text-secondary">Alasan pembatalan</label>
+                    <textarea
+                        id="void-reason"
+                        v-model="voidForm.reason"
+                        rows="3"
+                        maxlength="255"
+                        required
+                        class="w-full rounded-md border border-border-strong bg-bg-surface px-3 py-2 text-body-md text-text-primary focus:border-primary-container focus:outline-none focus:ring-[3px] focus:ring-primary-container/15"
+                    />
+                    <p v-if="voidForm.errors.reason" class="mt-1 text-body-sm text-status-jatuh-tempo-text">{{ voidForm.errors.reason }}</p>
+                </div>
+                <div class="flex justify-end gap-space-sm">
+                    <Button variant="ghost" @click="voidTarget = null">Kembali</Button>
+                    <button
+                        type="submit"
+                        class="inline-flex min-h-10 items-center gap-space-xs rounded-md bg-status-jatuh-tempo-text px-space-md py-2.5 text-title-md text-white hover:opacity-90 disabled:opacity-50"
+                        :disabled="voidForm.processing || voidForm.reason.trim() === ''"
+                    >
+                        <span class="material-symbols-outlined text-[18px]" aria-hidden="true">block</span>Batalkan tagihan
+                    </button>
+                </div>
+            </form>
+        </Modal>
     </OwnerLayout>
 </template>

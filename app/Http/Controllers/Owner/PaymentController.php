@@ -163,6 +163,11 @@ class PaymentController extends Controller
             $request->validated('notes'),
         );
 
+        // Dari panel di daftar tagihan: kembali ke daftar dan tampilkan layar "Pembayaran berhasil" di panel.
+        if ($request->boolean('stay')) {
+            return back()->with('recorded_payment_id', $payment->id);
+        }
+
         return redirect()->route('owner.payments.receipt', $payment)->with('success', 'Pembayaran dicatat. Kuitansi '.$payment->receipt_number.' terbit.');
     }
 

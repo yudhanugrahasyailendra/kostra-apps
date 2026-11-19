@@ -7,20 +7,24 @@ use App\Actions\CreateManualInvoice;
 use App\Actions\VoidInvoice;
 use App\Enums\InvoiceItemType;
 use App\Enums\InvoiceStatus;
+use App\Enums\PaymentMethod;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Owner\AdjustInvoiceRequest;
 use App\Http\Requests\Owner\ManualInvoiceRequest;
 use App\Http\Requests\Owner\VoidInvoiceRequest;
 use App\Http\Resources\InvoiceDetailResource;
 use App\Http\Resources\InvoiceResource;
+use App\Http\Resources\PaymentAccountResource;
 use App\Http\Resources\PaymentProofResource;
 use App\Http\Resources\PaymentResource;
 use App\Models\Invoice;
 use App\Models\Lease;
 use App\Models\Payment;
+use App\Models\PaymentAccount;
 use App\Models\PaymentProof;
 use App\Models\Property;
 use App\Services\Billing\BillingClock;
+use App\Services\Payments\ReceiptData;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -40,6 +44,7 @@ class InvoiceController extends Controller
             'status' => ['nullable', 'in:all,'.implode(',', array_column(InvoiceStatus::cases(), 'value'))],
             'property_id' => ['nullable', 'integer'],
             'period' => ['nullable', 'date_format:Y-m'],
+            'panel' => ['nullable', 'integer'],
         ]);
 
         // Tanpa parameter `period`, daftar membuka bulan berjalan; periode kosong berarti semua periode.
@@ -61,7 +66,7 @@ class InvoiceController extends Controller
             });
 
         $invoices = (clone $base)
-            ->with(['property', 'lease.room', 'resident'])
+            ->with(['property', 'lease.room', 'resident', 'items'])
             ->when($status !== 'all', fn (Builder $query) => $query->where('status', $status))
             ->orderByDesc('issue_date')->orderByDesc('id')
             ->paginate(self::PER_PAGE)->withQueryString();
@@ -94,7 +99,78 @@ class InvoiceController extends Controller
             ],
             'properties' => Property::query()->orderBy('name')->get(['id', 'name'])->map(fn ($p) => ['id' => $p->id, 'name' => $p->name])->values(),
             'can' => ['create' => $request->user()->can('create', Invoice::class)],
+            // Panel catat pembayaran (dibuka lewat ?panel={id}, dimuat ulang sebagian dengan `only: ['panel']`).
+            'panel' => fn () => $this->panelData($request, $filters['panel'] ?? null),
+            'payment_options' => fn () => $this->paymentOptions($request),
+            // Pembayaran yang baru dicatat dari panel (sekali tampil), untuk layar "Pembayaran berhasil".
+            'recorded_payment' => fn () => $this->recordedPayment($request),
         ]);
+    }
+
+    /**
+     * Data panel: detail tagihan dan riwayat pembayarannya. Tagihan dicari lewat TenantScope,
+     * jadi id milik tenant lain menghasilkan null, bukan data.
+     *
+     * @return array<string, mixed>|null
+     */
+    private function panelData(Request $request, ?int $invoiceId): ?array
+    {
+        if ($invoiceId === null) {
+            return null;
+        }
+
+        $invoice = Invoice::query()->with(['property', 'lease.room', 'resident', 'items', 'adjustments.creator'])->find($invoiceId);
+
+        if ($invoice === null || $request->user()->cannot('view', $invoice)) {
+            return null;
+        }
+
+        $payments = Payment::query()
+            ->whereHas('allocations', fn ($allocation) => $allocation->where('invoice_id', $invoice->id))
+            ->with(['allocations' => fn ($allocation) => $allocation->where('invoice_id', $invoice->id)])
+            ->orderByDesc('paid_on')->orderByDesc('id')->get();
+
+        return [
+            'invoice' => (new InvoiceDetailResource($invoice))->resolve($request),
+            'payments' => $payments->map(fn (Payment $payment) => [
+                'id' => $payment->id,
+                'receipt_number' => $payment->receipt_number,
+                'paid_on' => $payment->paid_on->toDateString(),
+                'method_label' => $payment->method->label(),
+                'amount' => (int) $payment->allocations->sum('amount'),
+                'status' => $payment->status->value,
+                'status_label' => $payment->status->label(),
+            ])->values()->all(),
+        ];
+    }
+
+    /** Pilihan formulir catat pembayaran; null bila pengguna tidak berizin mencatat. */
+    private function paymentOptions(Request $request): ?array
+    {
+        if ($request->user()->cannot('create', Payment::class)) {
+            return null;
+        }
+
+        $accounts = PaymentAccount::query()->active()->orderByDesc('is_default')->orderBy('id')->get();
+
+        return [
+            'accounts' => PaymentAccountResource::collection($accounts)->resolve(),
+            'methods' => array_map(fn (PaymentMethod $m) => ['value' => $m->value, 'label' => $m->label()], PaymentMethod::cases()),
+            'today' => BillingClock::today()->toDateString(),
+        ];
+    }
+
+    /** @return array<string, mixed>|null */
+    private function recordedPayment(Request $request): ?array
+    {
+        $id = $request->session()->get('recorded_payment_id');
+        $payment = $id ? Payment::query()->find($id) : null;
+
+        if ($payment === null || $request->user()->cannot('view', $payment)) {
+            return null;
+        }
+
+        return ['id' => $payment->id] + app(ReceiptData::class)->for($payment);
     }
 
     public function create(Request $request): Response

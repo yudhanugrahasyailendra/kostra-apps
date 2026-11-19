@@ -7,7 +7,7 @@ use App\Models\Invoice;
 use Illuminate\Http\Request;
 
 /**
- * Detail satu tagihan: item, penyesuaian, rentang periode, dan catatan pembatalan.
+ * Detail satu tagihan (item dari InvoiceResource): penyesuaian, rentang periode, dan catatan pembatalan.
  * Relasi `items`, `adjustments.creator`, `property`, `lease.room`, `resident` dimuat pemanggil.
  *
  * @mixin Invoice
@@ -29,14 +29,6 @@ class InvoiceDetailResource extends InvoiceResource
             'paid_at' => $this->paid_at?->toIso8601String(),
             'voided_at' => $this->voided_at?->toIso8601String(),
             'void_reason' => $this->void_reason,
-            'items' => $this->whenLoaded('items', fn () => $this->items->map(fn ($item) => [
-                'id' => $item->id,
-                'type_label' => $item->type->label(),
-                'description' => $item->description,
-                'quantity' => (float) $item->quantity,
-                'unit_price' => $item->unit_price,
-                'amount' => $item->amount,
-            ])->values()),
             'adjustments' => $this->whenLoaded('adjustments', fn () => $this->adjustments->map(fn ($adjustment) => [
                 'id' => $adjustment->id,
                 'amount' => $adjustment->amount,

@@ -210,7 +210,44 @@ export interface InvoiceData {
     total: number;
     paid_total: number;
     outstanding: number;
-    can: { adjust: boolean; void: boolean };
+    /** Ada bila item dimuat (daftar tagihan dan detail). */
+    items?: InvoiceItemData[];
+    can: { adjust: boolean; void: boolean; pay: boolean };
+}
+
+export interface InvoiceItemData {
+    id: number;
+    type_label: string;
+    description: string;
+    quantity: number;
+    unit_price: number;
+    amount: number;
+}
+
+/** Panel catat pembayaran di daftar tagihan (prop `panel`). */
+export interface InvoicePanelData {
+    invoice: InvoiceDetailData;
+    payments: { id: number; receipt_number: string | null; paid_on: string; method_label: string; amount: number; status: string; status_label: string }[];
+}
+
+export interface PaymentOptionsData {
+    accounts: PaymentAccountData[];
+    methods: PaymentMethodOption[];
+    today: string;
+}
+
+/** Pembayaran yang baru dicatat dari panel (data kuitansi + id). */
+export interface RecordedPaymentData {
+    id: number;
+    number: string | null;
+    amount: number;
+    paid_on: string;
+    method_label: string;
+    reference: string | null;
+    account_label: string | null;
+    resident_name: string;
+    room_number: string | null;
+    lines: { invoice_number: string | null; period: string | null; amount: number; invoice_total: number | null; invoice_paid: boolean }[];
 }
 
 export interface InvoiceDetailData extends InvoiceData {
@@ -223,7 +260,7 @@ export interface InvoiceDetailData extends InvoiceData {
     paid_at: string | null;
     voided_at: string | null;
     void_reason: string | null;
-    items: { id: number; type_label: string; description: string; quantity: number; unit_price: number; amount: number }[];
+    items: InvoiceItemData[];
     adjustments: { id: number; amount: number; reason: string; created_by_name: string | null; created_at: string | null }[];
     can_void_now: boolean;
     can_adjust_now: boolean;

@@ -30,6 +30,7 @@ class RecordPaymentRequest extends FormRequest
             'allocations' => ['required', 'array', 'min:1', 'max:50'],
             'allocations.*.invoice_id' => ['required', 'integer', 'distinct', Rule::exists('invoices', 'id')->where('tenant_id', $tenantId)],
             'allocations.*.amount' => ['required', 'integer', 'min:1', 'max:999999999999'],
+            'stay' => ['sometimes', 'boolean'],
         ];
     }
 
