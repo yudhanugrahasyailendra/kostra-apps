@@ -43,7 +43,7 @@ class ResidentController extends Controller
 
         $residents = Resident::query()
             ->withExists(['attachments as has_ktp' => fn ($query) => $query->where('category', AttachmentCategory::Ktp->value)])
-            ->when($q !== '', fn ($query) => $this->search($query, $q))
+            ->when($q !== '', fn ($query) => $query->search($q))
             ->when($status !== null, fn ($query) => $query->where('is_active', $status === 'active'))
             ->orderBy('name')->orderBy('id')
             ->paginate(self::PER_PAGE)->withQueryString();
@@ -163,25 +163,5 @@ class ResidentController extends Controller
             fputcsv($out, ['Budi Santoso', '081234567890', 'budi@contoh.id', 'Karyawan', 'Ibu Budi', 'Ibu', '081298765432', '']);
             fclose($out);
         }, 'templat-impor-penghuni.csv', ['Content-Type' => 'text/csv; charset=UTF-8']);
-    }
-
-    /** Cari nama, pekerjaan, email, atau nomor (format lokal maupun internasional). */
-    private function search($query, string $q): void
-    {
-        $like = '%'.addcslashes($q, '\\%_').'%';
-
-        $query->where(function ($where) use ($like, $q) {
-            $where->where('name', 'like', $like)
-                ->orWhere('occupation', 'like', $like)
-                ->orWhere('email', 'like', $like);
-
-            $digits = preg_replace('/\D+/', '', $q) ?? '';
-
-            if (strlen($digits) >= 3) {
-                // Nomor tersimpan sebagai +62...; ubah awalan 0 lokal ke 62 agar cocok dengan potongan nomor.
-                $digits = str_starts_with($digits, '0') ? '62'.substr($digits, 1) : $digits;
-                $where->orWhere('phone', 'like', '%'.$digits.'%');
-            }
-        });
     }
 }

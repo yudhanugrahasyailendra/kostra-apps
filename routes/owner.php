@@ -22,6 +22,7 @@ use App\Http\Controllers\Owner\ResidentController;
 use App\Http\Controllers\Owner\ResidentPortalController;
 use App\Http\Controllers\Owner\RoomController;
 use App\Http\Controllers\Owner\RoomTypeController;
+use App\Http\Controllers\Owner\SearchController;
 use App\Http\Controllers\Owner\StaffController;
 use App\Http\Controllers\Owner\SubscriptionController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ use Illuminate\Support\Facades\Route;
 // prefix `app`, dan nama route `owner.`.
 
 Route::get('/', DashboardController::class)->name('dashboard');
+Route::get('/cari', SearchController::class)->middleware('throttle:60,1')->name('search');
 
 Route::get('/staf', [StaffController::class, 'index'])->name('staff.index');
 Route::post('/staf/undangan', [StaffController::class, 'store'])->name('staff.invite');

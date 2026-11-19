@@ -6,6 +6,7 @@ use App\Exports\TenantExportable;
 use App\Models\Concerns\Auditable;
 use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\ResidentFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,6 +46,31 @@ class Resident extends Model implements TenantExportable
     public function leaseResidents(): HasMany
     {
         return $this->hasMany(LeaseResident::class);
+    }
+
+    /**
+     * Cari nama, pekerjaan, email, atau nomor (format lokal maupun internasional).
+     * Dipakai halaman Penghuni dan pencarian di kepala halaman.
+     *
+     * @param  Builder<Resident>  $query
+     */
+    public function scopeSearch(Builder $query, string $q): void
+    {
+        $like = '%'.addcslashes($q, '\\%_').'%';
+
+        $query->where(function (Builder $where) use ($like, $q) {
+            $where->where('name', 'like', $like)
+                ->orWhere('occupation', 'like', $like)
+                ->orWhere('email', 'like', $like);
+
+            $digits = preg_replace('/\D+/', '', $q) ?? '';
+
+            if (strlen($digits) >= 3) {
+                // Nomor tersimpan sebagai +62...; ubah awalan 0 lokal ke 62 agar cocok dengan potongan nomor.
+                $digits = str_starts_with($digits, '0') ? '62'.substr($digits, 1) : $digits;
+                $where->orWhere('phone', 'like', '%'.$digits.'%');
+            }
+        });
     }
 
     public static function exportName(): string
