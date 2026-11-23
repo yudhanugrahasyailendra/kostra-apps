@@ -26,7 +26,9 @@ const outlineButton =
 </script>
 
 <template>
-    <div class="relative isolate flex min-h-screen flex-col items-center justify-center gap-space-lg bg-bg-canvas px-margin py-space-xl">
+    <!-- Kepala, kartu, dan footer harus muat satu layar: kartu desktop mengisi sisa tinggi layar
+         (flex-1), dibatasi 32rem..620px. Form di dalamnya bisa digulir bila ruangnya kurang. -->
+    <div class="relative isolate flex min-h-dvh flex-col items-center justify-center gap-space-md bg-bg-canvas px-margin py-space-lg md:gap-space-lg">
         <!-- Cahaya latar dari warna logo. Hanya hiasan. -->
         <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
             <div class="absolute -left-40 -top-40 size-[32rem] rounded-full bg-primary-container/15 blur-3xl" />
@@ -41,7 +43,7 @@ const outlineButton =
             <ThemeToggle />
         </div>
 
-        <div class="relative w-full max-w-4xl overflow-hidden rounded-xl bg-bg-surface shadow-high md:h-[620px]">
+        <div class="relative w-full max-w-4xl overflow-hidden rounded-xl bg-bg-surface shadow-high md:max-h-155 md:min-h-128 md:flex-1">
             <!-- Form masuk: sisi kiri. Saat mode daftar, ikut bergeser ke kanan dan tertutup form daftar. -->
             <section
                 class="scrollbar-none flex bg-bg-surface px-space-lg py-space-xl sm:px-space-2xl md:absolute md:inset-y-0 md:left-0 md:w-1/2 md:overflow-y-auto"
@@ -117,7 +119,7 @@ const outlineButton =
             </p>
         </div>
 
-        <p class="text-center text-body-sm text-text-muted">&copy; {{ year }} Kostra &middot; Kost Rapi. Hak cipta dilindungi.</p>
+        <p class="shrink-0 text-center text-body-sm text-text-muted">&copy; {{ year }} Kostra &middot; Kost Rapi. Hak cipta dilindungi.</p>
 
         <!-- Isi halaman (hanya <Head>); form ada di layout ini supaya tetap terpasang saat berpindah halaman. -->
         <slot />
