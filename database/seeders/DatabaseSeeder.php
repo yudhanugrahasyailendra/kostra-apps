@@ -13,5 +13,10 @@ class DatabaseSeeder extends Seeder
             MessageTemplateSeeder::class,
             SuperAdminSeeder::class,
         ]);
+
+        // Data dummy hanya untuk pengembangan lokal (akun demo@kostra.test).
+        if (app()->isLocal()) {
+            $this->call(DemoSeeder::class);
+        }
     }
 }
